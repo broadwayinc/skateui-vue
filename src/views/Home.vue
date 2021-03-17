@@ -299,15 +299,13 @@
             br
             br
             ._cc_input.button.icon
-                input(placeholder="Bad Design Choice")
+                input(type="number" value="1" style="text-align:center;")
                 label.
                     &nbsp;
-                    Bad Design
+                    Number
                     &nbsp;
-                .icon
-                    i.material-icons email
-                .button
-                    i.material-icons send
+                .icon.hover(style="font-size: 1.8rem") -
+                .button(style="font-size: 1.8rem") +
             br
             br
             ._cc_input
@@ -1052,8 +1050,161 @@
         .title
             h6 Textarea
         .content
-            ._cc_textarea
-                textarea(rows='1' oninput="this.parentNode.dataset.replica = this.value" placeholder='Hello')
+            ._cc_textarea.icon.button
+                textarea(placeholder='Hello')
+                label.
+                    &nbsp;
+                    텍스트에리아
+                    &nbsp;
+                .icon
+                    i.material-icons person
+                .button
+                    i.material-icons send
+    ._cc_card
+        .title
+            h6 Image Editor
+            .close
+        .image
+            img(src="@/assets/myface.jpg")
+        .content
+        .button_footer
+            button._cc_button.nude Change Image
+            button._cc_button UPLOAD
+    br
+    br
+    hr
+    br
+    ._cc_card(style="width: 600px;")
+        .content
+            h4 Guide for the shopping cart design
+            hr
+            br
+            p.
+                Each shopping cart items will be displayed in the cards.
+                Notice some manual tweaks in the card design.
+                Other than cart items, things will be placed on background (messages, purchase button... etc).
+                by using a card for shop items, we can distinguish item type, or alert user on some situations.
+                From some research I have found out making shopping cart a modal seemed a terrible idea.
+                It should always be separate page.
+    ._cc_card(style="width: 600px;")
+        .title(style="padding-right: 2.3em;")
+            | Expected Delivery: 1985 / Aug / 20
+            .close
+        .content
+            .cart
+                img(src="@/assets/skate.jpg")
+                .detail.
+                    TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                br
+                small(style="color:var(--content-focus);font-weight:bold") 53 left
+                br
+                .price $ 1,000,000
+                br
+                br
+                .quantity
+                    ._cc_input.button.icon(style="width:10rem")
+                        input(type="number" value="1" style="text-align:center;")
+                        label.
+                            &nbsp;
+                            Quantity
+                            &nbsp;
+                        .icon.hover(style="font-size: 1.8rem") -
+                        .button(style="font-size: 1.8rem") +
+    ._cc_card(style="width: 600px;")
+        .title(style="padding-right: 2.3em;")
+            | Digital Coupon
+            .close
+        .content
+            .cart
+                img(src="@/assets/skate.jpg")
+                .detail.
+                    TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                br
+                small(style="color:var(--alert);font-weight:bold") Hurry up! Last one left!
+                br
+                .price $ 1,000,000
+                br
+                br
+                .quantity
+                    ._cc_input.button.icon(style="width:10rem")
+                        input(type="number" value="1" style="text-align:center;")
+                        label.
+                            &nbsp;
+                            Quantity
+                            &nbsp;
+                        .icon.hover(style="font-size: 1.8rem") -
+                        .button(style="font-size: 1.8rem") +
+    ._cc_card(style="width: 600px;")
+        .title(style="padding-right: 2.3em;background-color:yellow")
+            | NFT - Digital assets (click for more info)
+            .close
+        .content
+            .cart
+                img(src="@/assets/skate.jpg")
+                .detail.
+                    TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                br
+                br
+                .price $ 1,000,000
+                //br
+                //br
+                //.quantity
+                    ._cc_input.button.icon(style="width:10rem")
+                        input(type="number" value="1" style="text-align:center;")
+                        label.
+                            &nbsp;
+                            Quantity
+                            &nbsp;
+                        .icon.hover(style="font-size: 1.8rem") -
+                        .button(style="font-size: 1.8rem") +
+    ._cc_card(style="width: 600px;")
+        .title(style="padding-right: 2.3em;background-color:var(--alert);color:white;")
+            | This item no longer exists
+            .close
+        .content(style="opacity:0.5")
+            .cart
+                img(src="@/assets/skate.jpg")
+                .detail.
+                    TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                br
+                br
+                .price $ 1,000,000
+                br
+                br
+                .quantity
+                    ._cc_input.button.icon(style="width:10rem")
+                        input(type="number" value="1" style="text-align:center;")
+                        label.
+                            &nbsp;
+                            Quantity
+                            &nbsp;
+                        .icon.hover(style="font-size: 1.8rem") -
+                        .button(style="font-size: 1.8rem") +
+    br
+    br
+    ._cc_card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
+        .title(style="background-color:var(--background-focus_transparent);")
+            div(style="line-height: 2.8;") Hey you have a coupon!
+    div(style="width:600px;max-width:100%;margin: 8px auto;text-align:center;padding: 1rem;box-sizing: border-box;")
+        div(style="text-align:left;")
+            | ITEMS:
+            pre
+            pre
+            pre
+            | 3
+            br
+            | SHIPPING:
+            pre
+            | $40.00
+            br
+            hr
+            h4(style="display:inline-block;") TOTAL:
+            pre
+            h4(style="display:inline-block;") $100,000
+        br
+        br
+
+        button._cc_button CHECKOUT
     br
     br
     br
@@ -1071,8 +1222,48 @@ export default {
             colorScheme: new ColorMangle('#00807f').colorScheme()
         };
     },
-    created() {
+    mounted() {
         // pure javascript handlers
+        window._cc_textarea = {
+            init: (el) => {
+                let setup = (el) => {
+                    el.setAttribute('rows', '1');
+                    let parent = el.parentElement;
+                    let replica = document.createElement('div');
+                    replica.classList.add('textarea');
+                    parent.insertBefore(replica, el);
+                    replica.append(el);
+                    el.addEventListener('input', (e) => {
+                        let target = e.target;
+                        target.parentNode.dataset.replica = target.value;
+                    });
+                    el.addEventListener('focus', (e) => {
+                        let target = e.target;
+                        let par = target.parentNode.parentNode;
+                        if (par.classList.contains('_cc_textarea') && !par.classList.contains('focus'))
+                            par.classList.add('focus');
+
+                    });
+                    el.addEventListener('blur', (e) => {
+                        let target = e.target;
+                        let par = target.parentNode.parentNode;
+                        if (par.classList.contains('_cc_textarea') && par.classList.contains('focus'))
+                            par.classList.remove('focus');
+                    });
+                };
+
+                if (el) setup(el);
+                else {
+                    el = document.getElementsByTagName('textarea');
+                    for (let i = 0; i < el.length; i++) {
+                        if (el[i].parentNode.classList.contains('_cc_textarea'))
+                            setup(el[i]);
+                    }
+                }
+            }
+        };
+
+        window._cc_textarea.init();
         window._cc_accordion = {
             timeout: null,
             handler: (ev) => {
@@ -1365,53 +1556,196 @@ div._cc_dummy {
 
 div._cc_textarea {
     position: relative;
-    vertical-align: middle;
-    display: inline-grid;
-    min-height: 2.8rem;
-    width: 18rem;
-    text-shadow: 1px 1px var(--content-text_shadow);
 
-    &::after {
-        content: attr(data-replica) " ";
-        white-space: pre-wrap;
-        visibility: hidden;
+    &.icon {
+        & > .textarea {
+            & > textarea,
+            &::after {
+                // make space for icon
+                padding-left: calc(2.8rem + .75em);
+            }
+        }
+
+        & > .icon {
+            // the icon
+            position: absolute;
+            width: 2.8rem;
+            height: 2.8rem;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+
+            &::after {
+                // icon separator
+                content: "";
+                width: 2px;
+                height: 1.4rem;
+                background-color: var(--content-text_shadow);
+                position: absolute;
+                right: -1px;
+            }
+        }
     }
 
-    & > textarea {
-        resize: none;
-        overflow: hidden;
-        min-height: 1em;
-
-        &::placeholder {
-            color: var(--content-placeholder);
+    &.focus {
+        & > .icon {
+            color: var(--content-focus);
         }
 
-        &:read-only {
-            text-overflow: ellipsis;
-        }
+        & > label {
+            &::after {
+                background-color: var(--content-focus);
+            }
 
-        &:focus {
-            border-color: var(--content-focus);
+            &::before {
+                background-color: var(--content-focus);
+            }
+
+            color: var(--content-focus);
         }
     }
 
-    & > textarea,
-    &::after {
-        /* Identical styling required!! */
+    &.button {
+        & > .textarea {
+            & > textarea,
+            &::after {
+                padding-right: 3.3em;
+            }
+        }
+
+        & > .button {
+            display: inline-flex;
+            width: 2.8em;
+            height: 2.8em;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 0;
+            bottom: 1px;
+            cursor: pointer;
+
+            &::before {
+                // icon separator
+                content: "";
+                width: 2px;
+                height: 1.4em;
+                background-color: var(--content-text_shadow);
+                position: absolute;
+                left: -1px;
+            }
+
+            &:hover {
+                color: var(--content-focus);
+                background-color: var(--content-focus_screen);
+            }
+        }
+    }
+
+    label {
+        width: calc(100% - 4px);
+        left: 2px;
+        text-align: left;
         box-sizing: border-box;
-        vertical-align: middle;
-        background-color: transparent;
-        color: var(--content-text);
-        line-height: 1.5em;
-        padding: .515em 0.75em;
-        font-size: 1rem;
-        border: solid 2px;
-        outline: none;
-        border-color: var(--content-text_transparent);
-        box-shadow: inset 0 0 0 4px var(--content-focus_screen);
+        line-height: 1em;
+        overflow: hidden;
+        position: absolute;
+        font-size: 0.8rem;
+        font-weight: 500;
+        white-space: nowrap;
+        color: var(--content-text_soft);
+        text-shadow: 1px 1px var(--content-text_shadow);
 
-        /* Place on top of each other */
-        grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
+        &::after {
+            content: "";
+            background-color: var(--content-text_transparent);
+            height: 2px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        &::before {
+            content: "";
+            background-color: var(--content-text_transparent);
+            height: 2px;
+            width: 0.5em;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+
+        &:not(:empty) {
+            margin-top: calc(-1em + 3px);
+            padding-left: 0.5em;
+        }
+
+        &:empty {
+            overflow: inherit;
+
+            &::after {
+                bottom: -2px;
+            }
+
+            &::before {
+                background-color: transparent;
+                bottom: -2px;
+            }
+        }
+    }
+
+    & > .textarea {
+        position: relative;
+        vertical-align: middle;
+        display: inline-grid;
+        min-height: 2.8em;
+        width: 100%;
+        text-shadow: 1px 1px var(--content-text_shadow);
+
+        &::after {
+            content: attr(data-replica) " ";
+            white-space: pre-wrap;
+            visibility: hidden;
+        }
+
+        & > textarea {
+            resize: none;
+            overflow: hidden;
+            min-height: 1em;
+
+            &::placeholder {
+                color: var(--content-placeholder);
+            }
+
+            &:read-only {
+                text-overflow: ellipsis;
+            }
+
+            &:focus {
+                border-color: var(--content-focus);
+            }
+        }
+
+        & > textarea,
+        &::after {
+            /* Identical styling required!! */
+            box-sizing: border-box;
+            vertical-align: middle;
+            background-color: transparent;
+            color: var(--content-text);
+            line-height: 1.5em;
+
+            padding: calc(0.515em + 1px) 0.75em;
+            font-size: 1rem;
+            border: solid 2px;
+            outline: none;
+            border-color: var(--content-text_transparent);
+            box-shadow: inset 0 0 0 4px var(--content-focus_screen);
+            border-top: none;
+            /* Place on top of each other */
+            grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
+        }
     }
 }
 
@@ -1992,9 +2326,14 @@ div._cc_card {
     margin-bottom: 8px;
     border-radius: 8px;
     padding: 0 1.3em;
+
     box-shadow: 0 0 0 2px var(--content-text_screen);
     text-align: left;
     max-width: calc(100% - 2.6em);
+    @media @phone {
+        padding: 0 .7em;
+        max-width: calc(100% - 1.4em);
+    }
     display: inline-block;
     vertical-align: top;
 
@@ -2090,6 +2429,53 @@ div._cc_card {
         padding: 2em 0.5rem 2.5em;
         line-height: 1.5em;
 
+        & > .cart {
+            margin: 0px -.5em;
+            width: calc(100% + 1em);
+            max-width: unset;
+
+            * {
+                vertical-align: top;
+            }
+
+            & > img {
+                margin-bottom: 1.3em;
+                width: 24vw;
+                height: 24vw;
+                max-width: 160px;
+                max-height: 160px;
+                border-radius: 4px;
+                object-fit: contain;
+                display: inline;
+                float: left;
+                margin-right: 1rem;
+            }
+
+            .detail {
+                font-weight: 500;
+                display: inline;
+                cursor: pointer;
+
+                &:hover {
+                    text-shadow: 1px 1px var(--content-text_shadow);
+                    text-decoration: underline;
+                }
+            }
+
+            .price {
+                font-size: 1.953em;
+                color: var(--content-text_soft);
+                text-shadow: 1px 1px var(--content-text_shadow);
+                text-align: right;
+                cursor: default;
+                user-select: none;
+            }
+
+            .quantity {
+                text-align: right;
+            }
+        }
+
         & > hr {
             margin-top: 1em;
             border-left: 0;
@@ -2182,34 +2568,117 @@ div._cc_input {
     margin-bottom: 1rem;
     box-shadow: inset 0 0 0 4px var(--content-focus_screen);
 
-    & > .button {
-        display: inline-flex;
-        width: 2.8em;
-        height: 2.8em;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        right: 0;
-        cursor: pointer;
+    &.error {
 
-        &::before {
-            // icon separator
-            content: "";
-            width: 2px;
-            height: 50%;
-            background-color: var(--content-text_shadow);
-            position: absolute;
-            left: -1px;
+        & > label {
+            color: var(--alert);
+
+            &::after {
+                background-color: var(--alert);
+            }
+
+            &::before {
+                background-color: var(--alert);
+            }
         }
 
+        .button {
+            background-color: var(--alert-screen);
+            color: var(--alert);
+        }
+
+        input, select {
+            background-color: var(--alert-screen);
+            border-color: var(--alert);
+
+            &:focus {
+                border-color: var(--alert);
+                background-color: var(--alert-screen);
+
+                & ~ label {
+                    color: var(--alert);
+
+                    &::after {
+                        background-color: var(--alert);
+                    }
+
+                    &::before {
+                        background-color: var(--alert);
+                    }
+                }
+
+                & ~ .button {
+                    background-color: var(--alert-screen) !important;
+                    color: var(--alert) !important;
+                }
+            }
+        }
+    }
+
+    .hover {
+        user-select: none;
+
         &:hover {
+            cursor: pointer;
             color: var(--content-focus);
             background-color: var(--content-focus_screen);
         }
     }
 
-    & > * {
-        vertical-align: top;
+    &.button {
+        user-select: none;
+
+        & > input {
+            padding-right: 3.3em;
+
+            &:focus {
+                & ~ .button {
+                    color: var(--content-focus);
+                    background-color: var(--content-focus_screen);
+                }
+            }
+        }
+
+        & > .button {
+            display: inline-flex;
+            width: 2.8rem;
+            height: 2.8rem;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+
+            &::before {
+                // icon separator
+                content: "";
+                width: 2px;
+                height: 50%;
+                background-color: var(--content-text_shadow);
+                position: absolute;
+                left: -1px;
+            }
+
+            &:hover {
+                color: var(--content-focus);
+                background-color: var(--content-focus_screen);
+            }
+        }
+    }
+
+    &.transparent {
+        *:not(.button):not(.menu) {
+            border-color: transparent !important;
+            background-color: transparent !important;
+
+            &::after {
+                background-color: transparent !important;
+            }
+
+            &::before {
+                background-color: transparent !important;
+            }
+        }
     }
 
     & > .message {
@@ -2219,142 +2688,6 @@ div._cc_input {
         position: absolute;
         width: calc(100% - 4px);
         white-space: nowrap;
-    }
-
-    & > .downarrow {
-        &::before {
-            content: "";
-            border-top: .3em solid var(--content-text);
-            border-left: .25em solid transparent;
-            border-right: .25em solid transparent;
-        }
-
-        justify-content: center;
-        align-items: center;
-        display: none;
-    }
-
-    & > .uparrow {
-        &::before {
-            content: "";
-            border-bottom: .3em solid var(--content-text);
-            border-left: .25em solid transparent;
-            border-right: .25em solid transparent;
-        }
-
-        justify-content: center;
-        align-items: center;
-        display: none;
-    }
-
-    label {
-        width: calc(100% - 4px);
-        left: 2px;
-        text-align: left;
-        box-sizing: border-box;
-        line-height: 1em;
-        overflow: hidden;
-        position: absolute;
-        font-size: 0.8rem;
-        font-weight: 500;
-        white-space: nowrap;
-        color: var(--content-text_soft);
-        text-shadow: 1px 1px var(--content-text_shadow);
-
-        &::after {
-            content: "";
-            background-color: var(--content-text_transparent);
-            height: 2px;
-            width: 100%;
-            position: absolute;
-            bottom: 0;
-        }
-
-        &::before {
-            content: "";
-            background-color: var(--content-text_transparent);
-            height: 2px;
-            width: 0.5em;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-        }
-
-        &:not(:empty) {
-            margin-top: calc(-1em + 2px);
-            padding-left: 0.5em;
-        }
-
-        &:empty {
-            overflow: inherit;
-
-            &::after {
-                bottom: -2px;
-            }
-
-            &::before {
-                background-color: transparent;
-                bottom: -2px;
-            }
-        }
-    }
-
-    & > select {
-        border: none;
-        border-radius: 0;
-        appearance: none;
-        white-space: nowrap;
-    }
-
-    & > input,
-    & > select {
-        &::placeholder {
-            color: var(--content-placeholder);
-        }
-
-        &:read-only {
-            text-overflow: ellipsis;
-            padding: 2px 1.5em 0 0.75em;
-        }
-
-        text-shadow: 1px 1px var(--content-text_shadow);
-        min-height: 100%;
-        min-width: 100%;
-        width: 100%;
-
-        box-sizing: border-box;
-        vertical-align: middle;
-        background-color: transparent;
-        color: var(--content-text);
-        font: inherit;
-        line-height: 2.5rem;
-        padding: 2px .75em 0;
-        font-size: 1rem;
-        border: solid 2px;
-        border-top: none;
-        outline: none;
-        border-color: var(--content-text_transparent);
-
-        &:focus {
-            border-color: var(--content-focus);
-
-            & ~ label {
-                color: var(--content-focus);
-
-                &::after {
-                    background-color: var(--content-focus);
-                }
-
-                &::before {
-                    background-color: var(--content-focus);
-                }
-            }
-        }
-    }
-
-    & > .option, & > .option-fullscreen {
-        display: none;
-        position: absolute;
     }
 
     &.icon {
@@ -2428,79 +2761,144 @@ div._cc_input {
         }
     }
 
-    &.error {
+    label {
+        width: calc(100% - 4px);
+        left: 2px;
+        text-align: left;
+        box-sizing: border-box;
+        line-height: 1em;
+        overflow: hidden;
+        position: absolute;
+        font-size: 0.8rem;
+        font-weight: 500;
+        white-space: nowrap;
+        color: var(--content-text_soft);
+        text-shadow: 1px 1px var(--content-text_shadow);
 
-        & > label {
-            color: var(--alert);
+        &::after {
+            content: "";
+            background-color: var(--content-text_transparent);
+            height: 2px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        &::before {
+            content: "";
+            background-color: var(--content-text_transparent);
+            height: 2px;
+            width: 0.5em;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+
+        &:not(:empty) {
+            margin-top: calc(-1em + 2px);
+            padding-left: 0.5em;
+        }
+
+        &:empty {
+            overflow: inherit;
 
             &::after {
-                background-color: var(--alert);
+                bottom: -2px;
             }
 
             &::before {
-                background-color: var(--alert);
+                background-color: transparent;
+                bottom: -2px;
             }
         }
+    }
 
-        .button {
-            background-color: var(--alert-screen);
-            color: var(--alert);
+    & > * {
+        vertical-align: top;
+    }
+
+    & > .downarrow {
+        &::before {
+            content: "";
+            border-top: .3em solid var(--content-text);
+            border-left: .25em solid transparent;
+            border-right: .25em solid transparent;
         }
 
-        input, select {
-            background-color: var(--alert-screen);
-            border-color: var(--alert);
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
 
-            &:focus {
-                border-color: var(--alert);
-                background-color: var(--alert-screen);
+    & > .uparrow {
+        &::before {
+            content: "";
+            border-bottom: .3em solid var(--content-text);
+            border-left: .25em solid transparent;
+            border-right: .25em solid transparent;
+        }
 
-                & ~ label {
-                    color: var(--alert);
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
 
-                    &::after {
-                        background-color: var(--alert);
-                    }
+    & > select {
+        border: none;
+        border-radius: 0;
+        appearance: none;
+        white-space: nowrap;
+    }
 
-                    &::before {
-                        background-color: var(--alert);
-                    }
+    & > input,
+    & > select {
+        &::placeholder {
+            color: var(--content-placeholder);
+        }
+
+        &:read-only {
+            text-overflow: ellipsis;
+            padding: 2px 1.5em 0 0.75em;
+        }
+
+        text-shadow: 1px 1px var(--content-text_shadow);
+        min-height: 100%;
+        min-width: 100%;
+        width: 100%;
+
+        box-sizing: border-box;
+        vertical-align: middle;
+        background-color: transparent;
+        color: var(--content-text);
+        font: inherit;
+        line-height: 2.5rem;
+        padding: 2px .75em 0;
+        font-size: 1rem;
+        border: solid 2px;
+        border-top: none;
+        outline: none;
+        border-color: var(--content-text_transparent);
+
+        &:focus {
+            border-color: var(--content-focus);
+
+            & ~ label {
+                color: var(--content-focus);
+
+                &::after {
+                    background-color: var(--content-focus);
                 }
 
-                & ~ .button {
-                    background-color: var(--alert-screen) !important;
-                    color: var(--alert) !important;
+                &::before {
+                    background-color: var(--content-focus);
                 }
             }
         }
     }
 
-    &.button {
-        & > input {
-            padding-right: 3.3em;
-
-            &:focus {
-                & ~ .button {
-                    color: var(--content-focus);
-                    background-color: var(--content-focus_screen);
-                }
-            }
-        }
-    }
-
-    &.transparent {
-        *:not(.button):not(.menu) {
-            border-color: transparent !important;
-            background-color: transparent !important;
-
-            &::after {
-                background-color: transparent !important;
-            }
-
-            &::before {
-                background-color: transparent !important;
-            }
-        }
+    & > .option, & > .option-fullscreen {
+        display: none;
+        position: absolute;
     }
 
     &.select {
@@ -2729,4 +3127,5 @@ div.menublock {
         text-shadow: 1px 1px var(--toolbar-text_shadow);
     }
 }
+
 </style>

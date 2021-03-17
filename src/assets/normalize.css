@@ -467,6 +467,17 @@ html {
     "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
+/* remove spinner on number input */
+
+/* for chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* for mozilla */
+input[type=number] {-moz-appearance: textfield;}
+
 @media only screen and (max-width: 768px) {
     html {
         font-size: 16px;
