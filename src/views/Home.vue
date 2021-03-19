@@ -1209,6 +1209,34 @@
     br
     br
     br
+    ._cc_list
+        .article
+            .content
+                img(src="@/assets/nike1.jpg")
+        .article
+            .content
+                img(src="@/assets/myface.jpg")
+        .article
+            .content
+                img(src="@/assets/nike2.jpg")
+        .article
+            .content
+                img.block(src="@/assets/newyork.jpg")
+                .text.
+                    New York
+                    Grew up in a town that was famous as a place of movie scenes
+                    Noise is always loud, there are sirens all around and the streets are mean
+                    If I can make it here, I can make it anywhere that's what they say
+                    Seeing my face in lights or my name in marquees found down on Broadway
+        .article
+            .content
+                img(src="@/assets/skate.jpg")
+        .article
+            .content
+                img(src="@/assets/dia.png")
+        .article
+            .content
+                img(src="@/assets/brunomars.png")
     br
     br
 </template>
@@ -1549,6 +1577,59 @@ export default {
         min-width: unset;
     }
 }
+
+div._cc_list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+
+    .article {
+        position: relative;
+        width: 100%;
+        box-shadow: 0 0 0 2px var(--content-text_screen);
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: var(--content);
+        padding-top: 100%;
+
+        .content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            & > img.block {
+                display: block;
+                width: 100%;
+                height: unset;
+                position: static;
+            }
+
+            & > img {
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+                object-fit: contain;
+            }
+
+            & > .text {
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                font-size: .8em;
+                line-height: 1.25;
+                height: calc(3em * 1.25);
+            }
+        }
+    }
+}
+
 
 div._cc_dummy {
     display: none;
