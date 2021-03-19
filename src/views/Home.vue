@@ -1209,25 +1209,87 @@
     br
     br
     br
-    ._cc_list
+    ._cc_list(style="--readmore: '...read more'; --textclamp: 3;--grid:1fr 1fr 1fr;")
         .article
             .content
                 img(src="@/assets/nike1.jpg")
-        .article
+        .article(style="--textclamp: 2")
             .content
-                img(src="@/assets/myface.jpg")
-        .article
+                img.square(src="@/assets/nike2.jpg")
+                .title(style="font-size:.8em") $599.99
+                .text(style="font-size:.7em") TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+        .article(style="--textclamp: 2")
             .content
-                img(src="@/assets/nike2.jpg")
+                img.square(src="@/assets/nike1.jpg")
+                .title(style="font-size:.8em") $199.99
+                .text(style="font-size:.7em") Nike shoes, 2021 Model
+        .article(style="--textclamp: 2")
+            .content
+                img.square(src="@/assets/newyork.jpg")
+                .title(style="font-size:.8em") $399.99
+                .text(style="font-size:.7em") Full New york zombie tour
         .article
             .content
                 img.block(src="@/assets/newyork.jpg")
+                .title New York
                 .text.
-                    New York
                     Grew up in a town that was famous as a place of movie scenes
                     Noise is always loud, there are sirens all around and the streets are mean
                     If I can make it here, I can make it anywhere that's what they say
                     Seeing my face in lights or my name in marquees found down on Broadway
+        .article
+            .content
+                img.block(src="@/assets/newyork.jpg")
+                .title New York
+                .text.
+                    Come visit
+        .article
+            .content
+                img.block(src="@/assets/myface.jpg")
+                .title Crime escapes prison
+                .text.
+                    Please call the police if you see this person.
+                    Highly advised to not engage.
+        .article
+            .content
+                img.block(src="@/assets/brunomars.png")
+                .title Bruno Mars is really short
+                .text.
+                    Grew up in a town that was famous as a place of movie scenes
+                    Noise is always loud, there are sirens all around and the streets are mean
+                    If I can make it here, I can make it anywhere that's what they say
+                    Seeing my face in lights or my name in marquees found down on Broadway
+        .article
+            .content
+                img.block(src="@/assets/brunomars.png")
+                .title ...I mean really short
+        .article
+            .content
+                img.block(src="@/assets/brunomars.png")
+                .title
+                .text ...so short
+        .article
+            .content
+                img.block(src="@/assets/dia.png")
+                .title DIA is called sing-ger in AU
+                .text.
+                    AU is well known for it's mystic land of exotic nature.
+                    Scientists predicts their reason of their exotic accents.
+        .article
+            .content
+                img.block(src="@/assets/howtall.jpeg")
+                .title WHO'S THE TALLEST?
+                .text.
+                    Grew up in a town that was famous as a place of movie scenes
+                    Noise is always loud, there are sirens all around and the streets are mean
+                    If I can make it here, I can make it anywhere that's what they say
+                    Seeing my face in lights or my name in marquees found down on Broadway
+        .article
+            .content
+                img.block(src="@/assets/howtall.jpeg")
+                .title WHO'S THE TALLEST?
+                .text.
+                    Grew up in a town that was famous as a place of movie scenes
         .article
             .content
                 img(src="@/assets/skate.jpg")
@@ -1580,7 +1642,7 @@ export default {
 
 div._cc_list {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: var(--grid);
     gap: 8px;
 
     .article {
@@ -1594,10 +1656,19 @@ div._cc_list {
 
         .content {
             position: absolute;
+            display: flex;
+            flex-direction: column;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
+
+            &:hover {
+                cursor: pointer;
+                .text {
+                    text-decoration: underline;
+                }
+            }
 
             & > img.block {
                 display: block;
@@ -1614,17 +1685,54 @@ div._cc_list {
                 top: 0;
                 left: 0;
                 overflow: hidden;
-                object-fit: contain;
+                object-position: 0 30%;
+                object-fit: cover;
             }
 
-            & > .text {
+            & > img.square {
+                width: 60%;
+                height: 60%;
+                border-radius: 4px;
+                position: static;
+                top: unset;
+                left: unset;
+                object-position: center;
+                margin: auto;
+            }
+
+            & > .title:not(:empty) {
+                padding: .5rem;
+                text-align: left;
+                flex-shrink: 0;
                 display: -webkit-box;
-                -webkit-line-clamp: 3;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                font-weight: 500;
+                color: var(--content-text_soft);
+                text-shadow: 1px 1px var(--content-text_shadow);
+                overflow: hidden;
+                font-size: 1em;
+                line-height: 1.25;
+
+                & + .text {
+                    padding-top: 0;
+                }
+            }
+            & > .text:not(:empty) {
+                &::after {
+                    content: " " var(--readmore);
+                    opacity: 0.5;
+                }
+                padding: .5em 0.5rem 0;
+                text-align: left;
+                flex-shrink: 0;
+                display: -webkit-box;
+                -webkit-line-clamp: var(--textclamp);
+                margin-bottom: .5rem;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
-                font-size: .8em;
+                font-size: 0.8em;
                 line-height: 1.25;
-                height: calc(3em * 1.25);
             }
         }
     }
