@@ -1209,7 +1209,7 @@
     br
     br
     br
-    ._cc_list(style="--readmore: '...read more'; --textclamp: 3;--grid:1fr 1fr 1fr;")
+    ._cc_list(style="--textclamp: 3;--grid:1fr 1fr 1fr;")
         .article
             .content
                 img(src="@/assets/nike1.jpg")
@@ -1228,6 +1228,12 @@
                 img.square(src="@/assets/newyork.jpg")
                 .title(style="font-size:.8em") $399.99
                 .text(style="font-size:.7em") Full New york zombie tour
+            .overlay HI
+        .article(style="--textclamp: 2")
+            .content
+                img.square(src="@/assets/bunnykit.jpg")
+                .title(style="font-size:.8em") $99.99
+                .text(style="font-size:.7em") Peach blouse
         .article
             .content
                 img.block(src="@/assets/newyork.jpg")
@@ -1237,12 +1243,6 @@
                     Noise is always loud, there are sirens all around and the streets are mean
                     If I can make it here, I can make it anywhere that's what they say
                     Seeing my face in lights or my name in marquees found down on Broadway
-        .article
-            .content
-                img.block(src="@/assets/newyork.jpg")
-                .title New York
-                .text.
-                    Come visit
         .article
             .content
                 img.block(src="@/assets/myface.jpg")
@@ -1263,11 +1263,6 @@
             .content
                 img.block(src="@/assets/brunomars.png")
                 .title ...I mean really short
-        .article
-            .content
-                img.block(src="@/assets/brunomars.png")
-                .title
-                .text ...so short
         .article
             .content
                 img.block(src="@/assets/dia.png")
@@ -1653,6 +1648,29 @@ div._cc_list {
         overflow: hidden;
         background-color: var(--content);
         padding-top: 100%;
+        &:hover {
+            cursor: pointer;
+            .text {
+                text-decoration: underline;
+            }
+            .overlay {
+                display: flex;
+            }
+        }
+
+        & > .overlay {
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: var(--shade);
+            color: white;
+        }
 
         .content {
             position: absolute;
@@ -1663,17 +1681,10 @@ div._cc_list {
             bottom: 0;
             left: 0;
 
-            &:hover {
-                cursor: pointer;
-                .text {
-                    text-decoration: underline;
-                }
-            }
-
             & > img.block {
                 display: block;
                 width: 100%;
-                height: unset;
+                height: 70%;
                 position: static;
             }
 
@@ -1701,7 +1712,7 @@ div._cc_list {
             }
 
             & > .title:not(:empty) {
-                padding: .5rem;
+                margin: .5rem;
                 text-align: left;
                 flex-shrink: 0;
                 display: -webkit-box;
@@ -1711,13 +1722,14 @@ div._cc_list {
                 color: var(--content-text_soft);
                 text-shadow: 1px 1px var(--content-text_shadow);
                 overflow: hidden;
-                font-size: 1em;
+                font-size: .8em;
                 line-height: 1.25;
 
                 & + .text {
                     padding-top: 0;
                 }
             }
+
             & > .text:not(:empty) {
                 &::after {
                     content: " " var(--readmore);
