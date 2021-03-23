@@ -1,24 +1,25 @@
 <template lang="pug">
-._cc_frame(:style="colorScheme")
+.sui_frame
     .view
         router-view
 </template>
 <script>
 import {ColorMangle} from 'colormangle';
+
 export default {
     name: "app",
-    data() {
-        return {
-            // colorScheme: new ColorMangle('#c6c089').colorScheme()
-            colorScheme: new ColorMangle('#00807f').colorScheme()
-        };
+    created() {
+        let cs = new ColorMangle('#00807f').colorScheme();
+        let body = document.getElementsByTagName('BODY')[0];
+        for (let c in cs)
+            body.style.setProperty(c, cs[c]);
     }
 };
 </script>
 <style lang="less">
 @import './assets/normalize.css';
 
-._cc_frame {
+.sui_frame {
     min-height: 100%;
     width: 100%;
     background-color: var(--background);

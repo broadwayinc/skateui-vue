@@ -1,6 +1,6 @@
 <template lang="pug">
 ._styling_example
-    ._cc_card
+    .sui_card
         .image
             img(style='width: 20rem' src="@/assets/skate.jpg")
         .content
@@ -66,37 +66,37 @@
         .button_footer
         .footer.
             I am your footer! The font size here is 0.8rem unless tag is used.
-    ._cc_card EMPTY
-    ._cc_card
+    .sui_card EMPTY
+    .sui_card
         .title TITLE
-    ._cc_card
+    .sui_card
         .content CONTENT
-    ._cc_card
+    .sui_card
         .button_footer BUTTON
-    ._cc_card
+    .sui_card
         .footer FOOTER
-    ._cc_card
+    .sui_card
         .title TITLE
         .content CONTENT
         .footer FOOTER
-    ._cc_card
+    .sui_card
         .title TITLE
         .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
         .content CONTENT
         .button_footer BUTTON
         .footer FOOTER
-    ._cc_card
+    .sui_card
         .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
         .content CONTENT
         .button_footer BUTTON
         .footer FOOTER
-    ._cc_card.center
+    .sui_card.center
         .title TITLE (.center)
         .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
         .content CONTENT (.center)
         .button_footer BUTTON (.center)
         .footer FOOTER (.center)
-    ._cc_card
+    .sui_card
         .title
             h6 TITLE
         .image
@@ -113,7 +113,7 @@
             it is not advised to use it with the title. (or vice versa)
         .button_footer
         .footer
-    ._cc_card
+    .sui_card
         .title(style="background-color:var(--content-focus);color:var(--content-focus-text)")
             div
                 img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em .5em .5em 0;border-radius:2em;border:solid 1px;' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2U5Yjg5NGM1LWQ1NDgtNGZkYi04YTJlLTdkNTllOTIyNzMyMC9pbWFnZS8yODg4NjcwX2tEVGFDRmUyMDcwNjc2NTQiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjQ4MCwiaGVpZ2h0Ijo0ODAsImZpdCI6Im91dHNpZGUifX19")
@@ -129,7 +129,7 @@
         .button_footer
         .footer.
             I am your footer... don't ignore me...
-    ._cc_card
+    .sui_card
         .title
             h6 CLASS ".center"
         .image
@@ -138,7 +138,7 @@
             p Try ".center" class on content. It will look nicer.
         .button_footer
         .footer Footer alignment follows the card alignment
-    ._cc_card
+    .sui_card
         .title
         .image
         .content.
@@ -147,7 +147,7 @@
             even if the element is empty.
         .button_footer
         .footer(style="opacity:0.5") It's best to use 50% opacity on footer unless it's an alert message.
-    ._cc_card
+    .sui_card
         .title
             h6 Button
         .image
@@ -155,14 +155,12 @@
             h4 Look! A Button!
             br
             p We will use the ".button_footer" div for card buttons.
-        .hideonphone
-        .button_footer
-            button._cc_button HELLO
-        .viewonphone
-        .button_footer.sticky
-            button._cc_button HELLO
+        .button_footer.hideonphone
+            button.sui_button HELLO
+        .button_footer.sticky.viewonphone
+            button.sui_button HELLO
         .footer
-    ._cc_card
+    .sui_card
         .title
         .image
         .content
@@ -180,10 +178,10 @@
                 li Only one button is allowed to be filled! Rest should be nude.
                 li It is advised to not use more than 2 footer buttons.
         .button_footer
-            button._cc_button.nude CANCEL
-            button._cc_button COWABUNGA
+            button.sui_button.nude CANCEL
+            button.sui_button COWABUNGA
         .footer(style="opacity:0.5") I'm your footer.
-    ._cc_card
+    .sui_card
         .title
         .image
         .content
@@ -195,11 +193,11 @@
 
                 In that case, simply use footer text as a link or a button.
         .button_footer
-            button._cc_button.nude STEAL
-            button._cc_button BUY
+            button.sui_button.nude STEAL
+            button.sui_button BUY
         .footer
             a(style='color: var(--content-text);opacity:50%' href="https://www.google.com/search?q=dog&rlz=1C5CHFA_enKR901KR901&oq=dog&aqs=chrome..69i57j46i275j0l3j46j0l4.822j0j4&sourceid=chrome&ie=UTF-8") I lost my dog
-    ._cc_card
+    .sui_card
         .title
             h6 BUTTON DESIGNS
         .image
@@ -207,21 +205,21 @@
             h6 There are only 3 types of buttons:
             br
             br
-            button._cc_button filled
-            button._cc_button.nude nude
-            button._cc_button.icon
+            button.sui_button filled
+            button.sui_button.nude nude
+            button.sui_button.icon
                 i.material-icons create
             br
             br
             br
             p.
-                button._cc_button - Filled
-                button._cc_button.nude - Nude
-                button._cc_button.icon - Icon
+                button.sui_button - Filled
+                button.sui_button.nude - Nude
+                button.sui_button.icon - Icon
 
                 Filled is a default.
-                Nude style is applied if you add ".nude" class to button._cc_button element.
-                Icon style is applied if you add ".icon" class to button._cc_button element.
+                Nude style is applied if you add ".nude" class to button.sui_button element.
+                Icon style is applied if you add ".icon" class to button.sui_button element.
 
                 Other than these two &lt;a&gt; tag can be used as a button as well.
             br
@@ -247,13 +245,13 @@
                 It's best not to put spinner inside icon button.
             br
             br
-            button._cc_button
+            button.sui_button
                 ._loader.button
-            button._cc_button.nude
+            button.sui_button.nude
                 ._loader
         .button_footer
         .footer
-    ._cc_card
+    .sui_card
         .title
         .image
         .content.center
@@ -267,20 +265,20 @@
                 the .button_footer will stack your buttons vertically in reverse order,
                 Will add underline in nude button.
         .button_footer
-            button._cc_button.nude STEAL
-            button._cc_button BUY
+            button.sui_button.nude STEAL
+            button.sui_button BUY
         .footer(style="opacity:0.5") This is a footer
-    ._cc_card
+    .sui_card
         .title
             h6 INPUTS
         .image
         .content.center
-            ._cc_input
+            .sui_input
                 input(placeholder="Here's an Input form")
                 label
             br
             br
-            ._cc_input
+            .sui_input
                 input(placeholder="Don't worry label is transparent")
                 label.
                     &nbsp;
@@ -288,7 +286,7 @@
                     &nbsp;
             br
             br
-            ._cc_input.button
+            .sui_input.button
                 input(placeholder="Input with button")
                 label.
                     &nbsp;
@@ -298,7 +296,7 @@
                     i.material-icons send
             br
             br
-            ._cc_input.button.icon
+            .sui_input.button.icon
                 input(type="number" value="1" style="text-align:center;")
                 label.
                     &nbsp;
@@ -308,7 +306,7 @@
                 .button(style="font-size: 1.8rem") +
             br
             br
-            ._cc_input
+            .sui_input
                 input(placeholder="Required form")
                 label
                     | &nbsp;
@@ -317,7 +315,7 @@
                     | &nbsp;
             br
             br
-            ._cc_input.error
+            .sui_input.error
                 input(placeholder="You got an Error")
                 label.
                     &nbsp;
@@ -326,14 +324,14 @@
                 .message You Got Error
             br
             br
-            ._cc_input.icon
+            .sui_input.icon
                 input(placeholder="Input with icon")
                 label
                 .icon
                     i.material-icons email
             br
             br
-            ._cc_input.icon.error
+            .sui_input.icon.error
                 input(placeholder="Icon & Label & Error & *")
                 label
                     | &nbsp;
@@ -345,7 +343,7 @@
                 .message It's a combo
             br
             br
-            ._cc_input.select
+            .sui_input.select
                 select
                     option(value="China") Input as selector
                     option(value="Singapore") Singapore
@@ -358,7 +356,7 @@
                 .downarrow
             br
             br
-            ._cc_input.select.icon
+            .sui_input.select.icon
                 select
                     option(value="China") Selector & Icon
                     option(value="Singapore") Singapore
@@ -373,7 +371,7 @@
                 .downarrow
             br
             br
-            ._cc_input.select.icon
+            .sui_input.select.icon
                 input(id="dropdowncustom" value="Input as custom selector" readonly)
                 label(for="dropdowncustom")
                     | &nbsp;
@@ -394,7 +392,7 @@
                 .downarrow
             br
             br
-            ._cc_input.select.icon
+            .sui_input.select.icon
                 input(id="dropdownfullscreen" value="Fullscreen custom selector" readonly)
                 label(for="dropdownfullscreen")
                     | &nbsp;
@@ -423,7 +421,7 @@
                 .downarrow
             br
             br
-            ._cc_input.select
+            .sui_input.select
                 input(placeholder="Suggestion box" style="width: 15rem;")
                 label
                 .option
@@ -432,10 +430,10 @@
                         Just don't use "readonly" on the input attribute.
                     .menu(style="padding: .5rem .75rem; font-size:.8em;").
                         You would also want to listen to keyboard event to select through suggestion box.
-            button._cc_button SEARCH
+            button.sui_button SEARCH
             br
             br
-            ._cc_input.select.button(style="width: 23em")
+            .sui_input.select.button(style="width: 23em")
                 input(placeholder="Search Me")
                 label.
                     &nbsp;
@@ -450,11 +448,11 @@
                         If the .option is empty, suggestion box will not show
             br
             br
-            button._cc_button(onclick="_cc_popup.handler('searchmobile','top', false, 'var(--content)')") SEARCH POP
-            ._cc_input.select.transparent.button#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
+            button.sui_button(onclick="sui_popup.handler('searchmobile','top', false, 'var(--content)')") SEARCH POP
+            .sui_input.select.transparent.button#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
                 input(placeholder="Search Me")
                 label
-                .button(onclick="_cc_popup.handler('searchmobile')")
+                .button(onclick="sui_popup.handler('searchmobile')")
                     i.material-icons search
                 .option(style="max-height: calc(100vh - 2.8rem);")
                     .menu(style="padding: 1rem .5rem; font-size:.8em;").
@@ -463,7 +461,7 @@
                         If the .option is empty, suggestion box will not show
             br
             br
-            ._cc_input.select.error.icon.button(style="width: 23em")
+            .sui_input.select.error.icon.button(style="width: 23em")
                 input(placeholder="Full Combo")
                 label
                     | &nbsp;
@@ -482,7 +480,7 @@
                 .message Full Combo
         .button_footer
         .footer
-    ._cc_card(style="display: inline-block;")
+    .sui_card(style="display: inline-block;")
         .title
         .image
         .content
@@ -499,37 +497,37 @@
             | E-Mail&nbsp;
             span(style="color:var(--alert)") *
             | &#9;&#9;&#9;
-            ._cc_input
+            .sui_input
                 input(placeholder="username@email.com")
                 label
             br
             | Password&nbsp;
             span(style="color:var(--alert)") *
             pre
-            ._cc_input
+            .sui_input
                 input(placeholder="At least 8 Char..." type="password")
                 label
             br
             | Name&#9;&#9;&#9;&#9;
-            ._cc_input
+            .sui_input
                 input(placeholder="At least 8 Char..." type="password")
                 label
             br
             | Serial&#9;&#9;&#9;&#9;
             div(style="display: inline-block;")
-                ._cc_input(style="width: 4rem")
+                .sui_input(style="width: 4rem")
                     input(placeholder="000" type="password")
                     label
                 | &#9;
-                ._cc_input(style="width:13rem")
+                .sui_input(style="width:13rem")
                     input(placeholder="000000" type="password")
                     label
         .button_footer
-            button._cc_button.nude Sign-Up
-            button._cc_button Login
+            button.sui_button.nude Sign-Up
+            button.sui_button Login
         .footer
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-    ._cc_card(style="display: inline-block;")
+    .sui_card(style="display: inline-block;")
         .title
         .image
         .content
@@ -541,7 +539,7 @@
             p ex) Login
             br
             br
-            ._cc_input.icon
+            .sui_input.icon
                 input(placeholder="username@email.com")
                 label
                     | &nbsp;
@@ -552,7 +550,7 @@
                     i.material-icons email
             br
             br
-            ._cc_input.icon
+            .sui_input.icon
                 input(placeholder="Least 8 char...")
                 label
                     | &nbsp;
@@ -563,7 +561,7 @@
                     i.material-icons security
             br
             br
-            ._cc_input.icon
+            .sui_input.icon
                 input(placeholder="")
                 label.
                     &nbsp;
@@ -574,25 +572,25 @@
             br
             br
             div(style="display: inline-block;")
-                ._cc_input(style="width: 4rem")
+                .sui_input(style="width: 4rem")
                     input(placeholder="000" type="password")
                     label.
                         &nbsp;
                         Code
                         &nbsp;
                 pre
-                ._cc_input(style="width:13rem")
+                .sui_input(style="width:13rem")
                     input(placeholder="000000" type="password")
                     label.
                         &nbsp;
                         Serial
                         &nbsp;
         .button_footer
-            button._cc_button.nude Sign-Up
-            button._cc_button Login
+            button.sui_button.nude Sign-Up
+            button.sui_button Login
         .footer
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-    ._cc_card(style="display: inline-block;")
+    .sui_card(style="display: inline-block;")
         .title
             h6 Form Example 3
         .image
@@ -605,42 +603,42 @@
             | E-Mail&nbsp;
             span(style="color:var(--alert)") *
             | &#9;&#9;&#9;
-            ._cc_input
+            .sui_input
                 input(placeholder="username@email.com")
                 label
             br
             | Password&nbsp;
             span(style="color:var(--alert)") *
             | &#9;
-            ._cc_input
+            .sui_input
                 input(placeholder="At least 8 Char..." type="password")
                 label
             br
             | Name&nbsp;
-            ._cc_tooltip
+            .sui_tooltip
                 .content
                     small What's your name?
                 i.material-icons.icon help
             | &#9;&#9;
-            ._cc_input
+            .sui_input
                 input(placeholder="At least 8 Char..." type="password")
                 label
             br
             | Serial&#9;&#9;&#9;&#9;
             div(style="display: inline-block;")
-                ._cc_input(style="width: 4rem")
+                .sui_input(style="width: 4rem")
                     input(placeholder="000" type="password")
                     label
                 | &#9;
-                ._cc_input(style="width:13rem")
+                .sui_input(style="width:13rem")
                     input(placeholder="000000" type="password")
                     label
         .button_footer
-            button._cc_button.nude Sign-Up
-            button._cc_button Login
+            button.sui_button.nude Sign-Up
+            button.sui_button Login
         .footer
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-    ._cc_card
+    .sui_card
         .title
         .image
             img(style='width: 20rem' src="@/assets/skate.jpg")
@@ -648,7 +646,7 @@
             p Form example 4
             br
             br
-            ._cc_input.icon(style="width: 21rem;")
+            .sui_input.icon(style="width: 21rem;")
                 input(placeholder="username@email.com")
                 label
                     | &nbsp;
@@ -659,7 +657,7 @@
                     i.material-icons email
             br
             br
-            ._cc_input.icon(style="width: 21rem;")
+            .sui_input.icon(style="width: 21rem;")
                 input(placeholder="Least 8 char...")
                 label
                     | &nbsp;
@@ -670,7 +668,7 @@
                     i.material-icons security
             br
             br
-            ._cc_input.icon(style="width: 21rem;")
+            .sui_input.icon(style="width: 21rem;")
                 input(placeholder="")
                 label.
                     &nbsp;
@@ -681,25 +679,25 @@
             br
             br
             div(style="display: inline-block;")
-                ._cc_input(style="width: 6rem")
+                .sui_input(style="width: 6rem")
                     input(placeholder="000" type="password")
                     label.
                         &nbsp;
                         Code
                         &nbsp;
                 pre
-                ._cc_input(style="width:14rem")
+                .sui_input(style="width:14rem")
                     input(placeholder="000000" type="password")
                     label.
                         &nbsp;
                         Serial
                         &nbsp;
         .button_footer
-            button._cc_button.nude Sign-Up
-            button._cc_button Login
+            button.sui_button.nude Sign-Up
+            button.sui_button Login
         .footer
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-    ._cc_card
+    .sui_card
         .title
             h6 Tooltip
         .image
@@ -711,24 +709,24 @@
             br
             br
             div(style="display: flex;justify-content: space-between;")
-                ._cc_tooltip
+                .sui_tooltip
                     .content
                         small.
                             This is a toolbox.
                             Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
                     i.material-icons.icon help
-                ._cc_tooltip.bottom
+                .sui_tooltip.bottom
                     .content
                         small.
                             Set width and left by javascript on mobile to make the text box full width.
                     i.material-icons.icon help
-                ._cc_tooltip.left
+                .sui_tooltip.left
                     .content
                         small.
                             This is a toolbox
                             This is positioned .left
                     i.material-icons.icon help
-                ._cc_tooltip.left.bottom
+                .sui_tooltip.left.bottom
                     .content
                         small.
                             This is a toolbox
@@ -736,7 +734,7 @@
                     i.material-icons.icon help
         .button_footer
         .footer
-    ._cc_card
+    .sui_card
         .title
             h6 Steps
         .content
@@ -744,7 +742,7 @@
             br
             h6 Lined style:
             br
-            ._cc_steps.line(style="--ring-count: 2;--ring-status: 2")
+            .sui_steps.line(style="--ring-count: 2;--ring-status: 2")
                 svg
                     circle.step(r="1.5em" cx="50%" cy="50%")
                 svg
@@ -763,7 +761,7 @@
             br
             h6 Ringed style (Best on mobile):
             br
-            ._cc_steps.ring(style="--ring-count: 4;--ring-status: 3")
+            .sui_steps.ring(style="--ring-count: 4;--ring-status: 3")
                 svg
                     circle.step(r="1.5em" cx="50%" cy="50%")
                 svg
@@ -786,11 +784,11 @@
                 Use css var --ring-status to set the current steps on ring mode.
         .button_footer
         .footer
-    ._cc_card(style="width: 50%")
+    .sui_card(style="width: 50%")
         .title
             h6 Accordion
         .content
-            ._cc_accordion(onclick="_cc_accordion.handler(event)")
+            .sui_accordion(onclick="sui_accordion.handler(event)")
                 .title Click Me
                 hr
                 .content.
@@ -813,34 +811,34 @@
                     Now, who thinks their arms are long enough
                     To slap box, slap box?
                     They said I rap like a robot, so call me Rap-bot
-    ._cc_card(style="width: 50%")
+    .sui_card(style="width: 50%")
         .title
             h6 POP UP
         .content.center Push A Button
         .button_footer
-            button._cc_button(onclick="_cc_popup.handler('myModal')") Default
+            button.sui_button(onclick="sui_popup.handler('myModal')") Default
             br
             br
-            button._cc_button(onclick="_cc_popup.handler('myModal','top')") Top
+            button.sui_button(onclick="sui_popup.handler('myModal','top')") Top
             br
             br
-            button._cc_button(onclick="_cc_popup.handler('myModal','left')") Left
+            button.sui_button(onclick="sui_popup.handler('myModal','left')") Left
             br
             br
-            button._cc_button(onclick="_cc_popup.handler('myModal','bottom')") Bottom
+            button.sui_button(onclick="sui_popup.handler('myModal','bottom')") Bottom
             br
             br
-            button._cc_button(onclick="_cc_popup.handler('myModal','right')") Right
+            button.sui_button(onclick="sui_popup.handler('myModal','right')") Right
             br
             br
-            button._cc_button.nude(onclick="_cc_popup.handler('somerandomstuff', 'right')") Random
+            button.sui_button.nude(onclick="sui_popup.handler('somerandomstuff', 'right')") Random
             br
             br
-            button._cc_button.nude(onclick="_cc_popup.handler('menu', 'left', true)") MENU1
+            button.sui_button.nude(onclick="sui_popup.handler('menu', 'left', true)") MENU1
             br
             br
-            button._cc_button.nude(onclick="_cc_popup.handler('menuhash', 'left', true)") MENU2
-    ._cc_card#myModal(style="display:none;")
+            button.sui_button.nude(onclick="sui_popup.handler('menuhash', 'left', true)") MENU2
+    .sui_card#myModal(style="display:none;")
         .title
             h6 POP UP
         .image
@@ -854,16 +852,16 @@
                 Just give it an ID and hide it somewhere.
                 The JS function will take care of it.
         .button_footer
-            button._cc_button(onclick="_cc_popup.handler('myModal')") OK
+            button.sui_button(onclick="sui_popup.handler('myModal')") OK
     #somerandomstuff(style="display:none;background-color:red;color:white;padding: 2em;text-align:right;")
         | I'm A SPAMMER
         pre
-        button._cc_button(onclick="_cc_popup.handler('somerandomstuff')") OK
+        button.sui_button(onclick="sui_popup.handler('somerandomstuff')") OK
     br
-    ._cc_card#menu(style="width: 280px;")
+    .sui_card#menu(style="width: 280px;")
         .title
             | Baksa Gimm
-            .close(onclick="_cc_popup.handler('menu', 'close')")
+            .close(onclick="sui_popup.handler('menu', 'close')")
         .image
             img(src="@/assets/skate.jpg")
         .content
@@ -911,10 +909,10 @@
                     i.material-icons payment
                 p Payment
     br
-    ._cc_card#menuhash(style="width: 280px;")
+    .sui_card#menuhash(style="width: 280px;")
         .title
             | Baksa Gimm
-            .close(onclick="_cc_popup.handler('menuhash', 'close')")
+            .close(onclick="sui_popup.handler('menuhash', 'close')")
         .image
             img(src="@/assets/skate.jpg")
         .content
@@ -993,74 +991,74 @@
                     i.material-icons payment
                 p Payment
     br
-    ._cc_card(style="width: 400px")
+    .sui_card(style="width: 400px")
         .title
             h6 Toggles
         .content
-            label._cc_toggle
+            label.sui_toggle
                 p Toggle
                 pre
                 input(type="checkbox" value="check1")
                 .toggle
             br
-            label._cc_toggle.disabled
+            label.sui_toggle.disabled
                 p Toggle
                 pre
                 input(type="checkbox" disabled value="check2")
                 .toggle
             br
-            label._cc_radio
+            label.sui_radio
                 p Radio 1
                 pre
                 input(type="radio" name="radio" value="1")
                 .radio
             br
-            label._cc_radio.disabled
+            label.sui_radio.disabled
                 p Radio 2
                 pre
                 input(type="radio" name="radio" disabled value="2")
                 .radio
             br
-            label._cc_radio
+            label.sui_radio
                 p Radio 3
                 pre
                 input(type="radio" name="radio" value="3")
                 .radio
             br
             br
-            label._cc_toggle(style="font-size:1.5em;")
+            label.sui_toggle(style="font-size:1.5em;")
                 p Big toggle
                 pre
                 input(type="checkbox" value="bigcheck")
                 .toggle
             br
-            label._cc_radio(style="font-size:1.5em;")
+            label.sui_radio(style="font-size:1.5em;")
                 p Big radio 1
                 pre
                 input(type="radio" name="bigradio" value='big1')
                 .radio
             br
-            label._cc_radio(style="font-size:1.5em;")
+            label.sui_radio(style="font-size:1.5em;")
                 p Big radio 2
                 pre
                 input(type="radio" name="bigradio" value='big2')
                 .radio
     br
-    ._cc_card
+    .sui_card
         .title
             h6 Textarea
         .content
-            ._cc_textarea.icon.button
+            .sui_textarea.icon.button
                 textarea(placeholder='Hello')
                 label.
                     &nbsp;
                     텍스트에리아
                     &nbsp;
                 .icon
-                    i.material-icons person
+                    img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
                 .button
                     i.material-icons send
-    ._cc_card
+    .sui_card
         .title
             h6 Image Editor
             .close
@@ -1068,13 +1066,13 @@
             img(src="@/assets/myface.jpg")
         .content
         .button_footer
-            button._cc_button.nude Change Image
-            button._cc_button UPLOAD
+            button.sui_button.nude Change Image
+            button.sui_button UPLOAD
     br
     br
     hr
     br
-    ._cc_card(style="width: 600px;")
+    .sui_card(style="width: 600px;")
         .content
             h4 Guide for the shopping cart design
             hr
@@ -1086,7 +1084,7 @@
                 by using a card for shop items, we can distinguish item type, or alert user on some situations.
                 From some research I have found out making shopping cart a modal seemed a terrible idea.
                 It should always be separate page.
-    ._cc_card(style="width: 600px;")
+    .sui_card(style="width: 600px;")
         .title(style="padding-right: 2.3em;")
             | Expected Delivery: 1985 / Aug / 20
             .close
@@ -1102,7 +1100,7 @@
                 br
                 br
                 .quantity
-                    ._cc_input.button.icon(style="width:10rem")
+                    .sui_input.button.icon(style="width:10rem")
                         input(type="number" value="1" style="text-align:center;")
                         label.
                             &nbsp;
@@ -1110,7 +1108,7 @@
                             &nbsp;
                         .icon.hover(style="font-size: 1.8rem") -
                         .button(style="font-size: 1.8rem") +
-    ._cc_card(style="width: 600px;")
+    .sui_card(style="width: 600px;")
         .title(style="padding-right: 2.3em;")
             | Digital Coupon
             .close
@@ -1126,7 +1124,7 @@
                 br
                 br
                 .quantity
-                    ._cc_input.button.icon(style="width:10rem")
+                    .sui_input.button.icon(style="width:10rem")
                         input(type="number" value="1" style="text-align:center;")
                         label.
                             &nbsp;
@@ -1134,7 +1132,7 @@
                             &nbsp;
                         .icon.hover(style="font-size: 1.8rem") -
                         .button(style="font-size: 1.8rem") +
-    ._cc_card(style="width: 600px;")
+    .sui_card(style="width: 600px;")
         .title(style="padding-right: 2.3em;background-color:yellow")
             | NFT - Digital assets (click for more info)
             .close
@@ -1149,7 +1147,7 @@
                 //br
                 //br
                 //.quantity
-                    ._cc_input.button.icon(style="width:10rem")
+                    .sui_input.button.icon(style="width:10rem")
                         input(type="number" value="1" style="text-align:center;")
                         label.
                             &nbsp;
@@ -1157,7 +1155,7 @@
                             &nbsp;
                         .icon.hover(style="font-size: 1.8rem") -
                         .button(style="font-size: 1.8rem") +
-    ._cc_card(style="width: 600px;")
+    .sui_card(style="width: 600px;")
         .title(style="padding-right: 2.3em;background-color:var(--alert);color:white;")
             | This item no longer exists
             .close
@@ -1172,7 +1170,7 @@
                 br
                 br
                 .quantity
-                    ._cc_input.button.icon(style="width:10rem")
+                    .sui_input.button.icon(style="width:10rem")
                         input(type="number" value="1" style="text-align:center;")
                         label.
                             &nbsp;
@@ -1182,7 +1180,7 @@
                         .button(style="font-size: 1.8rem") +
     br
     br
-    ._cc_card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
+    .sui_card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
         .title(style="background-color:var(--background-focus_transparent);")
             div(style="line-height: 2.8;") Hey you have a coupon!
     div(style="width:600px;max-width:100%;margin: 8px auto;text-align:center;padding: 1rem;box-sizing: border-box;")
@@ -1204,12 +1202,12 @@
         br
         br
 
-        button._cc_button CHECKOUT
+        button.sui_button CHECKOUT
     br
     br
     br
     br
-    ._cc_list(style="--textclamp: 3;--grid:1fr 1fr 1fr;")
+    .sui_list(style="--textclamp: 3;--grid:1fr 1fr 1fr;")
         .article
             .content
                 img(src="@/assets/nike1.jpg")
@@ -1309,7 +1307,7 @@ export default {
     },
     mounted() {
         // pure javascript handlers
-        window._cc_textarea = {
+        window.sui_textarea = {
             init: (el) => {
                 let setup = (el) => {
                     el.setAttribute('rows', '1');
@@ -1325,14 +1323,14 @@ export default {
                     el.addEventListener('focus', (e) => {
                         let target = e.target;
                         let par = target.parentNode.parentNode;
-                        if (par.classList.contains('_cc_textarea') && !par.classList.contains('focus'))
+                        if (par.classList.contains('sui_textarea') && !par.classList.contains('focus'))
                             par.classList.add('focus');
 
                     });
                     el.addEventListener('blur', (e) => {
                         let target = e.target;
                         let par = target.parentNode.parentNode;
-                        if (par.classList.contains('_cc_textarea') && par.classList.contains('focus'))
+                        if (par.classList.contains('sui_textarea') && par.classList.contains('focus'))
                             par.classList.remove('focus');
                     });
                 };
@@ -1341,18 +1339,18 @@ export default {
                 else {
                     el = document.getElementsByTagName('textarea');
                     for (let i = 0; i < el.length; i++) {
-                        if (el[i].parentNode.classList.contains('_cc_textarea'))
+                        if (el[i].parentNode.classList.contains('sui_textarea'))
                             setup(el[i]);
                     }
                 }
             }
         };
 
-        window._cc_textarea.init();
-        window._cc_accordion = {
+        window.sui_textarea.init();
+        window.sui_accordion = {
             timeout: null,
             handler: (ev) => {
-                let el = ev.target.closest('._cc_accordion');
+                let el = ev.target.closest('.sui_accordion');
 
                 if (!el)
                     return;
@@ -1367,42 +1365,43 @@ export default {
                 if (el)
                     el = el.lastChild;
 
-                if (window._cc_accordion.timeout)
-                    clearTimeout(window._cc_accordion.timeout);
-                window._cc_accordion.timeout = null;
+                if (window.sui_accordion.timeout)
+                    clearTimeout(window.sui_accordion.timeout);
+                window.sui_accordion.timeout = null;
 
                 if (bool) {
                     el.style.maxHeight = '100vh';
-                    window._cc_accordion.timeout = setTimeout(() => {
+                    window.sui_accordion.timeout = setTimeout(() => {
                         // use this.$nextTick() for vue
                         el.style.maxHeight = 'unset';
                     }, 750);
                 } else {
                     el.style.maxHeight = '100vh';
-                    window._cc_accordion.timeout = setTimeout(() => {
+                    window.sui_accordion.timeout = setTimeout(() => {
                         el.style.maxHeight = '0';
                     }, 100);
                 }
             }
         };
-        window._cc_screen = {
+        window.sui_screen = {
             handler: (id, stickTo, closeWhenBackgroundClick) => {
 
-                let screen = document.getElementsByClassName('_cc_screen')[0];
+                let screen = document.getElementsByClassName('sui_screen')[0];
 
                 if (!screen) {
                     // if there is no overlay screen, create one
                     screen = document.createElement('div');
-                    screen.classList.add('_cc_screen');
+                    screen.classList.add('sui_screen');
                     screen.classList.add(stickTo);
 
-                    let body = document.getElementsByClassName('_cc_frame')[0];
+                    // let body = document.getElementsByClassName('sui_frame')[0];
+                    let body = document.getElementsByTagName('BODY')[0];
                     document.body.style.top = `-${window.scrollY}px`;
                     document.body.style.position = 'fixed';
 
                     if (closeWhenBackgroundClick) {
                         screen.addEventListener('click', function () {
-                            window._cc_popup.handler(id);
+                            window.sui_popup.handler(id);
                         });
                     }
 
@@ -1420,7 +1419,7 @@ export default {
                     while (cid--) {
                         if (child[cid].id !== id) {
 
-                            let classList = window._cc_popup.classList.direction.concat(window._cc_popup.classList.stickTo);
+                            let classList = window.sui_popup.classList.direction.concat(window.sui_popup.classList.stickTo);
 
                             for (let c of classList)
                                 child[cid].classList.remove(c);
@@ -1438,7 +1437,7 @@ export default {
                 return screen;
             }
         };
-        window._cc_popup = {
+        window.sui_popup = {
             classList: {
                 // DO NOT! change the order of array
                 stickTo: [
@@ -1464,8 +1463,8 @@ export default {
                     // no id
                     return;
 
-                let stickToList = window._cc_popup.classList.stickTo;
-                let directionList = window._cc_popup.classList.direction;
+                let stickToList = window.sui_popup.classList.stickTo;
+                let directionList = window.sui_popup.classList.direction;
                 let direction;
 
                 if (stickTo !== 'close') {
@@ -1477,9 +1476,9 @@ export default {
                     if (!directionList.includes(direction))
                         throw 'allowed argument for stickTo:' + JSON.stringify(directionList);
 
-                    if (window._cc_popup.timeout)
-                        clearTimeout(window._cc_popup.timeout);
-                    window._cc_popup.timeout = null;
+                    if (window.sui_popup.timeout)
+                        clearTimeout(window.sui_popup.timeout);
+                    window.sui_popup.timeout = null;
                 }
 
                 id = id[0] === '#' ? id.substring(1) : id;
@@ -1489,12 +1488,12 @@ export default {
                     // no matching popup
                     return;
 
-                let isUp = el.closest('._cc_screen');
+                let isUp = el.closest('.sui_screen');
                 if (stickTo === 'close' && !isUp)
                     // nothing to close
                     return;
 
-                let screen = window._cc_screen.handler(id, stickTo, closeWhenBackgroundClicked);
+                let screen = window.sui_screen.handler(id, stickTo, closeWhenBackgroundClicked);
 
                 if (isUp) {
                     // popup is showing
@@ -1510,14 +1509,14 @@ export default {
                             immediate = true;
                     }
 
-                    window._cc_popup.timeout = setTimeout(() => {
+                    window.sui_popup.timeout = setTimeout(() => {
                         // cleanup
                         for (let c of stickToList)
                             el.classList.remove(c);
 
-                        el.classList.remove('_cc_popup');
-                        el.removeEventListener('click', window._cc_popup.eventListener[id]);
-                        window._cc_popup.eventListener[id] = null;
+                        el.classList.remove('sui_popup');
+                        el.removeEventListener('click', window.sui_popup.eventListener[id]);
+                        window.sui_popup.eventListener[id] = null;
 
                         let dummy = document.getElementById('_dummy_' + id);
                         if (dummy) {
@@ -1528,18 +1527,18 @@ export default {
                     }, immediate ? 0 : 750);
 
                 } else {
-                    let bool = !el.classList.contains('_cc_popup');
+                    let bool = !el.classList.contains('sui_popup');
 
-                    window._cc_popup.eventListener[id] = function (e) {
+                    window.sui_popup.eventListener[id] = function (e) {
                         e.stopPropagation();
                     };
 
-                    el.addEventListener('click', window._cc_popup.eventListener[id]);
+                    el.addEventListener('click', window.sui_popup.eventListener[id]);
                     if (bool) {
-                        el.classList.add('_cc_popup');
-                        if (!el.closest('._cc_screen')) {
+                        el.classList.add('sui_popup');
+                        if (!el.closest('.sui_screen')) {
                             let dummy = document.createElement('div');
-                            dummy.classList.add('_cc_dummy');
+                            dummy.classList.add('sui_dummy');
                             dummy.id = '_dummy_' + id;
                             el.parentNode.insertBefore(dummy, el);
                             screen.append(el);
@@ -1548,7 +1547,7 @@ export default {
 
                     el.classList.add(stickTo);
 
-                    window._cc_popup.timeout = setTimeout(() => {
+                    window.sui_popup.timeout = setTimeout(() => {
                         screen.style.backgroundColor = overlayColor;
                         el.classList.add(direction);
                     }, direction === '_center' ? 0 : 100);
@@ -1571,56 +1570,38 @@ export default {
 @nottablet: ~'not screen and (max-width: 768px)';
 @notlaptop: ~'not screen and (max-width: 1366px)';
 .hideonphone {
-    display: none;
     @media @phone {
-        & + * {
-            display: none !important;
-        }
+        display: none !important;
     }
 }
 
 .hideontablet {
-    display: none;
     @media @tablet {
-        & + * {
-            display: none !important;
-        }
+        display: none !important;
     }
 }
 
 .hideonlaptop {
-    display: none;
     @media @laptop {
-        & + * {
-            display: none !important;
-        }
+        display: none !important;
     }
 }
 
 .viewonphone {
-    display: none;
     @media @notphone {
-        & + * {
-            display: none !important;
-        }
+        display: none !important;
     }
 }
 
 .viewontablet {
-    display: none;
     @media @nottablet {
-        & + * {
-            display: none !important;
-        }
+        display: none !important;
     }
 }
 
 .viewonlaptop {
-    display: none;
     @media @notlaptop {
-        & + * {
-            display: none !important;
-        }
+        display: none !important;
     }
 }
 
@@ -1635,7 +1616,7 @@ export default {
     }
 }
 
-div._cc_list {
+div.sui_list {
     display: grid;
     grid-template-columns: var(--grid);
     gap: 8px;
@@ -1648,11 +1629,14 @@ div._cc_list {
         overflow: hidden;
         background-color: var(--content);
         padding-top: 100%;
+
         &:hover {
             cursor: pointer;
+
             .text {
                 text-decoration: underline;
             }
+
             .overlay {
                 display: flex;
             }
@@ -1735,6 +1719,7 @@ div._cc_list {
                     content: " " var(--readmore);
                     opacity: 0.5;
                 }
+
                 padding: .5em 0.5rem 0;
                 text-align: left;
                 flex-shrink: 0;
@@ -1751,11 +1736,11 @@ div._cc_list {
 }
 
 
-div._cc_dummy {
+div.sui_dummy {
     display: none;
 }
 
-div._cc_textarea {
+div.sui_textarea {
     position: relative;
 
     &.icon {
@@ -1950,7 +1935,7 @@ div._cc_textarea {
     }
 }
 
-label._cc_toggle {
+label.sui_toggle {
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -2022,7 +2007,7 @@ label._cc_toggle {
     }
 }
 
-label._cc_radio {
+label.sui_radio {
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -2079,7 +2064,7 @@ label._cc_radio {
     }
 }
 
-div._cc_screen {
+div.sui_screen {
     &._stickto-bottom {
         justify-content: flex-end;
     }
@@ -2117,7 +2102,7 @@ div._cc_screen {
     overflow: hidden;
 }
 
-div._cc_popup {
+div.sui_popup {
     overflow-y: auto;
     overflow-x: hidden;
     @media @tablet {
@@ -2173,7 +2158,7 @@ div._cc_popup {
     transition: bottom .5s, left .5s;
 }
 
-div._cc_accordion {
+div.sui_accordion {
     position: relative;
 
     & > .title {
@@ -2227,7 +2212,7 @@ div._cc_accordion {
     }
 }
 
-div._cc_steps {
+div.sui_steps {
     display: flex;
     justify-content: space-between;
 
@@ -2340,7 +2325,7 @@ div._cc_steps {
     }
 }
 
-div._cc_tooltip {
+div.sui_tooltip {
     height: 1.25em;
     display: inline-block;
     position: relative;
@@ -2430,7 +2415,7 @@ div._cc_tooltip {
     }
 }
 
-button._cc_button {
+button.sui_button {
     max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
     min-height: 2.8rem;
@@ -2520,7 +2505,7 @@ button._cc_button {
     }
 }
 
-div._cc_card {
+div.sui_card {
     tab-size: 1em;
     background-color: var(--content);
     color: var(--content-text);
@@ -2716,7 +2701,7 @@ div._cc_card {
                 display: flex;
                 flex-direction: column-reverse;
 
-                ._cc_button {
+                .sui_button {
                     display: block;
                     margin: 8px auto;
 
@@ -2760,7 +2745,7 @@ div._cc_card {
     }
 }
 
-div._cc_input {
+div.sui_input {
     position: relative;
     display: inline-block;
     height: 2.8rem;
