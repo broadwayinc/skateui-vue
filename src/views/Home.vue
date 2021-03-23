@@ -31,38 +31,37 @@
                 Content inside the card has an indent/styling depending on what/where you put in stuff
             br
             br
+            .sui_accordion(onclick="sui_accordion.handler(event)")
+                .title Fonts
+                hr
+                .content(style="padding: 0 .5em;")
+                    br
+                    p OS system fonts should be used.
+                    br
+                    h1 This is &lt;h1&gt;
+                    br
+                    h2 This is &lt;h2&gt;
+                    br
+                    h3 This is &lt;h3&gt;
+                    br
+                    h4 This is &lt;h4&gt;
+                    br
+                    h5 This is &lt;h5&gt;
+                    br
+                    h6 This is &lt;h6&gt;
+                    br
+                    p This is &lt;p&gt;
+                    br
+                    small This is &lt;small&gt;
             br
-            br
-            h3 Fonts
-            hr
-            br
-            p OS system fonts should be used.
-            br
-            h1 This is &lt;h1&gt;
-            br
-            h2 This is &lt;h2&gt;
-            br
-            h3 This is &lt;h3&gt;
-            br
-            h4 This is &lt;h4&gt;
-            br
-            h5 This is &lt;h5&gt;
-            br
-            h6 This is &lt;h6&gt;
-            br
-            p This is &lt;p&gt;
-            br
-            small This is &lt;small&gt;
-            br
-            br
-            br
-            br
-            h3 Color Scheme
-            hr
-            br
-            div(v-for="(c, k) in colorScheme" :style="{display:'flex',alignItems:'center'}")
-                p {{k}} : {{c}}&nbsp;
-                div(:style="{width:'1em',height:'1em',backgroundColor:c,border:'1px solid'}")
+            .sui_accordion(onclick="sui_accordion.handler(event)")
+                .title Color Scheme
+                hr
+                .content(style="padding: 0 .5em;")
+                    br
+                    div(v-for="(c, k) in colorScheme" :style="{display:'flex',alignItems:'center'}")
+                        p {{k}} : {{c}}&nbsp;
+                        div(:style="{width:'1em',height:'1em',backgroundColor:c,border:'1px solid'}")
         .button_footer
         .footer.
             I am your footer! The font size here is 0.8rem unless tag is used.
