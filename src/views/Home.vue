@@ -34,7 +34,7 @@
             .sui_accordion(onclick="sui_accordion.handler(event)")
                 .title Fonts
                 hr
-                .content(style="padding: 0 .5em;")
+                .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
                     br
                     p OS system fonts should be used.
                     br
@@ -57,7 +57,7 @@
             .sui_accordion(onclick="sui_accordion.handler(event)")
                 .title Color Scheme
                 hr
-                .content(style="padding: 0 .5em;")
+                .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
                     br
                     div(v-for="(c, k) in colorScheme" :style="{display:'flex',alignItems:'center'}")
                         p {{k}} : {{c}}&nbsp;
@@ -790,7 +790,7 @@
             .sui_accordion(onclick="sui_accordion.handler(event)")
                 .title Click Me
                 hr
-                .content.
+                .content(onclick="(function(event){event.stopPropagation()})(event)").
                     &nbsp;
                     Look, I was gonna go easy on you
                     Not to hurt your feelings
@@ -2833,6 +2833,9 @@ div.sui_input {
             position: absolute;
             right: 0;
             cursor: pointer;
+            box-sizing: border-box;
+            border-bottom: solid 2px transparent;
+            border-right: solid 2px transparent;
 
             &::before {
                 // icon separator
