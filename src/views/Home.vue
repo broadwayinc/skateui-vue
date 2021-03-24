@@ -291,7 +291,7 @@
                     &nbsp;
                     Input with button
                     &nbsp;
-                .button
+                button
                     i.material-icons send
             br
             br
@@ -301,8 +301,8 @@
                     &nbsp;
                     Number
                     &nbsp;
-                .icon.hover(style="font-size: 1.8rem") -
-                .button(style="font-size: 1.8rem") +
+                button.pre(style="font-size: 1.8rem") -
+                button(style="font-size: 1.8rem") +
             br
             br
             .sui_input
@@ -438,7 +438,7 @@
                     &nbsp;
                     Search
                     &nbsp;
-                .button
+                button
                     i.material-icons search
                 .option
                     .menu(style="padding: .5rem .75rem; font-size:.8em;").
@@ -451,7 +451,7 @@
             .sui_input.select.transparent.button#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
                 input(placeholder="Search Me")
                 label
-                .button(onclick="sui_popup.handler('searchmobile')")
+                button(onclick="sui_popup.handler('searchmobile')")
                     i.material-icons search
                 .option(style="max-height: calc(100vh - 2.8rem);")
                     .menu(style="padding: 1rem .5rem; font-size:.8em;").
@@ -469,7 +469,7 @@
                     | &nbsp;
                 .icon
                     i.material-icons search
-                .button
+                button
                     i.material-icons search
                 .option
                     .menu(style="padding: .5rem .75rem; font-size:.8em;").
@@ -1055,7 +1055,7 @@
                     &nbsp;
                 .icon
                     img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
-                .button
+                button
                     i.material-icons send
     .sui_card
         .title
@@ -1105,8 +1105,8 @@
                             &nbsp;
                             Quantity
                             &nbsp;
-                        .icon.hover(style="font-size: 1.8rem") -
-                        .button(style="font-size: 1.8rem") +
+                        button.pre(style="font-size: 1.8rem") -
+                        button(style="font-size: 1.8rem") +
     .sui_card(style="width: 600px;")
         .title(style="padding-right: 2.3em;")
             | Digital Coupon
@@ -1129,8 +1129,8 @@
                             &nbsp;
                             Quantity
                             &nbsp;
-                        .icon.hover(style="font-size: 1.8rem") -
-                        .button(style="font-size: 1.8rem") +
+                        button.pre(style="font-size: 1.8rem") -
+                        button(style="font-size: 1.8rem") +
     .sui_card(style="width: 600px;")
         .title(style="padding-right: 2.3em;background-color:yellow")
             | NFT - Digital assets (click for more info)
@@ -1175,8 +1175,8 @@
                             &nbsp;
                             Quantity
                             &nbsp;
-                        .icon.hover(style="font-size: 1.8rem") -
-                        .button(style="font-size: 1.8rem") +
+                        button.pre(style="font-size: 1.8rem") -
+                        button(style="font-size: 1.8rem") +
     br
     br
     .sui_card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
@@ -1800,7 +1800,7 @@ div.sui_textarea {
             }
         }
 
-        & > .button {
+        & > button {
             display: inline-flex;
             width: 2.8em;
             height: 2.8em;
@@ -2824,7 +2824,7 @@ div.sui_input {
             }
         }
 
-        & > .button {
+        & > button {
             display: inline-flex;
             width: 2.8rem;
             height: 2.8rem;
@@ -2837,7 +2837,20 @@ div.sui_input {
             border-bottom: solid 2px transparent;
             border-right: solid 2px transparent;
 
-            &::before {
+            &.pre {
+                right: unset;
+                left: 0;
+                border-left: solid 2px;
+                border-right: none;
+                border-color: var(--content-text_transparent);
+
+                &::before {
+                    content: none;
+                }
+            }
+
+            &::before,
+            &.pre::after {
                 // icon separator
                 content: "";
                 width: 2px;
@@ -2845,6 +2858,11 @@ div.sui_input {
                 background-color: var(--content-text_shadow);
                 position: absolute;
                 left: -1px;
+            }
+
+            &.pre::after {
+                left: unset;
+                right: 1px;
             }
 
             &:hover {
