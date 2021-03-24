@@ -2899,7 +2899,8 @@ div.sui_input {
     &.icon {
 
         & > input:focus, & > select:focus {
-            & ~ .icon {
+            & ~ .icon,
+            & ~ button.pre {
                 border-color: var(--content-focus);
                 color: var(--content-focus);
             }
