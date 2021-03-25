@@ -1,6 +1,6 @@
 <template lang="pug">
     ._styling_example
-        .sui_card
+        .sui-card
             .image
                 img(style='width: 20rem' src="@/assets/skate.jpg")
             .content
@@ -31,7 +31,7 @@
                     Content inside the card has an indent/styling depending on what/where you put in stuff
                 br
                 br
-                .sui_accordion(onclick="sui_accordion.handler(event)")
+                .sui-accordion(onclick="sui_accordion.handler(event)")
                     .title Fonts
                     hr
                     .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
@@ -54,7 +54,7 @@
                         br
                         small This is &lt;small&gt;
                 br
-                .sui_accordion(onclick="sui_accordion.handler(event)")
+                .sui-accordion(onclick="sui_accordion.handler(event)")
                     .title Color Scheme
                     hr
                     .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
@@ -65,37 +65,37 @@
             .button_footer
             .footer.
                 I am your footer! The font size here is 0.8rem unless tag is used.
-        .sui_card EMPTY
-        .sui_card
+        .sui-card EMPTY
+        .sui-card
             .title TITLE
-        .sui_card
+        .sui-card
             .content CONTENT
-        .sui_card
+        .sui-card
             .button_footer BUTTON
-        .sui_card
+        .sui-card
             .footer FOOTER
-        .sui_card
+        .sui-card
             .title TITLE
             .content CONTENT
             .footer FOOTER
-        .sui_card
+        .sui-card
             .title TITLE
             .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
             .content CONTENT
             .button_footer BUTTON
             .footer FOOTER
-        .sui_card
+        .sui-card
             .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
             .content CONTENT
             .button_footer BUTTON
             .footer FOOTER
-        .sui_card.center
+        .sui-card.center
             .title TITLE (.center)
             .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
             .content CONTENT (.center)
             .button_footer BUTTON (.center)
             .footer FOOTER (.center)
-        .sui_card
+        .sui-card
             .title
                 h6 TITLE
             .image
@@ -112,7 +112,7 @@
                 it is not advised to use it with the title. (or vice versa)
             .button_footer
             .footer
-        .sui_card
+        .sui-card
             .title(style="background-color:var(--content-focus);color:var(--content-focus-text)")
                 div
                     img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em .5em .5em 0;border-radius:2em;border:solid 1px;' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2U5Yjg5NGM1LWQ1NDgtNGZkYi04YTJlLTdkNTllOTIyNzMyMC9pbWFnZS8yODg4NjcwX2tEVGFDRmUyMDcwNjc2NTQiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjQ4MCwiaGVpZ2h0Ijo0ODAsImZpdCI6Im91dHNpZGUifX19")
@@ -128,7 +128,7 @@
             .button_footer
             .footer.
                 I am your footer... don't ignore me...
-        .sui_card
+        .sui-card
             .title
                 h6 CLASS ".center"
             .image
@@ -137,7 +137,7 @@
                 p Try ".center" class on content. It will look nicer.
             .button_footer
             .footer Footer alignment follows the card alignment
-        .sui_card
+        .sui-card
             .title
             .image
             .content.
@@ -146,7 +146,7 @@
                 even if the element is empty.
             .button_footer
             .footer(style="opacity:0.5") It's best to use 50% opacity on footer unless it's an alert message.
-        .sui_card
+        .sui-card
             .title
                 h6 Button
             .image
@@ -155,11 +155,11 @@
                 br
                 p We will use the ".button_footer" div for card buttons.
             .button_footer.hideonphone
-                button.sui_button HELLO
+                button.sui-button HELLO
             .button_footer.sticky.viewonphone
-                button.sui_button HELLO
+                button.sui-button HELLO
             .footer
-        .sui_card
+        .sui-card
             .title
             .image
             .content
@@ -177,10 +177,10 @@
                     li Only one button is allowed to be filled! Rest should be nude.
                     li It is advised to not use more than 2 footer buttons.
             .button_footer
-                button.sui_button.nude CANCEL
-                button.sui_button COWABUNGA
+                button.sui-button.nude CANCEL
+                button.sui-button COWABUNGA
             .footer(style="opacity:0.5") I'm your footer.
-        .sui_card
+        .sui-card
             .title
             .image
             .content
@@ -192,11 +192,11 @@
 
                     In that case, simply use footer text as a link or a button.
             .button_footer
-                button.sui_button.nude STEAL
-                button.sui_button BUY
+                button.sui-button.nude STEAL
+                button.sui-button BUY
             .footer
                 a(style='color: var(--content-text);opacity:50%' href="https://www.google.com/search?q=dog&rlz=1C5CHFA_enKR901KR901&oq=dog&aqs=chrome..69i57j46i275j0l3j46j0l4.822j0j4&sourceid=chrome&ie=UTF-8") I lost my dog
-        .sui_card
+        .sui-card
             .title
                 h6 BUTTON DESIGNS
             .image
@@ -204,21 +204,21 @@
                 h6 There are only 3 types of buttons:
                 br
                 br
-                button.sui_button filled
-                button.sui_button.nude nude
-                button.sui_button.left
+                button.sui-button filled
+                button.sui-button.nude nude
+                button.sui-button.left
                     i.material-icons create
                 br
                 br
                 br
                 p.
-                    button.sui_button - Filled
-                    button.sui_button.nude - Nude
-                    button.sui_button.left - Icon
+                    button.sui-button - Filled
+                    button.sui-button.nude - Nude
+                    button.sui-button.left - Icon
 
                     Filled is a default.
-                    Nude style is applied if you add ".nude" class to button.sui_button element.
-                    Icon style is applied if you add ".left" class to button.sui_button element.
+                    Nude style is applied if you add ".nude" class to button.sui-button element.
+                    Icon style is applied if you add ".left" class to button.sui-button element.
 
                     Other than these two &lt;a&gt; tag can be used as a button as well.
                 br
@@ -244,13 +244,13 @@
                     It's best not to put spinner inside icon button.
                 br
                 br
-                button.sui_button
+                button.sui-button
                     ._loader.button
-                button.sui_button.nude
+                button.sui-button.nude
                     ._loader
             .button_footer
             .footer
-        .sui_card
+        .sui-card
             .title
             .image
             .content.center
@@ -264,27 +264,27 @@
                     the .button_footer will stack your buttons vertically in reverse order,
                     Will add underline in nude button.
             .button_footer
-                button.sui_button.nude STEAL
-                button.sui_button BUY
+                button.sui-button.nude STEAL
+                button.sui-button BUY
             .footer(style="opacity:0.5") This is a footer
-        .sui_card
+        .sui-card
             .title
                 h6 INPUTS
             .image
             .content.center
-                .sui_input
+                .sui-input
                     input(placeholder="Here's an Input form")
                     fieldset
                 br
                 br
-                .sui_input
+                .sui-input
                     input(placeholder="Don't worry label is transparent")
                     label Input with label
                     fieldset
                         legend Input with label
                 br
                 br
-                .sui_input.right
+                .sui-input.right
                     input(placeholder="Input with button")
                     label.
                         Input with button
@@ -294,7 +294,7 @@
                         i.material-icons send
                 br
                 br
-                .sui_input.right.left
+                .sui-input.right.left
                     input(type="number" value="1" style="text-align:center;")
                     label Number
                     fieldset
@@ -303,7 +303,7 @@
                     button.right(style="font-size: 1.8rem") +
                 br
                 br
-                .sui_input
+                .sui-input
                     input(placeholder="Required form")
                     label Required
                         span(style="color:var(--alert)")  *
@@ -311,7 +311,7 @@
                         legend Required*
                 br
                 br
-                .sui_input.error
+                .sui-input.error
                     input(placeholder="You got an Error")
                     label.
                         Error
@@ -320,14 +320,14 @@
                     .message You Got Error
                 br
                 br
-                .sui_input.left
+                .sui-input.left
                     input(placeholder="Input with icon")
                     fieldset
                     .left
                         i.material-icons email
                 br
                 br
-                .sui_input.left.error
+                .sui-input.left.error
                     input(placeholder="Icon & Label & Error & *")
                     label E-Mail
                         span(style="color:var(--alert)")  *
@@ -338,7 +338,7 @@
                     .message It's a combo
                 br
                 br
-                .sui_input.select
+                .sui-input.select
                     select
                         option(value="China") Input as selector
                         option(value="Singapore") Singapore
@@ -350,7 +350,7 @@
                     .downarrow
                 br
                 br
-                .sui_input.select.left
+                .sui-input.select.left
                     select
                         option(value="China") Selector & Icon
                         option(value="Singapore") Singapore
@@ -364,7 +364,7 @@
                     .downarrow
                 br
                 br
-                .sui_input.select.left
+                .sui-input.select.left
                     input(id="dropdowncustom" value="Input as custom selector" readonly)
                     label(for="dropdowncustom") Custom Selector
                     fieldset
@@ -384,7 +384,7 @@
                     .downarrow
                 br
                 br
-                .sui_input.select.left
+                .sui-input.select.left
                     input(id="dropdownfullscreen" value="Fullscreen custom selector" readonly)
                     label(for="dropdownfullscreen") Fullscreen Selector
                     fieldset
@@ -412,7 +412,7 @@
                     .downarrow
                 br
                 br
-                .sui_input.select
+                .sui-input.select
                     input(placeholder="Suggestion box" style="width: 15rem;")
                     fieldset
                     .option
@@ -421,10 +421,10 @@
                             Just don't use "readonly" on the input attribute.
                         .menu(style="padding: .5rem .75rem; font-size:.8em;").
                             You would also want to listen to keyboard event to select through suggestion box.
-                button.sui_button SEARCH
+                button.sui-button SEARCH
                 br
                 br
-                .sui_input.select.right(style="width: 23em")
+                .sui-input.select.right(style="width: 23em")
                     input(placeholder="Search Me")
                     label Search
                     fieldset
@@ -438,8 +438,8 @@
                             If the .option is empty, suggestion box will not show
                 br
                 br
-                button.sui_button(onclick="sui_popup.handler('searchmobile','top', false, 'var(--content)')") SEARCH POP
-                .sui_input.select.transparent.right#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
+                button.sui-button(onclick="sui_popup.handler('searchmobile','top', false, 'var(--content)')") SEARCH POP
+                .sui-input.select.transparent.right#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
                     input(placeholder="Search Me")
                     label
                     button.right(onclick="sui_popup.handler('searchmobile')")
@@ -451,7 +451,7 @@
                             If the .option is empty, suggestion box will not show
                 br
                 br
-                .sui_input.select.error.left.right(style="width: 23em")
+                .sui-input.select.error.left.right(style="width: 23em")
                     input(placeholder="Full Combo")
                     label
                         | Full Combo
@@ -470,7 +470,7 @@
                     .message Full Combo
             .button_footer
             .footer
-        .sui_card(style="display: inline-block;")
+        .sui-card(style="display: inline-block;")
             .title
             .image
             .content
@@ -487,37 +487,37 @@
                 | E-Mail
                 span(style="color:var(--alert)")  *
                 | &#9;&#9;&#9;
-                .sui_input
+                .sui-input
                     input(placeholder="username@email.com")
                     fieldset
                 br
                 | Password
                 span(style="color:var(--alert)")  *
                 pre
-                .sui_input
+                .sui-input
                     input(placeholder="At least 8 Char..." type="password")
                     fieldset
                 br
                 | Name&#9;&#9;&#9;&#9;
-                .sui_input
+                .sui-input
                     input(placeholder="At least 8 Char..." type="password")
                     fieldset
                 br
                 | Serial&#9;&#9;&#9;&#9;
                 div(style="display: inline-block;")
-                    .sui_input(style="width: 4rem")
+                    .sui-input(style="width: 4rem")
                         input(placeholder="000" type="password")
                         fieldset
                     | &#9;
-                    .sui_input(style="width:13rem")
+                    .sui-input(style="width:13rem")
                         input(placeholder="000000" type="password")
                         fieldset
             .button_footer
-                button.sui_button.nude Sign-Up
-                button.sui_button Login
+                button.sui-button.nude Sign-Up
+                button.sui-button Login
             .footer
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-        .sui_card(style="display: inline-block;")
+        .sui-card(style="display: inline-block;")
             .title
             .image
             .content
@@ -529,7 +529,7 @@
                 p ex) Login
                 br
                 br
-                .sui_input.left
+                .sui-input.left
                     input(placeholder="username@email.com")
                     label
                         | E-Mail
@@ -540,7 +540,7 @@
                         i.material-icons email
                 br
                 br
-                .sui_input.left
+                .sui-input.left
                     input(placeholder="Least 8 char...")
                     label
                         | Password
@@ -551,7 +551,7 @@
                         i.material-icons security
                 br
                 br
-                .sui_input.left
+                .sui-input.left
                     input(placeholder="")
                     label Name
                     fieldset
@@ -561,23 +561,23 @@
                 br
                 br
                 div(style="display: inline-block;")
-                    .sui_input(style="width: 4rem")
+                    .sui-input(style="width: 4rem")
                         input(placeholder="000" type="password")
                         label Code
                         fieldset
                             legend Code
                     pre
-                    .sui_input(style="width:13rem")
+                    .sui-input(style="width:13rem")
                         input(placeholder="000000" type="password")
                         label Serial
                         fieldset
                             legend Serial
             .button_footer
-                button.sui_button.nude Sign-Up
-                button.sui_button Login
+                button.sui-button.nude Sign-Up
+                button.sui-button Login
             .footer
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-        .sui_card(style="display: inline-block;")
+        .sui-card(style="display: inline-block;")
             .title
                 h6 Form Example 3
             .image
@@ -590,42 +590,42 @@
                 | E-Mail
                 span(style="color:var(--alert)")  *
                 | &#9;&#9;&#9;
-                .sui_input
+                .sui-input
                     input(placeholder="username@email.com")
                     fieldset
                 br
                 | Password
                 span(style="color:var(--alert)")  *
                 | &#9;
-                .sui_input
+                .sui-input
                     input(placeholder="At least 8 Char..." type="password")
                     fieldset
                 br
                 | Name&nbsp;
-                .sui_tooltip
+                .sui-tooltip
                     .content
                         small What's your name?
                     i.material-icons.left help
                 | &#9;&#9;
-                .sui_input
+                .sui-input
                     input(placeholder="At least 8 Char..." type="password")
                     fieldset
                 br
                 | Serial&#9;&#9;&#9;&#9;
                 div(style="display: inline-block;")
-                    .sui_input(style="width: 4rem")
+                    .sui-input(style="width: 4rem")
                         input(placeholder="000" type="password")
                         fieldset
                     | &#9;
-                    .sui_input(style="width:13rem")
+                    .sui-input(style="width:13rem")
                         input(placeholder="000000" type="password")
                         fieldset
             .button_footer
-                button.sui_button.nude Sign-Up
-                button.sui_button Login
+                button.sui-button.nude Sign-Up
+                button.sui-button Login
             .footer
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-        .sui_card
+        .sui-card
             .title
             .image
                 img(style='width: 20rem' src="@/assets/skate.jpg")
@@ -633,7 +633,7 @@
                 p Form example 4
                 br
                 br
-                .sui_input.left(style="width: 21rem;")
+                .sui-input.left(style="width: 21rem;")
                     input(placeholder="username@email.com")
                     label
                         | E-Mail
@@ -644,7 +644,7 @@
                         i.material-icons email
                 br
                 br
-                .sui_input.left(style="width: 21rem;")
+                .sui-input.left(style="width: 21rem;")
                     input(placeholder="Least 8 char...")
                     label
                         | Password
@@ -655,7 +655,7 @@
                         i.material-icons security
                 br
                 br
-                .sui_input.left(style="width: 21rem;")
+                .sui-input.left(style="width: 21rem;")
                     input(placeholder="")
                     label.
                         Name
@@ -666,29 +666,29 @@
                 br
                 br
                 div(style="display: inline-block;")
-                    .sui_input(style="width: 6rem")
+                    .sui-input(style="width: 6rem")
                         input(placeholder="000" type="password")
                         label.
                             Code
                         fieldset
                             legend Code
                     pre
-                    .sui_input(style="width:14rem")
+                    .sui-input(style="width:14rem")
                         input(placeholder="000000" type="password")
                         label.
                             Serial
                         fieldset
                             legend Serial
             .button_footer
-                button.sui_button.nude Sign-Up
-                button.sui_button Login
+                button.sui-button.nude Sign-Up
+                button.sui-button Login
             .footer
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
-        .sui_card
+        .sui-card
             .title
                 h6 Textarea
             .content
-                .sui_textarea.left.right
+                .sui-textarea.left.right
                     textarea(placeholder='Hello' rows="1")
                     label 텍스트에리아
                     fieldset
@@ -697,7 +697,7 @@
                         img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
                     button.right
                         i.material-icons send
-        .sui_card
+        .sui-card
             .title
                 h6 Tooltip
             .image
@@ -709,24 +709,24 @@
                 br
                 br
                 div(style="display: flex;justify-content: space-between;")
-                    .sui_tooltip
+                    .sui-tooltip
                         .content
                             small.
                                 This is a toolbox.
                                 Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
                         i.material-icons.left help
-                    .sui_tooltip.bottom
+                    .sui-tooltip.bottom
                         .content
                             small.
                                 Set width and left by javascript on mobile to make the text box full width.
                         i.material-icons.left help
-                    .sui_tooltip.left
+                    .sui-tooltip.left
                         .content
                             small.
                                 This is a toolbox
                                 This is positioned .left
                         i.material-icons.left help
-                    .sui_tooltip.left.bottom
+                    .sui-tooltip.left.bottom
                         .content
                             small.
                                 This is a toolbox
@@ -734,7 +734,7 @@
                         i.material-icons.left help
             .button_footer
             .footer
-        .sui_card
+        .sui-card
             .title
                 h6 Steps
             .content
@@ -742,7 +742,7 @@
                 br
                 h6 Lined style:
                 br
-                .sui_steps.line(style="--ring-count: 2;--ring-status: 2")
+                .sui-steps.line(style="--ring-count: 2;--ring-status: 2")
                     svg
                         circle.step(r="1.5em" cx="50%" cy="50%")
                     svg
@@ -761,7 +761,7 @@
                 br
                 h6 Ringed style (Best on mobile):
                 br
-                .sui_steps.ring(style="--ring-count: 4;--ring-status: 3")
+                .sui-steps.ring(style="--ring-count: 4;--ring-status: 3")
                     svg
                         circle.step(r="1.5em" cx="50%" cy="50%")
                     svg
@@ -784,11 +784,11 @@
                     Use css var --ring-status to set the current steps on ring mode.
             .button_footer
             .footer
-        .sui_card(style="width: 50%")
+        .sui-card(style="width: 50%")
             .title
                 h6 Accordion
             .content
-                .sui_accordion(onclick="sui_accordion.handler(event)")
+                .sui-accordion(onclick="sui_accordion.handler(event)")
                     .title Click Me
                     hr
                     .content(onclick="(function(event){event.stopPropagation()})(event)").
@@ -811,34 +811,34 @@
                         Now, who thinks their arms are long enough
                         To slap box, slap box?
                         They said I rap like a robot, so call me Rap-bot
-        .sui_card(style="width: 50%")
+        .sui-card(style="width: 50%")
             .title
                 h6 POP UP
             .content.center Push A Button
             .button_footer
-                button.sui_button(onclick="sui_popup.handler('myModal')") Default
+                button.sui-button(onclick="sui_popup.handler('myModal')") Default
                 br
                 br
-                button.sui_button(onclick="sui_popup.handler('myModal','top')") Top
+                button.sui-button(onclick="sui_popup.handler('myModal','top')") Top
                 br
                 br
-                button.sui_button(onclick="sui_popup.handler('myModal','left')") Left
+                button.sui-button(onclick="sui_popup.handler('myModal','left')") Left
                 br
                 br
-                button.sui_button(onclick="sui_popup.handler('myModal','bottom')") Bottom
+                button.sui-button(onclick="sui_popup.handler('myModal','bottom')") Bottom
                 br
                 br
-                button.sui_button(onclick="sui_popup.handler('myModal','right')") Right
+                button.sui-button(onclick="sui_popup.handler('myModal','right')") Right
                 br
                 br
-                button.sui_button.nude(onclick="sui_popup.handler('somerandomstuff', 'right')") Random
+                button.sui-button.nude(onclick="sui_popup.handler('somerandomstuff', 'right')") Random
                 br
                 br
-                button.sui_button.nude(onclick="sui_popup.handler('menu', 'left', true)") MENU1
+                button.sui-button.nude(onclick="sui_popup.handler('menu', 'left', true)") MENU1
                 br
                 br
-                button.sui_button.nude(onclick="sui_popup.handler('menuhash', 'left', true)") MENU2
-        .sui_card#myModal(style="display:none;")
+                button.sui-button.nude(onclick="sui_popup.handler('menuhash', 'left', true)") MENU2
+        .sui-card#myModal(style="display:none;")
             .title
                 h6 POP UP
             .image
@@ -852,13 +852,13 @@
                     Just give it an ID and hide it somewhere.
                     The JS function will take care of it.
             .button_footer
-                button.sui_button(onclick="sui_popup.handler('myModal')") OK
+                button.sui-button(onclick="sui_popup.handler('myModal')") OK
         #somerandomstuff(style="display:none;background-color:red;color:white;padding: 2em;text-align:right;")
             | I'm A SPAMMER
             pre
-            button.sui_button(onclick="sui_popup.handler('somerandomstuff')") OK
+            button.sui-button(onclick="sui_popup.handler('somerandomstuff')") OK
         br
-        .sui_card#menu(style="width: 280px;")
+        .sui-card#menu(style="width: 280px;")
             .title
                 | Baksa Gimm
                 .close(onclick="sui_popup.handler('menu', 'close')")
@@ -909,7 +909,7 @@
                         i.material-icons payment
                     p Payment
         br
-        .sui_card#menuhash(style="width: 280px;")
+        .sui-card#menuhash(style="width: 280px;")
             .title
                 | Baksa Gimm
                 .close(onclick="sui_popup.handler('menuhash', 'close')")
@@ -991,60 +991,60 @@
                         i.material-icons payment
                     p Payment
         br
-        .sui_card(style="width: 400px")
+        .sui-card(style="width: 400px")
             .title
                 h6 Toggles
             .content
-                label.sui_toggle
+                label.sui-toggle
                     p Toggle
                     pre
                     input(type="checkbox" value="check1")
                     .toggle
                 br
-                label.sui_toggle.disabled
+                label.sui-toggle.disabled
                     p Toggle
                     pre
                     input(type="checkbox" disabled value="check2")
                     .toggle
                 br
-                label.sui_radio
+                label.sui-radio
                     p Radio 1
                     pre
                     input(type="radio" name="radio" value="1")
                     .radio
                 br
-                label.sui_radio.disabled
+                label.sui-radio.disabled
                     p Radio 2
                     pre
                     input(type="radio" name="radio" disabled value="2")
                     .radio
                 br
-                label.sui_radio
+                label.sui-radio
                     p Radio 3
                     pre
                     input(type="radio" name="radio" value="3")
                     .radio
                 br
                 br
-                label.sui_toggle(style="font-size:1.5em;")
+                label.sui-toggle(style="font-size:1.5em;")
                     p Big toggle
                     pre
                     input(type="checkbox" value="bigcheck")
                     .toggle
                 br
-                label.sui_radio(style="font-size:1.5em;")
+                label.sui-radio(style="font-size:1.5em;")
                     p Big radio 1
                     pre
                     input(type="radio" name="bigradio" value='big1')
                     .radio
                 br
-                label.sui_radio(style="font-size:1.5em;")
+                label.sui-radio(style="font-size:1.5em;")
                     p Big radio 2
                     pre
                     input(type="radio" name="bigradio" value='big2')
                     .radio
         br
-        .sui_card
+        .sui-card
             .title
                 h6 Image Editor
                 .close
@@ -1052,13 +1052,13 @@
                 img(src="@/assets/myface.jpg")
             .content
             .button_footer
-                button.sui_button.nude Change Image
-                button.sui_button UPLOAD
+                button.sui-button.nude Change Image
+                button.sui-button UPLOAD
         br
         br
         hr
         br
-        .sui_card(style="width: 600px;")
+        .sui-card(style="width: 600px;")
             .content
                 h4 Guide for the shopping cart design
                 hr
@@ -1070,7 +1070,7 @@
                     by using a card for shop items, we can distinguish item type, or alert user on some situations.
                     From some research I have found out making shopping cart a modal seemed a terrible idea.
                     It should always be separate page.
-        .sui_card(style="width: 600px;")
+        .sui-card(style="width: 600px;")
             .title(style="padding-right: 2.3em;")
                 | Expected Delivery: 1985 / Aug / 20
                 .close
@@ -1086,14 +1086,14 @@
                     br
                     br
                     .quantity
-                        .sui_input.right.left(style="width:10rem")
+                        .sui-input.right.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label Quantity
                             fieldset
                                 legend Quantity
                             button.left(style="font-size: 1.8rem") -
                             button.right(style="font-size: 1.8rem") +
-        .sui_card(style="width: 600px;")
+        .sui-card(style="width: 600px;")
             .title(style="padding-right: 2.3em;")
                 | Digital Coupon
                 .close
@@ -1109,14 +1109,14 @@
                     br
                     br
                     .quantity
-                        .sui_input.right.left(style="width:10rem")
+                        .sui-input.right.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label Quantity
                             fieldset
                                 legend Quantity
                             button.left(style="font-size: 1.8rem") -
                             button.right(style="font-size: 1.8rem") +
-        .sui_card(style="width: 600px;")
+        .sui-card(style="width: 600px;")
             .title(style="padding-right: 2.3em;background-color:yellow")
                 | NFT - Digital assets (click for more info)
                 .close
@@ -1131,7 +1131,7 @@
                     //br
                     //br
                     //.quantity
-                        .sui_input.button.left(style="width:10rem")
+                        .sui-input.button.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label.
                                 &nbsp;
@@ -1139,7 +1139,7 @@
                                 &nbsp;
                             .left.hover(style="font-size: 1.8rem") -
                             .button(style="font-size: 1.8rem") +
-        .sui_card(style="width: 600px;")
+        .sui-card(style="width: 600px;")
             .title(style="padding-right: 2.3em;background-color:var(--alert);color:white;")
                 | This item no longer exists
                 .close
@@ -1154,7 +1154,7 @@
                     br
                     br
                     .quantity
-                        .sui_input.right.left(style="width:10rem")
+                        .sui-input.right.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label Quantity
                             fieldset
@@ -1163,7 +1163,7 @@
                             button.right(style="font-size: 1.8rem") +
         br
         br
-        .sui_card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
+        .sui-card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
             .title(style="background-color:var(--background-focus_transparent);")
                 div(style="line-height: 2.8;") Hey you have a coupon!
         div(style="width:600px;max-width:100%;margin: 8px auto;text-align:center;padding: 1rem;box-sizing: border-box;")
@@ -1185,12 +1185,12 @@
             br
             br
 
-            button.sui_button CHECKOUT
+            button.sui-button CHECKOUT
         br
         br
         br
         br
-        .sui_list(style="--textclamp: 3;--grid:1fr 1fr 1fr;")
+        .sui-list(style="--textclamp: 3;--grid:1fr 1fr 1fr;")
             .article
                 .content
                     img(src="@/assets/nike1.jpg")
@@ -1306,14 +1306,14 @@ export default {
                     el.addEventListener('focus', (e) => {
                         let target = e.target;
                         let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui_textarea') && !par.classList.contains('focus'))
+                        if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
                             par.classList.add('focus');
 
                     });
                     el.addEventListener('blur', (e) => {
                         let target = e.target;
                         let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui_textarea') && par.classList.contains('focus'))
+                        if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
                             par.classList.remove('focus');
                     });
                 };
@@ -1322,7 +1322,7 @@ export default {
                 else {
                     el = document.getElementsByTagName('textarea');
                     for (let i = 0; i < el.length; i++) {
-                        if (el[i].parentNode.classList.contains('sui_textarea'))
+                        if (el[i].parentNode.classList.contains('sui-textarea'))
                             setup(el[i]);
                     }
                 }
@@ -1333,7 +1333,7 @@ export default {
         window.sui_accordion = {
             timeout: null,
             handler: (ev) => {
-                let el = ev.target.closest('.sui_accordion');
+                let el = ev.target.closest('.sui-accordion');
 
                 if (!el)
                     return;
@@ -1369,15 +1369,15 @@ export default {
         window.sui_screen = {
             handler: (id, stickTo, closeWhenBackgroundClick) => {
 
-                let screen = document.getElementsByClassName('sui_screen')[0];
+                let screen = document.getElementsByClassName('sui-screen')[0];
 
                 if (!screen) {
                     // if there is no overlay screen, create one
                     screen = document.createElement('div');
-                    screen.classList.add('sui_screen');
+                    screen.classList.add('sui-screen');
                     screen.classList.add(stickTo);
 
-                    // let body = document.getElementsByClassName('sui_frame')[0];
+                    // let body = document.getElementsByClassName('sui-frame')[0];
                     let body = document.getElementsByTagName('BODY')[0];
                     document.body.style.top = `-${window.scrollY}px`;
                     document.body.style.position = 'fixed';
@@ -1471,7 +1471,7 @@ export default {
                     // no matching popup
                     return;
 
-                let isUp = el.closest('.sui_screen');
+                let isUp = el.closest('.sui-screen');
                 if (stickTo === 'close' && !isUp)
                     // nothing to close
                     return;
@@ -1497,7 +1497,7 @@ export default {
                         for (let c of stickToList)
                             el.classList.remove(c);
 
-                        el.classList.remove('sui_popup');
+                        el.classList.remove('sui-popup');
                         el.removeEventListener('click', window.sui_popup.eventListener[id]);
                         window.sui_popup.eventListener[id] = null;
 
@@ -1510,7 +1510,7 @@ export default {
                     }, immediate ? 0 : 750);
 
                 } else {
-                    let bool = !el.classList.contains('sui_popup');
+                    let bool = !el.classList.contains('sui-popup');
 
                     window.sui_popup.eventListener[id] = function (e) {
                         e.stopPropagation();
@@ -1518,10 +1518,10 @@ export default {
 
                     el.addEventListener('click', window.sui_popup.eventListener[id]);
                     if (bool) {
-                        el.classList.add('sui_popup');
-                        if (!el.closest('.sui_screen')) {
+                        el.classList.add('sui-popup');
+                        if (!el.closest('.sui-screen')) {
                             let dummy = document.createElement('div');
-                            dummy.classList.add('sui_dummy');
+                            dummy.classList.add('sui-dummy');
                             dummy.id = '_dummy_' + id;
                             el.parentNode.insertBefore(dummy, el);
                             screen.append(el);
@@ -1599,7 +1599,7 @@ export default {
     }
 }
 
-div.sui_list {
+div.sui-list {
     display: grid;
     grid-template-columns: var(--grid);
     gap: 8px;
@@ -1718,11 +1718,11 @@ div.sui_list {
     }
 }
 
-div.sui_dummy {
+div.sui-dummy {
     display: none;
 }
 
-div.sui_textarea {
+div.sui-textarea {
     position: relative;
 
     &.left {
@@ -1924,7 +1924,7 @@ div.sui_textarea {
     }
 }
 
-label.sui_toggle {
+label.sui-toggle {
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -1996,7 +1996,7 @@ label.sui_toggle {
     }
 }
 
-label.sui_radio {
+label.sui-radio {
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -2053,7 +2053,7 @@ label.sui_radio {
     }
 }
 
-div.sui_screen {
+div.sui-screen {
     &._stickto-bottom {
         justify-content: flex-end;
     }
@@ -2091,7 +2091,7 @@ div.sui_screen {
     overflow: hidden;
 }
 
-div.sui_popup {
+div.sui-popup {
     overflow-y: auto;
     overflow-x: hidden;
     @media @tablet {
@@ -2147,7 +2147,7 @@ div.sui_popup {
     transition: bottom .5s, left .5s;
 }
 
-div.sui_accordion {
+div.sui-accordion {
     position: relative;
 
     & > .title {
@@ -2201,7 +2201,7 @@ div.sui_accordion {
     }
 }
 
-div.sui_steps {
+div.sui-steps {
     display: flex;
     justify-content: space-between;
 
@@ -2314,7 +2314,7 @@ div.sui_steps {
     }
 }
 
-div.sui_tooltip {
+div.sui-tooltip {
     height: 1.25em;
     display: inline-block;
     position: relative;
@@ -2404,7 +2404,7 @@ div.sui_tooltip {
     }
 }
 
-button.sui_button {
+button.sui-button {
     max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
     min-height: 2.8rem;
@@ -2494,7 +2494,7 @@ button.sui_button {
     }
 }
 
-div.sui_card {
+div.sui-card {
     tab-size: 1em;
     background-color: var(--content);
     color: var(--content-text);
@@ -2690,7 +2690,7 @@ div.sui_card {
                 display: flex;
                 flex-direction: column-reverse;
 
-                .sui_button {
+                .sui-button {
                     display: block;
                     margin: 8px auto;
 
@@ -2734,7 +2734,7 @@ div.sui_card {
     }
 }
 
-div.sui_input {
+div.sui-input {
     position: relative;
     display: inline-block;
     height: 2.8rem;
