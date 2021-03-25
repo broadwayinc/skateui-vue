@@ -695,7 +695,7 @@
                         legend 텍스트에리아
                     .left
                         img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
-                    button
+                    button.right
                         i.material-icons send
         .sui_card
             .title
@@ -1787,7 +1787,7 @@ div.sui_textarea {
             }
         }
 
-        & > button {
+        & > .right {
             display: inline-flex;
             width: 2.8em;
             height: 2.8em;
