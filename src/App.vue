@@ -1,6 +1,16 @@
 <template lang="pug">
 .sui_frame
     nav
+        img(src="@/assets/bunnykit.gif")
+        //img.square.contain(src="@/assets/bunnykit.gif")
+        //img.square.contain(src="@/assets/newyork.jpg")
+        //img(src="@/assets/newyork.jpg")
+        //img.square(src="@/assets/brunomars.png")
+        div
+            i.material-icons shopping_cart
+            div
+                button.sui-button.nude Login
+                button.sui-button Sign In
     .view
         router-view
 </template>
@@ -30,9 +40,36 @@ export default {
     color: var(--background-text);
 
     & > nav {
-        min-height: 64px;
         background-color: var(--toolbar);
+        color: var(--toolbar-text);
         box-shadow: 0 2px var(--shadow);
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        justify-content: space-between;
+
+        img:first-child {
+            height: 2.5rem;
+            display: block;
+            margin-right: 1rem;
+
+            &.square {
+                width: 2.5rem;
+                object-fit: cover;
+                object-position: 50% 30%;
+            }
+
+            &.contain {
+                object-fit: contain;
+                object-position: center;
+            }
+        }
+        div:last-child {
+            & > * {
+                display: inline;
+                vertical-align: middle;
+            }
+        }
     }
 
     & > .view {
