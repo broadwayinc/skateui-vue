@@ -206,7 +206,7 @@
                 br
                 button.sui_button filled
                 button.sui_button.nude nude
-                button.sui_button.icon
+                button.sui_button.left
                     i.material-icons create
                 br
                 br
@@ -214,11 +214,11 @@
                 p.
                     button.sui_button - Filled
                     button.sui_button.nude - Nude
-                    button.sui_button.icon - Icon
+                    button.sui_button.left - Icon
 
                     Filled is a default.
                     Nude style is applied if you add ".nude" class to button.sui_button element.
-                    Icon style is applied if you add ".icon" class to button.sui_button element.
+                    Icon style is applied if you add ".left" class to button.sui_button element.
 
                     Other than these two &lt;a&gt; tag can be used as a button as well.
                 br
@@ -284,24 +284,23 @@
                         legend Input with label
                 br
                 br
-                .sui_input.button
+                .sui_input.right
                     input(placeholder="Input with button")
                     label.
                         Input with button
                     fieldset
                         legend Input with button
-                    button
+                    button.right
                         i.material-icons send
                 br
                 br
-                .sui_input.button.icon
+                .sui_input.right.left
                     input(type="number" value="1" style="text-align:center;")
-                    label.
-                        Number
+                    label Number
                     fieldset
                         legend Number
-                    button.pre(style="font-size: 1.8rem") -
-                    button(style="font-size: 1.8rem") +
+                    button.left(style="font-size: 1.8rem") -
+                    button.right(style="font-size: 1.8rem") +
                 br
                 br
                 .sui_input
@@ -321,20 +320,20 @@
                     .message You Got Error
                 br
                 br
-                .sui_input.icon
+                .sui_input.left
                     input(placeholder="Input with icon")
                     fieldset
-                    .icon
+                    .left
                         i.material-icons email
                 br
                 br
-                .sui_input.icon.error
+                .sui_input.left.error
                     input(placeholder="Icon & Label & Error & *")
                     label E-Mail
                         span(style="color:var(--alert)")  *
                     fieldset
                         legend E-mail*
-                    .icon
+                    .left
                         i.material-icons email
                     .message It's a combo
                 br
@@ -351,7 +350,7 @@
                     .downarrow
                 br
                 br
-                .sui_input.select.icon
+                .sui_input.select.left
                     select
                         option(value="China") Selector & Icon
                         option(value="Singapore") Singapore
@@ -360,17 +359,17 @@
                     label Selector
                     fieldset
                         legend Selector
-                    .icon
+                    .left
                         i.material-icons public
                     .downarrow
                 br
                 br
-                .sui_input.select.icon
+                .sui_input.select.left
                     input(id="dropdowncustom" value="Input as custom selector" readonly)
                     label(for="dropdowncustom") Custom Selector
                     fieldset
                         legend Custom Selector
-                    .icon
+                    .left
                         i.material-icons public
                     .option
                         .menu(style="padding: .5rem .75rem; font-size:.8em;").
@@ -385,12 +384,12 @@
                     .downarrow
                 br
                 br
-                .sui_input.select.icon
+                .sui_input.select.left
                     input(id="dropdownfullscreen" value="Fullscreen custom selector" readonly)
                     label(for="dropdownfullscreen") Fullscreen Selector
                     fieldset
                         legend Fullscreen Selector
-                    .icon
+                    .left
                         i.material-icons public
                     .option-fullscreen
                         .menu(style="padding: .5rem .75rem; font-size:.8em;").
@@ -425,12 +424,12 @@
                 button.sui_button SEARCH
                 br
                 br
-                .sui_input.select.button(style="width: 23em")
+                .sui_input.select.right(style="width: 23em")
                     input(placeholder="Search Me")
                     label Search
                     fieldset
                         legend Search
-                    button
+                    button.right
                         i.material-icons search
                     .option
                         .menu(style="padding: .5rem .75rem; font-size:.8em;").
@@ -440,10 +439,10 @@
                 br
                 br
                 button.sui_button(onclick="sui_popup.handler('searchmobile','top', false, 'var(--content)')") SEARCH POP
-                .sui_input.select.transparent.button#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
+                .sui_input.select.transparent.right#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
                     input(placeholder="Search Me")
                     label
-                    button(onclick="sui_popup.handler('searchmobile')")
+                    button.right(onclick="sui_popup.handler('searchmobile')")
                         i.material-icons search
                     .option(style="max-height: calc(100vh - 2.8rem);")
                         .menu(style="padding: 1rem .5rem; font-size:.8em;").
@@ -452,16 +451,16 @@
                             If the .option is empty, suggestion box will not show
                 br
                 br
-                .sui_input.select.error.icon.button(style="width: 23em")
+                .sui_input.select.error.left.right(style="width: 23em")
                     input(placeholder="Full Combo")
                     label
                         | Full Combo
                         span(style="color:var(--alert)")  *
                     fieldset
                         legend Full Combo*
-                    .icon
+                    .left
                         i.material-icons search
-                    button
+                    button.right
                         i.material-icons search
                     .option
                         .menu(style="padding: .5rem .75rem; font-size:.8em;").
@@ -530,34 +529,34 @@
                 p ex) Login
                 br
                 br
-                .sui_input.icon
+                .sui_input.left
                     input(placeholder="username@email.com")
                     label
                         | E-Mail
                         span(style="color:var(--alert)")  *
                     fieldset
                         legend E-mail *
-                    .icon
+                    .left
                         i.material-icons email
                 br
                 br
-                .sui_input.icon
+                .sui_input.left
                     input(placeholder="Least 8 char...")
                     label
                         | Password
                         span(style="color:var(--alert)")  *
                     fieldset
                         legend Password *
-                    .icon
+                    .left
                         i.material-icons security
                 br
                 br
-                .sui_input.icon
+                .sui_input.left
                     input(placeholder="")
                     label Name
                     fieldset
                         legend Name
-                    .icon
+                    .left
                         i.material-icons person
                 br
                 br
@@ -606,7 +605,7 @@
                 .sui_tooltip
                     .content
                         small What's your name?
-                    i.material-icons.icon help
+                    i.material-icons.left help
                 | &#9;&#9;
                 .sui_input
                     input(placeholder="At least 8 Char..." type="password")
@@ -634,35 +633,35 @@
                 p Form example 4
                 br
                 br
-                .sui_input.icon(style="width: 21rem;")
+                .sui_input.left(style="width: 21rem;")
                     input(placeholder="username@email.com")
                     label
                         | E-Mail
                         span(style="color:var(--alert)")  *
                     fieldset
                         legend E-Mail*
-                    .icon
+                    .left
                         i.material-icons email
                 br
                 br
-                .sui_input.icon(style="width: 21rem;")
+                .sui_input.left(style="width: 21rem;")
                     input(placeholder="Least 8 char...")
                     label
                         | Password
                         span(style="color:var(--alert)")  *
                     fieldset
                         legend Password*
-                    .icon
+                    .left
                         i.material-icons security
                 br
                 br
-                .sui_input.icon(style="width: 21rem;")
+                .sui_input.left(style="width: 21rem;")
                     input(placeholder="")
                     label.
                         Name
                     fieldset
                         legend Name
-                    .icon
+                    .left
                         i.material-icons person
                 br
                 br
@@ -689,12 +688,12 @@
             .title
                 h6 Textarea
             .content
-                .sui_textarea.icon.button
+                .sui_textarea.left.right
                     textarea(placeholder='Hello' rows="1")
                     label 텍스트에리아
                     fieldset
                         legend 텍스트에리아
-                    .icon
+                    .left
                         img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
                     button
                         i.material-icons send
@@ -715,24 +714,24 @@
                             small.
                                 This is a toolbox.
                                 Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
-                        i.material-icons.icon help
+                        i.material-icons.left help
                     .sui_tooltip.bottom
                         .content
                             small.
                                 Set width and left by javascript on mobile to make the text box full width.
-                        i.material-icons.icon help
+                        i.material-icons.left help
                     .sui_tooltip.left
                         .content
                             small.
                                 This is a toolbox
                                 This is positioned .left
-                        i.material-icons.icon help
+                        i.material-icons.left help
                     .sui_tooltip.left.bottom
                         .content
                             small.
                                 This is a toolbox
                                 This is positioned .left.bottom
-                        i.material-icons.icon help
+                        i.material-icons.left help
             .button_footer
             .footer
         .sui_card
@@ -751,11 +750,11 @@
                     .step.complete Skate
                     .step.complete Learn to code
                     .step.current
-                        .icon
+                        .left
                             i.material-icons accessibility_new
                         | Become a computer nerd
                     .step
-                        .icon
+                        .left
                             i.material-icons pets
                         | Get a dog
                 br
@@ -770,11 +769,11 @@
                     .step.complete Skate
                     .step.complete Learn to code
                     .step.current
-                        .icon
+                        .left
                             i.material-icons accessibility_new
                         | Become a computer nerd
                     .step
-                        .icon
+                        .left
                             i.material-icons pets
                         | Get a dog
                 br
@@ -886,27 +885,27 @@
                 hr(style="margin-top:.5em")
                 br
                 .menublock
-                    .icon
+                    .left
                         i.material-icons person
                     p Profile
                 .menublock
-                    .icon
+                    .left
                         i.material-icons settings
                     p App settings
                 .menublock
-                    .icon
+                    .left
                         i.material-icons chat
                     .new
                         small 9
                     p Messages
                 .menublock
-                    .icon
+                    .left
                         i.material-icons shopping_cart
                     .new
                         small 4
                     p Shopping Cart
                 .menublock.disabled
-                    .icon
+                    .left
                         i.material-icons payment
                     p Payment
         br
@@ -918,7 +917,7 @@
                 img(src="@/assets/skate.jpg")
             .content
                 .menublock
-                    .icon
+                    .left
                         i.material-icons home
                     .new
                         small 99+
@@ -968,27 +967,27 @@
                 hr(style="margin-top:.5em")
                 br
                 .menublock
-                    .icon
+                    .left
                         i.material-icons person
                     p Profile
                 .menublock
-                    .icon
+                    .left
                         i.material-icons settings
                     p App settings
                 .menublock
-                    .icon
+                    .left
                         i.material-icons chat
                     .new
                         small 9
                     p Messages
                 .menublock
-                    .icon
+                    .left
                         i.material-icons shopping_cart
                     .new
                         small 4
                     p Shopping Cart
                 .menublock.disabled
-                    .icon
+                    .left
                         i.material-icons payment
                     p Payment
         br
@@ -1087,13 +1086,13 @@
                     br
                     br
                     .quantity
-                        .sui_input.button.icon(style="width:10rem")
+                        .sui_input.right.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label Quantity
                             fieldset
                                 legend Quantity
-                            button.pre(style="font-size: 1.8rem") -
-                            button(style="font-size: 1.8rem") +
+                            button.left(style="font-size: 1.8rem") -
+                            button.right(style="font-size: 1.8rem") +
         .sui_card(style="width: 600px;")
             .title(style="padding-right: 2.3em;")
                 | Digital Coupon
@@ -1110,13 +1109,13 @@
                     br
                     br
                     .quantity
-                        .sui_input.button.icon(style="width:10rem")
+                        .sui_input.right.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label Quantity
                             fieldset
                                 legend Quantity
-                            button.pre(style="font-size: 1.8rem") -
-                            button(style="font-size: 1.8rem") +
+                            button.left(style="font-size: 1.8rem") -
+                            button.right(style="font-size: 1.8rem") +
         .sui_card(style="width: 600px;")
             .title(style="padding-right: 2.3em;background-color:yellow")
                 | NFT - Digital assets (click for more info)
@@ -1132,13 +1131,13 @@
                     //br
                     //br
                     //.quantity
-                        .sui_input.button.icon(style="width:10rem")
+                        .sui_input.button.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label.
                                 &nbsp;
                                 Quantity
                                 &nbsp;
-                            .icon.hover(style="font-size: 1.8rem") -
+                            .left.hover(style="font-size: 1.8rem") -
                             .button(style="font-size: 1.8rem") +
         .sui_card(style="width: 600px;")
             .title(style="padding-right: 2.3em;background-color:var(--alert);color:white;")
@@ -1155,13 +1154,13 @@
                     br
                     br
                     .quantity
-                        .sui_input.button.icon(style="width:10rem")
+                        .sui_input.right.left(style="width:10rem")
                             input(type="number" value="1" style="text-align:center;")
                             label Quantity
                             fieldset
                                 legend Quantity
-                            button.pre(style="font-size: 1.8rem") -
-                            button(style="font-size: 1.8rem") +
+                            button.left(style="font-size: 1.8rem") -
+                            button.right(style="font-size: 1.8rem") +
         br
         br
         .sui_card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
@@ -1726,7 +1725,7 @@ div.sui_dummy {
 div.sui_textarea {
     position: relative;
 
-    &.icon {
+    &.left {
         & > .textarea {
             & > textarea,
             &::after {
@@ -1735,7 +1734,7 @@ div.sui_textarea {
             }
         }
 
-        & > .icon {
+        & > .left {
             // the icon
             position: absolute;
             width: 2.8rem;
@@ -1763,7 +1762,7 @@ div.sui_textarea {
             border-color: var(--content-focus);
         }
 
-        & > .icon {
+        & > .left {
             color: var(--content-focus);
         }
 
@@ -1780,7 +1779,7 @@ div.sui_textarea {
         }
     }
 
-    &.button {
+    &.right {
         & > .textarea {
             & > textarea,
             &::after {
@@ -2230,7 +2229,7 @@ div.sui_steps {
         margin-right: 3px;
         font-weight: 500;
 
-        & > .icon {
+        & > .left {
             padding-right: .5em;
 
             i {
@@ -2398,7 +2397,7 @@ div.sui_tooltip {
         }
     }
 
-    & > .icon {
+    & > .left {
         cursor: pointer;
         font-size: 1.25em;
         line-height: 1em;
@@ -2477,7 +2476,7 @@ button.sui_button {
         }
     }
 
-    &.icon {
+    &.left {
         min-width: 2.8rem;
         border-radius: 2.8rem;
         width: 2.8rem;
@@ -2761,7 +2760,7 @@ div.sui_input {
             }
         }
 
-        .button {
+        .right {
             background-color: var(--alert-screen);
             color: var(--alert);
         }
@@ -2790,7 +2789,7 @@ div.sui_input {
                     }
                 }
 
-                & ~ .button {
+                & ~ .right {
                     background-color: var(--alert-screen) !important;
                     color: var(--alert) !important;
                 }
@@ -2808,21 +2807,21 @@ div.sui_input {
         }
     }
 
-    &.button {
+    &.right {
         user-select: none;
 
         & > input {
             padding-right: 3.3em;
 
             &:focus {
-                & ~ .button {
+                & ~ .right {
                     color: var(--content-focus);
                     background-color: var(--content-focus_screen);
                 }
             }
         }
 
-        & > button {
+        & > .right {
             display: inline-flex;
             width: 2.8rem;
             height: 2.8rem;
@@ -2834,7 +2833,7 @@ div.sui_input {
             cursor: pointer;
             box-sizing: border-box;
 
-            &.pre {
+            &.left {
                 right: unset;
                 left: 0;
 
@@ -2844,7 +2843,7 @@ div.sui_input {
             }
 
             &::before,
-            &.pre::after {
+            &.left::after {
                 // icon separator
                 content: "";
                 width: 2px;
@@ -2854,7 +2853,7 @@ div.sui_input {
                 left: -1px;
             }
 
-            &.pre::after {
+            &.left::after {
                 left: unset;
                 right: 1px;
             }
@@ -2867,7 +2866,7 @@ div.sui_input {
     }
 
     &.transparent {
-        *:not(.button):not(.menu) {
+        *:not(.right):not(.menu) {
             border-color: transparent !important;
             background-color: transparent !important;
 
@@ -2890,18 +2889,18 @@ div.sui_input {
         white-space: nowrap;
     }
 
-    &.icon {
+    &.left {
 
         & > input:focus, & > select:focus {
-            & ~ .icon,
-            & ~ button.pre {
+            & ~ .left,
+            & ~ button.left {
                 border-color: var(--content-focus);
                 color: var(--content-focus);
             }
         }
 
         &.error > input:focus {
-            & ~ .icon {
+            & ~ .left {
                 border-color: var(--alert);
                 color: var(--alert);
                 background-color: var(--alert-screen);
@@ -2930,7 +2929,7 @@ div.sui_input {
             padding-top: 2px;
         }
 
-        & > .icon {
+        & > .left {
             // the icon
             position: absolute;
             width: 2.8rem;
@@ -2952,7 +2951,7 @@ div.sui_input {
             }
         }
 
-        &.error > .icon {
+        &.error > .left {
             border-color: var(--alert);
             background-color: var(--alert-screen);
         }
@@ -3287,7 +3286,7 @@ div.menublock {
         padding-left: 0;
     }
 
-    & > .icon {
+    & > .left {
         width: 1.25em;
         height: 1.25em;
         overflow: hidden;
