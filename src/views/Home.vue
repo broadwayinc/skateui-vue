@@ -2868,6 +2868,7 @@ div.sui-input {
         }
     }
 
+    &.left,
     &.right {
         user-select: none;
 
@@ -2881,7 +2882,7 @@ div.sui-input {
                 }
             }
         }
-
+        & > .left,
         & > .right {
             display: inline-flex;
             width: 2.8rem;
@@ -2918,7 +2919,8 @@ div.sui-input {
                 left: unset;
                 right: 1px;
             }
-
+        }
+        & > button {
             &:hover {
                 color: var(--content-focus);
                 background-color: var(--content-focus_screen);
