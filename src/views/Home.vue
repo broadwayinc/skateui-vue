@@ -1247,13 +1247,21 @@ div
         .article(style="--textclamp: 2")
             .content
                 img.square(src="@/assets/nike2.jpg")
-                .title(style="font-size:.8em") $599.99
-                .text(style="font-size:.7em") TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                .content-wrapper
+                    .description
+                        .title(style="font-size:.8em") $599.99
+                        .text(style="font-size:.7em") TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                    button
+                        i.material-icons shopping_cart
         .article(style="--textclamp: 2")
             .content
                 img.square(src="@/assets/nike1.jpg")
-                .title(style="font-size:.8em") $199.99
-                .text(style="font-size:.7em") Nike shoes, 2021 Model
+                .content-wrapper
+                    .description
+                        .title(style="font-size:.8em") $199.99
+                        .text(style="font-size:.7em") Nike shoes, 2021 Model
+                    button
+                        i.material-icons shopping_cart
         .article(style="--textclamp: 2")
             .content
                 img.square(src="@/assets/newyork.jpg")
@@ -1655,10 +1663,6 @@ div.sui-list {
         &:hover {
             cursor: pointer;
 
-            .text {
-                text-decoration: underline;
-            }
-
             .overlay {
                 display: flex;
             }
@@ -1717,7 +1721,22 @@ div.sui-list {
                 margin: auto;
             }
 
-            & > .title:not(:empty) {
+            & > .content-wrapper {
+                display: flex;
+
+                & button {
+                    width: 20%;
+                    min-width: 50px;
+                    color: var(--content-focus);
+
+                    &:hover {
+                        color: var(--content-focus_faded);
+                        background-color: var(--content-focus_screen);
+                    }
+                }
+            }
+
+            & .title:not(:empty) {
                 margin: .5rem;
                 text-align: left;
                 flex-shrink: 0;
@@ -1736,7 +1755,7 @@ div.sui-list {
                 }
             }
 
-            & > .text:not(:empty) {
+            & .text:not(:empty) {
                 &::after {
                     content: " " var(--readmore);
                     opacity: 0.5;
@@ -1752,6 +1771,10 @@ div.sui-list {
                 overflow: hidden;
                 font-size: 0.8em;
                 line-height: 1.25;
+
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
     }
