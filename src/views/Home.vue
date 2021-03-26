@@ -224,7 +224,7 @@ div
             br
             button.sui-button filled
             button.sui-button.nude nude
-            button.sui-button.left
+            button.sui-button.icon
                 i.material-icons create
             br
             br
@@ -232,11 +232,11 @@ div
             p.
                 button.sui-button - Filled
                 button.sui-button.nude - Nude
-                button.sui-button.left - Icon
+                button.sui-button.icon - Icon
 
                 Filled is a default.
                 Nude style is applied if you add ".nude" class to button.sui-button element.
-                Icon style is applied if you add ".left" class to button.sui-button element.
+                Icon style is applied if you add ".icon" class to button.sui-button element.
 
                 Other than these two &lt;a&gt; tag can be used as a button as well.
             br
@@ -2466,16 +2466,21 @@ div.sui-tooltip {
     }
 }
 
-button.sui-button {
+button.sui-button, a.sui-button {
     max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
     min-height: 2.8rem;
     padding: .25rem 1rem;
     margin: 0.25rem;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
 
-    line-height: 1rem;
+    line-height: calc(2rem - 4px);
     font-size: 0.88rem;
     vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
 
     border: solid 0.25rem var(--button-focus);
     box-shadow: 0 0 0 0.125rem var(--shadow);
@@ -2538,21 +2543,22 @@ button.sui-button {
         }
     }
 
-    &.left {
+    &.icon {
         min-width: 2.8rem;
         border-radius: 2.8rem;
         width: 2.8rem;
         height: 2.8rem;
         padding: 0;
-        font-size: 1.15rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
 
         & > * {
+            line-height: calc(2rem - 4px);
             width: 1.15rem;
-            height: 1.15rem;
             font-size: 1.15rem;
             vertical-align: middle;
         }
-
     }
 }
 
