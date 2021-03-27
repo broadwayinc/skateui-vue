@@ -2,33 +2,34 @@
 .sui_app
     nav
         div
-            i.material-icons(style="padding: 8px;margin-right: .5rem;cursor:pointer;" onclick="sui_popup.handler('appmenu', 'left', true)") menu
-            //h6 Bunnykit
-            img(src="@/assets/bunnykit.gif")
+            i.material-icons.hamburger(onclick="sui_popup.handler('appmenu', 'left', true)") menu
+            h6 Bunnykit
+            //h6 United Kingdom Airlines
+            //img(src="@/assets/bunnykit.gif")
+            //img(src="@/assets/long.png")
             //img.square.contain(src="@/assets/bunnykit.gif")
             //img.square.contain(src="@/assets/newyork.jpg")
             //img.square(src="@/assets/newyork.jpg")
             //img.square(src="@/assets/brunomars.png")
         div
-            i.material-icons notifications
-            i.material-icons shopping_cart
-            i.material-icons chat
+            //a
+                i.material-icons settings
+            a
+                .new
+                    small 99+
+                i.material-icons shopping_cart
+            a
+                .new
+                    small 1
+                i.material-icons chat
             //a.sui-button.nude Login
             //a.sui-button Sign In
     .view
         router-view
-    .action
-        //a.sui-button.icon
-        //    i.material-icons shopping_cart
-        //div
-        //    p 제품이 장바구니에 추가되었습니다
-        //a.sui-button.icon
-        //    i.material-icons chat
-        //div
-        //    p 바니키트: 고갱님 아직 배송이 시작되지 않았기 때문에 기다려 주세용~
-        a.sui-button.nude 더 알아보기
-        div.expand
-            p 세일 시작합니다 놓치지 마세요~! 바니바니 바니키트~!! 자세한 내용은 아래 클릭 해주세요
+        .notification
+            //i.material-icons shopping_cart
+            .text.
+                Your Cart has Been Added!
     .sui-card#appmenu(style="display:none;width: 280px;height:100%;")
         .title
             | Bunnykit
@@ -115,7 +116,7 @@ export default {
                 document.addEventListener(
                     'scroll',
                     (event) => {
-                        window.requestAnimationFrame(()=>{
+                        window.requestAnimationFrame(() => {
                             console.log('ani');
                         });
                     },
@@ -128,6 +129,7 @@ export default {
 
     }
 };
+
 </script>
 <style lang="less">
 @import './assets/normalize.css';
@@ -147,27 +149,46 @@ export default {
         align-items: center;
         padding: 8px 1rem;
         justify-content: space-between;
-        position: absolute;
         width: 100%;
         box-sizing: border-box;
         height: calc(3rem + 16px);
         top: 0;
+        position: fixed;
+        z-index: 9999;
 
         & + * {
             padding-top: calc(3rem + 16px);
         }
 
-        div:first-child {
-            flex-shrink: 0;
+        & > div:first-child {
+            display: flex;
+            align-items: center;
+
+            position: relative;
 
             * > {
-                display: inline;
+                display: inline-block;
                 vertical-align: middle;
             }
 
+            .hamburger {
+                padding: 8px;
+                margin-right: .5rem;
+                cursor: pointer;
+                font-size: 32px;
+            }
+
+            p, h1, h2, h3, h4, h5, h6 {
+                align-items: center;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
+            }
+
             img {
+                max-width: calc(100% - 40px - .5rem);
                 max-height: 2.5rem;
-                display: inline;
 
                 &.square {
                     width: 2.5rem;
@@ -183,16 +204,41 @@ export default {
             }
         }
 
-        div:last-child {
-            & > * {
+        & > div:last-child {
+            flex-shrink: 0;
+            display: block;
+
+            & > a {
+                position: relative;
                 display: inline-block;
                 vertical-align: middle;
-            }
+                margin-left: 1.5rem;
+                cursor: pointer;
+                width: 32px;
+                height: 32px;
 
-            & > img {
-                height: 2.5rem;
-                width: 2.5rem;
-                border-radius: 2.5rem;
+                .new {
+                    position: absolute;
+
+                    small {
+                        font-size: 0.65em;
+                        font-family: monospace;
+                        font-weight: bold;
+                        color: white;
+                        background: var(--alert);
+                        white-space: nowrap;
+                        padding: 0 0.25em;
+                        border-radius: 3px;
+                        vertical-align: middle;
+                        position: relative;
+                        left: calc(-100% + 8px);
+                        top: -8px;
+                    }
+                }
+
+                *:not(.new) {
+                    font-size: 32px;
+                }
             }
         }
     }
@@ -204,76 +250,36 @@ export default {
         flex-direction: column;
         flex-wrap: wrap;
         overflow-x: hidden;
+        position: relative;
 
         & > * {
             max-width: 100%;
         }
-    }
 
-    & > .action {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-
-        & > .sui-button {
-            z-index: 1;
-
-            &:active + div {
-                width: 600px;
-                height: 600px;
-            }
-        }
-
-        & > div {
-            &::before {
-                content: "";
-                background-color: var(--toolbar);
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                opacity: 96%;
-
-            }
-
-            z-index: -1;
+        & > .notification {
+            border-radius: 8px;
             position: fixed;
-            bottom: -300px;
-            right: -300px;
-            width: 0;
-            height: 0;
-            transition: width .5s, height .5s;
-
-            &.expand {
-                width: 600px;
-                height: 600px;
-            }
-
-            display: grid;
-            grid-template-columns:  1fr 1fr;
-            grid-template-rows:  1fr 1fr;
-            border: 8px solid var(--toolbar-focus);
-            color: var(--toolbar-text);
-            border-bottom: none;
-            border-right: none;
-            border-radius: 600px;
-            overflow: hidden;
+            display: flex;
+            top: calc(3rem + 16px);
+            padding: 8px;
+            background-color: var(--content-text);
+            color: var(--content);
+            border: 2px solid var(--content);
+            margin: 16px;
 
             & > * {
-                font-size: 20px;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                position: absolute;
-                margin-top: 125px;
-                margin-left: 75px;
-                width: calc(300px - 75px - 1rem);
+                padding: 8px;
+            }
+
+            & > .text {
+                font-weight: 500;
                 white-space: pre-wrap;
-                box-sizing: border-box;
-                text-shadow: 1px 1px var(--toolbar-text_shadow);
+                font-size: .88rem;
+                line-height: 1rem;
+                display: flex;
+                align-items: center;
             }
         }
-
     }
 }
 
