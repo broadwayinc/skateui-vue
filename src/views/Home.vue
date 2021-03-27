@@ -2227,8 +2227,10 @@ div.sui-accordion {
             font-size: 1.5em;
             line-height: 2rem;
             position: absolute;
-            right: 0.25rem;
+            right: 0;
             font-weight: 300;
+            width: 1em;
+            text-align: center;
         }
 
         padding-right: 1.5em;
