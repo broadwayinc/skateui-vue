@@ -1137,7 +1137,7 @@ div
                         label Quantity
                         fieldset
                             legend Quantity
-                        button.left(style="font-size: 1.8rem") -
+                        button.left(style="font-size: 1.8rem") −
                         button.right(style="font-size: 1.8rem") +
     br
     br
@@ -1162,7 +1162,7 @@ div
                         label Quantity
                         fieldset
                             legend Quantity
-                        button.left(style="font-size: 1.8rem") -
+                        button.left(style="font-size: 1.8rem") −
                         button.right(style="font-size: 1.8rem") +
     br
     br
@@ -1211,7 +1211,7 @@ div
                         label Quantity
                         fieldset
                             legend Quantity
-                        button.left(style="font-size: 1.8rem") -
+                        button.left(style="font-size: 1.8rem") −
                         button.right(style="font-size: 1.8rem") +
     br
     br
@@ -2896,6 +2896,7 @@ div.sui-input {
             right: 0;
             cursor: pointer;
             box-sizing: border-box;
+            padding-bottom: 0.4rem;
 
             &.left {
                 right: unset;
@@ -2914,6 +2915,8 @@ div.sui-input {
                 height: 50%;
                 background-color: var(--content-text_shadow);
                 position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
                 left: -1px;
             }
 
