@@ -1,5 +1,7 @@
 <template lang="pug">
 div
+    tab
+    tabs
     .sui-card
         .image
             img(style='width: 20rem' src="@/assets/skate.jpg")
@@ -1731,7 +1733,6 @@ div.sui-list {
 
                     &:hover {
                         color: var(--content-focus_faded);
-                        background-color: var(--content-focus_screen);
                     }
                 }
             }
@@ -2876,7 +2877,8 @@ div.sui-input {
             padding-right: 3.3em;
 
             &:focus {
-                & ~ .right {
+                & ~ button.left,
+                & ~ button.right {
                     color: var(--content-focus);
                     background-color: var(--content-focus_screen);
                 }
