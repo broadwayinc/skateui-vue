@@ -1696,7 +1696,7 @@ div.sui-list {
             & > img.block {
                 display: block;
                 width: 100%;
-                height: 70%;
+                height: calc(100% - (calc((0.8em * 1.25) * 4) + 1.5rem));
                 position: static;
             }
 
