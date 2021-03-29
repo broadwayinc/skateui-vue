@@ -1,0 +1,44 @@
+@mouse: ~'(pointer: fine)';
+@touch: ~'(pointer: coarse)';
+@phone: ~'only screen and (max-width: 441px)';
+@tablet: ~'only screen and (max-width: 768px)';
+@laptop: ~'only screen and (max-width: 1366px)';
+@notphone: ~'not screen and (max-width: 441px)';
+@nottablet: ~'not screen and (max-width: 768px)';
+@notlaptop: ~'not screen and (max-width: 1366px)';
+
+.hideonphone {
+  @media @phone {
+    display: none !important;
+  }
+}
+
+.hideontablet {
+  @media @tablet {
+    display: none !important;
+  }
+}
+
+.hideonlaptop {
+  @media @laptop {
+    display: none !important;
+  }
+}
+
+.viewonphone {
+  @media @notphone {
+    display: none !important;
+  }
+}
+
+.viewontablet {
+  @media @nottablet {
+    display: none !important;
+  }
+}
+
+.viewonlaptop {
+  @media @notlaptop {
+    display: none !important;
+  }
+}

@@ -362,6 +362,7 @@ pre::after {
 pre {
     display: inline;
     tab-size: 1em;
+    margin: 0;
 }
 
 h1,
