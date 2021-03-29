@@ -1,7 +1,5 @@
 <template lang="pug">
 div
-    tab
-    tabs
     .sui-card
         .image
             img(style='width: 20rem' src="@/assets/skate.jpg")
@@ -69,36 +67,37 @@ div
             I am your footer! The font size here is 0.8rem unless tag is used.
     br
     br
-    .sui-card EMPTY
-    .sui-card
-        .title TITLE
-    .sui-card
-        .content CONTENT
-    .sui-card
-        .button_footer BUTTON
-    .sui-card
-        .footer FOOTER
-    .sui-card
-        .title TITLE
-        .content CONTENT
-        .footer FOOTER
-    .sui-card
-        .title TITLE
-        .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
-        .content CONTENT
-        .button_footer BUTTON
-        .footer FOOTER
-    .sui-card
-        .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
-        .content CONTENT
-        .button_footer BUTTON
-        .footer FOOTER
-    .sui-card.center
-        .title TITLE (.center)
-        .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
-        .content CONTENT (.center)
-        .button_footer BUTTON (.center)
-        .footer FOOTER (.center)
+    div
+        .sui-card EMPTY
+        .sui-card
+            .title TITLE
+        .sui-card
+            .content CONTENT
+        .sui-card
+            .button_footer BUTTON
+        .sui-card
+            .footer FOOTER
+        .sui-card
+            .title TITLE
+            .content CONTENT
+            .footer FOOTER
+        .sui-card
+            .title TITLE
+            .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+            .content CONTENT
+            .button_footer BUTTON
+            .footer FOOTER
+        .sui-card
+            .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+            .content CONTENT
+            .button_footer BUTTON
+            .footer FOOTER
+        .sui-card.center
+            .title TITLE (.center)
+            .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+            .content CONTENT (.center)
+            .button_footer BUTTON (.center)
+            .footer FOOTER (.center)
     br
     br
     .sui-card
@@ -504,40 +503,42 @@ div
             hr
             br
             br
-            p.
-                Type of form that takes various information.
-                ex) Shipping address, personal information.
-                Use tab space for inline label.
-            br
-            br
-            | E-Mail
-            span(style="color:var(--alert)")  *
-            | &#9;&#9;&#9;
-            .sui-input
-                input(placeholder="username@email.com")
-                fieldset
-            br
-            | Password
-            span(style="color:var(--alert)")  *
-            pre
-            .sui-input
-                input(placeholder="At least 8 Char..." type="password")
-                fieldset
-            br
-            | Name&#9;&#9;&#9;&#9;
-            .sui-input
-                input(placeholder="At least 8 Char..." type="password")
-                fieldset
-            br
-            | Serial&#9;&#9;&#9;&#9;
-            div(style="display: inline-block;")
-                .sui-input(style="width: 4rem")
-                    input(placeholder="000" type="password")
-                    fieldset
-                | &#9;
-                .sui-input(style="width:13rem")
-                    input(placeholder="000000" type="password")
-                    fieldset
+            div(style="text-align:center")
+                div(style="display:inline-block;text-align: left;")
+                    p.
+                        Type of form that takes various information.
+                        ex) Shipping address, personal information.
+                        Use tab space for inline label.
+                    br
+                    br
+                    | E-Mail
+                    span(style="color:var(--alert)")  *
+                    | &#9;&#9;&#9;
+                    .sui-input
+                        input(placeholder="username@email.com")
+                        fieldset
+                    br
+                    | Password
+                    span(style="color:var(--alert)")  *
+                    pre
+                    .sui-input
+                        input(placeholder="At least 8 Char..." type="password")
+                        fieldset
+                    br
+                    | Name&#9;&#9;&#9;&#9;
+                    .sui-input
+                        input(placeholder="At least 8 Char..." type="password")
+                        fieldset
+                    br
+                    | Serial&#9;&#9;&#9;&#9;
+                    div(style="display: inline-block;")
+                        .sui-input(style="width: 4rem")
+                            input(placeholder="000" type="password")
+                            fieldset
+                        | &#9;
+                        .sui-input(style="width:13rem")
+                            input(placeholder="000000" type="password")
+                            fieldset
         .button_footer
             button.sui-button.nude Sign-Up
             button.sui-button Login
@@ -549,57 +550,59 @@ div
         .title
         .image
         .content
-            h5.textshadow Form Example 2
+            h4.textshadow Form Example 2
             hr
             br
             br
-            | Form that requires simple information.
-            p ex) Login
-            br
-            br
-            .sui-input.left
-                input(placeholder="username@email.com")
-                label
-                    | E-Mail
-                    span(style="color:var(--alert)")  *
-                fieldset
-                    legend E-mail *
-                .left
-                    i.material-icons email
-            br
-            br
-            .sui-input.left
-                input(placeholder="Least 8 char...")
-                label
-                    | Password
-                    span(style="color:var(--alert)")  *
-                fieldset
-                    legend Password *
-                .left
-                    i.material-icons security
-            br
-            br
-            .sui-input.left
-                input(placeholder="")
-                label Name
-                fieldset
-                    legend Name
-                .left
-                    i.material-icons person
-            br
-            br
-            div(style="display: inline-block;")
-                .sui-input(style="width: 4rem")
-                    input(placeholder="000" type="password")
-                    label Code
-                    fieldset
-                        legend Code
-                pre
-                .sui-input(style="width:13rem")
-                    input(placeholder="000000" type="password")
-                    label Serial
-                    fieldset
-                        legend Serial
+            div(style="text-align:center")
+                div(style="display:inline-block;text-align: left;")
+                    | Form that requires simple information.
+                    p ex) Login
+                    br
+                    br
+                    .sui-input.left
+                        input(placeholder="username@email.com")
+                        label
+                            | E-Mail
+                            span(style="color:var(--alert)")  *
+                        fieldset
+                            legend E-mail *
+                        .left
+                            i.material-icons email
+                    br
+                    br
+                    .sui-input.left
+                        input(placeholder="Least 8 char...")
+                        label
+                            | Password
+                            span(style="color:var(--alert)")  *
+                        fieldset
+                            legend Password *
+                        .left
+                            i.material-icons security
+                    br
+                    br
+                    .sui-input.left
+                        input(placeholder="")
+                        label Name
+                        fieldset
+                            legend Name
+                        .left
+                            i.material-icons person
+                    br
+                    br
+                    div(style="display: inline-block;")
+                        .sui-input(style="width: 4rem")
+                            input(placeholder="000" type="password")
+                            label Code
+                            fieldset
+                                legend Code
+                        pre
+                        .sui-input(style="width:13rem")
+                            input(placeholder="000000" type="password")
+                            label Serial
+                            fieldset
+                                legend Serial
         .button_footer
             button.sui-button.nude Sign-Up
             button.sui-button Login
@@ -612,44 +615,46 @@ div
             h6 Form Example 3
         .image
         .content
-            p.
-                Form that is part of user settings.
-                The title is present on the card.
-            br
-            br
-            | E-Mail
-            span(style="color:var(--alert)")  *
-            | &#9;&#9;&#9;
-            .sui-input
-                input(placeholder="username@email.com")
-                fieldset
-            br
-            | Password
-            span(style="color:var(--alert)")  *
-            | &#9;
-            .sui-input
-                input(placeholder="At least 8 Char..." type="password")
-                fieldset
-            br
-            | Name&nbsp;
-            .sui-tooltip
-                .content
-                    small What's your name?
-                i.material-icons.left help
-            | &#9;&#9;
-            .sui-input
-                input(placeholder="At least 8 Char..." type="password")
-                fieldset
-            br
-            | Serial&#9;&#9;&#9;&#9;
-            div(style="display: inline-block;")
-                .sui-input(style="width: 4rem")
-                    input(placeholder="000" type="password")
-                    fieldset
-                | &#9;
-                .sui-input(style="width:13rem")
-                    input(placeholder="000000" type="password")
-                    fieldset
+            div(style="text-align:center")
+                div(style="display:inline-block;text-align: left;")
+                    p.
+                        Form that is part of user settings.
+                        The title is present on the card.
+                    br
+                    br
+                    | E-Mail
+                    span(style="color:var(--alert)")  *
+                    | &#9;&#9;&#9;
+                    .sui-input
+                        input(placeholder="username@email.com")
+                        fieldset
+                    br
+                    | Password
+                    span(style="color:var(--alert)")  *
+                    | &#9;
+                    .sui-input
+                        input(placeholder="At least 8 Char..." type="password")
+                        fieldset
+                    br
+                    | Name&nbsp;
+                    .sui-tooltip
+                        .content
+                            small What's your name?
+                        i.material-icons.left help
+                    | &#9;&#9;
+                    .sui-input
+                        input(placeholder="At least 8 Char..." type="password")
+                        fieldset
+                    br
+                    | Serial&#9;&#9;&#9;&#9;
+                    div(style="display: inline-block;")
+                        .sui-input(style="width: 4rem")
+                            input(placeholder="000" type="password")
+                            fieldset
+                        | &#9;
+                        .sui-input(style="width:13rem")
+                            input(placeholder="000000" type="password")
+                            fieldset
         .button_footer
             button.sui-button.nude Sign-Up
             button.sui-button Login
@@ -661,7 +666,7 @@ div
         .title
         .image
             img(style='width: 20rem' src="@/assets/skate.jpg")
-        .content
+        .content.center
             p Form example 4
             br
             br
@@ -873,15 +878,7 @@ div
             button.sui-button(onclick="sui_popup.handler('myModal','right')") Right
             br
             br
-            button.sui-button(onclick="sui_popup.handler('somerandomstuff', 'bottom')") SPAM
-            br
-            br
-            button.sui-button(onclick="sui_popup.handler('menu', 'left', true)") MENU LEFT
-            br
-            br
-            button.sui-button(onclick="sui_popup.handler('menuhash', 'right', true)") MENU RIGHT
-    br
-    br
+            button.sui-button(onclick="sui_popup.handler('somerandomstuff')") SPAM
     .sui-card#myModal(style="display:none;")
         .title
             h6 POP UP
@@ -901,138 +898,9 @@ div
         | I'm A SPAMMER
         pre
         button.sui-button(onclick="sui_popup.handler('somerandomstuff')") OK
-    .sui-card#menu(style="display:none;width: 280px;")
-        .title
-            | Baksa Gimm
-            .close(onclick="sui_popup.handler('menu', 'close')")
-        .image
-            img(src="@/assets/skate.jpg")
-        .content
-            small(style="opacity:.5") Baksa Gimm
-            hr(style="margin-top:.5em")
-            br
-            .menublock
-                p Home
-            .menublock.select
-                p Gibson
-                .new
-                    small 99+
-            .menublock
-                p Fender
-            .menublock
-                p Epiphone
-                .new
-                    small 1
-            br
-            small(style="opacity:.5") Account Settings
-            hr(style="margin-top:.5em")
-            br
-            .menublock
-                .left
-                    i.material-icons person
-                p Profile
-            .menublock
-                .left
-                    i.material-icons settings
-                p App settings
-            .menublock
-                .left
-                    i.material-icons chat
-                .new
-                    small 9
-                p Messages
-            .menublock
-                .left
-                    i.material-icons shopping_cart
-                .new
-                    small 4
-                p Shopping Cart
-            .menublock.disabled
-                .left
-                    i.material-icons payment
-                p Payment
-    .sui-card#menuhash(style="display:none;width: 280px;")
-        .title
-            | Baksa Gimm
-            .close(onclick="sui_popup.handler('menuhash', 'close')")
-        .image
-            img(src="@/assets/skate.jpg")
-        .content
-            .menublock
-                .left
-                    i.material-icons home
-                .new
-                    small 99+
-                p Home
-            small(style="display: block;") &nbsp;
-            small(style="opacity:.5") Gibson
-            hr(style="margin-top:.5em")
-            br
-            .menublock
-                p All
-            .menublock
-                p Set Necks
-            .menublock
-                p Les Paul
-                .new
-                    small 4
-            .menublock
-                p SG
-            br
-            small(style="opacity:.5") Fender
-            hr(style="margin-top:.5em")
-            br
-            .menublock
-                p All
-            .menublock.select
-                p Set Necks
-            .menublock
-                p Stratocaster
-            .menublock
-                p Services
-            br
-            small(style="opacity:.5") Epiphone
-            hr(style="margin-top:.5em")
-            br
-            .menublock
-                p All
-            .menublock
-                p Explorers
-            .menublock
-                p Used Market
-                .new
-                    small Updates!
-            .menublock
-                p Services
-            br
-            small(style="opacity:.5") Account Settings
-            hr(style="margin-top:.5em")
-            br
-            .menublock
-                .left
-                    i.material-icons person
-                p Profile
-            .menublock
-                .left
-                    i.material-icons settings
-                p App settings
-            .menublock
-                .left
-                    i.material-icons chat
-                .new
-                    small 9
-                p Messages
-            .menublock
-                .left
-                    i.material-icons shopping_cart
-                .new
-                    small 4
-                p Shopping Cart
-            .menublock.disabled
-                .left
-                    i.material-icons payment
-                p Payment
-    .sui-card(style="width: 400px")
+    br
+    br
+    .sui-card
         .title
             h6 Toggles
         .content
@@ -1102,7 +970,7 @@ div
     hr
     br
     br
-    .sui-card(style="width: 600px;")
+    .sui-card
         .content
             h4 Guide for the shopping cart design
             hr
@@ -1116,7 +984,7 @@ div
                 It should always be separate page.
     br
     br
-    .sui-card(style="width: 600px;")
+    .sui-card
         .title(style="padding-right: 2.3em;")
             | Expected Delivery: 1985 / Aug / 20
             .close
@@ -1141,7 +1009,7 @@ div
                         button.right(style="font-size: 1.8rem") +
     br
     br
-    .sui-card(style="width: 600px;")
+    .sui-card
         .title(style="padding-right: 2.3em;")
             | Digital Coupon
             .close
@@ -1166,7 +1034,7 @@ div
                         button.right(style="font-size: 1.8rem") +
     br
     br
-    .sui-card(style="width: 600px;")
+    .sui-card
         .title(style="padding-right: 2.3em;background-color:yellow")
             | NFT - Digital assets (click for more info)
             .close
@@ -1191,7 +1059,7 @@ div
                         .button(style="font-size: 1.8rem") +
     br
     br
-    .sui-card(style="width: 600px;")
+    .sui-card
         .title(style="padding-right: 2.3em;background-color:var(--alert);color:white;")
             | This item no longer exists
             .close
@@ -1215,7 +1083,7 @@ div
                         button.right(style="font-size: 1.8rem") +
     br
     br
-    .sui-card(style="width: 600px;background-color:var(--background);color:var(--background-text);overflow: hidden;")
+    .sui-card(style="background-color:var(--background);color:var(--background-text);overflow: hidden;")
         .title(style="background-color:var(--background-focus_transparent);")
             div(style="line-height: 2.8;") Hey you have a coupon!
     br
@@ -1242,101 +1110,99 @@ div
     br
     br
     br
-    .sui-list(style="--textclamp: 3;--grid:1fr 1fr 1fr;")
-        .article
-            .content
-                img(src="@/assets/nike1.jpg")
-        .article(style="--textclamp: 2")
-            .content
-                img.square(src="@/assets/nike2.jpg")
-                .content-wrapper
-                    .description
-                        .title(style="font-size:.8em") $599.99
-                        .text(style="font-size:.7em") TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
-                    button
-                        i.material-icons shopping_cart
-        .article(style="--textclamp: 2")
-            .content
-                img.square(src="@/assets/nike1.jpg")
-                .content-wrapper
-                    .description
-                        .title(style="font-size:.8em") $199.99
-                        .text(style="font-size:.7em") Nike shoes, 2021 Model
-                    button
-                        i.material-icons shopping_cart
-        .article(style="--textclamp: 2")
-            .content
-                img.square(src="@/assets/newyork.jpg")
-                .title(style="font-size:.8em") $399.99
-                .text(style="font-size:.7em") Full New york zombie tour
-            .overlay HI
-        .article(style="--textclamp: 2")
-            .content
-                img.square(src="@/assets/bunnykit.jpg")
-                .title(style="font-size:.8em") $99.99
-                .text(style="font-size:.7em") Peach blouse
-        .article
-            .content
-                img.block(src="@/assets/newyork.jpg")
-                .title New York
-                .text.
-                    Grew up in a town that was famous as a place of movie scenes
-                    Noise is always loud, there are sirens all around and the streets are mean
-                    If I can make it here, I can make it anywhere that's what they say
-                    Seeing my face in lights or my name in marquees found down on Broadway
-        .article
-            .content
-                img.block(src="@/assets/myface.jpg")
-                .title Crime escapes prison
-                .text.
-                    Please call the police if you see this person.
-                    Highly advised to not engage.
-        .article
-            .content
-                img.block(src="@/assets/brunomars.png")
-                .title Bruno Mars is really short
-                .text.
-                    Grew up in a town that was famous as a place of movie scenes
-                    Noise is always loud, there are sirens all around and the streets are mean
-                    If I can make it here, I can make it anywhere that's what they say
-                    Seeing my face in lights or my name in marquees found down on Broadway
-        .article
-            .content
-                img.block(src="@/assets/brunomars.png")
-                .title ...I mean really short
-        .article
-            .content
-                img.block(src="@/assets/dia.png")
-                .title DIA is called sing-ger in AU
-                .text.
-                    AU is well known for it's mystic land of exotic nature.
-                    Scientists predicts their reason of their exotic accents.
-        .article
-            .content
-                img.block(src="@/assets/howtall.jpeg")
-                .title WHO'S THE TALLEST?
-                .text.
-                    Grew up in a town that was famous as a place of movie scenes
-                    Noise is always loud, there are sirens all around and the streets are mean
-                    If I can make it here, I can make it anywhere that's what they say
-                    Seeing my face in lights or my name in marquees found down on Broadway
-        .article
-            .content
-                img.block(src="@/assets/howtall.jpeg")
-                .title WHO'S THE TALLEST?
-                .text.
-                    Grew up in a town that was famous as a place of movie scenes
-        .article
-            .content
-                img(src="@/assets/skate.jpg")
-        .article
-            .content
-                img(src="@/assets/dia.png")
-        .article
-            .content
-                img(src="@/assets/brunomars.png")
-    br
-    br
+    .sui-list(style="--textclamp: 3;")
+            .article
+                .content
+                    img(src="@/assets/nike1.jpg")
+            .article(style="--textclamp: 2")
+                .content
+                    img.square(src="@/assets/nike2.jpg")
+                    .content-wrapper
+                        .description
+                            .title(style="font-size:.8em") $599.99
+                            .text(style="font-size:.7em") TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                        button
+                            i.material-icons shopping_cart
+            .article(style="--textclamp: 2")
+                .content
+                    img.square(src="@/assets/nike1.jpg")
+                    .content-wrapper
+                        .description
+                            .title(style="font-size:.8em") $199.99
+                            .text(style="font-size:.7em") Nike shoes, 2021 Model
+                        button
+                            i.material-icons shopping_cart
+            .article(style="--textclamp: 2")
+                .content
+                    img.square(src="@/assets/newyork.jpg")
+                    .title(style="font-size:.8em") $399.99
+                    .text(style="font-size:.7em") Full New york zombie tour
+                .overlay HI
+            .article(style="--textclamp: 2")
+                .content
+                    img.square(src="@/assets/bunnykit.jpg")
+                    .title(style="font-size:.8em") $99.99
+                    .text(style="font-size:.7em") Peach blouse
+            .article
+                .content
+                    img.block(src="@/assets/newyork.jpg")
+                    .title New York
+                    .text.
+                        Grew up in a town that was famous as a place of movie scenes
+                        Noise is always loud, there are sirens all around and the streets are mean
+                        If I can make it here, I can make it anywhere that's what they say
+                        Seeing my face in lights or my name in marquees found down on Broadway
+            .article
+                .content
+                    img.block(src="@/assets/myface.jpg")
+                    .title Crime escapes prison
+                    .text.
+                        Please call the police if you see this person.
+                        Highly advised to not engage.
+            .article
+                .content
+                    img.block(src="@/assets/brunomars.png")
+                    .title Bruno Mars is really short
+                    .text.
+                        Grew up in a town that was famous as a place of movie scenes
+                        Noise is always loud, there are sirens all around and the streets are mean
+                        If I can make it here, I can make it anywhere that's what they say
+                        Seeing my face in lights or my name in marquees found down on Broadway
+            .article
+                .content
+                    img.block(src="@/assets/brunomars.png")
+                    .title ...I mean really short
+            .article
+                .content
+                    img.block(src="@/assets/dia.png")
+                    .title DIA is called sing-ger in AU
+                    .text.
+                        AU is well known for it's mystic land of exotic nature.
+                        Scientists predicts their reason of their exotic accents.
+            .article
+                .content
+                    img.block(src="@/assets/howtall.jpeg")
+                    .title WHO'S THE TALLEST?
+                    .text.
+                        Grew up in a town that was famous as a place of movie scenes
+                        Noise is always loud, there are sirens all around and the streets are mean
+                        If I can make it here, I can make it anywhere that's what they say
+                        Seeing my face in lights or my name in marquees found down on Broadway
+            .article
+                .content
+                    img.block(src="@/assets/howtall.jpeg")
+                    .title WHO'S THE TALLEST?
+                    .text.
+                        Grew up in a town that was famous as a place of movie scenes
+            .article
+                .content
+                    img(src="@/assets/skate.jpg")
+            .article
+                .content
+                    img(src="@/assets/dia.png")
+            .article
+                .content
+                    img(src="@/assets/brunomars.png")
 </template>
 <script>
 import {ColorMangle} from 'colormangle';
@@ -1388,7 +1254,6 @@ export default {
                 }
             }
         };
-
         window.sui_textarea.init();
         window.sui_accordion = {
             timeout: null,
@@ -1426,229 +1291,21 @@ export default {
                 }
             }
         };
-        window.sui_screen = {
-            handler: (id, stickTo, closeWhenBackgroundClick) => {
-
-                let screen = document.getElementsByClassName('sui-screen')[0];
-
-                if (!screen) {
-                    // if there is no overlay screen, create one
-                    screen = document.createElement('div');
-                    screen.classList.add('sui-screen');
-                    screen.classList.add(stickTo);
-
-                    // let body = document.getElementsByClassName('sui-frame')[0];
-                    let body = document.getElementsByTagName('BODY')[0];
-                    document.body.style.top = `-${window.scrollY}px`;
-                    document.body.style.position = 'fixed';
-
-                    if (closeWhenBackgroundClick) {
-                        screen.addEventListener('click', function () {
-                            window.sui_popup.handler(id);
-                        });
-                    }
-
-                    body.append(screen);
-                } else if (id) {
-                    const scrollY = document.body.style.top;
-                    document.body.style.position = '';
-                    document.body.style.top = '';
-                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
-
-                    // clean all element but the element with id given by the id argument
-                    let child = screen.children;
-
-                    let cid = child.length;
-                    while (cid--) {
-                        if (child[cid].id !== id) {
-
-                            let classList = window.sui_popup.classList.direction.concat(window.sui_popup.classList.stickTo);
-
-                            for (let c of classList)
-                                child[cid].classList.remove(c);
-
-                            let dummy = document.getElementById('_dummy_' + child[cid].id);
-                            if (dummy) {
-                                dummy.parentNode.insertBefore(child[cid], dummy);
-                                dummy.remove();
-                            }
-                        }
-                    }
-                }
-
-
-                return screen;
-            }
-        };
-        window.sui_popup = {
-            classList: {
-                // DO NOT! change the order of array
-                stickTo: [
-                    '_stickto-center',
-                    '_stickto-top',
-                    '_stickto-bottom',
-                    '_stickto-right',
-                    '_stickto-left'
-                ],
-                direction: [
-                    '_center',
-                    '_down',
-                    '_up',
-                    '_left',
-                    '_right'
-                ]
-            },
-            eventListener: {},
-            timeout: null,
-            handler: (id, stickTo = 'center', closeWhenBackgroundClicked = false, overlayColor = 'rgba(0, 0, 0, 0.33)') => {
-
-                if (!id)
-                    // no id
-                    return;
-
-                let stickToList = window.sui_popup.classList.stickTo;
-                let directionList = window.sui_popup.classList.direction;
-                let direction;
-
-                if (stickTo !== 'close') {
-                    stickTo = '_stickto-' + stickTo;
-                    direction = directionList[stickToList.indexOf(stickTo)];
-                    if (!stickToList.includes(stickTo))
-                        throw 'allowed argument for stickTo:' + JSON.stringify(stickToList);
-
-                    if (!directionList.includes(direction))
-                        throw 'allowed argument for stickTo:' + JSON.stringify(directionList);
-
-                    if (window.sui_popup.timeout)
-                        clearTimeout(window.sui_popup.timeout);
-                    window.sui_popup.timeout = null;
-                }
-
-                id = id[0] === '#' ? id.substring(1) : id;
-
-                let el = document.getElementById(id);
-                if (!el)
-                    // no matching popup
-                    return;
-
-                let isUp = el.closest('.sui-screen');
-                if (stickTo === 'close' && !isUp)
-                    // nothing to close
-                    return;
-
-                let screen = window.sui_screen.handler(id, stickTo, closeWhenBackgroundClicked);
-
-                if (isUp) {
-                    // popup is showing
-                    for (let c of directionList)
-                        el.classList.remove(c);
-
-                    screen.style.backgroundColor = 'transparent';
-
-                    let cl_idx = el.classList.length, immediate = false;
-
-                    while (cl_idx--) {
-                        if (el.classList[cl_idx].includes('_stickto-center'))
-                            immediate = true;
-                    }
-
-                    window.sui_popup.timeout = setTimeout(() => {
-                        // cleanup
-                        for (let c of stickToList)
-                            el.classList.remove(c);
-
-                        el.classList.remove('sui-popup');
-                        el.removeEventListener('click', window.sui_popup.eventListener[id]);
-                        window.sui_popup.eventListener[id] = null;
-
-                        let dummy = document.getElementById('_dummy_' + id);
-                        if (dummy) {
-                            dummy.parentNode.insertBefore(el, dummy);
-                            dummy.remove();
-                        }
-                        screen.remove();
-                    }, immediate ? 0 : 750);
-
-                } else {
-                    let bool = !el.classList.contains('sui-popup');
-
-                    window.sui_popup.eventListener[id] = function (e) {
-                        e.stopPropagation();
-                    };
-
-                    el.addEventListener('click', window.sui_popup.eventListener[id]);
-                    if (bool) {
-                        el.classList.add('sui-popup');
-                        if (!el.closest('.sui-screen')) {
-                            let dummy = document.createElement('div');
-                            dummy.classList.add('sui-dummy');
-                            dummy.id = '_dummy_' + id;
-                            el.parentNode.insertBefore(dummy, el);
-                            screen.append(el);
-                        }
-                    }
-
-                    el.classList.add(stickTo);
-
-                    window.sui_popup.timeout = setTimeout(() => {
-                        screen.style.backgroundColor = overlayColor;
-                        el.classList.add(direction);
-                    }, direction === '_center' ? 0 : 100);
-
-                    return el;
-                }
-            }
-        };
     }
 
 };
 </script>
 <style lang="less">
-@mouse: ~'(pointer: fine)';
-@touch: ~'(pointer: coarse)';
-@phone: ~'only screen and (max-width: 441px)';
-@tablet: ~'only screen and (max-width: 768px)';
-@laptop: ~'only screen and (max-width: 1366px)';
-@notphone: ~'not screen and (max-width: 441px)';
-@nottablet: ~'not screen and (max-width: 768px)';
-@notlaptop: ~'not screen and (max-width: 1366px)';
-.hideonphone {
-    @media @phone {
-        display: none !important;
-    }
-}
-
-.hideontablet {
-    @media @tablet {
-        display: none !important;
-    }
-}
-
-.hideonlaptop {
-    @media @laptop {
-        display: none !important;
-    }
-}
-
-.viewonphone {
-    @media @notphone {
-        display: none !important;
-    }
-}
-
-.viewontablet {
-    @media @nottablet {
-        display: none !important;
-    }
-}
-
-.viewonlaptop {
-    @media @notlaptop {
-        display: none !important;
-    }
-}
+@import '../assets/viewport.less';
 
 div.sui-list {
+    --grid: 1fr 1fr 1fr;
+    @media @laptop {
+        --grid: 1fr 1fr;
+    }
+    @media @phone {
+        --grid: 1fr;
+    }
     display: grid;
     grid-template-columns: var(--grid);
     gap: 8px;
@@ -1656,7 +1313,8 @@ div.sui-list {
     .article {
         position: relative;
         width: 100%;
-        box-shadow: 0 0 0 2px var(--content-text_screen);
+        //box-shadow: 0 0 0 2px var(--content-text_screen);
+        //box-shadow: 0 0 8px var(--background-text_screen);
         border-radius: 8px;
         overflow: hidden;
         background-color: var(--content);
@@ -1779,10 +1437,6 @@ div.sui-list {
             }
         }
     }
-}
-
-div.sui-dummy {
-    display: none;
 }
 
 div.sui-textarea {
@@ -2114,100 +1768,6 @@ label.sui-radio {
         border-radius: 1em;
         vertical-align: middle;
     }
-}
-
-div.sui-screen {
-    &._stickto-bottom {
-        justify-content: flex-end;
-    }
-
-    &._stickto-top {
-        justify-content: flex-start;
-    }
-
-    &._stickto-left {
-        justify-content: center;
-        align-items: flex-start;
-    }
-
-    &._stickto-right {
-        justify-content: center;
-        align-items: flex-end;
-    }
-
-    z-index: 9999;
-    justify-content: center;
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: transparent;
-    transition: background-color .5s;
-
-    &._stickto-center {
-        transition: background-color 0s;
-    }
-
-    overflow: hidden;
-}
-
-div.sui-popup {
-    overflow-y: auto;
-    overflow-x: hidden;
-    @media @tablet {
-        margin: 0 !important;
-    }
-
-    &._stickto-bottom {
-        border-bottom-left-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-        bottom: -100%;
-        margin: 0 auto !important;
-    }
-
-    &._stickto-top {
-        border-top-left-radius: 0 !important;
-        border-top-right-radius: 0 !important;
-        bottom: 100%;
-        margin: 0 auto !important;
-    }
-
-    &._stickto-right {
-        border-top-right-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-        left: 100%;
-        margin: 0 !important;
-    }
-
-    &._stickto-left {
-        border-top-left-radius: 0 !important;
-        border-bottom-left-radius: 0 !important;
-        left: -100%;
-        margin: 0 !important;
-    }
-
-    &._stickto-center {
-        margin: auto !important;
-    }
-
-    display: block !important;
-
-    position: relative;
-
-    max-height: 100%;
-
-    &._up, &._down {
-        bottom: 0;
-    }
-
-    &._left, &._right {
-        left: 0;
-    }
-
-    transition: bottom .5s, left .5s;
 }
 
 div.sui-accordion {
@@ -2571,14 +2131,12 @@ div.sui-card {
     color: var(--content-text);
     border-radius: 8px;
     padding: 0 1.3em;
+    overflow: hidden;
 
     box-shadow: 0 0 0 2px var(--content-text_screen);
     text-align: left;
     max-width: calc(100% - 2.6em);
-    @media @phone {
-        padding: 0 .7em;
-        max-width: calc(100% - 1.4em);
-    }
+
     display: inline-block;
     vertical-align: top;
 
@@ -2623,20 +2181,18 @@ div.sui-card {
         & > .close {
             &::after {
                 content: '\00D7';
-                vertical-align: middle;
+                font-size: 1.3em;
+                line-height: 1;
+                vertical-align: top;
             }
 
             cursor: pointer;
-            width: 1em;
-            height: 1em;
-            font-size: 1.3em;
-            line-height: 1rem;
-            overflow: hidden;
+            width: 1.3em;
             text-align: center;
             display: block;
             position: absolute;
-            right: .5em;
-            top: .5em;
+            right: 0.3em;
+            top: 0.3em;
         }
     }
 
@@ -2892,6 +2448,7 @@ div.sui-input {
                 }
             }
         }
+
         & > .left,
         & > .right {
             display: inline-flex;
@@ -2933,6 +2490,7 @@ div.sui-input {
                 right: 1px;
             }
         }
+
         & > button {
             &:hover {
                 color: var(--content-focus);
@@ -3306,107 +2864,6 @@ div.sui-input {
             width: 1.75rem;
             cursor: default;
         }
-    }
-}
-
-div.menublock {
-    padding: .75em .5rem;
-    color: var(--toolbar-text_soft);
-    cursor: pointer;
-    position: relative;
-    margin: 0 -.5rem;
-
-
-    & > .new:last-child {
-        position: static;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: unset;
-    }
-
-    & > * {
-        vertical-align: middle;
-        display: inline-block;
-    }
-
-    & > p {
-        padding-left: 1em;
-
-        & + .new {
-            padding-left: 1em;
-        }
-    }
-
-    & > .new {
-        text-align: right;
-        width: 1.25em;
-        height: calc(100% - 1.5em);
-        position: absolute;
-        left: 0.5rem;
-
-        small {
-            font-size: 0.65em;
-            font-family: monospace;
-            font-weight: bold;
-            color: white;
-            background: var(--alert);
-            white-space: nowrap;
-            padding: 0 0.25em;
-            border-radius: 3px;
-            vertical-align: middle;
-        }
-    }
-
-    & > pre + p {
-        padding-left: 0;
-    }
-
-    & > .left {
-        width: 1.25em;
-        height: 1.25em;
-        overflow: hidden;
-        border-radius: 3px;
-        position: relative;
-
-        * {
-            font-size: 1.25em;
-            line-height: 1;
-        }
-
-        img {
-            width: 100%;
-            display: block;
-            height: 100%;
-        }
-
-        &:not(:empty) + .new {
-            text-align: left;
-
-            small {
-                font-size: 0.6rem;
-                top: -1.25em;
-                position: relative;
-                left: -.625em;
-            }
-        }
-    }
-
-    &:hover:not(.disabled):not(.select) {
-        color: var(--toolbar-text);
-        text-shadow: 1px 1px var(--toolbar-text_shadow);
-    }
-
-    &.disabled {
-        opacity: .5;
-        cursor: default;
-    }
-
-    &.select {
-        background-color: var(--toolbar-focus_shadow);
-        border-radius: 8px;
-        color: var(--toolbar-focus);
-        text-shadow: 1px 1px var(--toolbar-text_shadow);
     }
 }
 
