@@ -5,6 +5,9 @@ import router from './router'
 import store from './store'
 import sui_app from './components/sui-app'
 import sui_sticky from './components/sui-sticky'
+import Skateui from "./plugins/skateui.js"
+
+Vue.use(Skateui);
 
 Vue.config.productionTip = false
 
