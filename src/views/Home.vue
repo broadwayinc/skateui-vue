@@ -1116,8 +1116,8 @@
                     img.square(src="@/assets/nike2.jpg")
                     .content-wrapper
                         .description
-                            .title(style="font-size:.8em") $599.99
-                            .text(style="font-size:.7em") TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
+                            .title $599.99
+                            .text TCL 65-inch 5-Series 4K UHD Dolby Vision HDR QLED Roku Smart TV - 65S535, 2021 Model
                         button
                             i.material-icons shopping_cart
             .article(style="--textclamp: 2")
@@ -1125,21 +1125,29 @@
                     img.square(src="@/assets/nike1.jpg")
                     .content-wrapper
                         .description
-                            .title(style="font-size:.8em") $199.99
-                            .text(style="font-size:.7em") Nike shoes, 2021 Model
+                            .title $199.99
+                            .text Nike shoes, 2021 Model
                         button
                             i.material-icons shopping_cart
             .article(style="--textclamp: 2")
                 .content
                     img.square(src="@/assets/newyork.jpg")
-                    .title(style="font-size:.8em") $399.99
-                    .text(style="font-size:.7em") Full New york zombie tour
+                    .content-wrapper
+                        .description
+                            .title $399.99
+                            .text Full New york zombie tour
+                        button
+                            i.material-icons shopping_cart
                 .overlay HI
             .article(style="--textclamp: 2")
                 .content
                     img.square(src="@/assets/bunnykit.jpg")
-                    .title(style="font-size:.8em") $99.99
-                    .text(style="font-size:.7em") Peach blouse
+                    .content-wrapper
+                        .description
+                            .title $99.99
+                            .text Peach blouse
+                        button
+                            i.material-icons shopping_cart
             .article
                 .content
                     img.block(src="@/assets/newyork.jpg")
@@ -1410,7 +1418,7 @@ div.sui-list {
                 color: var(--content-text_soft);
                 text-shadow: 1px 1px var(--content-text_shadow);
                 overflow: hidden;
-                font-size: .8em;
+                font-size: .8rem;
                 line-height: 1.25;
 
                 & + .text {
@@ -1432,8 +1440,9 @@ div.sui-list {
                 margin-bottom: .5rem;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
-                font-size: 0.8em;
+                font-size: 0.7rem;
                 line-height: 1.25;
+                height: calc(0.7rem * 1.25 * 2);
 
                 &:hover {
                     text-decoration: underline;
