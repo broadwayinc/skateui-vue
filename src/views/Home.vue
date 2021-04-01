@@ -1,9 +1,9 @@
 <template lang="pug">
     div
-        .sui-card
-            .image
+        sui-card
+            template(#image)
                 img(style='width: 20rem' src="@/assets/skate.jpg")
-            .content
+            template(#content)
                 h4 SKATE UI
                 br
                 | All the CSS scripts are available inside this .vue file.
@@ -62,49 +62,50 @@
                         div(v-for="(c, k) in colorScheme" :style="{display:'flex',alignItems:'center'}")
                             p {{k}} : {{c}}&nbsp;
                             div(:style="{width:'1em',height:'1em',backgroundColor:c,border:'1px solid'}")
-            .button_footer
-            .footer.
-                I am your footer! The font size here is 0.8rem unless tag is used.
+            template(#buttonFooter)
+            template(#footer) I am your footer! The font size here is 0.8rem unless tag is used.
         br
         br
         div
-            .sui-card EMPTY
-            .sui-card
-                .title TITLE
-            .sui-card
-                .content CONTENT
-            .sui-card
-                .button_footer BUTTON
-            .sui-card
-                .footer FOOTER
-            .sui-card
-                .title TITLE
-                .content CONTENT
-                .footer FOOTER
-            .sui-card
-                .title TITLE
-                .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
-                .content CONTENT
-                .button_footer BUTTON
-                .footer FOOTER
-            .sui-card
-                .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
-                .content CONTENT
-                .button_footer BUTTON
-                .footer FOOTER
-            .sui-card.center
-                .title TITLE (.center)
-                .image(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
-                .content CONTENT (.center)
-                .button_footer BUTTON (.center)
-                .footer FOOTER (.center)
+            sui-card EMPTY
+            sui-card
+                template(#title) TITLE
+            sui-card
+                template(#content) CONTENT
+            sui-card
+                template(#buttonFooter) BUTTON
+            sui-card
+                template(#footer) FOOTER
+            sui-card
+                template(#title) TITLE
+                template(#content) CONTENT
+                template(#footer) FOOTER
+            sui-card
+                template(#title) TITLE
+                template(#image)
+                    div(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+                template(#content) CONTENT
+                template(#buttonFooter) BUTTON
+                template(#footer) FOOTER
+            sui-card
+                template(#image)
+                    div(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+                template(#content) CONTENT
+                template(#buttonFooter) BUTTON
+                template(#footer) FOOTER
+            sui-card(align="center")
+                template(#title) TITLE (.center)
+                template(#image)
+                    div(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+                template(#content) CONTENT (.center)
+                template(#buttonFooter) BUTTON (.center)
+                template(v-slot:footer) FOOTER (.center)
         br
         br
-        .sui-card
-            .title
+        sui-card
+            template(v-slot:title)
                 h6 TITLE
-            .image
-            .content.
+            template(v-slot:content).
                 Notice the card's title above.
 
                 ".title" div handles the cards title.
@@ -115,69 +116,55 @@
 
                 If the ".image" div has an image, (like the one above with the turtle)
                 it is not advised to use it with the title. (or vice versa)
-            .button_footer
-            .footer
         br
         br
-        .sui-card
-            .title(style="background-color:var(--content-focus);color:var(--content-focus-text)")
-                div
-                    img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em .5em .5em 0;border-radius:2em;border:solid 1px;' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2U5Yjg5NGM1LWQ1NDgtNGZkYi04YTJlLTdkNTllOTIyNzMyMC9pbWFnZS8yODg4NjcwX2tEVGFDRmUyMDcwNjc2NTQiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjQ4MCwiaGVpZ2h0Ijo0ODAsImZpdCI6Im91dHNpZGUifX19")
-                    p(style="vertical-align:middle;display:inline;") The Turtle Has Escaped!
-            .image
-            .content.
+        sui-card(title-background title-color)
+            template(#title)
+                img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em .5em .5em 0;border-radius:2em;border:solid 1px;' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2U5Yjg5NGM1LWQ1NDgtNGZkYi04YTJlLTdkNTllOTIyNzMyMC9pbWFnZS8yODg4NjcwX2tEVGFDRmUyMDcwNjc2NTQiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjQ4MCwiaGVpZ2h0Ijo0ODAsImZpdCI6Im91dHNpZGUifX19")
+                p(style="vertical-align:middle;display:inline;") The Turtle Has Escaped!
+
+            template(#content).
                 I changed up some styles in the title.
                 We can highlight the title to alert users, or make use for something else.
 
                 In this example, you may want to remove the default top padding of the title.
                 simply add "margin-top: -1em" on the direct child div in the title div.
                 (have a look inside this .vue file)
-            .button_footer
-            .footer.
-                I am your footer... don't ignore me...
+            template(#footer) I am your footer... don't ignore me...
         br
         br
-        .sui-card
-            .title
+        sui-card(contentCenter)
+            template(#title)
                 h6 CLASS ".center"
-            .image
-            .content.center
+            template(#content)
                 h5 If you ain't got much to write,
                 p Try ".center" class on content. It will look nicer.
-            .button_footer
-            .footer Footer alignment follows the card alignment
+            template(#footer) Footer alignment follows the card alignment
         br
         br
-        .sui-card
-            .title
-            .image
-            .content.
+        sui-card
+            template(#content).
                 In order for card css to work properly,
                 all the child element(.title, .image, .content, .button_footer, .footer) should be present
                 even if the element is empty.
-            .button_footer
-            .footer(style="opacity:0.5") It's best to use 50% opacity on footer unless it's an alert message.
+            template(#footer) It's best to use 50% opacity on footer unless it's an alert message.
         br
         br
-        .sui-card
-            .title
+        sui-card(content-center sticky-mobile-button-footer)
+            template(#title)
                 h6 Button
-            .image
-            .content.center
+            template(#content)
                 h4 Look! A Button!
                 br
                 p We will use the ".button_footer" div for card buttons.
-            .button_footer.hideonphone
+            template(#buttonFooter).hideonphone // Jinyoon redo this part
                 sui-button HELLO
             .button_footer.sticky.viewonphone
                 sui-button HELLO
-            .footer
         br
         br
-        .sui-card
-            .title
-            .image
-            .content
+        sui-card
+            template(#content)
                 p.
                     If the card alignment is not set, button will be placed on the right side.
 
@@ -191,16 +178,14 @@
                 ul
                     li Only one button is allowed to be filled! Rest should be nude.
                     li It is advised to not use more than 2 footer buttons.
-            .button_footer
+            template(#buttonFooter)
                 sui-button(type="nude") CANCEL
                 sui-button COWABUNGA
-            .footer(style="opacity:0.5") I'm your footer.
+            template(#footer) I'm your footer.
         br
         br
-        .sui-card
-            .title
-            .image
-            .content
+        sui-card
+            template(#content)
                 h5 But... I need more than 2 buttons!
                 br
                 p.
@@ -208,18 +193,17 @@
                     still there might be some situation we might need more than 2 buttons.
 
                     In that case, simply use footer text as a link or a button.
-            .button_footer
+            template(#buttonFooter)
                 sui-button(type="nude") STEAL
                 sui-button BUY
-            .footer
+            template(#footer)
                 a(style='color: var(--content-text);opacity:50%' href="https://www.google.com/search?q=dog&rlz=1C5CHFA_enKR901KR901&oq=dog&aqs=chrome..69i57j46i275j0l3j46j0l4.822j0j4&sourceid=chrome&ie=UTF-8") I lost my dog
         br
         br
-        .sui-card
-            .title
+        sui-card
+            template(#title)
                 h6 BUTTON DESIGNS
-            .image
-            .content
+            template(#content)
                 h6 There are only 3 types of buttons:
                 br
                 br
@@ -264,14 +248,10 @@
                 br
                 sui-button(loading)
                 sui-button(type="nude" loading)
-            .button_footer
-            .footer
         br
         br
-        .sui-card
-            .title
-            .image
-            .content.center
+        sui-card(content-center)
+            template(#content)
                 h5 What if it's on mobile?
                 p.
                     ".button_footer" will take care of it.
@@ -281,17 +261,16 @@
                     When in mobile screen,
                     the .button_footer will stack your buttons vertically in reverse order,
                     Will add underline in nude button.
-            .button_footer
+            template(#buttonFooter)
                 sui-button(type="nude") STEAL
                 sui-button BUY
-            .footer(style="opacity:0.5") This is a footer
+            template(#footer) This is a footer
         br
         br
-        .sui-card
-            .title
+        sui-card(content-center)
+            template(#title)
                 h6 INPUTS
-            .image
-            .content.center
+            template(#content)
                 .sui-input
                     input(placeholder="Here's an Input form")
                     fieldset
@@ -488,14 +467,10 @@
                         .menu(style="padding: .5rem .75rem; font-size:.8em;").
                             If the .option is empty, suggestion box will not show
                     .message Full Combo
-            .button_footer
-            .footer
         br
         br
-        .sui-card(style="display: inline-block;")
-            .title
-            .image
-            .content
+        sui-card(style="display: inline-block;")
+            template(#content)
                 h4.textshadow Form Example 1
                 hr
                 br
@@ -536,17 +511,15 @@
                             .sui-input(style="width:13rem")
                                 input(placeholder="000000" type="password")
                                 fieldset
-            .button_footer
+            template(#buttonFooter)
                 sui-button(type="nude") Login
                 sui-button Sign-Up
-            .footer
+            template(#footer)
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
         br
         br
-        .sui-card(style="display: inline-block;")
-            .title
-            .image
-            .content
+        sui-card(style="display: inline-block;")
+            template(#content)
                 h4.textshadow Form Example 2
                 hr
                 br
@@ -600,18 +573,17 @@
                                 label Serial
                                 fieldset
                                     legend Serial
-            .button_footer
+            template(#buttonFooter)
                 sui-button(type="nude") Login
                 sui-button Sign-Up
-            .footer
+            template(#footer)
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
         br
         br
-        .sui-card(style="display: inline-block;")
-            .title
+        sui-card(style="display: inline-block;")
+            template(#title)
                 h6 Form Example 3
-            .image
-            .content
+            template(#content)
                 div(style="text-align:center")
                     div(style="display:inline-block;text-align: left;")
                         p.
@@ -652,18 +624,17 @@
                             .sui-input(style="width:13rem")
                                 input(placeholder="000000" type="password")
                                 fieldset
-            .button_footer
+            template(#buttonFooter)
                 sui-button(type="nude") Login
                 sui-button Sign-Up
-            .footer
+            template(#footer)
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
         br
         br
-        .sui-card
-            .title
-            .image
+        sui-card(content-center)
+            template(#image)
                 img(style='width: 20rem' src="@/assets/skate.jpg")
-            .content.center
+            template(#content)
                 p Form example 4
                 br
                 br
@@ -713,17 +684,17 @@
                             Serial
                         fieldset
                             legend Serial
-            .button_footer
+            template(#buttonFooter)
                 sui-button(type="nude") Login
                 sui-button Sign-Up
-            .footer
+            template(#footer)
                 a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
         br
         br
-        .sui-card
-            .title
+        sui-card
+            template(#title)
                 h6 Textarea
-            .content
+            template(#content)
                 .sui-textarea.left.right
                     textarea(placeholder='Hello' rows="1")
                     label 텍스트에리아
@@ -735,11 +706,10 @@
                         i.material-icons send
         br
         br
-        .sui-card
-            .title
+        sui-card
+            template(#title)
                 h6 Tooltip
-            .image
-            .content
+            template(#content)
                 p.
                     Here is the tooltip.
                     You can set direction of the text by adding .bottom | .left class.
@@ -770,14 +740,12 @@
                                 This is a toolbox
                                 This is positioned .left.bottom
                         i.material-icons.left help
-            .button_footer
-            .footer
         br
         br
-        .sui-card
-            .title
+        sui-card
+            template(#title)
                 h6 Steps
-            .content
+            template(#content)
                 h5.textshadow Steps
                 br
                 h6 Lined style:
@@ -822,14 +790,12 @@
                     Use css var --ring-count to set the number of steps.
                     Use .complete, .current classes to set the step status.
                     Use css var --ring-status to set the current steps on ring mode.
-            .button_footer
-            .footer
         br
         br
-        .sui-card
-            .title
+        sui-card
+            template(#title)
                 h6 Accordion
-            .content
+            template(#content)
                 .sui-accordion(onclick="sui_accordion.handler(event)")
                     .title Click Me
                     hr
@@ -855,11 +821,11 @@
                         They said I rap like a robot, so call me Rap-bot
         br
         br
-        .sui-card
-            .title
+        sui-card(content-center)
+            template(#title)
                 h6 POP UP
-            .content.center Push A Button
-            .button_footer
+            template(#content) Push A Button
+            template(#buttonFooter)
                 sui-button(onclick="sui_popup.handler('myModal')") Default
                 br
                 br
@@ -876,12 +842,12 @@
                 br
                 br
                 sui-button(onclick="sui_popup.handler('somerandomstuff')") SPAM
-        .sui-card#myModal(style="display:none;")
-            .title
+        sui-card#myModal(content-center style="display:none;")
+            template(#title)
                 h6 POP UP
-            .image
+            template(#image)
                 img(style='width: 20rem' src="@/assets/skate.jpg")
-            .content.center
+            template(#content)
                 h3 Yes Master?
                 br
                 p.
@@ -889,7 +855,7 @@
                     Modal is basically same old card :)
                     Just give it an ID and hide it somewhere.
                     The JS function will take care of it.
-            .button_footer
+            template(#buttonFooter)
                 sui-button(onclick="sui_popup.handler('myModal')") OK
         #somerandomstuff(style="display:none;background-color:red;color:white;padding: 2em;text-align:right;")
             | I'm A SPAMMER
@@ -897,10 +863,10 @@
             sui-button(onclick="sui_popup.handler('somerandomstuff')") OK
         br
         br
-        .sui-card
-            .title
+        sui-card
+            template(#title)
                 h6 Toggles
-            .content
+            template(#content)
                 label.sui-toggle
                     p Toggle
                     pre
@@ -951,14 +917,13 @@
                     .radio
         br
         br
-        .sui-card
-            .title
+        sui-card(close-button)
+            template(#title)
                 h6 Image Editor
-                .close
-            .image
+            template(#image)
                 img(src="@/assets/myface.jpg")
-            .content
-            .button_footer
+            template(#content)
+            template(#buttonFooter)
                 sui-button(type="nude") Change Image
                 sui-button UPLOAD
         br
@@ -967,8 +932,8 @@
         hr
         br
         br
-        .sui-card
-            .content
+        sui-card
+            template(#content)
                 h4 Guide for the shopping cart design
                 hr
                 br
@@ -981,11 +946,10 @@
                     It should always be separate page.
         br
         br
-        .sui-card
-            .title(style="padding-right: 2.3em;")
+        sui-card(close-button)
+            template(#title)
                 | Expected Delivery: 1985 / Aug / 20
-                .close
-            .content
+            template(#content)
                 .cart
                     img(src="@/assets/skate.jpg")
                     .detail.
@@ -1006,11 +970,10 @@
                             button.right(style="font-size: 1.8rem") +
         br
         br
-        .sui-card
-            .title(style="padding-right: 2.3em;")
+        sui-card(close-button)
+            template(#title)
                 | Digital Coupon
-                .close
-            .content
+            template(#content)
                 .cart
                     img(src="@/assets/skate.jpg")
                     .detail.
@@ -1031,11 +994,10 @@
                             button.right(style="font-size: 1.8rem") +
         br
         br
-        .sui-card
-            .title(style="padding-right: 2.3em;background-color:yellow")
+        sui-card(title-background="yellow" close-button)
+            template(#title)
                 | NFT - Digital assets (click for more info)
-                .close
-            .content
+            template(#content)
                 .cart
                     img(src="@/assets/skate.jpg")
                     .detail.
@@ -1056,11 +1018,11 @@
                             .button(style="font-size: 1.8rem") +
         br
         br
-        .sui-card
-            .title(style="padding-right: 2.3em;background-color:var(--alert);color:white;")
+        sui-card(disabled title-background="var(--alert)" title-color="white")
+            template(#title)
                 | This item no longer exists
                 .close
-            .content(style="opacity:0.5")
+            template(#content)
                 .cart
                     img(src="@/assets/skate.jpg")
                     .detail.
@@ -1080,8 +1042,9 @@
                             button.right(style="font-size: 1.8rem") +
         br
         br
-        .sui-card(style="background-color:var(--background);color:var(--background-text);overflow: hidden;")
-            .title(style="background-color:var(--background-focus_transparent);")
+        sui-card(title-background="var(--background-focus_transparent")
+            // style="background-color:var(--background);color:var(--background-text);overflow: hidden;"
+            template(#title)
                 div(style="line-height: 2.8;") Hey you have a coupon!
         br
         br
@@ -2039,241 +2002,6 @@ div.sui-tooltip {
         cursor: pointer;
         font-size: 1.25em;
         line-height: 1em;
-    }
-}
-
-div.sui-card {
-    tab-size: 1em;
-    background-color: var(--content);
-    color: var(--content-text);
-    border-radius: 8px;
-    padding: 0 1.3em;
-    overflow: hidden;
-
-    box-shadow: 0 0 0 2px var(--content-text_screen);
-    text-align: left;
-    max-width: calc(100% - 2.6em);
-
-    display: inline-block;
-    vertical-align: top;
-
-    * {
-        margin: 0;
-        white-space: pre-wrap;
-        word-break: break-word;
-    }
-
-    & > .title, & > .image {
-        overflow: hidden;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-    }
-
-    & > .title:not(:empty) {
-        position: relative;
-        padding-top: 0.5rem;
-        padding-left: 1.3em;
-        padding-right: 1.3em;
-        margin: 0 -1.3em;
-        min-height: 2rem;
-        line-height: 2rem;
-        border-bottom: 1px solid var(--content-text_transparent);
-
-        & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > small {
-            min-height: 2em;
-            line-height: 2em;
-            padding-top: 0.5em;
-            margin-top: -0.5rem;
-        }
-
-        & > div:not(.close) {
-            margin-top: -.5em;
-        }
-
-        & + .image {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-
-        & > .close {
-            &::after {
-                content: '\00D7';
-                font-size: 1.3em;
-                line-height: 1;
-                vertical-align: top;
-            }
-
-            cursor: pointer;
-            width: 1.3em;
-            text-align: center;
-            display: block;
-            position: absolute;
-            right: 0.3em;
-            top: 0.3em;
-        }
-    }
-
-
-    & > .image:not(:empty) {
-        margin: 0 -1.3em;
-
-        * {
-            width: 100%;
-            display: block;
-        }
-
-        user-select: none;
-
-        img {
-            -webkit-user-drag: none;
-            margin: 0 auto;
-            max-width: 100%;
-        }
-
-        & + .content {
-            padding-top: 0.8rem;
-        }
-    }
-
-    & > .content:not(:empty) {
-        & > * {
-            max-width: 100%;
-        }
-
-        h1, h2, h3, h4, h5 {
-            text-shadow: 1px 1px rgba(0, 0, 0, 0.11);
-        }
-
-        padding: 2em 0.5rem 2.5em;
-        line-height: 1.5em;
-
-        & > .cart {
-            margin: 0px -.5em;
-            width: calc(100% + 1em);
-            max-width: unset;
-
-            * {
-                vertical-align: top;
-            }
-
-            & > img {
-                margin-bottom: 1.3em;
-                width: 24vw;
-                height: 24vw;
-                max-width: 160px;
-                max-height: 160px;
-                border-radius: 4px;
-                object-fit: contain;
-                display: inline;
-                float: left;
-                margin-right: 1rem;
-            }
-
-            .detail {
-                font-weight: 500;
-                display: inline;
-                cursor: pointer;
-
-                &:hover {
-                    text-shadow: 1px 1px var(--content-text_shadow);
-                    text-decoration: underline;
-                }
-            }
-
-            .price {
-                font-size: 1.953em;
-                color: var(--content-text_soft);
-                text-shadow: 1px 1px var(--content-text_shadow);
-                text-align: right;
-                cursor: default;
-                user-select: none;
-            }
-
-            .quantity {
-                text-align: right;
-            }
-        }
-
-        & > hr {
-            margin-top: 1em;
-            border-left: 0;
-            border-right: 0;
-            margin-left: -.5em;
-            margin-right: -.5em;
-            max-width: unset;
-            width: calc(100% + 1em);
-        }
-
-        &.center {
-            text-align: center;
-            padding-left: 0;
-            padding-right: 0;
-
-            h1, h2, h3, h4, h5, h6, p, small {
-                text-align: center;
-            }
-
-            & + .button_footer {
-                text-align: center;
-
-                & + .footer {
-                    text-align: center;
-                }
-            }
-        }
-    }
-
-    & > .button_footer:not(.sticky) {
-        text-align: right;
-
-        &:not(:empty) {
-            padding-bottom: 1.5em;
-
-            @media @phone {
-                display: flex;
-                flex-direction: column-reverse;
-
-                .sui-button {
-                    display: block;
-                    margin: 8px auto;
-
-                    &.nude {
-                        text-decoration: underline;
-                    }
-
-                    &:first-child {
-                        margin-bottom: 0;
-                    }
-                }
-            }
-
-            & + .footer {
-                text-align: right;
-            }
-        }
-    }
-
-    & > .button_footer.sticky {
-        text-align: right;
-        position: fixed;
-        overflow-y: hidden;
-        overflow-x: scroll;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 9999;
-        background-color: var(--content);
-        padding: 8px;
-        border-top: 2px solid var(--content-text_transparent);
-    }
-
-    & > .footer {
-        font-size: 0.8rem;
-
-        &:not(:empty) {
-            padding-bottom: 1.5em;
-            line-height: 1.5em;
-        }
     }
 }
 
