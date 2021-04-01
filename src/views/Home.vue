@@ -1042,8 +1042,7 @@
                             button.right(style="font-size: 1.8rem") +
         br
         br
-        sui-card(title-background="var(--background-focus_transparent")
-            // style="background-color:var(--background);color:var(--background-text);overflow: hidden;"
+        sui-card(title-background="var(--background-focus_transparent" color="var(--background-text")
             template(#title)
                 div(style="line-height: 2.8;") Hey you have a coupon!
         br

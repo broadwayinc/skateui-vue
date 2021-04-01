@@ -1,5 +1,5 @@
 <template lang='pug'>
-    div.sui-card(:class="{center: align === 'center'}")
+    div.sui-card(:class="{center: align === 'center'}" :style="{color: color ? color : null}")
         .title(v-if="hasTitleSlot()" :style="titleStyle")
             slot(name="title")
             .close(v-if="closeButton")
@@ -19,6 +19,8 @@ export default {
     name: 'sui-card',
     props: {
         align: String,
+        background: String,
+        color: String,
         titleBackground: Boolean | String,
         titleColor: [String, Boolean],
         contentCenter: Boolean,
