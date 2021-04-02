@@ -8,12 +8,22 @@ export default {
     name: 'sui-sticky',
     props: {
         offset: {type: Number, default: 0},
+        disableSticky: false,
         ignoreNavbar: {type: Boolean, default: false}
     },
     data() {
         return {
-            sticky: null
+            sticky: null,
+            resizeEventIdx: null
         };
+    },
+    watch: {
+        disableSticky(n) {
+            if (n)
+                this.sticky.disable();
+            else
+                this.sticky.activate();
+        }
     },
     computed: {
         elementId() {
@@ -59,12 +69,19 @@ export default {
         }
     },
     created() {
+        if (window.sui_sticky)
+            return;
+
         class SuiSticky {
             constructor(option) {
+                let {elementId, offset = 0, ignoreNavbar = false, disableSticky = false} = option;
+                if (!elementId) throw 'no id';
+
+                this.disableSticky = disableSticky;
                 this.elementId = null;
                 this.element = null;
-                this.scroll_eventIdx = null;
-                this.resize_eventIdx = null;
+                this.scroll_eventId = null;
+                this.resize_eventId = null;
                 this.previousScroll = 0;
                 this.stickyHeight = 0;
                 this.ignoreNavbar = false;
@@ -72,7 +89,10 @@ export default {
                 this.sticky_computedStyle = null;
                 this.offset = 0;
                 this.adjust_sticky = (function () {
+
                     let doIt = () => {
+                        if (!this.sticky_computedStyle) return;
+
                         this.stickyHeight = parseFloat(this.sticky_computedStyle.height);
                         let screenOverload = this.stickyHeight - document.documentElement.clientHeight;
                         screenOverload = screenOverload > 0 ? screenOverload : 0;
@@ -97,48 +117,26 @@ export default {
                             doIt();
                         });
                 }).bind(this);
-                this.init(option);
-            }
 
-            destroy() {
-                this.elementId = null;
-                this.element = null;
-                this.scroll_eventIdx = null;
-                this.resize_eventIdx = null;
-                this.previousScroll = 0;
-                this.stickyHeight = 0;
-                this.dynamicOffset = 0;
-                this.sticky_computedStyle = null;
-
-                if (window.sui_app) {
-                    window.sui_app.scroll_callback.splice(this.scroll_eventIdx, 1);
-                    window.sui_app.resize_callback.splice(this.scroll_eventIdx, 1);
-                    return;
-                }
-
-                document.removeEventListener('scroll',
-                    this.adjust_sticky,
-                    {passive: true});
-                document.removeEventListener('resize',
-                    this.adjust_sticky,
-                    {passive: true});
-            }
-
-            init(option) {
-                let {id, offset = 0, ignoreNavbar} = option;
                 this.offset = offset;
                 this.ignoreNavbar = ignoreNavbar;
-                this.elementId = id;
-                this.element = document.getElementById(id);
-                this.element.style.position = 'sticky';
-                this.element.style.top = '0';
+                this.elementId = elementId;
+                this.element = document.getElementById(elementId);
                 this.sticky_computedStyle = window.getComputedStyle(this.element);
 
+                if (this.disableSticky)
+                    return;
+
+                this.activate();
+            }
+
+            activate() {
+                this.element.style.position = 'sticky';
+                this.element.style.top = '0';
+
                 if (window.sui_app) {
-                    window.sui_app.scroll_callback.push(this.adjust_sticky);
-                    window.sui_app.resize_callback.push(this.adjust_sticky);
-                    this.scroll_eventIdx = window.sui_app.scroll_callback.length - 1;
-                    this.resize_eventIdx = window.sui_app.resize_callback.length - 1;
+                    this.scroll_eventId = window.sui_app.registerEvent.scroll(this.adjust_sticky);
+                    this.resize_eventId = window.sui_app.registerEvent.resize(this.adjust_sticky);
                     return;
                 }
 
@@ -147,21 +145,44 @@ export default {
                     this.adjust_sticky,
                     {passive: true}
                 );
-                document.addEventListener(
+                window.addEventListener(
                     'resize',
                     this.adjust_sticky,
                     {passive: true}
                 );
+            }
+
+            disable() {
+                this.element.style.position = null;
+                this.element.style.top = null;
+
+                if (window.sui_app) {
+                    window.sui_app.removeEvent.scroll(this.scroll_eventId);
+                    window.sui_app.removeEvent.resize(this.resize_eventId);
+                    return;
+                }
+
+                document.removeEventListener('scroll',
+                    this.adjust_sticky,
+                    {passive: true});
+                window.removeEventListener('resize',
+                    this.adjust_sticky,
+                    {passive: true});
             }
         }
 
         window.sui_sticky = SuiSticky;
     },
     mounted() {
-        this.sticky = new window.sui_sticky({id: this.elementId, offset: this.offset, ignoreNavbar: this.ignoreNavbar});
+        this.sticky = new window.sui_sticky({
+            elementId: this.elementId,
+            offset: this.offset,
+            ignoreNavbar: this.ignoreNavbar,
+            disableSticky: this.disableSticky
+        });
     },
     beforeDestroy() {
-        this.sticky.destroy();
+        this.sticky.disable();
     }
 };
 </script>
