@@ -54,7 +54,7 @@
                         br
                         small This is &lt;small&gt;
                 br
-                .sui-accordion(onclick="sui_accordion.handler(event)")
+                sui-accordion
                     .title Color Scheme
                     hr
                     .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
@@ -797,7 +797,7 @@
             template(#title)
                 h6 Accordion
             template(#content)
-                .sui-accordion(onclick="sui_accordion.handler(event)")
+                sui-accordion
                     .title Click Me
                     hr
                     .content(onclick="(function(event){event.stopPropagation()})(event)").
