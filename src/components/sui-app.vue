@@ -209,6 +209,21 @@ export default {
             navbarOffset: 0,
             navbarHeight: 0,
             navbarHeight_dynamic: 0,
+            breakPoint: [441, 767, 1365],
+            viewport: 'desktop',
+            touchScreen: window.matchMedia('(pointer: coarse)').matches,
+            updateViewport() {
+                window.sui_app.viewport = 'desktop';
+
+                let viewport = ['phone', 'tablet', 'laptop'];
+                for (let bp of window.sui_app.breakPoint) {
+                    let v = viewport.splice(0, 1);
+                    if (window.matchMedia(`(max-width: ${bp}px)`).matches) {
+                        window.sui_app.viewport = v[0];
+                        return;
+                    }
+                }
+            },
             colorScheme: null,
             scroll_callback: [],
             resize_callback: [],
@@ -253,10 +268,14 @@ export default {
                     },
                     {passive: true}
                 );
-                document.addEventListener(
+
+                window.sui_app.updateViewport();
+
+                window.addEventListener(
                     'resize',
                     (event) => {
                         window.requestAnimationFrame(() => {
+                            window.sui_app.updateViewport();
                             if (Array.isArray(window.sui_app.resize_callback)) {
                                 for (let c of window.sui_app.resize_callback)
                                     if (typeof c === 'function') c(event);
