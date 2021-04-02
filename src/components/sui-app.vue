@@ -206,6 +206,7 @@ export default {
         };
         window.sui_app = {
             scrollOffset: 0,
+            navbarStyle: null,
             navbarOffset: 0,
             navbarHeight: 0,
             navbarHeight_dynamic: 0,
@@ -213,6 +214,11 @@ export default {
             viewport: 'desktop',
             touchScreen: window.matchMedia('(pointer: coarse)').matches,
             updateViewport() {
+                if (window.sui_app.hideNavbar) {
+                    let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
+                    window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight + 16;
+                }
+
                 window.sui_app.viewport = 'desktop';
 
                 let viewport = ['phone', 'tablet', 'laptop'];
@@ -225,10 +231,74 @@ export default {
                 }
             },
             colorScheme: null,
-            scroll_callback: [],
-            resize_callback: [],
-            init: () => {
-                let cs = new ColorMangle(this.colorScheme).colorScheme();
+            generateId(option) {
+                let limit = 12;
+                let prefix = '';
+
+                if (typeof option === 'number') limit = option;
+                else if (typeof option === 'string') prefix = `${option}_`;
+
+                const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+                let text = '';
+                for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
+
+                const numb = new Date()
+                    .getTime()
+                    .toString()
+                    .substring(7, 13); // SECOND, MILLISECOND
+
+                const shuffleArray = (array) => {
+                    let currentIndex = array.length;
+                    let temporaryValue, randomIndex;
+                    while (0 !== currentIndex) {
+                        randomIndex = Math.floor(Math.random() * currentIndex);
+                        currentIndex -= 1;
+                        temporaryValue = array[currentIndex];
+                        array[currentIndex] = array[randomIndex];
+                        array[randomIndex] = temporaryValue;
+                    }
+                    return array;
+                };
+
+                const letter_array = shuffleArray((text + numb).split(''));
+
+                let output = '';
+                for (let i = 0; i < limit; i++) output += letter_array[i];
+
+                return prefix + output;
+            },
+            registerEvent: {
+                scroll: (f) => {
+                    let id = window.sui_app.generateId('scroll');
+                    window.sui_app.scroll_callback[id] = f;
+                    return id;
+                },
+                resize: (f) => {
+                    let id = window.sui_app.generateId('resize');
+                    window.sui_app.resize_callback[id] = f;
+                    return id;
+                }
+            },
+            removeEvent: {
+                scroll: (id) => {
+                    if (id)
+                        delete window.sui_app.scroll_callback[id];
+                },
+                resize: (id) => {
+                    if (id)
+                        delete window.sui_app.resize_callback[id];
+                }
+            },
+            scroll_callback: {},
+            resize_callback: {},
+            init: (option) => {
+                window.sui_app.navbarStyle = window.getComputedStyle(document.getElementsByTagName('nav')[0]);
+
+                let {colorScheme = 'teal', hideNavbar = false} = option;
+                window.sui_app.hideNavbar = hideNavbar;
+
+                let cs = new ColorMangle(colorScheme).colorScheme();
                 let body = document.getElementsByTagName('BODY')[0];
 
                 for (let c in cs) {
@@ -240,10 +310,7 @@ export default {
 
                 window.sui_app.colorScheme = cs;
 
-                if (this.hideNavbar) {
-                    let navbarHeight = parseInt(window.getComputedStyle(document.getElementsByTagName('nav')[0]).height);
-                    window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight + 16;
-                }
+                window.sui_app.updateViewport();
 
                 document.addEventListener(
                     'scroll',
@@ -260,25 +327,23 @@ export default {
                                 document.getElementsByTagName('body')[0].style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
                             }
 
-                            if (Array.isArray(window.sui_app.scroll_callback)) {
-                                for (let c of window.sui_app.scroll_callback)
-                                    if (typeof c === 'function') c(event);
+                            if (Object.keys(window.sui_app.scroll_callback).length) {
+                                for (let c in window.sui_app.scroll_callback)
+                                    if (typeof window.sui_app.scroll_callback[c] === 'function') window.sui_app.scroll_callback[c](event);
                             }
                         });
                     },
                     {passive: true}
                 );
 
-                window.sui_app.updateViewport();
-
                 window.addEventListener(
                     'resize',
                     (event) => {
                         window.requestAnimationFrame(() => {
                             window.sui_app.updateViewport();
-                            if (Array.isArray(window.sui_app.resize_callback)) {
-                                for (let c of window.sui_app.resize_callback)
-                                    if (typeof c === 'function') c(event);
+                            if (Object.keys(window.sui_app.resize_callback).length) {
+                                for (let c in window.sui_app.resize_callback)
+                                    if (typeof window.sui_app.resize_callback[c] === 'function') window.sui_app.resize_callback[c](event);
                             }
                         });
                     },
@@ -288,7 +353,10 @@ export default {
         };
     },
     mounted() {
-        window.sui_app.init();
+        window.sui_app.init({
+            hideNavbar: this.hideNavbar,
+            colorScheme: this.colorScheme
+        });
     },
     computed: {
         notification_computed() {
