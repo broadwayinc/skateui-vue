@@ -8,7 +8,7 @@
         .content(v-if="hasContentSlot()" :class="{center: contentCenter}" :style="{opacity: disabled ? 0.5 : 1}")
             slot(name="content")
         slot
-        .button_footer(v-if="hasButtonFooterSlot()" :class="{hideonphone: stickyMobileButtonFooter, sticky: stickyMobileButtonFooter, viewonphone: stickyMobileButtonFooter}")
+        .button_footer(v-if="hasButtonFooterSlot()" :class="{sticky: stickyMobileButtonFooter && sticky}")
             slot(name="buttonFooter")
         .footer(v-if="hasFooterSlot()" :style="{opacity: footerAlert !== false ? 1 : 0.5, color: footerAlert}")
             slot(name="footer")
@@ -28,6 +28,27 @@ export default {
         stickyMobileButtonFooter: Boolean,
         closeButton: Boolean,
         disabled: Boolean
+    },
+    data() {
+      return {
+          resizeEventId: null,
+          sticky: false
+      }
+    },
+    mounted() {
+        if(this.stickyMobileButtonFooter) {
+            this.resizeEventId = window.sui_app.registerEvent.resize(() => {
+                if(window.sui_app.viewport === 'phone') {
+                    this.sticky = true;
+                } else {
+                    this.sticky = false;
+                }
+                console.log(this.sticky);
+            });
+        }
+    },
+    destroyed() {
+        window.sui_app.removeEvent.resize(this.resizeEventId);
     },
     computed: {
         titleStyle() {
