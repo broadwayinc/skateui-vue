@@ -25,7 +25,6 @@ div
                 #search
                     .sui-input.select.right(style="width: 100%;")
                         input(placeholder="Search Bunnykit")
-
                         fieldset
                         button.right
                             i.material-icons search
@@ -63,13 +62,13 @@ div
                                     a {{name}}
                 #list
                     sui-sticky(:style="{zIndex:8888}")
-                        #listmode(v-if='listmode.length > 1' :style="{'--listmode':listmode.map(l=>{return '1fr '}).join(' ')}")
-                            .mode(@click='selectedMode = idx' v-for="(l, idx) in listmode" :class="{create:l === 'New', selected: !selectedMode || selectedMode >= listmode.length ? !idx : selectedMode === idx}")
+                        #listmode(v-if='listmode.length > 1' :style="{'--listmode':listmode.map(l=>{return '1fr '}).join(' '),boxShadow:'0 0 0 2px var(--background)'}")
+                            .mode(@click='selectedListMode = idx' v-for="(l, idx) in listmode" :class="{create:l === 'New', selected: !selectedListMode || selectedListMode >= listmode.length ? !idx : selectedListMode === idx}")
                                 template(v-if="l === 'New'")
                                     i.material-icons add_circle
                                     | &nbsp;&nbsp;
                                 p {{l}}
-                    #wysiwyg(v-show="selectedMode === listmode.length - 1")
+                    #wysiwyg(v-show="selectedListMode === listmode.length - 1")
                         .sui-card
                             .content
                                 .sui-accordion(onclick="sui_accordion.handler(event)")
@@ -96,9 +95,9 @@ div
                                 i.material-icons insert_photo
                                 i.material-icons code
                             .button_footer
-                                button.sui-button.nude Save As Draft
-                                button.sui-button POST
-                    router-view(v-show="selectedMode !== listmode.length - 1")
+                                sui-button(type='nude') Save As Draft
+                                sui-button POST
+                    router-view(v-show="selectedListMode !== listmode.length - 1")
     .sui-card#hamburger-menu
         .title
             img(v-if='navbarImage' :src="navbarImage")
@@ -131,12 +130,12 @@ export default {
         return {
             appName: 'Bunnykit',
             navbarImage: navbarImgSample,
-            selectedMode: 0,
+            selectedListMode: 2,
             navigation: {
                 'Home': {
                     url: '/'
                 },
-                'Gibson': {
+                'Singapore': {
                     new: '99+',
                     selected: true
                 },
@@ -191,7 +190,7 @@ export default {
                         disabled: true
                     },
                 }
-            },
+            }
         };
     },
     computed: {
@@ -590,6 +589,7 @@ div.app-grid {
                             color: var(--content-text);
                             text-shadow: 1px 1px var(--content-text_shadow);
                         }
+
                         margin-bottom: 0.75em;
 
                         &:not(:last-child) {
