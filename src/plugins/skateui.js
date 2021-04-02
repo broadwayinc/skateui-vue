@@ -1,6 +1,7 @@
 import SuiButton from '../components/sui-button';
 import SuiCard from '../components/sui-card';
 import SuiAccordion from '../components/sui-accordion';
+import SuiTooltip from '../components/sui-tooltip';
 import {ColorMangle} from "colormangle";
 
 export default {
@@ -8,6 +9,7 @@ export default {
         Vue.component('sui-card', SuiCard);
         Vue.component('sui-button', SuiButton);
         Vue.component('sui-accordion', SuiAccordion);
+        Vue.component('sui-tooltip', SuiTooltip);
 
         let cs = new ColorMangle('#00807f').colorScheme();
         let body = document.getElementsByTagName('BODY')[0];
