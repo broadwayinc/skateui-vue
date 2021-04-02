@@ -86,7 +86,6 @@ div.sui-card {
     color: var(--content-text);
     border-radius: 8px;
     padding: 0 1.3em;
-    overflow: hidden;
 
     box-shadow: 0 0 0 2px var(--content-text_screen);
     text-align: left;
