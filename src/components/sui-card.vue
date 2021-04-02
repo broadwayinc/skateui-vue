@@ -1,5 +1,5 @@
 <template lang='pug'>
-    div.sui-card(:class="{center: align === 'center'}" :style="{color: color ? color : null}")
+    div.sui-card(:class="{center: align === 'center'}" :style="[customStyle, {color: color ? color : null}]")
         .title(v-if="hasTitleSlot()" :style="titleStyle")
             slot(name="title")
             .close(v-if="closeButton")
@@ -27,7 +27,8 @@ export default {
         footerAlert: [String, Boolean],
         stickyMobileButtonFooter: Boolean,
         closeButton: Boolean,
-        disabled: Boolean
+        disabled: Boolean,
+        customStyle: Object
     },
     data() {
       return {

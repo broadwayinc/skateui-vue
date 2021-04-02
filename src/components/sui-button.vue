@@ -1,5 +1,5 @@
 <template lang='pug'>
-    button.sui-button(:class="{nude: type === 'nude', icon: type === 'icon'}" )
+    button.sui-button(:class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
         slot(v-if="!loading")
         i.material-icons(v-if="type === 'icon'") {{ icon }}
         ._loader(v-if="loading")
@@ -16,7 +16,8 @@ export default {
         loading: {
             type: Boolean,
             default: false
-        }
+        },
+        customStyle: Object
     }
 };
 </script>
