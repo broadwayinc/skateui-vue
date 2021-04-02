@@ -33,9 +33,7 @@ export default {
 
         window.sui_screen = {
             handler: (id, stickTo, closeWhenBackgroundClick) => {
-
                 let screen = document.getElementsByClassName('sui-screen')[0];
-
                 if (!screen) {
                     // if there is no overlay screen, create one
                     screen = document.createElement('div');
@@ -80,8 +78,6 @@ export default {
                         }
                     }
                 }
-
-
                 return screen;
             }
         };
@@ -226,9 +222,11 @@ export default {
                     let v = viewport.splice(0, 1);
                     if (window.matchMedia(`(max-width: ${bp}px)`).matches) {
                         window.sui_app.viewport = v[0];
-                        return;
+                        break;
                     }
                 }
+
+                return window.sui_app.viewport;
             },
             colorScheme: null,
             generateId(option) {
