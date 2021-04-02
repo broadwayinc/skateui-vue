@@ -718,29 +718,17 @@
                 br
                 br
                 div(style="display: flex;justify-content: space-between;")
-                    .sui-tooltip
-                        .content
-                            small.
-                                This is a toolbox.
-                                Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
-                        i.material-icons.left help
-                    .sui-tooltip.bottom
-                        .content
-                            small.
-                                Set width and left by javascript on mobile to make the text box full width.
-                        i.material-icons.left help
-                    .sui-tooltip.left
-                        .content
-                            small.
-                                This is a toolbox
-                                This is positioned .left
-                        i.material-icons.left help
-                    .sui-tooltip.left.bottom
-                        .content
-                            small.
-                                This is a toolbox
-                                This is positioned .left.bottom
-                        i.material-icons.left help
+                    sui-tooltip.
+                        This is a toolbox.
+                        Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
+                    sui-tooltip(direction="bottom").
+                        Set width and left by javascript on mobile to make the text box full width.
+                    sui-tooltip(direction="left").
+                        This is a toolbox
+                        This is positioned .left
+                    sui-tooltip(direction="bottom-left").
+                        This is a toolbox
+                        This is positioned .left.bottom
         br
         br
         sui-card
@@ -1856,96 +1844,6 @@ div.sui-steps {
             width: unset;
             display: inline-flex;
         }
-    }
-}
-
-div.sui-tooltip {
-    height: 1.25em;
-    display: inline-block;
-    position: relative;
-    text-align: left;
-    vertical-align: middle;
-
-    &.bottom {
-        & > .content {
-            top: calc(0px + 2em);
-            bottom: unset;
-
-            &::before {
-                content: "";
-                width: 0;
-                height: 0;
-                position: absolute;
-                top: calc(0px - .75em);
-                left: calc(1em - 3px);
-                border-top: none;
-                border-bottom: .75em solid var(--content-text);
-                border-left: .5em solid transparent;
-                border-right: .5em solid transparent;
-            }
-        }
-    }
-
-    &.left {
-        & > .content {
-            left: unset;
-            right: calc(-100% + 0.5em);
-            text-align: right;
-
-            &::before {
-                right: calc(1em - 3px);
-                left: unset;
-            }
-        }
-    }
-
-    & > .content {
-        &::before {
-            content: "";
-            width: 0;
-            height: 0;
-            position: absolute;
-            bottom: calc(0px - .75em);
-            left: calc(1em - 3px);
-            border-top: .75em solid var(--content-text);
-            border-left: .5em solid transparent;
-            border-right: .5em solid transparent;
-        }
-
-        small {
-            text-align: left;
-            background-color: var(--content-text);
-            color: var(--content);
-            padding: .5em 1em;
-            box-shadow: 0 0 0 3px var(--content-text_transparent);
-        }
-
-        width: 50vw;
-        @media @tablet {
-            width: 240px;
-        }
-
-        display: none;
-        z-index: 9999;
-        position: absolute;
-        bottom: calc(0px + 2em);
-        left: calc(-100% + 0.5em);
-    }
-
-    &:hover > .content {
-        display: block;
-    }
-
-    @media @touch {
-        &:active > .content {
-            display: block;
-        }
-    }
-
-    & > .left {
-        cursor: pointer;
-        font-size: 1.25em;
-        line-height: 1em;
     }
 }
 
