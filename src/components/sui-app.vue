@@ -358,8 +358,11 @@ export default {
     },
     computed: {
         notification_computed() {
-            if (this.notification.text)
+            if (this.notification) {
+                if (typeof this.notification === 'string')
+                    return {text: this.notification};
                 return this.notification;
+            }
             return null;
         }
     }
@@ -410,7 +413,6 @@ export default {
         & > .notification {
             border-radius: 8px;
             position: fixed;
-            display: flex;
             top: calc(3rem + 16px);
             padding: 8px;
             background-color: var(--content-text);
@@ -422,6 +424,10 @@ export default {
             cursor: pointer;
             flex-wrap: wrap;
             user-select: none;
+            max-width: calc(100% - 40px - 16px);
+            display: flex;
+            align-items: flex-start;
+            z-index: 8888;
 
             &:hover {
                 a {
@@ -437,13 +443,17 @@ export default {
                 padding: 8px;
             }
 
+            & > .icon:not(:empty) + .text {
+                max-width: calc(100% - 40px - 16px);
+            }
+
             & > .text {
                 white-space: pre-wrap;
                 font-size: .88rem;
                 line-height: 1rem;
+                min-height: calc(40px - 16px);
                 display: flex;
                 align-items: center;
-                width: calc(100% - 40px - 16px);
             }
 
             & > a {
