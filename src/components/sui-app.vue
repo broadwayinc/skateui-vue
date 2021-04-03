@@ -31,328 +31,332 @@ export default {
         if (!this.colorScheme)
             throw 'no color scheme';
 
-        window.sui_screen = {
-            handler: (id, stickTo, closeWhenBackgroundClick) => {
+        if (!window.sui_screen)
+            window.sui_screen = {
+                handler: (id, stickTo, closeWhenBackgroundClick) => {
+                    let screen = document.getElementsByClassName('sui-screen')[0];
+                    if (!screen) {
+                        // if there is no overlay screen, create one
+                        screen = document.createElement('div');
+                        screen.classList.add('sui-screen');
+                        screen.classList.add(stickTo);
 
-                let screen = document.getElementsByClassName('sui-screen')[0];
+                        // let body = document.getElementsByClassName('sui-frame')[0];
+                        let body = document.getElementsByTagName('BODY')[0];
+                        document.body.style.top = `-${window.scrollY}px`;
+                        document.body.style.position = 'fixed';
 
-                if (!screen) {
-                    // if there is no overlay screen, create one
-                    screen = document.createElement('div');
-                    screen.classList.add('sui-screen');
-                    screen.classList.add(stickTo);
+                        if (closeWhenBackgroundClick) {
+                            screen.addEventListener('click', function () {
+                                window.sui_popup.handler(id);
+                            });
+                        }
 
-                    // let body = document.getElementsByClassName('sui-frame')[0];
-                    let body = document.getElementsByTagName('BODY')[0];
-                    document.body.style.top = `-${window.scrollY}px`;
-                    document.body.style.position = 'fixed';
+                        body.append(screen);
+                    } else if (id) {
+                        const scrollY = document.body.style.top;
+                        document.body.style.position = '';
+                        document.body.style.top = '';
+                        window.scrollTo(0, parseInt(scrollY || '0') * -1);
 
-                    if (closeWhenBackgroundClick) {
-                        screen.addEventListener('click', function () {
-                            window.sui_popup.handler(id);
-                        });
-                    }
+                        // clean all element but the element with id given by the id argument
+                        let child = screen.children;
 
-                    body.append(screen);
-                } else if (id) {
-                    const scrollY = document.body.style.top;
-                    document.body.style.position = '';
-                    document.body.style.top = '';
-                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+                        let cid = child.length;
+                        while (cid--) {
+                            if (child[cid].id !== id) {
 
-                    // clean all element but the element with id given by the id argument
-                    let child = screen.children;
+                                let classList = window.sui_popup.classList.direction.concat(window.sui_popup.classList.stickTo);
 
-                    let cid = child.length;
-                    while (cid--) {
-                        if (child[cid].id !== id) {
+                                for (let c of classList)
+                                    child[cid].classList.remove(c);
 
-                            let classList = window.sui_popup.classList.direction.concat(window.sui_popup.classList.stickTo);
-
-                            for (let c of classList)
-                                child[cid].classList.remove(c);
-
-                            let dummy = document.getElementById('_dummy_' + child[cid].id);
-                            if (dummy) {
-                                dummy.parentNode.insertBefore(child[cid], dummy);
-                                dummy.remove();
+                                let dummy = document.getElementById('_dummy_' + child[cid].id);
+                                if (dummy) {
+                                    dummy.parentNode.insertBefore(child[cid], dummy);
+                                    dummy.remove();
+                                }
                             }
                         }
                     }
+                    return screen;
                 }
+            };
 
+        if (!window.sui_popup)
+            window.sui_popup = {
+                classList: {
+                    // DO NOT! change the order of array
+                    stickTo: [
+                        '_stickto-center',
+                        '_stickto-top',
+                        '_stickto-bottom',
+                        '_stickto-right',
+                        '_stickto-left'
+                    ],
+                    direction: [
+                        '_center',
+                        '_down',
+                        '_up',
+                        '_left',
+                        '_right'
+                    ]
+                },
+                eventListener: {},
+                timeout: null,
+                handler: (id, stickTo = 'center', closeWhenBackgroundClicked = false, overlayColor = 'rgba(0, 0, 0, 0.33)') => {
 
-                return screen;
-            }
-        };
-        window.sui_popup = {
-            classList: {
-                // DO NOT! change the order of array
-                stickTo: [
-                    '_stickto-center',
-                    '_stickto-top',
-                    '_stickto-bottom',
-                    '_stickto-right',
-                    '_stickto-left'
-                ],
-                direction: [
-                    '_center',
-                    '_down',
-                    '_up',
-                    '_left',
-                    '_right'
-                ]
-            },
-            eventListener: {},
-            timeout: null,
-            handler: (id, stickTo = 'center', closeWhenBackgroundClicked = false, overlayColor = 'rgba(0, 0, 0, 0.33)') => {
+                    if (!id)
+                        // no id
+                        return;
 
-                if (!id)
-                    // no id
-                    return;
+                    let stickToList = window.sui_popup.classList.stickTo;
+                    let directionList = window.sui_popup.classList.direction;
+                    let direction;
 
-                let stickToList = window.sui_popup.classList.stickTo;
-                let directionList = window.sui_popup.classList.direction;
-                let direction;
+                    if (stickTo !== 'close') {
+                        stickTo = '_stickto-' + stickTo;
+                        direction = directionList[stickToList.indexOf(stickTo)];
+                        if (!stickToList.includes(stickTo))
+                            throw 'allowed argument for stickTo:' + JSON.stringify(stickToList);
 
-                if (stickTo !== 'close') {
-                    stickTo = '_stickto-' + stickTo;
-                    direction = directionList[stickToList.indexOf(stickTo)];
-                    if (!stickToList.includes(stickTo))
-                        throw 'allowed argument for stickTo:' + JSON.stringify(stickToList);
+                        if (!directionList.includes(direction))
+                            throw 'allowed argument for stickTo:' + JSON.stringify(directionList);
 
-                    if (!directionList.includes(direction))
-                        throw 'allowed argument for stickTo:' + JSON.stringify(directionList);
-
-                    if (window.sui_popup.timeout)
-                        clearTimeout(window.sui_popup.timeout);
-                    window.sui_popup.timeout = null;
-                }
-
-                id = id[0] === '#' ? id.substring(1) : id;
-
-                let el = document.getElementById(id);
-                if (!el)
-                    // no matching popup
-                    return;
-
-                let isUp = el.closest('.sui-screen');
-                if (stickTo === 'close' && !isUp)
-                    // nothing to close
-                    return;
-
-                let screen = window.sui_screen.handler(id, stickTo, closeWhenBackgroundClicked);
-
-                if (isUp) {
-                    // popup is showing
-                    for (let c of directionList)
-                        el.classList.remove(c);
-
-                    screen.style.backgroundColor = 'transparent';
-
-                    let cl_idx = el.classList.length, immediate = false;
-
-                    while (cl_idx--) {
-                        if (el.classList[cl_idx].includes('_stickto-center'))
-                            immediate = true;
+                        if (window.sui_popup.timeout)
+                            clearTimeout(window.sui_popup.timeout);
+                        window.sui_popup.timeout = null;
                     }
 
-                    window.sui_popup.timeout = setTimeout(() => {
-                        // cleanup
-                        for (let c of stickToList)
+                    id = id[0] === '#' ? id.substring(1) : id;
+
+                    let el = document.getElementById(id);
+                    if (!el)
+                        // no matching popup
+                        return;
+
+                    let isUp = el.closest('.sui-screen');
+                    if (stickTo === 'close' && !isUp)
+                        // nothing to close
+                        return;
+
+                    let screen = window.sui_screen.handler(id, stickTo, closeWhenBackgroundClicked);
+
+                    if (isUp) {
+                        // popup is showing
+                        for (let c of directionList)
                             el.classList.remove(c);
 
-                        el.classList.remove('sui-popup');
-                        el.removeEventListener('click', window.sui_popup.eventListener[id]);
-                        window.sui_popup.eventListener[id] = null;
+                        screen.style.backgroundColor = 'transparent';
 
-                        let dummy = document.getElementById('_dummy_' + id);
-                        if (dummy) {
-                            dummy.parentNode.insertBefore(el, dummy);
-                            dummy.remove();
+                        let cl_idx = el.classList.length, immediate = false;
+
+                        while (cl_idx--) {
+                            if (el.classList[cl_idx].includes('_stickto-center'))
+                                immediate = true;
                         }
-                        screen.remove();
-                    }, immediate ? 0 : 750);
 
-                } else {
-                    let bool = !el.classList.contains('sui-popup');
+                        window.sui_popup.timeout = setTimeout(() => {
+                            // cleanup
+                            for (let c of stickToList)
+                                el.classList.remove(c);
 
-                    window.sui_popup.eventListener[id] = function (e) {
-                        e.stopPropagation();
+                            el.classList.remove('sui-popup');
+                            el.removeEventListener('click', window.sui_popup.eventListener[id]);
+                            window.sui_popup.eventListener[id] = null;
+
+                            let dummy = document.getElementById('_dummy_' + id);
+                            if (dummy) {
+                                dummy.parentNode.insertBefore(el, dummy);
+                                dummy.remove();
+                            }
+                            screen.remove();
+                        }, immediate ? 0 : 750);
+
+                    } else {
+                        let bool = !el.classList.contains('sui-popup');
+
+                        window.sui_popup.eventListener[id] = function (e) {
+                            e.stopPropagation();
+                        };
+
+                        el.addEventListener('click', window.sui_popup.eventListener[id]);
+                        if (bool) {
+                            el.classList.add('sui-popup');
+                            if (!el.closest('.sui-screen')) {
+                                let dummy = document.createElement('div');
+                                dummy.classList.add('sui-dummy');
+                                dummy.id = '_dummy_' + id;
+                                el.parentNode.insertBefore(dummy, el);
+                                screen.append(el);
+                            }
+                        }
+
+                        el.classList.add(stickTo);
+
+                        window.sui_popup.timeout = setTimeout(() => {
+                            screen.style.backgroundColor = overlayColor;
+                            el.classList.add(direction);
+                        }, direction === '_center' ? 0 : 100);
+
+                        return el;
+                    }
+                }
+            };
+
+        if (!window.sui_app)
+            window.sui_app = {
+                scrollOffset: 0,
+                navbarStyle: null,
+                navbarOffset: 0,
+                navbarHeight: 0,
+                navbarHeight_dynamic: 0,
+                breakPoint: [441, 767, 1365],
+                viewport: 'desktop',
+                touchScreen: window.matchMedia('(pointer: coarse)').matches,
+                updateViewport() {
+                    if (window.sui_app.hideNavbar) {
+                        let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
+                        window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight + 16;
+                    }
+
+                    window.sui_app.viewport = 'desktop';
+
+                    let viewport = ['phone', 'tablet', 'laptop'];
+                    for (let bp of window.sui_app.breakPoint) {
+                        let v = viewport.splice(0, 1);
+                        if (window.matchMedia(`(max-width: ${bp}px)`).matches) {
+                            window.sui_app.viewport = v[0];
+                            break;
+                        }
+                    }
+
+                    return window.sui_app.viewport;
+                },
+                colorScheme: null,
+                generateId(option) {
+                    let limit = 12;
+                    let prefix = '';
+
+                    if (typeof option === 'number') limit = option;
+                    else if (typeof option === 'string') prefix = `${option}_`;
+
+                    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+                    let text = '';
+                    for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
+
+                    const numb = new Date()
+                        .getTime()
+                        .toString()
+                        .substring(7, 13); // SECOND, MILLISECOND
+
+                    const shuffleArray = (array) => {
+                        let currentIndex = array.length;
+                        let temporaryValue, randomIndex;
+                        while (0 !== currentIndex) {
+                            randomIndex = Math.floor(Math.random() * currentIndex);
+                            currentIndex -= 1;
+                            temporaryValue = array[currentIndex];
+                            array[currentIndex] = array[randomIndex];
+                            array[randomIndex] = temporaryValue;
+                        }
+                        return array;
                     };
 
-                    el.addEventListener('click', window.sui_popup.eventListener[id]);
-                    if (bool) {
-                        el.classList.add('sui-popup');
-                        if (!el.closest('.sui-screen')) {
-                            let dummy = document.createElement('div');
-                            dummy.classList.add('sui-dummy');
-                            dummy.id = '_dummy_' + id;
-                            el.parentNode.insertBefore(dummy, el);
-                            screen.append(el);
-                        }
-                    }
+                    const letter_array = shuffleArray((text + numb).split(''));
 
-                    el.classList.add(stickTo);
+                    let output = '';
+                    for (let i = 0; i < limit; i++) output += letter_array[i];
 
-                    window.sui_popup.timeout = setTimeout(() => {
-                        screen.style.backgroundColor = overlayColor;
-                        el.classList.add(direction);
-                    }, direction === '_center' ? 0 : 100);
-
-                    return el;
-                }
-            }
-        };
-        window.sui_app = {
-            scrollOffset: 0,
-            navbarStyle: null,
-            navbarOffset: 0,
-            navbarHeight: 0,
-            navbarHeight_dynamic: 0,
-            breakPoint: [441, 767, 1365],
-            viewport: 'desktop',
-            touchScreen: window.matchMedia('(pointer: coarse)').matches,
-            updateViewport() {
-                if (window.sui_app.hideNavbar) {
-                    let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
-                    window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight + 16;
-                }
-
-                window.sui_app.viewport = 'desktop';
-
-                let viewport = ['phone', 'tablet', 'laptop'];
-                for (let bp of window.sui_app.breakPoint) {
-                    let v = viewport.splice(0, 1);
-                    if (window.matchMedia(`(max-width: ${bp}px)`).matches) {
-                        window.sui_app.viewport = v[0];
-                        return;
-                    }
-                }
-            },
-            colorScheme: null,
-            generateId(option) {
-                let limit = 12;
-                let prefix = '';
-
-                if (typeof option === 'number') limit = option;
-                else if (typeof option === 'string') prefix = `${option}_`;
-
-                const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-                let text = '';
-                for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
-
-                const numb = new Date()
-                    .getTime()
-                    .toString()
-                    .substring(7, 13); // SECOND, MILLISECOND
-
-                const shuffleArray = (array) => {
-                    let currentIndex = array.length;
-                    let temporaryValue, randomIndex;
-                    while (0 !== currentIndex) {
-                        randomIndex = Math.floor(Math.random() * currentIndex);
-                        currentIndex -= 1;
-                        temporaryValue = array[currentIndex];
-                        array[currentIndex] = array[randomIndex];
-                        array[randomIndex] = temporaryValue;
-                    }
-                    return array;
-                };
-
-                const letter_array = shuffleArray((text + numb).split(''));
-
-                let output = '';
-                for (let i = 0; i < limit; i++) output += letter_array[i];
-
-                return prefix + output;
-            },
-            registerEvent: {
-                scroll: (f) => {
-                    let id = window.sui_app.generateId('scroll');
-                    window.sui_app.scroll_callback[id] = f;
-                    return id;
+                    return prefix + output;
                 },
-                resize: (f) => {
-                    let id = window.sui_app.generateId('resize');
-                    window.sui_app.resize_callback[id] = f;
-                    return id;
-                }
-            },
-            removeEvent: {
-                scroll: (id) => {
-                    if (id)
-                        delete window.sui_app.scroll_callback[id];
+                registerEvent: {
+                    scroll: (f) => {
+                        let id = window.sui_app.generateId('scroll');
+                        window.sui_app.scroll_callback[id] = f;
+                        return id;
+                    },
+                    resize: (f) => {
+                        let id = window.sui_app.generateId('resize');
+                        window.sui_app.resize_callback[id] = f;
+                        return id;
+                    }
                 },
-                resize: (id) => {
-                    if (id)
-                        delete window.sui_app.resize_callback[id];
-                }
-            },
-            scroll_callback: {},
-            resize_callback: {},
-            init: (option) => {
-                window.sui_app.navbarStyle = window.getComputedStyle(document.getElementsByTagName('nav')[0]);
-
-                let {colorScheme = 'teal', hideNavbar = false} = option;
-                window.sui_app.hideNavbar = hideNavbar;
-
-                let cs = new ColorMangle(colorScheme).colorScheme();
-                let body = document.getElementsByTagName('BODY')[0];
-
-                for (let c in cs) {
-                    body.style.setProperty(c, cs[c]);
-                    if (c === '--toolbar')
-                        // set html body background color to match toolbar color
-                        body.style.backgroundColor = cs[c];
-                }
-
-                window.sui_app.colorScheme = cs;
-
-                window.sui_app.updateViewport();
-
-                document.addEventListener(
-                    'scroll',
-                    (event) => {
-                        window.requestAnimationFrame(() => {
-                            if (this.hideNavbar) {
-                                const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
-                                const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
-                                const navbarOffset = window.sui_app.navbarOffset + offsetDifference;
-
-                                window.sui_app.navbarOffset = navbarOffset < -window.sui_app.navbarHeight - 2 ? -window.sui_app.navbarHeight - 2 : navbarOffset > 0 ? 0 : navbarOffset;
-                                window.sui_app.scrollOffset = scrollOffset;
-                                window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight + window.sui_app.navbarOffset;
-                                document.getElementsByTagName('body')[0].style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
-                            }
-
-                            if (Object.keys(window.sui_app.scroll_callback).length) {
-                                for (let c in window.sui_app.scroll_callback)
-                                    if (typeof window.sui_app.scroll_callback[c] === 'function') window.sui_app.scroll_callback[c](event);
-                            }
-                        });
+                removeEvent: {
+                    scroll: (id) => {
+                        if (id)
+                            delete window.sui_app.scroll_callback[id];
                     },
-                    {passive: true}
-                );
+                    resize: (id) => {
+                        if (id)
+                            delete window.sui_app.resize_callback[id];
+                    }
+                },
+                scroll_callback: {},
+                resize_callback: {},
+                init: (option) => {
+                    window.sui_app.navbarStyle = window.getComputedStyle(document.getElementsByTagName('nav')[0]);
 
-                window.addEventListener(
-                    'resize',
-                    (event) => {
-                        window.requestAnimationFrame(() => {
-                            window.sui_app.updateViewport();
-                            if (Object.keys(window.sui_app.resize_callback).length) {
-                                for (let c in window.sui_app.resize_callback)
-                                    if (typeof window.sui_app.resize_callback[c] === 'function') window.sui_app.resize_callback[c](event);
-                            }
-                        });
-                    },
-                    {passive: true}
-                );
-            }
-        };
+                    let {colorScheme = 'teal', hideNavbar = false} = option;
+                    window.sui_app.hideNavbar = hideNavbar;
+
+                    let cs = new ColorMangle(colorScheme).colorScheme();
+                    let body = document.getElementsByTagName('BODY')[0];
+
+                    for (let c in cs) {
+                        body.style.setProperty(c, cs[c]);
+                        if (c === '--toolbar')
+                            // set html body background color to match toolbar color
+                            body.style.backgroundColor = cs[c];
+                    }
+
+                    window.sui_app.colorScheme = cs;
+
+                    window.sui_app.updateViewport();
+
+                    document.addEventListener(
+                        'scroll',
+                        (event) => {
+                            window.requestAnimationFrame(() => {
+                                if (this.hideNavbar) {
+                                    const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
+                                    const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
+                                    const navbarOffset = window.sui_app.navbarOffset + offsetDifference;
+
+                                    window.sui_app.navbarOffset = navbarOffset < -window.sui_app.navbarHeight - 2 ? -window.sui_app.navbarHeight - 2 : navbarOffset > 0 ? 0 : navbarOffset;
+                                    window.sui_app.scrollOffset = scrollOffset;
+                                    window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight + window.sui_app.navbarOffset;
+                                    document.getElementsByTagName('body')[0].style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
+                                }
+
+                                if (Object.keys(window.sui_app.scroll_callback).length) {
+                                    for (let c in window.sui_app.scroll_callback)
+                                        if (typeof window.sui_app.scroll_callback[c] === 'function') window.sui_app.scroll_callback[c](event);
+                                }
+                            });
+                        },
+                        {passive: true}
+                    );
+
+                    window.addEventListener(
+                        'resize',
+                        (event) => {
+                            window.requestAnimationFrame(() => {
+                                window.sui_app.updateViewport();
+                                if (Object.keys(window.sui_app.resize_callback).length) {
+                                    for (let c in window.sui_app.resize_callback)
+                                        if (typeof window.sui_app.resize_callback[c] === 'function') window.sui_app.resize_callback[c](event);
+                                }
+                            });
+                        },
+                        {passive: true}
+                    );
+                }
+            };
     },
     mounted() {
+        // only one sui-app is allowed
         window.sui_app.init({
             hideNavbar: this.hideNavbar,
             colorScheme: this.colorScheme
@@ -360,8 +364,11 @@ export default {
     },
     computed: {
         notification_computed() {
-            if (this.notification.text)
+            if (this.notification) {
+                if (typeof this.notification === 'string')
+                    return {text: this.notification};
                 return this.notification;
+            }
             return null;
         }
     }
@@ -412,7 +419,6 @@ export default {
         & > .notification {
             border-radius: 8px;
             position: fixed;
-            display: flex;
             top: calc(3rem + 16px);
             padding: 8px;
             background-color: var(--content-text);
@@ -424,6 +430,10 @@ export default {
             cursor: pointer;
             flex-wrap: wrap;
             user-select: none;
+            max-width: calc(100% - 40px - 16px);
+            display: flex;
+            align-items: flex-start;
+            z-index: 8888;
 
             &:hover {
                 a {
@@ -439,13 +449,17 @@ export default {
                 padding: 8px;
             }
 
+            & > .icon:not(:empty) + .text {
+                max-width: calc(100% - 40px - 16px);
+            }
+
             & > .text {
                 white-space: pre-wrap;
                 font-size: .88rem;
                 line-height: 1rem;
+                min-height: calc(40px - 16px);
                 display: flex;
                 align-items: center;
-                width: calc(100% - 40px - 16px);
             }
 
             & > a {
