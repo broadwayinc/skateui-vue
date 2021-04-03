@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-    sui-app(:hide-navbar='true')
+    sui-app(:hide-navbar='true' notification='Hey you got a new message')
         template(v-slot:nav)
             .nav
                 .nav-info
@@ -61,7 +61,7 @@ div
                                         small {{sub.new}}
                                     a {{name}}
                 #list
-                    sui-sticky(:style="{zIndex:8888}")
+                    sui-sticky(:style="{zIndex:6666}")
                         #listmode(v-if='listmode.length > 1' :style="{'--listmode':listmode.map(l=>{return '1fr '}).join(' '),boxShadow:'0 0 0 2px var(--background)'}")
                             .mode(@click='selectedListMode = idx' v-for="(l, idx) in listmode" :class="{create:l === 'New', selected: !selectedListMode || selectedListMode >= listmode.length ? !idx : selectedListMode === idx}")
                                 template(v-if="l === 'New'")
@@ -98,12 +98,12 @@ div
                                 sui-button(type='nude') Save As Draft
                                 sui-button POST
                     router-view(v-show="selectedListMode !== listmode.length - 1")
-    .sui-card#hamburger-menu
-        .title
+    sui-card#hamburger-menu
+        template(#title)
             img(v-if='navbarImage' :src="navbarImage")
             template(v-else) {{appName}}
             .close(onclick="sui_popup.handler('hamburger-menu', 'close')")
-        .content
+        template(#content)
             // category navigation
             .menublock(v-for="(nav, name) in navigation" :class="{disabled:nav.disabled, selected:nav.selected}")
                 a {{name}}
