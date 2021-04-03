@@ -31,7 +31,7 @@
                     Content inside the card has an indent/styling depending on what/where you put in stuff
                 br
                 br
-                .sui-accordion(onclick="sui_accordion.handler(event)")
+                sui-accordion
                     .title Fonts
                     hr
                     .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
@@ -54,7 +54,7 @@
                         br
                         small This is &lt;small&gt;
                 br
-                .sui-accordion(onclick="sui_accordion.handler(event)")
+                sui-accordion
                     .title Color Scheme
                     hr
                     .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
@@ -157,9 +157,10 @@
                 h4 Look! A Button!
                 br
                 p We will use the ".button_footer" div for card buttons.
-            template(#buttonFooter).hideonphone // Jinyoon redo this part
+            template(#buttonFooter)
+                //.hideonphone // Jinyoon redo this part
                 sui-button HELLO
-            .button_footer.sticky.viewonphone
+            //.button_footer.sticky.viewonphone
                 sui-button HELLO
         br
         br
@@ -717,29 +718,17 @@
                 br
                 br
                 div(style="display: flex;justify-content: space-between;")
-                    .sui-tooltip
-                        .content
-                            small.
-                                This is a toolbox.
-                                Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
-                        i.material-icons.left help
-                    .sui-tooltip.bottom
-                        .content
-                            small.
-                                Set width and left by javascript on mobile to make the text box full width.
-                        i.material-icons.left help
-                    .sui-tooltip.left
-                        .content
-                            small.
-                                This is a toolbox
-                                This is positioned .left
-                        i.material-icons.left help
-                    .sui-tooltip.left.bottom
-                        .content
-                            small.
-                                This is a toolbox
-                                This is positioned .left.bottom
-                        i.material-icons.left help
+                    sui-tooltip.
+                        This is a toolbox.
+                        Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
+                    sui-tooltip(direction="bottom").
+                        Set width and left by javascript on mobile to make the text box full width.
+                    sui-tooltip(direction="left").
+                        This is a toolbox
+                        This is positioned .left
+                    sui-tooltip(direction="bottom-left").
+                        This is a toolbox
+                        This is positioned .left.bottom
         br
         br
         sui-card
@@ -796,7 +785,7 @@
             template(#title)
                 h6 Accordion
             template(#content)
-                .sui-accordion(onclick="sui_accordion.handler(event)")
+                sui-accordion
                     .title Click Me
                     hr
                     .content(onclick="(function(event){event.stopPropagation()})(event)").
@@ -1224,42 +1213,42 @@ export default {
             }
         };
         window.sui_textarea.init();
-        window.sui_accordion = {
-            timeout: null,
-            handler: (ev) => {
-                let el = ev.target.closest('.sui-accordion');
-
-                if (!el)
-                    return;
-
-                let bool = !el.classList.contains('minus');
-
-                if (bool)
-                    el.classList.add('minus');
-                else
-                    el.classList.remove('minus');
-
-                if (el)
-                    el = el.lastChild;
-
-                if (window.sui_accordion.timeout)
-                    clearTimeout(window.sui_accordion.timeout);
-                window.sui_accordion.timeout = null;
-
-                if (bool) {
-                    el.style.maxHeight = '100vh';
-                    window.sui_accordion.timeout = setTimeout(() => {
-                        // use this.$nextTick() for vue
-                        el.style.maxHeight = 'unset';
-                    }, 750);
-                } else {
-                    el.style.maxHeight = '100vh';
-                    window.sui_accordion.timeout = setTimeout(() => {
-                        el.style.maxHeight = '0';
-                    }, 100);
-                }
-            }
-        };
+        // window.sui_accordion = {
+        //     timeout: null,
+        //     handler: (ev) => {
+        //         let el = ev.target.closest('.sui-accordion');
+        //
+        //         if (!el)
+        //             return;
+        //
+        //         let bool = !el.classList.contains('minus');
+        //
+        //         if (bool)
+        //             el.classList.add('minus');
+        //         else
+        //             el.classList.remove('minus');
+        //
+        //         if (el)
+        //             el = el.lastChild;
+        //
+        //         if (window.sui_accordion.timeout)
+        //             clearTimeout(window.sui_accordion.timeout);
+        //         window.sui_accordion.timeout = null;
+        //
+        //         if (bool) {
+        //             el.style.maxHeight = '100vh';
+        //             window.sui_accordion.timeout = setTimeout(() => {
+        //                 // use this.$nextTick() for vue
+        //                 el.style.maxHeight = 'unset';
+        //             }, 750);
+        //         } else {
+        //             el.style.maxHeight = '100vh';
+        //             window.sui_accordion.timeout = setTimeout(() => {
+        //                 el.style.maxHeight = '0';
+        //             }, 100);
+        //         }
+        //     }
+        // };
     }
 
 };
@@ -1745,62 +1734,6 @@ label.sui-radio {
     }
 }
 
-div.sui-accordion {
-    position: relative;
-
-    & > .title {
-        & + hr {
-            margin-top: 0;
-            border-left: 0;
-            border-right: 0;
-            max-width: unset;
-            width: 100%;
-        }
-
-        &::after {
-            content: "+";
-            font-size: 1.5em;
-            line-height: 2rem;
-            position: absolute;
-            right: 0;
-            font-weight: 300;
-            width: 1em;
-            text-align: center;
-        }
-
-        padding-right: 1.5em;
-        padding-left: .25rem;
-        box-sizing: border-box;
-        width: 100%;
-        cursor: pointer;
-        position: relative;
-        line-height: 2rem;
-
-        color: var(--content-text_soft);
-
-        &:hover {
-            text-shadow: 1px 1px var(--content-text_shadow);
-            color: var(--content-text);
-
-            &::after {
-                text-shadow: 1px 1px var(--content-text_shadow);
-            }
-        }
-    }
-
-    &.minus > .title {
-        &::after {
-            content: "-";
-        }
-    }
-
-    & > .content {
-        overflow: hidden;
-        max-height: 0;
-        transition: max-height .5s;
-    }
-}
-
 div.sui-steps {
     display: flex;
     justify-content: space-between;
@@ -1911,96 +1844,6 @@ div.sui-steps {
             width: unset;
             display: inline-flex;
         }
-    }
-}
-
-div.sui-tooltip {
-    height: 1.25em;
-    display: inline-block;
-    position: relative;
-    text-align: left;
-    vertical-align: middle;
-
-    &.bottom {
-        & > .content {
-            top: calc(0px + 2em);
-            bottom: unset;
-
-            &::before {
-                content: "";
-                width: 0;
-                height: 0;
-                position: absolute;
-                top: calc(0px - .75em);
-                left: calc(1em - 3px);
-                border-top: none;
-                border-bottom: .75em solid var(--content-text);
-                border-left: .5em solid transparent;
-                border-right: .5em solid transparent;
-            }
-        }
-    }
-
-    &.left {
-        & > .content {
-            left: unset;
-            right: calc(-100% + 0.5em);
-            text-align: right;
-
-            &::before {
-                right: calc(1em - 3px);
-                left: unset;
-            }
-        }
-    }
-
-    & > .content {
-        &::before {
-            content: "";
-            width: 0;
-            height: 0;
-            position: absolute;
-            bottom: calc(0px - .75em);
-            left: calc(1em - 3px);
-            border-top: .75em solid var(--content-text);
-            border-left: .5em solid transparent;
-            border-right: .5em solid transparent;
-        }
-
-        small {
-            text-align: left;
-            background-color: var(--content-text);
-            color: var(--content);
-            padding: .5em 1em;
-            box-shadow: 0 0 0 3px var(--content-text_transparent);
-        }
-
-        width: 50vw;
-        @media @tablet {
-            width: 240px;
-        }
-
-        display: none;
-        z-index: 9999;
-        position: absolute;
-        bottom: calc(0px + 2em);
-        left: calc(-100% + 0.5em);
-    }
-
-    &:hover > .content {
-        display: block;
-    }
-
-    @media @touch {
-        &:active > .content {
-            display: block;
-        }
-    }
-
-    & > .left {
-        cursor: pointer;
-        font-size: 1.25em;
-        line-height: 1em;
     }
 }
 
