@@ -1,5 +1,5 @@
 <template lang='pug'>
-    div.sui-card(:class="{center: align === 'center'}" :style="{color: color ? color : null}")
+    div.sui-card(:class="{center: align === 'center'}" :style="[customStyle, {color: color ? color : null}]")
         .title(v-if="hasTitleSlot()" :style="titleStyle")
             slot(name="title")
             .close(v-if="closeButton")
@@ -8,7 +8,7 @@
         .content(v-if="hasContentSlot()" :class="{center: contentCenter}" :style="{opacity: disabled ? 0.5 : 1}")
             slot(name="content")
         slot
-        .button_footer(v-if="hasButtonFooterSlot()" :class="{hideonphone: stickyMobileButtonFooter, sticky: stickyMobileButtonFooter, viewonphone: stickyMobileButtonFooter}")
+        .button_footer(v-if="hasButtonFooterSlot()" :class="{sticky: stickyMobileButtonFooter && sticky}")
             slot(name="buttonFooter")
         .footer(v-if="hasFooterSlot()" :style="{opacity: footerAlert !== false ? 1 : 0.5, color: footerAlert}")
             slot(name="footer")
@@ -27,7 +27,29 @@ export default {
         footerAlert: [String, Boolean],
         stickyMobileButtonFooter: Boolean,
         closeButton: Boolean,
-        disabled: Boolean
+        disabled: Boolean,
+        customStyle: Object
+    },
+    data() {
+      return {
+          resizeEventId: null,
+          sticky: false
+      }
+    },
+    mounted() {
+        if(this.stickyMobileButtonFooter) {
+            this.resizeEventId = window.sui_app.registerEvent.resize(() => {
+                if(window.sui_app.viewport === 'phone') {
+                    this.sticky = true;
+                } else {
+                    this.sticky = false;
+                }
+                console.log(this.sticky);
+            });
+        }
+    },
+    destroyed() {
+        window.sui_app.removeEvent.resize(this.resizeEventId);
     },
     computed: {
         titleStyle() {
@@ -64,7 +86,6 @@ div.sui-card {
     color: var(--content-text);
     border-radius: 8px;
     padding: 0 1.3em;
-    overflow: hidden;
 
     box-shadow: 0 0 0 2px var(--content-text_screen);
     text-align: left;
