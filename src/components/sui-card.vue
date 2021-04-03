@@ -78,7 +78,7 @@ export default {
     }
 };
 </script>
-<style scoped lang="less">
+<style lang="less">
 @import '../assets/viewport.less';
 div.sui-card {
     tab-size: 1em;
