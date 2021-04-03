@@ -44,7 +44,6 @@ export default {
                 } else {
                     this.sticky = false;
                 }
-                console.log(this.sticky);
             });
         }
     },
@@ -53,7 +52,6 @@ export default {
     },
     computed: {
         titleStyle() {
-            console.log(this.titleColor)
             let color = (this.titleColor === '' || typeof this.titleColor === 'boolean') && this.titleColor !== false ? 'var(--content-focus-text)' : this.titleColor;
             let bgColor = (this.titleBackground === '' || typeof this.titleBackground === 'boolean') && this.titleBackground !== false ? 'var(--content-focus)' : this.titleBackground;
             return { color: color, backgroundColor: bgColor }
