@@ -1,5 +1,7 @@
 <template lang='pug'>
-    button.sui-button(:class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
+    a.sui-button(v-if="href" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
+        slot
+    button.sui-button(v-else :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
         slot(v-if="!loading")
         i.material-icons(v-if="type === 'icon'") {{ icon }}
         ._loader(v-if="loading")
@@ -12,6 +14,8 @@ export default {
         type: {
             type: String
         },
+        href: String,
+        target: String,
         icon: String,
         loading: {
             type: Boolean,
@@ -119,5 +123,8 @@ button.sui-button, a.sui-button {
             vertical-align: middle;
         }
     }
+}
+a.sui-button {
+    text-decoration: none;
 }
 </style>
