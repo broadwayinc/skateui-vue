@@ -13,7 +13,8 @@ export default {
         value: String,
         output: Function,
         allowEnter: Boolean,
-        maxlength: Number
+        maxlength: Number,
+        readonly: Boolean
     },
     data() {
         return {
@@ -30,15 +31,19 @@ export default {
                 this.min = 14;
                 this.value = '';
                 this.allowEnter = false;
+                this.readonly = false;
                 if (typeof el === 'string')
                     this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
                 else if (typeof el === 'object' && Object.keys(el).length) {
-                    let {element, elementId, max, min, value, allowEnter} = el;
+                    let {element, elementId, max, min, value, allowEnter, readonly} = el;
 
                     this.value = value || "";
 
                     if (allowEnter)
                         this.allowEnter = allowEnter;
+
+                    if (readonly)
+                        this.readonly = readonly;
 
                     if (typeof elementId === 'string')
                         this.element = document.getElementById(elementId[0] === '#' ? elementId.substring(1) : elementId);
@@ -57,6 +62,7 @@ export default {
 
 
                 this.textarea = this.element.childNodes[0];
+                this.textarea.readOnly = this.readonly;
                 this.elementStyle = window.getComputedStyle(this.textarea);
                 this.init();
             }
@@ -189,7 +195,8 @@ export default {
             min: this.min,
             max: this.max,
             value: this.value,
-            allowEnter: this.allowEnter
+            allowEnter: this.allowEnter,
+            readonly: this.readonly
         });
     },
     beforeDestroy() {
@@ -239,9 +246,6 @@ export default {
         },
         inputValue: {
             get: function () {
-                if (this.autosize)
-                    this.autosize.updateValue(this.value);
-
                 return this.value;
             },
             set: function (v) {
