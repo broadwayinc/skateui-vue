@@ -434,10 +434,14 @@ export default {
 
     & > .view {
         max-width: 100%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        flex-wrap: wrap;
+        // check for quirks
+        //flex-grow: 1;
+        //justify-content: center;
+        //display: flex;
+        //align-items: center;
+        //flex-direction: column;
+        //flex-wrap: wrap;
+
         //overflow-x: hidden;
         position: relative;
 
