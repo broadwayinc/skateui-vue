@@ -278,7 +278,7 @@
                 sui-input(placeholder="Don't worry label is transparent" label="Input with label")
                 br
                 br
-                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]" @rightClick="")
+                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]" @rightClick="log('Hello')")
                 br
                 br
                 sui-input(
