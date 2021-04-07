@@ -1,12 +1,12 @@
 <template lang='pug'>
-    .sui-input(:id="dropdownStyle === 'custom' ? id : null" :class="{ left: buttonLeft, right: buttonRight, error: error, disabled: disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete' }")
+    .sui-input(:id="dropdownStyle === 'custom' || type === 'autocomplete' ? id : null" :class="{ left: buttonLeft, right: buttonRight, error: error, disabled: disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete' }")
         template(v-if="type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'")
             template(v-if="dropdownStyle === 'custom' || type === 'fullscreen-select' || type === 'autocomplete'")
-                input(autocomplete="off" id="dropdowncustom" :placeholder="placeholder" v-model="customValue" :readonly="type !== 'autocomplete'" @keyup="output(customValue)" @keypress="output('abc');")
-                div(:class="selectClass() ? 'option' : 'option-fullscreen'")
+                input(autocomplete="off" id="dropdowncustom" :placeholder="placeholder" v-model="customValue" :readonly="type !== 'autocomplete'" @keyup="output(customValue);" @keypress="keypress" @keydown="arrowSelection")
+                div(v-show="searching" :class="selectClass() ? 'option' : 'option-fullscreen'")
                     template(v-for="(x, idx) in option")
                         hr(v-if="!selectClass() && idx !== 0" style="margin: .25rem .5rem")
-                        .menu(@mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text ? x.text : x.value }}
+                        .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text ? x.text : x.value }}
             template(v-else)
                 select
                     option(v-if="placeholder" value="") {{ placeholder }}
@@ -82,13 +82,19 @@ export default {
             buttonLeft: null,
             buttonRight: null,
             cstyle: {},
-            customValue: ''
+            customValue: '',
+            searching: false,
+            currentSelection: -1
         }
     },
     created() {
         if(this.dropdownStyle === 'custom' || this.type === 'fullscreen-select') {
             this.id = this.elementId();
             this.customValue = this.placeholder ? this.placeholder : this.option[0].text ? this.option[0].text : this.option[0].value;
+        }
+
+        if(this.type === 'autocomplete') {
+            this.id = this.elementId();
         }
         if (this.button !== null) {
             if (Array.isArray(this.button)) {
@@ -117,6 +123,27 @@ export default {
         }
     },
     methods: {
+        arrowSelection(event) {
+            if(this.option.length) {
+                if(event.code === 'ArrowUp' && this.currentSelection > -1) {
+                    this.currentSelection -= 1;
+                }
+                if(event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
+                    this.currentSelection += 1;
+                }
+                if(event.code === 'Enter') {
+                    this.searching = false;
+                    this.customValue = this.option[this.currentSelection];
+                }
+            }
+        },
+        keypress(event) {
+            if(this.type === 'autocomplete') {
+                if(event.code !== 'Enter') this.searching = true;
+            }
+            this.currentSelection = -1;
+            this.output('abc');
+        },
         selectClass() {
             return this.type === 'select' || this.type === 'autocomplete';
         },
@@ -656,6 +683,7 @@ div.sui-input {
                     text-align: left;
                     cursor: pointer;
 
+                    &.selected,
                     &:hover {
                         background-color: var(--content-focus_screen);
                     }
