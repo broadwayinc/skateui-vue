@@ -99,15 +99,16 @@ export default {
                         const currentPageScrollPosition = window.pageYOffset;
 
                         const offsetHeight = this.ignoreNavbar ? 0 : window?.sui_app?.navbarHeight_dynamic || 0;
+
                         if (screenOverload) {
                             screenOverload = screenOverload * -1;
                             const scrollSum = this.previousScroll - currentPageScrollPosition;
                             let sum = scrollSum + this.dynamicOffset;
                             sum = offsetHeight < sum ? offsetHeight : screenOverload > sum ? screenOverload : sum;
                             this.dynamicOffset = sum;
-                        } else {
+                        } else
                             this.dynamicOffset = offsetHeight + this.offset;
-                        }
+
                         this.previousScroll = currentPageScrollPosition;
                         this.element.style.top = this.dynamicOffset + 'px';
                     };
@@ -132,7 +133,7 @@ export default {
 
             activate() {
                 this.element.style.position = 'sticky';
-                this.element.style.top = '0';
+                this.adjust_sticky();
 
                 if (window.sui_app) {
                     this.scroll_eventId = window.sui_app.registerEvent.scroll(this.adjust_sticky);
