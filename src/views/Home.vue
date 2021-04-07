@@ -278,14 +278,16 @@
                 sui-input(placeholder="Don't worry label is transparent" label="Input with label")
                 br
                 br
-                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send', action: (event, button) => { log(button) }}]")
+                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]" @rightClick="")
                 br
                 br
                 sui-input(
                     label="Number"
                     type="number"
                     value="1"
-                    :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '-', action: () => {}}]"
+                    :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]"
+                    @rightClick=""
+                    @leftClick=""
                     )
                 br
                 br
@@ -301,136 +303,38 @@
                 sui-input(error placeholder="Icon & Label & Error & *" label="E-Mail" required :button="[{position: 'left', icon: 'email'}]" message="It's a combo")
                 br
                 br
-                .sui-input.select
-                    select
-                        option(value="China") Input as selector
-                        option(value="Singapore") Singapore
-                        option(value="Korea") Korea
-                        option(value="Russia") Russia
-                    label Selector
-                    fieldset
-                        legend Selector
-                    .downarrow
+                sui-input(label="Selector" type="select" placeholder="Input as selector" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
                 br
                 br
-                .sui-input.select.left
-                    select
-                        option(value="China") Selector & Icon
-                        option(value="Singapore") Singapore
-                        option(value="Korea") Korea
-                        option(value="Russia") Russia
-                    label Selector
-                    fieldset
-                        legend Selector
-                    .left
-                        i.material-icons public
-                    .downarrow
+                sui-input(:button="[{position: 'left', icon: 'public'}]" label="Selector" type="select" placeholder="Selector & Icon" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
                 br
                 br
-                .sui-input.select.left
-                    input(id="dropdowncustom" value="Input as custom selector" readonly)
-                    label(for="dropdowncustom") Custom Selector
-                    fieldset
-                        legend Custom Selector
-                    .left
-                        i.material-icons public
-                    .option
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Style your menu manually!
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            class .menu provides faint line separator,
-                            pointer cursor and the hovering color.
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Attach mousedown event to each menu to change the input value.
-                        .menu This is how it looks without manual styling.
-                        div This is what happens if you ignore to use the .menu class
-                    .downarrow
+                sui-input(
+                    type="select"
+                    :option="suiInputSelection1"
+                    label="Custom Selector"
+                    placeholder="Input as custom selector"
+                    dropdown-style="custom"
+                    :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"
+                    :output="(v) => { }",
+                    :button="[{position: 'left', icon: 'public'}]")
                 br
                 br
-                .sui-input.select.left
-                    input(id="dropdownfullscreen" value="Fullscreen custom selector" readonly)
-                    label(for="dropdownfullscreen") Fullscreen Selector
-                    fieldset
-                        legend Fullscreen Selector
-                    .left
-                        i.material-icons public
-                    .option-fullscreen
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Style your menu manually!
-                            Full screen option is useful in mobile.
-                        hr(style="margin: .25rem .5rem")
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            class .menu provides pointer cursor and the hovering color.
-                            Note in full screen option, line separator is not provided.
-                            (Because it looks better width hr)
-                        hr(style="margin: .25rem .5rem")
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Attach mousedown event to each menu to change the input value.
-                        hr(style="margin: .25rem .5rem")
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Singapore
-                        hr(style="margin: .25rem .5rem")
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Russia
-                    .downarrow
+                sui-input(type="fullscreen-select" :output="(v) => {  }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" :option="suiInputSelection2" label="Fullscreen Selector" :button="[{position: 'left', icon: 'public'}]")
                 br
                 br
-                .sui-input.select
-                    input(placeholder="Suggestion box" style="width: 15rem;")
-                    fieldset
-                    .option
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Same setting as custom option.
-                            Just don't use "readonly" on the input attribute.
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            You would also want to listen to keyboard event to select through suggestion box.
+                sui-input(type="autocomplete" placeholder="Suggestion box" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
                 sui-button SEARCH
                 br
                 br
-                .sui-input.select.right(style="width: 23em")
-                    input(placeholder="Search Me")
-                    label Search
-                    fieldset
-                        legend Search
-                    button.right
-                        i.material-icons search
-                    .option
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Suggestion box
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            If the .option is empty, suggestion box will not show
+                sui-input(style="width: 23em" label="Search" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search'}]"  @rightClick="" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
                 br
                 br
                 sui-button(onclick="sui_popup.handler('searchmobile','top', false, 'var(--content)')") SEARCH POP
-                .sui-input.select.transparent.right#searchmobile(style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;")
-                    input(placeholder="Search Me")
-                    label
-                    button.right(onclick="sui_popup.handler('searchmobile')")
-                        i.material-icons search
-                    .option(style="max-height: calc(100vh - 2.8rem);")
-                        .menu(style="padding: 1rem .5rem; font-size:.8em;").
-                            Suggestion box
-                        .menu(style="padding: 1rem .5rem; font-size:.8em;").
-                            If the .option is empty, suggestion box will not show
+                sui-input#searchmobile.transparent(:menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search', action: () => {}}]" @rightClick="sui_popup.handler('searchmobile')" :output="(v) => { getSearch(v); }" :option="suiInputAutocomplete1")
                 br
                 br
-                .sui-input.select.error.left.right(style="width: 23em")
-                    input(placeholder="Full Combo")
-                    label
-                        | Full Combo
-                        span(style="color:var(--alert)")  *
-                    fieldset
-                        legend Full Combo*
-                    .left
-                        i.material-icons search
-                    button.right
-                        i.material-icons search
-                    .option
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            Suggestion box
-                        .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                            If the .option is empty, suggestion box will not show
-                    .message Full Combo
+                sui-input(type="autocomplete" error message="Full Combo" label="Full Combo" required :button="[{position: 'left', icon: 'search'}, {position: 'right', icon: 'search'}]" @rightClick="" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
         br
         br
         sui-card(style="display: inline-block;")
@@ -827,7 +731,7 @@
                     br
                     br
                     .quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
         br
         br
         sui-card(close-button)
@@ -845,7 +749,7 @@
                     br
                     br
                     .quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
         br
         br
         sui-card(title-background="yellow" close-button)
@@ -862,7 +766,7 @@
                     //br
                     //br
                     //.quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
         br
         br
         sui-card(disabled title-background="var(--alert)" title-color="white")
@@ -880,7 +784,7 @@
                     br
                     br
                     .quantity
-                        sui-input(disabled style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                        sui-input(disabled style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
         br
         br
         sui-card(title-background="var(--background-focus_transparent" color="var(--background-text")
@@ -1021,12 +925,44 @@ export default {
     components: {SuiButton},
     data() {
         return {
-            colorScheme: new ColorMangle('#00807f').colorScheme()
+            colorScheme: new ColorMangle('#00807f').colorScheme(),
+            suiInputSelection1: [
+                {value: 'manual', text: 'Style your menu manually!'},
+                {value:'menuclass', text:'class .menu provides faint line separator, pointer cursor and the hovering color.'},
+                {value: 'mousedown', text: 'Attach mousedown event to each menu to change the input value.'}
+            ],
+            suiInputSelection2: [
+                {value: 'style', text: 'Style your menu manually!'},
+                {value: 'fullscreen', text: 'Full screen option is useful in mobile.'},
+                {value: 'class', text: 'class .menu provides pointer cursor and the hovering color. Note in full screen option, line separator is not provided. (Because it looks better width hr)'},
+                {value: 'mousedown', text: 'Attach mousedown event to each menu to change the input value.'},
+                {value: 'Singapore'},
+                {value: 'Russia'}
+            ],
+            suiDatabase: [
+                'How old is the king of Japan?',
+                'How old is the king of Singapore?',
+                'How old is America?',
+                'How big is Korea?',
+                'How to eat Kimchi?'
+            ],
+            suiInputAutocomplete1 : []
         };
     },
     methods: {
         log(button) {
-            console.log(button)
+            console.log("Home log", button)
+        },
+        getSearch(text) {
+            text = text.toLowerCase();
+            this.suiInputAutocomplete1 = this.suiDatabase.filter(word => {
+                let regex = new RegExp(text + '(.)?', 'g');
+                if(text) {
+                    if(word.toLowerCase().match(regex)) {
+                        return word;
+                    }
+                }
+            })
         }
     },
     mounted() {
@@ -1112,7 +1048,515 @@ export default {
 </script>
 <style lang="less">
 @import '../assets/viewport.less';
+/*
+div.sui-input {
+    position: relative;
+    display: inline-block;
+    height: 2.8rem;
+    width: 18rem;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    box-shadow: inset 0 0 0 4px var(--content-focus_screen);
 
+    &.error {
+        & label {
+            color: var(--alert);
+        }
+
+        & > fieldset {
+            border-color: var(--alert);
+
+            &::after {
+                background-color: var(--alert);
+            }
+
+            &::before {
+                background-color: var(--alert);
+            }
+        }
+
+        .right {
+            background-color: var(--alert-screen);
+            color: var(--alert);
+        }
+
+        input, select {
+            background-color: var(--alert-screen);
+            border-color: var(--alert);
+
+            &:focus {
+                border-color: var(--alert);
+                background-color: var(--alert-screen);
+
+                & ~ fieldset {
+                    border-color: var(--alert);
+                }
+
+                & ~ label {
+                    color: var(--alert);
+
+                    &::after {
+                        background-color: var(--alert);
+                    }
+
+                    &::before {
+                        background-color: var(--alert);
+                    }
+                }
+
+                & ~ .right {
+                    background-color: var(--alert-screen) !important;
+                    color: var(--alert) !important;
+                }
+            }
+        }
+    }
+
+    .hover {
+        user-select: none;
+
+        &:hover {
+            cursor: pointer;
+            color: var(--content-focus);
+            background-color: var(--content-focus_screen);
+        }
+    }
+
+    &.left,
+    &.right {
+        user-select: none;
+
+        & > input {
+            padding-right: 3.3em;
+
+            &:focus {
+                & ~ button.left,
+                & ~ button.right {
+                    color: var(--content-focus);
+                    background-color: var(--content-focus_screen);
+                }
+            }
+        }
+
+        & > .left,
+        & > .right {
+            display: inline-flex;
+            width: 2.8rem;
+            height: 2.8rem;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            z-index: 1;
+            right: 0;
+            cursor: pointer;
+            box-sizing: border-box;
+
+            &.left {
+                right: unset;
+                left: 0;
+
+                &::before {
+                    content: none;
+                }
+            }
+
+            &::before,
+            &.left::after {
+                // icon separator
+                content: "";
+                width: 2px;
+                height: 50%;
+                background-color: var(--content-text_shadow);
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: -1px;
+            }
+
+            &.left::after {
+                left: unset;
+                right: 1px;
+            }
+        }
+    }
+
+    &:not(.disabled) {
+        & > button {
+            &:hover {
+                color: var(--content-focus);
+                background-color: var(--content-focus_screen);
+            }
+        }
+    }
+
+    &.transparent {
+        *:not(.right):not(.menu) {
+            border-color: transparent !important;
+            background-color: transparent !important;
+
+            &::after {
+                background-color: transparent !important;
+            }
+
+            &::before {
+                background-color: transparent !important;
+            }
+        }
+    }
+
+    & > .message {
+        font-size: 12px;
+        text-align: right;
+        color: var(--alert);
+        position: absolute;
+        width: calc(100% - 4px);
+        white-space: nowrap;
+    }
+
+    &.left {
+
+        & > input:focus, & > select:focus {
+            & ~ .left,
+            & ~ button.left {
+                border-color: var(--content-focus);
+                color: var(--content-focus);
+            }
+        }
+
+        &.error > input:focus {
+            & ~ .left {
+                border-color: var(--alert);
+                color: var(--alert);
+                background-color: var(--alert-screen);
+            }
+        }
+
+        & > select, & > input {
+            box-shadow: none;
+            min-width: calc(100% - 2.8rem);
+            width: calc(100% - 2.8rem);
+            border-left: none;
+        }
+
+        &::before {
+            // icon space
+            content: "";
+            position: relative;
+            width: 2.8rem;
+            height: 2.8rem;
+            box-sizing: border-box;
+            border-left: solid 2px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-color: transparent;
+            padding-top: 2px;
+        }
+
+        & > .left {
+            // the icon
+            position: absolute;
+            width: 2.8rem;
+            height: 2.8rem;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+
+            &::after {
+                // icon separator
+                content: "";
+                width: 2px;
+                height: 50%;
+                background-color: var(--content-text_shadow);
+                position: absolute;
+                right: -1px;
+            }
+        }
+
+        &.error > .left {
+            border-color: var(--alert);
+            background-color: var(--alert-screen);
+        }
+    }
+
+    fieldset {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        text-align: left;
+        border: 2px solid var(--content-text_transparent);
+
+        legend {
+            position: relative;
+            top: -0.4rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0 4px;
+            word-break: keep-all;
+            visibility: hidden;
+        }
+    }
+
+    label {
+        width: calc(100% - 4px);
+        left: 12px;
+        text-align: left;
+        box-sizing: border-box;
+        line-height: 1em;
+        overflow: hidden;
+        position: absolute;
+        z-index: 1;
+        font-size: 0.8rem;
+        font-weight: 500;
+        white-space: nowrap;
+        color: var(--content-text_soft);
+        text-shadow: 1px 1px var(--content-text_shadow);
+        user-select: none;
+
+        & ~ fieldset {
+            top: -12px;
+        }
+
+        &:not(:empty) {
+            margin-top: calc(-1em + 2px);
+            padding-left: 0.5em;
+        }
+
+        &:empty {
+            overflow: inherit;
+
+            &::after {
+                bottom: -2px;
+            }
+
+            &::before {
+                background-color: transparent;
+                bottom: -2px;
+            }
+        }
+    }
+
+    & > * {
+        vertical-align: top;
+    }
+
+    & > .downarrow {
+        &::before {
+            content: "";
+            border-top: .3em solid var(--content-text);
+            border-left: .25em solid transparent;
+            border-right: .25em solid transparent;
+        }
+
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+
+    & > .uparrow {
+        &::before {
+            content: "";
+            border-bottom: .3em solid var(--content-text);
+            border-left: .25em solid transparent;
+            border-right: .25em solid transparent;
+        }
+
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+
+    & > select {
+        border: none;
+        border-radius: 0;
+        appearance: none;
+        white-space: nowrap;
+    }
+
+    & > input,
+    & > select {
+        &::placeholder {
+            color: var(--content-placeholder);
+        }
+
+        &:read-only {
+            text-overflow: ellipsis;
+            padding: 2px 1.5em 0 0.75em;
+        }
+
+        position: relative;
+        z-index: 1;
+
+        text-shadow: 1px 1px var(--content-text_shadow);
+        min-height: 100%;
+        min-width: 100%;
+        width: 100%;
+
+        box-sizing: border-box;
+        vertical-align: middle;
+        background-color: transparent;
+        color: var(--content-text);
+        font: inherit;
+        line-height: 2.5rem;
+        padding: 2px .75em 0;
+        font-size: 1rem;
+        border: none;
+        outline: none;
+
+        &:focus {
+            & ~ fieldset {
+                border-color: var(--content-focus);
+            }
+
+            & ~ label {
+                color: var(--content-focus);
+
+                &::after {
+                    background-color: var(--content-focus);
+                }
+
+                &::before {
+                    background-color: var(--content-focus);
+                }
+            }
+        }
+    }
+
+    & > .option, & > .option-fullscreen {
+        display: none;
+        position: absolute;
+    }
+
+    &.select {
+        & > input {
+            display: none;
+        }
+
+        & > select:not(:empty) {
+            display: inline-block;
+            padding-right: 1.5em;
+
+            &:focus ~ .downarrow {
+                &::before {
+                    border-top: 0.3em solid var(--content-focus);
+                }
+            }
+        }
+
+        &.error {
+            & > input:focus ~ .option:not(:empty) {
+                border: solid 2px var(--alert);
+                background-color: var(--content);
+                border-top: none;
+
+                & > .menu {
+                    &:hover {
+                        background-color: var(--alert-screen);
+                    }
+
+                    box-shadow: inset 0 0 0 .5px var(--alert-transparent);
+                }
+            }
+        }
+
+        & > input {
+            display: inline-block;
+
+            &:read-only {
+                cursor: default;
+            }
+
+            & ~ .option, & ~ .option-fullscreen {
+                text-align: left;
+            }
+
+            & ~ .option {
+                & > .menu > .text {
+                    font-size: .8em;
+                    text-shadow: 1px 1px var(--content-text_shadow);
+                    padding: .75em .75em .75em 1.25em
+                }
+            }
+
+            &:focus ~ .downarrow {
+                &::before {
+                    border-top: 0.3em solid var(--content-focus);
+                }
+            }
+
+            &:focus ~ .option-fullscreen:not(:empty) {
+                display: block;
+                position: fixed;
+                box-sizing: border-box;
+                background-color: var(--content);
+                z-index: 9999;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                overflow-y: auto;
+
+                & > .menu {
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: var(--content-focus_screen);
+                    }
+
+                    & > * {
+                        display: inline;
+                    }
+                }
+            }
+
+            &:focus ~ .option:not(:empty) {
+                border: solid 2px var(--content-focus);
+                border-top: none;
+                top: calc(100% - 1px);
+                background-color: var(--content);
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+
+                z-index: 9999;
+                max-height: 50vh;
+                overflow-y: auto;
+
+                & > .menu {
+                    text-align: left;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: var(--content-focus_screen);
+                    }
+
+                    box-shadow: 0 1px 0 var(--content-text_transparent);
+                }
+            }
+
+            & ~ select {
+                display: none;
+            }
+        }
+
+        .downarrow {
+            display: flex;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 2.8rem;
+            font-size: 1.2rem;
+            align-items: center;
+            width: 1.75rem;
+            cursor: default;
+        }
+    }
+}
+*/
 div.sui-list {
     --grid: 1fr 1fr 1fr;
     @media @laptop {
