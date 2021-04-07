@@ -1,17 +1,17 @@
 <template lang='pug'>
-    div.sui-card(:class="{center: align === 'center'}" :style="[customStyle, {color: color ? color : null}]")
-        .title(v-if="hasTitleSlot()" :style="titleStyle")
-            slot(name="title")
-            .close(v-if="closeButton")
-        .image(v-if="hasImageSlot()")
-            slot(name="image")
-        .content(v-if="hasContentSlot()" :class="{center: contentCenter}" :style="{opacity: disabled ? 0.5 : 1}")
-            slot(name="content")
-        slot
-        .button_footer(v-if="hasButtonFooterSlot()" :class="{sticky: stickyMobileButtonFooter && sticky}")
-            slot(name="buttonFooter")
-        .footer(v-if="hasFooterSlot()" :style="{opacity: footerAlert !== false ? 1 : 0.5, color: footerAlert}")
-            slot(name="footer")
+div.sui-card(:class="{center: align === 'center'}" :style="[customStyle, {color: color ? color : null}]")
+    .title(v-if="hasTitleSlot()" :style="titleStyle")
+        slot(name="title")
+        .close(v-if="closeButton")
+    .image(v-if="hasImageSlot()")
+        slot(name="image")
+    .content(v-if="hasContentSlot()" :class="{center: contentCenter}" :style="{opacity: disabled ? 0.5 : 1}")
+        slot(name="content")
+    slot
+    .button_footer(v-if="hasButtonFooterSlot()" :class="{sticky: stickyMobileButtonFooter && sticky}")
+        slot(name="buttonFooter")
+    .footer(v-if="hasFooterSlot()" :style="{opacity: footerAlert !== false ? 1 : 0.5, color: footerAlert}")
+        slot(name="footer")
 </template>
 
 <script>
@@ -31,15 +31,15 @@ export default {
         customStyle: Object
     },
     data() {
-      return {
-          resizeEventId: null,
-          sticky: false
-      }
+        return {
+            resizeEventId: null,
+            sticky: false
+        };
     },
     mounted() {
-        if(this.stickyMobileButtonFooter) {
+        if (this.stickyMobileButtonFooter) {
             this.resizeEventId = window.sui_app.registerEvent.resize(() => {
-                if(window.sui_app.viewport === 'phone') {
+                if (window.sui_app.viewport === 'phone') {
                     this.sticky = true;
                 } else {
                     this.sticky = false;
@@ -54,7 +54,7 @@ export default {
         titleStyle() {
             let color = (this.titleColor === '' || typeof this.titleColor === 'boolean') && this.titleColor !== false ? 'var(--content-focus-text)' : this.titleColor;
             let bgColor = (this.titleBackground === '' || typeof this.titleBackground === 'boolean') && this.titleBackground !== false ? 'var(--content-focus)' : this.titleBackground;
-            return { color: color, backgroundColor: bgColor }
+            return {color: color, backgroundColor: bgColor};
         }
     },
     methods: {
@@ -78,12 +78,18 @@ export default {
 </script>
 <style lang="less">
 @import '../assets/viewport.less';
+
 div.sui-card {
     tab-size: 1em;
     background-color: var(--content);
     color: var(--content-text);
     border-radius: 8px;
     padding: 0 1.3em;
+
+    @media @phone {
+        padding: 0 .65em;
+        border-radius: 0;
+    }
 
     box-shadow: 0 0 0 2px var(--content-text_screen);
     text-align: left;
@@ -116,9 +122,13 @@ div.sui-card {
         padding-left: 1.3em;
         padding-right: 1.3em;
         margin: 0 -1.3em;
+        @media @phone {
+            margin: 0 -0.65em;
+        }
         min-height: 2rem;
         line-height: 2rem;
         border-bottom: 1px solid var(--content-text_transparent);
+        text-shadow: 1px 1px var(--content-text_shadow);
 
         & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > small {
             min-height: 2em;
@@ -144,22 +154,29 @@ div.sui-card {
                 vertical-align: top;
             }
 
+            &:hover {
+                opacity: 1;
+            }
+
+            opacity: .5;
             cursor: pointer;
             width: 1.3em;
             text-align: center;
             display: block;
             position: absolute;
             right: 0.3em;
+            @media @phone {
+                right: 1em;
+            }
             top: 0.3em;
         }
     }
-
 
     & > .image:not(:empty) {
         margin: 0 -1.3em;
 
         & > * {
-            width: 100%;
+            //width: 100%;
             display: block;
         }
 
@@ -168,6 +185,7 @@ div.sui-card {
         & > img {
             -webkit-user-drag: none;
             margin: 0 auto;
+            width: 100%;
             max-width: 100%;
         }
 
@@ -228,6 +246,7 @@ div.sui-card {
                 text-align: right;
                 cursor: default;
                 user-select: none;
+                padding-right: .25em;
             }
 
             .quantity {
