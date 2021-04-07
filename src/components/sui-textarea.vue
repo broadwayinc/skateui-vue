@@ -1,10 +1,27 @@
 <template lang='pug'>
-    div.sui-textarea
+    div.sui-textarea(:class="{ left: buttonLeft, right: buttonRight}")
         .textarea
             textarea(:placeholder="placeholder" rows="1")
         label {{ label }}
         fieldset
             legend {{ label }}
+        template(v-if="buttonLeft &&  this.$listeners.leftClick")
+            button.left(:disabled="disabled" :style="buttonLeft.style")
+                template(v-if="buttonLeft.text") {{ buttonLeft.text }}
+                template(v-else)
+                    i.material-icons {{ buttonLeft.icon }}
+        template(v-else-if="buttonLeft")
+            .left
+                img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
+                //i.material-icons {{buttonLeft.icon}}
+        template(v-if="buttonRight && this.$listeners.rightClick")
+            button.right(:disabled="disabled" :style="buttonRight.style" @click="rightClick")
+                template(v-if="buttonRight.text") {{ buttonRight.text }}
+                template(v-else)
+                    i.material-icons {{ buttonRight.icon }}
+        template(v-else-if="buttonRight")
+            .right
+                i.material-icons {{ buttonRight.icon }}
 </template>
 
 <script>
@@ -16,12 +33,43 @@ export default {
             default: null
         },
         label: String,
+        button: {
+            type: [Array, Object],
+            default: null
+        },
     },
     data() {
       return {
-          resizeEventId: null,
-          sticky: false
+          buttonLeft: null,
+          buttonRight: null,
       }
+    },
+    created() {
+        if (this.button !== null) {
+            if (Array.isArray(this.button)) {
+                this.button.forEach(button => {
+                    if (button.position === 'right') {
+                        this.buttonRight = {
+                            ...button,
+                            ...{
+                                style: {
+                                    paddingBottom: button.text ? '0.4rem' : null,
+                                    fontSize: button.text ? '1.8rem' : null
+                                }
+                            }
+                        }
+                    } else if (button.position === 'left') {
+                        this.buttonLeft = {
+                            ...button,
+                            style: {
+                                paddingBottom: button.text ? '0.4rem' : null,
+                                fontSize: button.text ? '1.8rem' : null
+                            }
+                        }
+                    }
+                })
+            }
+        }
     },
     mounted() {
 
