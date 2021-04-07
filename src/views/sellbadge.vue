@@ -23,7 +23,7 @@ div(style="text-align:center;margin: 8px auto;")
             br
             br
             br
-            sui-accordion.newBadge
+            //sui-accordion.newBadge
                 .title + Create New Badge
                 hr
                 .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
@@ -86,12 +86,14 @@ div(style="text-align:center;margin: 8px auto;")
             br
             br
             div(style="text-align:left;line-height:2;")
-                | ITEMS:
-                pre
-                pre
-                pre
-                | 3
-                br
+                .badgepack
+                    | ITEMS:
+                    pre
+                    img(src="@/assets/sealpixel.jpeg" style="width:32px;height:32px;")
+                    | +3
+                    pre
+                    img(src="@/assets/iceberg.png" style="width:32px;height:32px;")
+                    | +1
                 | TAX:
                 pre
                 | $40.00
@@ -104,6 +106,9 @@ div(style="text-align:center;margin: 8px auto;")
             br
             div(style="text-align:center;")
                 sui-button CHECKOUT
+            br
+            div(style="text-align:center")
+                sui-button Create New Badge
     br
     br
     sui-card.head_card
@@ -114,7 +119,7 @@ div(style="text-align:center;margin: 8px auto;")
                     img(src="@/assets/myface.jpg")
                 .board_message
                     sui-autosize(value="I support you Awkward Seal!" allow-enter :max="32" :min="18" :readonly="true")
-                    .badgepack
+                    .badgepack(style="text-align:right")
                         img(src="@/assets/sealpixel.jpeg" style="width:32px;height:32px;")
                         | +3
                         pre
@@ -211,19 +216,16 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
-        .badgepack {
-            text-align: right;
-
-            & > * {
-                font-family: monospace;
-                vertical-align: middle;
-                line-height: 32px;
-            }
-        }
     }
 }
+.badgepack {
 
+    & > * {
+        font-family: monospace;
+        vertical-align: middle;
+        line-height: 32px;
+    }
+}
 .head_card {
     //max-width: 640px;
     //width: 70%
