@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import SellBadge from '../views/sellbadge.vue'
 
 Vue.use(VueRouter)
 
@@ -11,12 +12,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/frame',
-    name: 'Frame',
+    path: '/sell',
+    name: 'Sell',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/frame.vue')
+    components: {
+      default: SellBadge
+    }
   }
 ]
 
