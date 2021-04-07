@@ -1,59 +1,25 @@
 <template lang="pug">
 div
-    sui-app(:hide-navbar='true' notification='Hey you got a new message')
+    sui-app(:hide-navbar='true')
         template(v-slot:nav)
             .nav
                 .nav-info
                     i.material-icons.hamburger(onclick="sui_popup.handler('hamburger-menu', 'left', true)") menu
-                    img(v-if='navbarImage' :src="navbarImage")
-                    h6(v-else) {{appName}}
+                    // img(src="@/assets/pixelheart.png")
+                    h6 MONOMONO
                 .nav-icon
-                    //a
-                        i.material-icons settings
-                    a
-                        .new
-                            small 4
-                        i.material-icons shopping_cart
-                    a
-                        i.material-icons chat
-                    //a.sui-button.nude Login
-                    //a.sui-button Sign In
+                    sui-button(type="nude") Login
+                    sui-button Sign In
         //router-view
         template(v-slot:page)
-            section.slide
+            //section.slide
             .app-grid
                 #search
-                    .sui-input.select.right(style="width: 100%;")
-                        input(placeholder="Search Bunnykit")
-                        fieldset
-                        button.right
-                            i.material-icons search
-                        .option
-                            .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                                Suggestion box
-                            .menu(style="padding: .5rem .75rem; font-size:.8em;").
-                                If the .option is empty, suggestion box will not show
                 #hashtag
-                    //h4.category {{listmode[0]}}
-                    .hashtag
-                        a.selected ALL
-                        a #hashtag
-                        a #hashtag
-                        a #hashtag
-                        a #hashtag
                 #sidenav.hideontablet
-                    sui-sticky(:offset="18")
-                        // category navigation
-                        .menublock(v-for="(nav, name) in navigation" :class="{disabled:nav.disabled, selected:nav.selected}")
-                            a {{name}}
-                            .new(v-if="nav.new")
-                                small {{nav.new}}
+                    sui-sticky(:offset="18" :style="{paddingLeft: '1rem'}")
                         template(v-for="(nav, name) in customNavigation")
-                            template(v-if="name !== 'Baksa Gimm'")
-                                br
-                                small(style="opacity:.5") {{name}}
-                                hr(style="margin-top:.5em")
-                                br
+                            template(v-if="name !== '%%null%%'")
                                 .menublock(v-for="(sub, name) in nav" :class="{disabled:sub.disabled, selected:sub.selected}")
                                     .left(v-if="sub.icon")
                                         i.material-icons {{sub.icon}}
@@ -61,59 +27,28 @@ div
                                         small {{sub.new}}
                                     a {{name}}
                 #list
-                    sui-sticky(:style="{zIndex:6666}")
-                        #listmode(v-if='listmode.length > 1' :style="{'--listmode':listmode.map(l=>{return '1fr '}).join(' '),boxShadow:'0 0 0 2px var(--background)'}")
-                            .mode(@click='selectedListMode = idx' v-for="(l, idx) in listmode" :class="{create:l === 'New', selected: !selectedListMode || selectedListMode >= listmode.length ? !idx : selectedListMode === idx}")
-                                template(v-if="l === 'New'")
-                                    i.material-icons add_circle
-                                    | &nbsp;&nbsp;
-                                p {{l}}
-                    #wysiwyg(v-show="selectedListMode === listmode.length - 1")
-                        .sui-card
-                            .content
-                                .sui-accordion(onclick="sui_accordion.handler(event)")
-                                    .title Category
-                                    hr
-                                    .content(onclick="(function(event){event.stopPropagation()})(event)").
-                                        &nbsp;
-                                br
-                                .sui-accordion(onclick="sui_accordion.handler(event)")
-                                    .title Items
-                                    hr
-                                    .content(onclick="(function(event){event.stopPropagation()})(event)").
-                                        &nbsp;
-                                #editor
-                            #toolbar
-                                i.material-icons format_bold
-                                i.material-icons format_size
-                                i.material-icons text_fields
-                                i.material-icons format_color_fill
-                                i.material-icons format_underline
-                                i.material-icons format_strikethrough
-                                i.material-icons horizontal_rule
-                                i.material-icons format_quote
-                                i.material-icons insert_photo
-                                i.material-icons code
-                            .button_footer
-                                sui-button(type='nude') Save As Draft
-                                sui-button POST
                     router-view(v-show="selectedListMode !== listmode.length - 1")
     sui-card#hamburger-menu
         template(#title)
-            img(v-if='navbarImage' :src="navbarImage")
-            template(v-else) {{appName}}
+            | Welcome Baksa Gimm!
             .close(onclick="sui_popup.handler('hamburger-menu', 'close')")
+        template(#image)
+            .profile
+                img(src="@/assets/myface.jpg")
         template(#content)
             // category navigation
             .menublock(v-for="(nav, name) in navigation" :class="{disabled:nav.disabled, selected:nav.selected}")
-                a {{name}}
+                .left(v-if="nav.icon")
+                    i.material-icons {{nav.icon}}
                 .new(v-if="nav.new")
                     small {{nav.new}}
+                a {{name}}
             template(v-for="(nav, name) in customNavigation")
-                br
-                small(style="opacity:.5") {{name}}
-                hr(style="margin-top:.5em")
-                br
+                template(v-if="name && !name.includes('%%null%%')")
+                    br
+                    small(style="opacity:.5") {{name}}
+                    hr(style="margin-top:.5em")
+                    br
                 .menublock(v-for="(sub, name) in nav" :class="{disabled:sub.disabled, selected:sub.selected}")
                     .left(v-if="sub.icon")
                         i.material-icons {{sub.icon}}
@@ -132,63 +67,42 @@ export default {
             navbarImage: navbarImgSample,
             selectedListMode: 2,
             navigation: {
-                'Home': {
-                    url: '/'
+                'Account Settings': {
+                    icon: 'person',
+                    disabled: true
                 },
-                'Singapore': {
-                    new: '99+',
-                    selected: true
+                'My Badges': {
+                    icon: 'privacy_tip',
+                    disabled: true
                 },
-                'Fender': {},
-                'Epiphone': {
-                    new: '1'
+                'Payment': {
+                    icon: 'payment',
+                    disabled: true
+                },
+                'Share This Page': {
+                    icon: 'share'
                 }
             },
             customNavigation: {
-                'Baksa Gimm': {
-                    'Shopping Cart': {
-                        icon: 'shopping_cart',
-                        new: '4',
-                        selected: true
-                    },
-                    'Messages': {
-                        icon: 'chat',
+                'ADMIN': {
+                    'New Badge': {
+                        icon: 'add_moderator',
                         disabled: true
                     },
-                    'Account Settings': {
-                        icon: 'person',
+                    'Draft Badge': {
+                        icon: 'shield',
                         disabled: true
                     },
-                    'Payment': {
-                        icon: 'payment',
+                    'Page Settings': {
+                        icon: 'settings',
                         disabled: true
-                    },
+                    }
+                },
+                '%%null%%': {
                     'Logout': {
                         icon: 'logout',
                         disabled: true
-                    },
-                },
-                'Bunnykit ADMIN': {
-                    'New': {
-                        icon: 'add_circle',
-                        disabled: true
-                    },
-                    'Draft Articles': {
-                        icon: 'article',
-                        disabled: true
-                    },
-                    'App Settings': {
-                        icon: 'settings',
-                        disabled: true
-                    },
-                    'Customer Management': {
-                        icon: 'person',
-                        disabled: true
-                    },
-                    'Send Notification': {
-                        icon: 'message',
-                        disabled: true
-                    },
+                    }
                 }
             }
         };
@@ -204,15 +118,28 @@ export default {
         }
     },
     mounted() {
-        let editor = new Wysiwyg4All({
-            elementId: 'editor',
-            placeholder: 'Write new article'
-        });
+        // let editor = new Wysiwyg4All({
+        //     elementId: 'editor',
+        //     placeholder: 'Write new article'
+        // });
     }
 };
 </script>
 <style lang="less">
 @import "./assets/viewport.less";
+
+.profile {
+    padding: 1rem;
+    box-sizing: border-box;
+    position: relative;
+    img {
+        width: 70%;
+        display: block;
+        margin: 1rem auto;
+        border-radius: 60%;
+        box-shadow: 0 0 0 8px var(--toolbar-text_shadow);
+    }
+}
 
 .menublock {
     padding: .75em .5rem;
@@ -221,6 +148,7 @@ export default {
     position: relative;
     margin: 0 -.5rem;
     display: flex;
+    align-items: center;
 
     & > .new:last-child {
         position: static;
@@ -318,7 +246,7 @@ export default {
 
 #hamburger-menu {
     display: none;
-    width: 280px;
+    max-width: 300px;
     height: 100%;
 
     & > .title {
@@ -451,15 +379,17 @@ section.slide {
 
 div.app-grid {
     display: grid;
-    grid-template-columns: auto auto 60% auto;
     grid-template-rows: auto;
     width: 100%;
     grid-template-areas:
-                ". . search ."
-                ". sidenav hashtag ."
-                ". sidenav list .";
+                ". . search . ."
+                ". sidenav hashtag . ."
+                ". sidenav list . .";
+
+    // adjust the desktop / laptop grid size from here
+    grid-template-columns: auto minmax(auto, 250px) minmax(auto, 800px) auto auto;
     @media @laptop {
-        grid-template-columns: auto auto 70% auto;
+        grid-template-columns: auto minmax(auto, 250px) minmax(auto, 800px) auto auto;
     }
 
     @media @tablet {
@@ -475,13 +405,11 @@ div.app-grid {
     }
 
     & > #search {
-        padding: 2rem 0 1rem;
         grid-area: search;
     }
 
 
     & > #hashtag {
-        padding-bottom: 1rem;
         grid-area: hashtag;
         color: var(--background-text);
 
@@ -492,6 +420,8 @@ div.app-grid {
         }
 
         & > .hashtag {
+            padding-bottom: 1rem;
+
             & > a {
                 font-size: .8rem;
                 cursor: pointer;
@@ -522,7 +452,7 @@ div.app-grid {
         grid-area: list;
 
         & > div > div {
-            width: 100%;
+            //width: 100%;
         }
 
         #listmode {
@@ -607,8 +537,6 @@ div.app-grid {
     }
 
     & > #sidenav {
-        max-width: 250px;
-        margin: 0 1rem;
         grid-area: sidenav;
         position: relative;
     }
