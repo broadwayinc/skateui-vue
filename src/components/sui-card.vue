@@ -99,7 +99,7 @@ div.sui-card {
     }
 
     * {
-        margin: 0;
+        //margin: 0; ??
         white-space: pre-wrap;
         word-break: break-word;
     }
@@ -158,14 +158,14 @@ div.sui-card {
     & > .image:not(:empty) {
         margin: 0 -1.3em;
 
-        * {
+        & > * {
             width: 100%;
             display: block;
         }
 
         user-select: none;
 
-        img {
+        & > img {
             -webkit-user-drag: none;
             margin: 0 auto;
             max-width: 100%;
