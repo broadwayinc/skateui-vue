@@ -2,7 +2,7 @@
 .sui-app
     nav(v-if="$slots.nav")
         slot(name="nav")
-    .view
+    .view(v-if="loaded")
         slot(name="page")
         .notification(:class="{show: notification_computed}")
             template(v-if="notification_computed")
@@ -22,10 +22,15 @@ export default {
         notification: {
             type: String | Object,
             default: function () {
-                return {icon: '', text: ''};
+                return '';
             }
         },
         hideNavbar: Boolean
+    },
+    data() {
+        return {
+            loaded: false
+        };
     },
     created() {
         if (!this.colorScheme)
@@ -210,6 +215,7 @@ export default {
                 navbarStyle: null,
                 navbarOffset: 0,
                 navbarHeight: 0,
+                hideNavbar: true,
                 navbarHeight_dynamic: 0,
                 breakPoint: [441, 767, 1365],
                 viewport: 'desktop',
@@ -232,6 +238,18 @@ export default {
                     }
 
                     return window.sui_app.viewport;
+                },
+                calcNavbarHeight() {
+                    if (window.sui_app.hideNavbar) {
+                        const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
+                        const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
+                        const navbarOffset = window.sui_app.navbarOffset + offsetDifference;
+
+                        window.sui_app.navbarOffset = navbarOffset < -window.sui_app.navbarHeight - 2 ? -window.sui_app.navbarHeight - 2 : navbarOffset > 0 ? 0 : navbarOffset;
+                        window.sui_app.scrollOffset = scrollOffset;
+                        window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight + window.sui_app.navbarOffset;
+                        document.getElementsByTagName('body')[0].style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
+                    }
                 },
                 colorScheme: null,
                 generateId(option) {
@@ -314,21 +332,13 @@ export default {
                     window.sui_app.colorScheme = cs;
 
                     window.sui_app.updateViewport();
+                    window.sui_app.calcNavbarHeight();
 
                     document.addEventListener(
                         'scroll',
                         (event) => {
                             window.requestAnimationFrame(() => {
-                                if (this.hideNavbar) {
-                                    const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
-                                    const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
-                                    const navbarOffset = window.sui_app.navbarOffset + offsetDifference;
-
-                                    window.sui_app.navbarOffset = navbarOffset < -window.sui_app.navbarHeight - 2 ? -window.sui_app.navbarHeight - 2 : navbarOffset > 0 ? 0 : navbarOffset;
-                                    window.sui_app.scrollOffset = scrollOffset;
-                                    window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight + window.sui_app.navbarOffset;
-                                    document.getElementsByTagName('body')[0].style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
-                                }
+                                window.sui_app.calcNavbarHeight();
 
                                 if (Object.keys(window.sui_app.scroll_callback).length) {
                                     for (let c in window.sui_app.scroll_callback)
@@ -367,12 +377,16 @@ export default {
                         },
                         {passive: true}
                     );
+
+                    return true;
                 }
             };
+        else
+            throw 'only one sui-app allowed';
     },
     mounted() {
         // only one sui-app is allowed
-        window.sui_app.init({
+        this.loaded = window.sui_app.init({
             hideNavbar: this.hideNavbar,
             colorScheme: this.colorScheme
         });
