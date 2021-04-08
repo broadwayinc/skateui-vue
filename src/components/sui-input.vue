@@ -1,46 +1,6 @@
 <template lang='pug'>
-    .sui-input(:id="dropdownStyle === 'custom' || type === 'autocomplete' ? id : null" :class="{ left: buttonLeft, right: buttonRight, error: error, disabled: disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete' }")
-        template(v-if="type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'")
-            template(v-if="dropdownStyle === 'custom' || type === 'fullscreen-select' || type === 'autocomplete'")
-                input(autocomplete="off" id="dropdowncustom" :placeholder="placeholder" v-model="customValue" :readonly="type !== 'autocomplete'" @keyup="output(customValue);" @keypress="keypress" @keydown="arrowSelection")
-                div(v-show="searching" :class="selectClass() ? 'option' : 'option-fullscreen'")
-                    template(v-for="(x, idx) in option")
-                        hr(v-if="!selectClass() && idx !== 0" style="margin: .25rem .5rem")
-                        .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text ? x.text : x.value }}
-            template(v-else)
-                select
-                    option(v-if="placeholder" value="") {{ placeholder }}
-                    option(v-for="x in option" :value="x.value") {{ x.text ? x.text : x.value }}
-            label(v-if="label") {{ label }}
-                span(v-if="required" style="color:var(--alert)")  *
-            fieldset
-                legend(v-if="label") {{ label }}
-                    span(v-if="required")  *
-        template(v-else)
-            input(:disabled="disabled" :placeholder="placeholder" :type="type" :value="value" :style="{ textAlign: this.button ? this.button.length === 2 ? 'center' : null : null }")
-            label(v-if="label") {{ label }}
-                span(v-if="required" style="color:var(--alert)")  *
-            fieldset
-                legend(v-if="label") {{ label }}
-                    span(v-if="required")  *
-        template(v-if="buttonLeft &&  this.$listeners.leftClick")
-            button.left(:disabled="disabled" :style="buttonLeft.style")
-                template(v-if="buttonLeft.text") {{ buttonLeft.text }}
-                template(v-else)
-                    i.material-icons {{ buttonLeft.icon }}
-        template(v-else-if="buttonLeft")
-            .left
-                i.material-icons {{buttonLeft.icon}}
-        template(v-if="buttonRight && this.$listeners.rightClick")
-            button.right(:disabled="disabled" :style="buttonRight.style" @click="rightClick")
-                template(v-if="buttonRight.text") {{ buttonRight.text }}
-                template(v-else)
-                    i.material-icons {{ buttonRight.icon }}
-        template(v-else-if="buttonRight")
-            .right
-                i.material-icons {{ buttonRight.icon }}
-        .downarrow(v-if="type === 'select' || type === 'fullscreen-select'")
-        .message(v-if="message") {{ message }}
+    sui-label(:label="label" :error="error" :button="button" :required="required" :message="message || null" :disabled="disabled || null")
+        input(:disabled="disabled" :placeholder="placeholder" :type="type" :value="value" :style="{ textAlign: this.button ? this.button.length === 2 ? 'center' : null : null }")
 </template>
 
 <script>
@@ -57,10 +17,10 @@ export default {
             type: String,
             default: 'text'
         },
-        dropdownStyle: String,
-        menuStyle: Object,
+        // dropdownStyle: String,
+        // menuStyle: Object,
         value: String,
-        option: Array,
+        // option: Array,
         button: {
             type: [Array, Object],
             default: null
@@ -71,137 +31,112 @@ export default {
             type: String,
             default: null
         },
-        output: {
-            type: Function,
-            default: () => {}
-        }
+        // output: {
+        //     type: Function,
+        //     default: () => {}
+        // }
     },
     data() {
         return {
-            id: String,
-            buttonLeft: null,
-            buttonRight: null,
-            cstyle: {},
-            customValue: '',
-            searching: false,
-            currentSelection: -1
+            // id: String,
+            // buttonLeft: null,
+            // buttonRight: null,
+            // cstyle: {},
+            // customValue: '',
+            // searching: false,
+            // currentSelection: -1
         }
     },
     created() {
-        if(this.dropdownStyle === 'custom' || this.type === 'fullscreen-select') {
-            this.id = this.elementId();
-            this.customValue = this.placeholder ? this.placeholder : this.option[0].text ? this.option[0].text : this.option[0].value;
-        }
-
-        if(this.type === 'autocomplete') {
-            this.id = this.elementId();
-        }
-        if (this.button !== null) {
-            if (Array.isArray(this.button)) {
-                this.button.forEach(button => {
-                    if (button.position === 'right') {
-                        this.buttonRight = {
-                            ...button,
-                            ...{
-                                style: {
-                                    paddingBottom: button.text ? '0.4rem' : null,
-                                    fontSize: button.text ? '1.8rem' : null
-                                }
-                            }
-                        }
-                    } else if (button.position === 'left') {
-                        this.buttonLeft = {
-                            ...button,
-                            style: {
-                                paddingBottom: button.text ? '0.4rem' : null,
-                                fontSize: button.text ? '1.8rem' : null
-                            }
-                        }
-                    }
-                })
-            }
-        }
+        // if(this.dropdownStyle === 'custom' || this.type === 'fullscreen-select') {
+        //     this.id = this.elementId();
+        //     this.customValue = this.placeholder ? this.placeholder : this.option[0].text ? this.option[0].text : this.option[0].value;
+        // }
+        //
+        // if(this.type === 'autocomplete') {
+        //     this.id = this.elementId();
+        // }
     },
     methods: {
-        arrowSelection(event) {
-            if(this.option.length) {
-                if(event.code === 'ArrowUp' && this.currentSelection > -1) {
-                    this.currentSelection -= 1;
-                }
-                if(event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
-                    this.currentSelection += 1;
-                }
-                if(event.code === 'Enter') {
-                    this.searching = false;
-                    this.customValue = this.option[this.currentSelection];
-                }
-            }
-        },
-        keypress(event) {
-            if(this.type === 'autocomplete') {
-                if(event.code !== 'Enter') this.searching = true;
-            }
-            this.currentSelection = -1;
-            this.output('abc');
-        },
-        selectClass() {
-            return this.type === 'select' || this.type === 'autocomplete';
-        },
-        rightClick() {
-            this.$emit('rightClick');
-        },
-        elementId() {
-            function generateId(option) {
-                let limit = 12;
-                let prefix = '';
-
-                if (typeof option === 'number') limit = option;
-                else if (typeof option === 'string') prefix = `${option}_`;
-
-                const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-                let text = '';
-                for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
-
-                const numb = new Date()
-                    .getTime()
-                    .toString()
-                    .substring(7, 13); // SECOND, MILLISECOND
-
-                const shuffleArray = (array) => {
-                    let currentIndex = array.length;
-                    let temporaryValue, randomIndex;
-                    while (0 !== currentIndex) {
-                        randomIndex = Math.floor(Math.random() * currentIndex);
-                        currentIndex -= 1;
-                        temporaryValue = array[currentIndex];
-                        array[currentIndex] = array[randomIndex];
-                        array[randomIndex] = temporaryValue;
-                    }
-                    return array;
-                };
-
-                const letter_array = shuffleArray((text + numb).split(''));
-
-                let output = '';
-                for (let i = 0; i < limit; i++) output += letter_array[i];
-
-                return prefix + output;
-            }
-
-            return generateId(this.$options.name);
-        },
-        selectChoice(x) {
-            this.output(x);
-            this.customValue = typeof x === 'string' ? x : x.text ? x.text : x.value;
-        },
-        log(x) {
-            console.log(x);
-        }
+        // arrowSelection(event) {
+        //     if(this.option.length) {
+        //         if(event.code === 'ArrowUp' && this.currentSelection > -1) {
+        //             this.currentSelection -= 1;
+        //         }
+        //         if(event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
+        //             this.currentSelection += 1;
+        //         }
+        //         if(event.code === 'Enter') {
+        //             this.searching = false;
+        //             this.customValue = this.option[this.currentSelection];
+        //         }
+        //     }
+        // },
+        // keypress(event) {
+        //     if(this.type === 'autocomplete') {
+        //         if(event.code !== 'Enter') this.searching = true;
+        //     }
+        //     this.currentSelection = -1;
+        //     this.output('abc');
+        // },
+        // selectClass() {
+        //     return this.type === 'select' || this.type === 'autocomplete';
+        // },
+        // rightClick() {
+        //     this.$emit('rightClick');
+        // },
+        // elementId() {
+        //     function generateId(option) {
+        //         let limit = 12;
+        //         let prefix = '';
+        //
+        //         if (typeof option === 'number') limit = option;
+        //         else if (typeof option === 'string') prefix = `${option}_`;
+        //
+        //         const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        //
+        //         let text = '';
+        //         for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
+        //
+        //         const numb = new Date()
+        //             .getTime()
+        //             .toString()
+        //             .substring(7, 13); // SECOND, MILLISECOND
+        //
+        //         const shuffleArray = (array) => {
+        //             let currentIndex = array.length;
+        //             let temporaryValue, randomIndex;
+        //             while (0 !== currentIndex) {
+        //                 randomIndex = Math.floor(Math.random() * currentIndex);
+        //                 currentIndex -= 1;
+        //                 temporaryValue = array[currentIndex];
+        //                 array[currentIndex] = array[randomIndex];
+        //                 array[randomIndex] = temporaryValue;
+        //             }
+        //             return array;
+        //         };
+        //
+        //         const letter_array = shuffleArray((text + numb).split(''));
+        //
+        //         let output = '';
+        //         for (let i = 0; i < limit; i++) output += letter_array[i];
+        //
+        //         return prefix + output;
+        //     }
+        //
+        //     return generateId(this.$options.name);
+        // },
+        // selectChoice(x) {
+        //     this.output(x);
+        //     this.customValue = typeof x === 'string' ? x : x.text ? x.text : x.value;
+        // },
+        // log(x) {
+        //     console.log(x);
+        // }
     }
 };
 </script>
-<style scoped lang="less">
+<style lang="less">
 div.sui-input {
     position: relative;
     display: inline-block;

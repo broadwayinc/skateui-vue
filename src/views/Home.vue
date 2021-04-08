@@ -278,16 +278,14 @@
                 sui-input(placeholder="Don't worry label is transparent" label="Input with label")
                 br
                 br
-                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]" @rightClick="log('Hello')")
+                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]" :right-click="log('Hello')")
                 br
                 br
                 sui-input(
                     label="Number"
                     type="number"
                     value="1"
-                    :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]"
-                    @rightClick=""
-                    @leftClick=""
+                    :button="[{position: 'right', text: '+', action: () => { log('hello'); }}, {position: 'left', text: '−', action: () => {}}]"
                     )
                 br
                 br
@@ -477,7 +475,22 @@
             template(#title)
                 h6 Textarea
             template(#content)
-                sui-textarea(label="텍스트에리아" placeholder="Hello" :button="[{position: 'left'}, {position: 'right', icon: 'send'}]")
+                sui-textarea(label="텍스트에리아" placeholder="Bye" :button="[{position: 'left'}, {position: 'right', icon: 'send'}]")
+        br
+        br
+        sui-card
+            template(#title)
+                h6 Textarea
+            template(#content)
+                .sui-textarea.left.right
+                    textarea(placeholder='Hello' rows="1")
+                    label 텍스트에리아
+                    fieldset
+                        legend 텍스트에리아
+                    .left
+                        img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
+                    button.right
+                        i.material-icons send
         br
         br
         sui-card
@@ -512,6 +525,7 @@
                 br
                 h6 Lined style:
                 br
+                sui-steps(type="line" :steps="['Skate', 'Learn to code', { text:'Become a computer nerd', icon: 'accessibility_new' }, 'Get a dog']")
                 .sui-steps.line(style="--ring-count: 2;--ring-status: 2")
                     svg
                         circle.step(r="1.5em" cx="50%" cy="50%")
@@ -723,7 +737,7 @@
                     br
                     br
                     .quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(close-button)
@@ -741,7 +755,7 @@
                     br
                     br
                     .quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(title-background="yellow" close-button)
@@ -758,7 +772,7 @@
                     //br
                     //br
                     //.quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(disabled title-background="var(--alert)" title-color="white")
@@ -776,7 +790,7 @@
                     br
                     br
                     .quantity
-                        sui-input(disabled style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(disabled style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(title-background="var(--background-focus_transparent" color="var(--background-text")
@@ -959,45 +973,45 @@ export default {
     },
     mounted() {
         // pure javascript handlers
-        window.sui_textarea = {
-            init: (el) => {
-                let setup = (el) => {
-                    el.setAttribute('rows', '1');
-                    let parent = el.parentElement;
-                    let replica = document.createElement('div');
-                    replica.classList.add('textarea');
-                    parent.insertBefore(replica, el);
-                    replica.append(el);
-                    el.addEventListener('input', (e) => {
-                        let target = e.target;
-                        target.parentNode.dataset.replica = target.value;
-                    });
-                    el.addEventListener('focus', (e) => {
-                        let target = e.target;
-                        let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
-                            par.classList.add('focus');
-
-                    });
-                    el.addEventListener('blur', (e) => {
-                        let target = e.target;
-                        let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
-                            par.classList.remove('focus');
-                    });
-                };
-
-                if (el) setup(el);
-                else {
-                    el = document.getElementsByTagName('textarea');
-                    for (let i = 0; i < el.length; i++) {
-                        if (el[i].parentNode.classList.contains('sui-textarea'))
-                            setup(el[i]);
-                    }
-                }
-            }
-        };
-        window.sui_textarea.init();
+        // window.sui_textarea = {
+        //     init: (el) => {
+        //         let setup = (el) => {
+        //             el.setAttribute('rows', '1');
+        //             let parent = el.parentElement;
+        //             let replica = document.createElement('div');
+        //             replica.classList.add('textarea');
+        //             parent.insertBefore(replica, el);
+        //             replica.append(el);
+        //             el.addEventListener('input', (e) => {
+        //                 let target = e.target;
+        //                 target.parentNode.dataset.replica = target.value;
+        //             });
+        //             el.addEventListener('focus', (e) => {
+        //                 let target = e.target;
+        //                 let par = target.parentNode.parentNode;
+        //                 if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
+        //                     par.classList.add('focus');
+        //
+        //             });
+        //             el.addEventListener('blur', (e) => {
+        //                 let target = e.target;
+        //                 let par = target.parentNode.parentNode;
+        //                 if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
+        //                     par.classList.remove('focus');
+        //             });
+        //         };
+        //
+        //         if (el) setup(el);
+        //         else {
+        //             el = document.getElementsByTagName('textarea');
+        //             for (let i = 0; i < el.length; i++) {
+        //                 if (el[i].parentNode.classList.contains('sui-textarea'))
+        //                     setup(el[i]);
+        //             }
+        //         }
+        //     }
+        // };
+        // window.sui_textarea.init();
         // window.sui_accordion = {
         //     timeout: null,
         //     handler: (ev) => {
@@ -1517,7 +1531,7 @@ label.sui-radio {
         vertical-align: middle;
     }
 }
-
+/*
 div.sui-steps {
     display: flex;
     justify-content: space-between;
@@ -1630,4 +1644,5 @@ div.sui-steps {
         }
     }
 }
+*/
 </style>
