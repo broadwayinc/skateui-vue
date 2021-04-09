@@ -502,41 +502,12 @@
                 br
                 h6 Lined style:
                 br
-                sui-steps(type="line" :steps="['Skate', 'Learn to code', { text:'Become a computer nerd', icon: 'accessibility_new' }, 'Get a dog']")
-                .sui-steps.line(style="--ring-count: 2;--ring-status: 2")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    .step.complete Skate
-                    .step.complete Learn to code
-                    .step.current
-                        .left
-                            i.material-icons accessibility_new
-                        | Become a computer nerd
-                    .step
-                        .left
-                            i.material-icons pets
-                        | Get a dog
+                sui-steps(type="line" :steps="['Skate', 'Learn to code', { text:'Become a computer nerd', icon: 'accessibility_new' }, 'Get a dog']" :completed=2)
                 br
                 br
                 h6 Ringed style (Best on mobile):
                 br
-                .sui-steps.ring(style="--ring-count: 4;--ring-status: 3")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    .step.complete Skate
-                    .step.complete Learn to code
-                    .step.current
-                        .left
-                            i.material-icons accessibility_new
-                        | Become a computer nerd
-                    .step
-                        .left
-                            i.material-icons pets
-                        | Get a dog
+                sui-steps(type="ring" :steps="['Skate', 'Learn to code', { text:'Become a computer nerd', icon: 'accessibility_new' }, 'Get a dog']" :completed=3)
                 br
                 br
                 p.
