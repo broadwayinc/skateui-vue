@@ -19,15 +19,10 @@ export default {
         type: String,
         steps: Array,
         completed: Number
-    },
-    data() {
-        return {
-
-        };
     }
 };
 </script>
-<style lang="less">
+<style scoped lang="less">
 @import '../assets/viewport.less';
 
 div.sui-steps {
