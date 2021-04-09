@@ -301,24 +301,16 @@
                 sui-input(error placeholder="Icon & Label & Error & *" label="E-Mail" required :button="[{position: 'left', icon: 'email'}]" message="It's a combo")
                 br
                 br
-                sui-input(label="Selector" type="select" placeholder="Input as selector" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
+                sui-select(label="Selector" placeholder="Input as selector" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
                 br
                 br
-                sui-input(:button="[{position: 'left', icon: 'public'}]" label="Selector" type="select" placeholder="Selector & Icon" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
+                sui-select(:button="[{position: 'left', icon: 'public'}]" label="Selector" placeholder="Selector & Icon" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
                 br
                 br
-                sui-input(
-                    type="select"
-                    :option="suiInputSelection1"
-                    label="Custom Selector"
-                    placeholder="Input as custom selector"
-                    dropdown-style="custom"
-                    :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"
-                    :output="(v) => { }",
-                    :button="[{position: 'left', icon: 'public'}]")
+                sui-select(custom :button="[{position: 'left', icon: 'public'}]" label="Custom Selector" placeholder="Input as custom selector" :option="suiInputSelection1" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}")
                 br
                 br
-                sui-input(type="fullscreen-select" :output="(v) => {  }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" :option="suiInputSelection2" label="Fullscreen Selector" :button="[{position: 'left', icon: 'public'}]")
+                sui-select(fullscreen :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" :option="suiInputSelection2" label="Fullscreen Selector" :button="[{position: 'left', icon: 'public'}]")
                 br
                 br
                 sui-input(type="autocomplete" placeholder="Suggestion box" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
@@ -960,6 +952,7 @@ export default {
             console.log("Home log", button)
         },
         getSearch(text) {
+            console.log("This is the text", text);
             text = text.toLowerCase();
             this.suiInputAutocomplete1 = this.suiDatabase.filter(word => {
                 let regex = new RegExp(text + '(.)?', 'g');
