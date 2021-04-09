@@ -467,22 +467,7 @@
             template(#title)
                 h6 Textarea
             template(#content)
-                sui-textarea(label="텍스트에리아" placeholder="Bye" :button="[{position: 'left'}, {position: 'right', icon: 'send'}]")
-        br
-        br
-        sui-card
-            template(#title)
-                h6 Textarea
-            template(#content)
-                .sui-textarea.left.right
-                    textarea(placeholder='Hello' rows="1")
-                    label 텍스트에리아
-                    fieldset
-                        legend 텍스트에리아
-                    .left
-                        img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
-                    button.right
-                        i.material-icons send
+                sui-textarea(label="텍스트에리아" placeholder="Bye" :button="[{position: 'left', img: '@/assets/myface.jpg'}, {position: 'right', icon: 'send'}]")
         br
         br
         sui-card
