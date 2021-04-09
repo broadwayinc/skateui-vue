@@ -591,54 +591,24 @@
             template(#title)
                 h6 Toggles
             template(#content)
-                label.sui-toggle
-                    p Toggle
-                    pre
-                    input(type="checkbox" value="check1")
-                    .toggle
+                sui-option(type="toggle" label="Toggle" value="Checkbox1" name="checkbox1")
                 br
-                label.sui-toggle.disabled
-                    p Toggle
-                    pre
-                    input(type="checkbox" disabled value="check2")
-                    .toggle
+                sui-option(type="toggle" label="Toggle" value="Checkbox2" name="checkbox2" disabled)
                 br
-                label.sui-radio
-                    p Radio 1
-                    pre
-                    input(type="radio" name="radio" value="1")
-                    .radio
+                sui-option(type="radio" name="radio" value="1" label="Radio 1" checked)
                 br
-                label.sui-radio.disabled
-                    p Radio 2
-                    pre
-                    input(type="radio" name="radio" disabled value="2")
-                    .radio
+                sui-option(type="radio" label="Radio 2" value="2" name="radio" disabled)
                 br
-                label.sui-radio
-                    p Radio 3
-                    pre
-                    input(type="radio" name="radio" value="3")
-                    .radio
+                sui-option(type="radio" label="Radio 3" value="3" name="radio")
                 br
                 br
-                label.sui-toggle(style="font-size:1.5em;")
-                    p Big toggle
-                    pre
-                    input(type="checkbox" value="bigcheck")
-                    .toggle
+                sui-option(type="toggle" label="Big Toggle" value="checkbox3" name="checkbox3" checked large)
                 br
-                label.sui-radio(style="font-size:1.5em;")
-                    p Big radio 1
-                    pre
-                    input(type="radio" name="bigradio" value='big1')
-                    .radio
+                sui-option(type="toggle" label="Big Toggle" value="checkbox4" name="checkbox4" large disabled)
                 br
-                label.sui-radio(style="font-size:1.5em;")
-                    p Big radio 2
-                    pre
-                    input(type="radio" name="bigradio" value='big2')
-                    .radio
+                sui-option(type="radio" name="bigradio" value="1" label="Radio 1" checked large)
+                br
+                sui-option(type="radio" label="Radio 2" value="2" name="bigradio" large disabled)
         br
         br
         sui-card(close-button)
@@ -1352,134 +1322,6 @@ div.sui-textarea {
     }
 }
 
-label.sui-toggle {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-
-    &.disabled {
-        opacity: 0.5;
-        user-select: none;
-        cursor: default;
-    }
-
-    *:not(pre) {
-        font-size: 1em;
-        display: inline-block;
-    }
-
-    * {
-        vertical-align: middle;
-        line-height: 2;
-    }
-
-    & > input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-
-        &:checked + .toggle {
-            &:after {
-                right: 2px;
-                background-color: var(--button-text);
-            }
-
-            background-color: var(--button-focus_faded);
-        }
-    }
-
-    &:active:not(.disabled) {
-        .toggle {
-            background-color: var(--button-focus);
-        }
-    }
-
-    .toggle {
-        &:after {
-            content: "";
-            box-sizing: border-box;
-            width: calc(1em - 8px);
-            height: calc(1em - 8px);
-            border-radius: 1em;
-            position: absolute;
-            top: 2px;
-            right: calc(1.75em - 1em + 8px - 2px);
-            background-color: var(--content);
-            transition: right 0.066s;
-            border: .1em solid var(--content-text_shadow);
-        }
-
-        display: inline-block;
-        position: relative;
-        height: calc(1em - 4px);
-        width: 1.75em;
-        font-size: 1.25em;
-        left: -4px;
-        border: 2px solid var(--content-text_screen);
-        background-color: var(--content-text_soft);
-        border-radius: 1em;
-    }
-}
-
-label.sui-radio {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-
-    &.disabled {
-        opacity: 0.5;
-        user-select: none;
-        cursor: default;
-    }
-
-    * {
-        line-height: 2;
-        vertical-align: middle;
-    }
-
-    *:not(pre) {
-        font-size: 1em;
-        display: inline-block;
-    }
-
-    & > input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-
-        &:checked + .radio {
-            border: 0.2em solid var(--content);
-            box-sizing: border-box;
-            background-color: var(--content-text_soft);
-        }
-    }
-
-    &:active:not(.disabled) {
-        & > .radio {
-            border-color: var(--content-text_soft);
-        }
-    }
-
-    .radio {
-        font-size: 1.25em;
-        display: inline-block;
-        position: relative;
-        width: calc(1em - 4px);
-        height: calc(1em - 4px);
-        box-sizing: border-box;
-        left: -2px;
-        border: 0.2em solid var(--content-text_transparent);
-        box-shadow: 0 0 0 2px var(--content-text_soft);
-        border-radius: 1em;
-        vertical-align: middle;
-    }
-}
 /*
 div.sui-steps {
     display: flex;
