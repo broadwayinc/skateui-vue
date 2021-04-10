@@ -278,16 +278,14 @@
                 sui-input(placeholder="Don't worry label is transparent" label="Input with label")
                 br
                 br
-                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]" @rightClick="log('Hello')")
+                sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]" :right-click="log('Hello')")
                 br
                 br
                 sui-input(
                     label="Number"
                     type="number"
                     value="1"
-                    :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]"
-                    @rightClick=""
-                    @leftClick=""
+                    :button="[{position: 'right', text: '+', action: () => { log('hello'); }}, {position: 'left', text: '−', action: () => {}}]"
                     )
                 br
                 br
@@ -303,24 +301,16 @@
                 sui-input(error placeholder="Icon & Label & Error & *" label="E-Mail" required :button="[{position: 'left', icon: 'email'}]" message="It's a combo")
                 br
                 br
-                sui-input(label="Selector" type="select" placeholder="Input as selector" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
+                sui-select(label="Selector" placeholder="Input as selector" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
                 br
                 br
-                sui-input(:button="[{position: 'left', icon: 'public'}]" label="Selector" type="select" placeholder="Selector & Icon" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
+                sui-select(:button="[{position: 'left', icon: 'public'}]" label="Selector" placeholder="Selector & Icon" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
                 br
                 br
-                sui-input(
-                    type="select"
-                    :option="suiInputSelection1"
-                    label="Custom Selector"
-                    placeholder="Input as custom selector"
-                    dropdown-style="custom"
-                    :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"
-                    :output="(v) => { }",
-                    :button="[{position: 'left', icon: 'public'}]")
+                sui-select(custom :button="[{position: 'left', icon: 'public'}]" label="Custom Selector" placeholder="Input as custom selector" :option="suiInputSelection1" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}")
                 br
                 br
-                sui-input(type="fullscreen-select" :output="(v) => {  }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" :option="suiInputSelection2" label="Fullscreen Selector" :button="[{position: 'left', icon: 'public'}]")
+                sui-select(fullscreen :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" :option="suiInputSelection2" label="Fullscreen Selector" :button="[{position: 'left', icon: 'public'}]")
                 br
                 br
                 sui-input(type="autocomplete" placeholder="Suggestion box" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
@@ -477,7 +467,7 @@
             template(#title)
                 h6 Textarea
             template(#content)
-                sui-textarea(label="텍스트에리아" placeholder="Hello" :button="[{position: 'left'}, {position: 'right', icon: 'send'}]")
+                sui-textarea(label="텍스트에리아" placeholder="Bye" :button="[{position: 'left', img: '@/assets/myface.jpg'}, {position: 'right', icon: 'send'}]")
         br
         br
         sui-card
@@ -512,40 +502,12 @@
                 br
                 h6 Lined style:
                 br
-                .sui-steps.line(style="--ring-count: 2;--ring-status: 2")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    .step.complete Skate
-                    .step.complete Learn to code
-                    .step.current
-                        .left
-                            i.material-icons accessibility_new
-                        | Become a computer nerd
-                    .step
-                        .left
-                            i.material-icons pets
-                        | Get a dog
+                sui-steps(type="line" :steps="['Skate', 'Learn to code', { text:'Become a computer nerd', icon: 'accessibility_new' }, 'Get a dog']" :completed=2)
                 br
                 br
                 h6 Ringed style (Best on mobile):
                 br
-                .sui-steps.ring(style="--ring-count: 4;--ring-status: 3")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    svg
-                        circle.step(r="1.5em" cx="50%" cy="50%")
-                    .step.complete Skate
-                    .step.complete Learn to code
-                    .step.current
-                        .left
-                            i.material-icons accessibility_new
-                        | Become a computer nerd
-                    .step
-                        .left
-                            i.material-icons pets
-                        | Get a dog
+                sui-steps(type="ring" :steps="['Skate', 'Learn to code', { text:'Become a computer nerd', icon: 'accessibility_new' }, 'Get a dog']" :completed=3)
                 br
                 br
                 p.
@@ -629,54 +591,24 @@
             template(#title)
                 h6 Toggles
             template(#content)
-                label.sui-toggle
-                    p Toggle
-                    pre
-                    input(type="checkbox" value="check1")
-                    .toggle
+                sui-option(type="toggle" label="Toggle" value="Checkbox1" name="checkbox1")
                 br
-                label.sui-toggle.disabled
-                    p Toggle
-                    pre
-                    input(type="checkbox" disabled value="check2")
-                    .toggle
+                sui-option(type="toggle" label="Toggle" value="Checkbox2" name="checkbox2" disabled)
                 br
-                label.sui-radio
-                    p Radio 1
-                    pre
-                    input(type="radio" name="radio" value="1")
-                    .radio
+                sui-option(type="radio" name="radio" value="1" label="Radio 1" checked)
                 br
-                label.sui-radio.disabled
-                    p Radio 2
-                    pre
-                    input(type="radio" name="radio" disabled value="2")
-                    .radio
+                sui-option(type="radio" label="Radio 2" value="2" name="radio" disabled)
                 br
-                label.sui-radio
-                    p Radio 3
-                    pre
-                    input(type="radio" name="radio" value="3")
-                    .radio
+                sui-option(type="radio" label="Radio 3" value="3" name="radio")
                 br
                 br
-                label.sui-toggle(style="font-size:1.5em;")
-                    p Big toggle
-                    pre
-                    input(type="checkbox" value="bigcheck")
-                    .toggle
+                sui-option(type="toggle" label="Big Toggle" value="checkbox3" name="checkbox3" checked large)
                 br
-                label.sui-radio(style="font-size:1.5em;")
-                    p Big radio 1
-                    pre
-                    input(type="radio" name="bigradio" value='big1')
-                    .radio
+                sui-option(type="toggle" label="Big Toggle" value="checkbox4" name="checkbox4" large disabled)
                 br
-                label.sui-radio(style="font-size:1.5em;")
-                    p Big radio 2
-                    pre
-                    input(type="radio" name="bigradio" value='big2')
-                    .radio
+                sui-option(type="radio" name="bigradio" value="1" label="Radio 1" checked large)
+                br
+                sui-option(type="radio" label="Radio 2" value="2" name="bigradio" large disabled)
         br
         br
         sui-card(close-button)
@@ -723,7 +655,7 @@
                     br
                     br
                     .quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(close-button)
@@ -741,7 +673,7 @@
                     br
                     br
                     .quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(title-background="yellow" close-button)
@@ -758,7 +690,7 @@
                     //br
                     //br
                     //.quantity
-                        sui-input(style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(disabled title-background="var(--alert)" title-color="white")
@@ -776,7 +708,7 @@
                     br
                     br
                     .quantity
-                        sui-input(disabled style="width:10rem" type="number" value="1" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                        sui-input(disabled style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
         br
         br
         sui-card(title-background="var(--background-focus_transparent" color="var(--background-text")
@@ -946,6 +878,7 @@ export default {
             console.log("Home log", button)
         },
         getSearch(text) {
+            console.log("This is the text", text);
             text = text.toLowerCase();
             this.suiInputAutocomplete1 = this.suiDatabase.filter(word => {
                 let regex = new RegExp(text + '(.)?', 'g');
@@ -959,45 +892,45 @@ export default {
     },
     mounted() {
         // pure javascript handlers
-        window.sui_textarea = {
-            init: (el) => {
-                let setup = (el) => {
-                    el.setAttribute('rows', '1');
-                    let parent = el.parentElement;
-                    let replica = document.createElement('div');
-                    replica.classList.add('textarea');
-                    parent.insertBefore(replica, el);
-                    replica.append(el);
-                    el.addEventListener('input', (e) => {
-                        let target = e.target;
-                        target.parentNode.dataset.replica = target.value;
-                    });
-                    el.addEventListener('focus', (e) => {
-                        let target = e.target;
-                        let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
-                            par.classList.add('focus');
-
-                    });
-                    el.addEventListener('blur', (e) => {
-                        let target = e.target;
-                        let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
-                            par.classList.remove('focus');
-                    });
-                };
-
-                if (el) setup(el);
-                else {
-                    el = document.getElementsByTagName('textarea');
-                    for (let i = 0; i < el.length; i++) {
-                        if (el[i].parentNode.classList.contains('sui-textarea'))
-                            setup(el[i]);
-                    }
-                }
-            }
-        };
-        window.sui_textarea.init();
+        // window.sui_textarea = {
+        //     init: (el) => {
+        //         let setup = (el) => {
+        //             el.setAttribute('rows', '1');
+        //             let parent = el.parentElement;
+        //             let replica = document.createElement('div');
+        //             replica.classList.add('textarea');
+        //             parent.insertBefore(replica, el);
+        //             replica.append(el);
+        //             el.addEventListener('input', (e) => {
+        //                 let target = e.target;
+        //                 target.parentNode.dataset.replica = target.value;
+        //             });
+        //             el.addEventListener('focus', (e) => {
+        //                 let target = e.target;
+        //                 let par = target.parentNode.parentNode;
+        //                 if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
+        //                     par.classList.add('focus');
+        //
+        //             });
+        //             el.addEventListener('blur', (e) => {
+        //                 let target = e.target;
+        //                 let par = target.parentNode.parentNode;
+        //                 if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
+        //                     par.classList.remove('focus');
+        //             });
+        //         };
+        //
+        //         if (el) setup(el);
+        //         else {
+        //             el = document.getElementsByTagName('textarea');
+        //             for (let i = 0; i < el.length; i++) {
+        //                 if (el[i].parentNode.classList.contains('sui-textarea'))
+        //                     setup(el[i]);
+        //             }
+        //         }
+        //     }
+        // };
+        // window.sui_textarea.init();
         // window.sui_accordion = {
         //     timeout: null,
         //     handler: (ev) => {
@@ -1389,135 +1322,7 @@ div.sui-textarea {
     }
 }
 
-label.sui-toggle {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-
-    &.disabled {
-        opacity: 0.5;
-        user-select: none;
-        cursor: default;
-    }
-
-    *:not(pre) {
-        font-size: 1em;
-        display: inline-block;
-    }
-
-    * {
-        vertical-align: middle;
-        line-height: 2;
-    }
-
-    & > input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-
-        &:checked + .toggle {
-            &:after {
-                right: 2px;
-                background-color: var(--button-text);
-            }
-
-            background-color: var(--button-focus_faded);
-        }
-    }
-
-    &:active:not(.disabled) {
-        .toggle {
-            background-color: var(--button-focus);
-        }
-    }
-
-    .toggle {
-        &:after {
-            content: "";
-            box-sizing: border-box;
-            width: calc(1em - 8px);
-            height: calc(1em - 8px);
-            border-radius: 1em;
-            position: absolute;
-            top: 2px;
-            right: calc(1.75em - 1em + 8px - 2px);
-            background-color: var(--content);
-            transition: right 0.066s;
-            border: .1em solid var(--content-text_shadow);
-        }
-
-        display: inline-block;
-        position: relative;
-        height: calc(1em - 4px);
-        width: 1.75em;
-        font-size: 1.25em;
-        left: -4px;
-        border: 2px solid var(--content-text_screen);
-        background-color: var(--content-text_soft);
-        border-radius: 1em;
-    }
-}
-
-label.sui-radio {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-
-    &.disabled {
-        opacity: 0.5;
-        user-select: none;
-        cursor: default;
-    }
-
-    * {
-        line-height: 2;
-        vertical-align: middle;
-    }
-
-    *:not(pre) {
-        font-size: 1em;
-        display: inline-block;
-    }
-
-    & > input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-
-        &:checked + .radio {
-            border: 0.2em solid var(--content);
-            box-sizing: border-box;
-            background-color: var(--content-text_soft);
-        }
-    }
-
-    &:active:not(.disabled) {
-        & > .radio {
-            border-color: var(--content-text_soft);
-        }
-    }
-
-    .radio {
-        font-size: 1.25em;
-        display: inline-block;
-        position: relative;
-        width: calc(1em - 4px);
-        height: calc(1em - 4px);
-        box-sizing: border-box;
-        left: -2px;
-        border: 0.2em solid var(--content-text_transparent);
-        box-shadow: 0 0 0 2px var(--content-text_soft);
-        border-radius: 1em;
-        vertical-align: middle;
-    }
-}
-
+/*
 div.sui-steps {
     display: flex;
     justify-content: space-between;
@@ -1630,4 +1435,5 @@ div.sui-steps {
         }
     }
 }
+*/
 </style>
