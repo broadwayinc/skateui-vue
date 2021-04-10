@@ -56,7 +56,7 @@ div(style="text-align:center;margin: 8px auto;")
                 br
                 br
                 .quantity
-                    sui-input(style="width:10rem" type="number" value="0" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                    sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
             br
             .cart
                 img(src="@/assets/sealpixel.jpeg")
@@ -69,7 +69,7 @@ div(style="text-align:center;margin: 8px auto;")
                 br
                 br
                 .quantity
-                    sui-input(style="width:10rem" type="number" value="0" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                    sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
             br
             .cart
                 img(src="@/assets/iceberg.png")
@@ -82,7 +82,7 @@ div(style="text-align:center;margin: 8px auto;")
                 br
                 br
                 .quantity
-                    sui-input(style="width:10rem" type="number" value="0" label="Quantity" :button="[{position: 'right', text: '+'}, {position: 'left', text: '−'}]" @rightClick="" @leftClick="")
+                    sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
             br
             br
             div(style="text-align:left;line-height:2;")
