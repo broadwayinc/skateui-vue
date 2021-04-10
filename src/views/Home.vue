@@ -1,5 +1,6 @@
 <template lang="pug">
     div
+        sui-slider(:slideArray="slide" :show-arrow="true" :height=500)
         sui-card
             template(#image)
                 img(style='width: 20rem' src="@/assets/skate.jpg")
@@ -849,6 +850,7 @@ export default {
     components: {SuiButton},
     data() {
         return {
+            slide: [{"text":"Welcome","textAlign": ['left', 'top'], "uniqueId":"xe290IF52xy3"}, {"text":"Hello Dog","textAlign": ['right', 'bottom'],"uniqueId":"xe290IF52xy3"}],
             colorScheme: new ColorMangle('#00807f').colorScheme(),
             suiInputSelection1: [
                 {value: 'manual', text: 'Style your menu manually!'},
