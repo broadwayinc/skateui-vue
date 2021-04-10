@@ -1,4 +1,5 @@
 import SuiCard from '../components/sui-card';
+import SuiSlider from '../components/sui-slider';
 import SuiButton from '../components/sui-button';
 import SuiLabel from '../components/sui-label';
 import SuiOption from '../components/sui-option';
@@ -15,6 +16,7 @@ import {ColorMangle} from "colormangle";
 export default {
     install(Vue, options) {
         Vue.component('sui-card', SuiCard);
+        Vue.component('sui-slider', SuiSlider);
         Vue.component('sui-button', SuiButton);
         Vue.component('sui-label', SuiLabel);
         Vue.component('sui-option', SuiOption);
