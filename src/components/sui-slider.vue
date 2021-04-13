@@ -4,7 +4,7 @@
             .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
                 li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
                     .imageWrapper(:style="[style_imageWrapper(sl)]")
-                        img(style='position:absolute; width: 100%' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2E4MTVhZjc3LTA5NmUtNDU3Zi04NDc2LTk5NGZiYzhmNWRiOC9pbWFnZS8xMzI5MjdfMnliVHQ4SlMxNjEzNTcwNyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjgwMCwiZml0IjoiaW5zaWRlIn19fQ==")
+                        img(v-if="sl.image" style='position:absolute; width: 100%' :src="sl.image")
                         .slideText
                             sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
             .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
@@ -32,7 +32,7 @@ export default {
         parallax: String | Boolean,
         showArrow: {type: Boolean, default: true},
         onLoad: Function,
-        loop: {type: Boolean, default: false},
+        loop: {type: Boolean, default: false}
     },
     data() {
         return {
@@ -123,7 +123,7 @@ export default {
                         sl.push({image: s});
                     } else {
                         const obj = {
-                            image: s.image || '',
+                            image: s.src || '',
                             text: s.text || '',
                             textAlign: s.textAlign || ['center', 'center'],
                             uniqueId: s.uniqueId

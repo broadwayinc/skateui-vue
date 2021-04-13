@@ -863,7 +863,7 @@ export default {
     components: {SuiButton},
     data() {
         return {
-            slide: [{"text":"Welcome","textAlign": ['left', 'top'], "uniqueId":"xe290IF52xy3"}, {"text":"Hello Dog","textAlign": ['right', 'bottom'],"uniqueId":"xe290IF52xy3"}],
+            slide: [{"text":"Welcome","textAlign": ['left', 'top'], "uniqueId":"xe290IF52xy3", 'src': 'https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2E4MTVhZjc3LTA5NmUtNDU3Zi04NDc2LTk5NGZiYzhmNWRiOC9pbWFnZS8xMzI5MjdfMnliVHQ4SlMxNjEzNTcwNyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjgwMCwiZml0IjoiaW5zaWRlIn19fQ=='}, {"text":"Hello Dog","textAlign": ['right', 'bottom'],"uniqueId":"xe290IF52xy3"}],
             colorScheme: new ColorMangle('#00807f').colorScheme(),
             suiInputSelection1: [
                 {value: 'manual', text: 'Style your menu manually!'},
