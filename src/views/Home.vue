@@ -495,7 +495,7 @@
                 br
                 br
                 div(style="display: flex;justify-content: space-between;")
-                    sui-tooltip.
+                    sui-tooltip(direction="bottom-left").
                         This is a toolbox.
                         Toolbox has break points of line-breaks on tablet viewport. Try to make the description simple. Let's resize the window and see where it breaks.
                     sui-tooltip(direction="bottom").
@@ -503,7 +503,7 @@
                     sui-tooltip(direction="left").
                         This is a toolbox
                         This is positioned .left
-                    sui-tooltip(direction="bottom-left").
+                    sui-tooltip(direction="bottom").
                         This is a toolbox
                         This is positioned .left.bottom
         br
