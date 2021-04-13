@@ -195,7 +195,7 @@
                     li It is advised to not use more than 2 footer buttons.
             template(#buttonFooter)
                 sui-button(type="nude") CANCEL
-                sui-button COWABUNGA
+                sui-button(@click="log('omg I am clicked')") COWABUNGA
             template(#footer) I'm your footer.
         br
         br

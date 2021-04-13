@@ -1,7 +1,7 @@
 <template lang='pug'>
-    a.sui-button(v-if="href" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
+    a.sui-button(v-if="href" @click="leftClick" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
         slot
-    button.sui-button(v-else :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
+    button.sui-button(v-else @click="leftClick" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
         slot(v-if="!loading")
         i.material-icons(v-if="type === 'icon'") {{ icon }}
         ._loader(v-if="loading")
@@ -22,6 +22,11 @@ export default {
             default: false
         },
         customStyle: Object
+    },
+    methods: {
+        leftClick() {
+            this.$emit('click');
+        },
     }
 };
 </script>
