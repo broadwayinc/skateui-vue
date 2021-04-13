@@ -87,8 +87,6 @@ export default {
         };
     },
     mounted() {
-        // this.fill = this.color;
-
         let data;
         if (typeof this.svg === 'string') {
             if (this.svgPath.hasOwnProperty(this.svg))
