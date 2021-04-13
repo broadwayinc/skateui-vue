@@ -1,5 +1,5 @@
 <template lang='pug'>
-    .sui-tooltip(:class="{left: direction === 'left' || direction === 'bottom-left', bottom: direction === 'bottom' || direction === 'bottom-left'}")
+    .sui-tooltip(:id="id" :class="{left:isLeft, bottom: isBottom}" @mouseenter="setPosition")
         .content
             small
                 slot
@@ -11,6 +11,100 @@ export default {
     name: 'sui-tooltip',
     props: {
         direction: String
+    },
+    data() {
+        return {
+            id: null,
+            arrowHeight: 13.5,
+            bottomBlocked: false,
+            topBlocked: false,
+            rightBlocked: false,
+            leftBlocked: false
+        }
+    },
+    mounted() {
+        this.id = this.elementId();
+    },
+    computed: {
+        isLeft() {
+            if(this.leftBlocked) return false;
+            if(this.rightBlocked) return true;
+            return this.direction === 'left' || this.direction === 'bottom-left'
+        }  ,
+        isBottom() {
+            if(this.bottomBlocked) return false;
+            if(this.topBlocked) return true;
+            return this.direction === 'bottom' || this.direction === 'bottom-left'
+        }
+    },
+    methods: {
+        elementId() {
+            function generateId(option) {
+                let limit = 12;
+                let prefix = 'tooltip';
+
+                if (typeof option === 'number') limit = option;
+                else if (typeof option === 'string') prefix = `${option}_`;
+
+                const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+                let text = '';
+                for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
+
+                const numb = new Date()
+                    .getTime()
+                    .toString()
+                    .substring(7, 13); // SECOND, MILLISECOND
+
+                const shuffleArray = (array) => {
+                    let currentIndex = array.length;
+                    let temporaryValue, randomIndex;
+                    while (0 !== currentIndex) {
+                        randomIndex = Math.floor(Math.random() * currentIndex);
+                        currentIndex -= 1;
+                        temporaryValue = array[currentIndex];
+                        array[currentIndex] = array[randomIndex];
+                        array[randomIndex] = temporaryValue;
+                    }
+                    return array;
+                };
+
+                const letter_array = shuffleArray((text + numb).split(''));
+
+                let output = '';
+                for (let i = 0; i < limit; i++) output += letter_array[i];
+
+                return prefix + output;
+            }
+
+            return generateId(this.$options.name);
+        },
+        setPosition() {
+            let windowHeight = window.innerHeight;
+            let windowWidth = window.innerWidth;
+            let el = document.getElementById(this.id);
+
+            if(windowHeight - el.getBoundingClientRect().y < el.querySelector('.content').clientHeight + this.arrowHeight) {
+                this.bottomBlocked = true;
+            } else {
+                this.bottomBlocked = false;
+            }
+            if(el.getBoundingClientRect().y < el.querySelector('.content').clientHeight + this.arrowHeight) {
+               this.topBlocked = true;
+            } else {
+                this.topBlocked = false;
+            }
+            if(windowWidth - el.getBoundingClientRect().x < el.querySelector('.content').clientWidth) {
+                this.rightBlocked = true;
+            } else {
+                this.rightBlocked = false;
+            }
+            if(el.getBoundingClientRect().x < el.querySelector('.content').clientWidth) {
+                this.leftBlocked = true;
+            } else {
+                this.leftBlocked = false;
+            }
+        }
     }
 };
 </script>
