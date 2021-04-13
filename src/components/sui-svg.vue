@@ -1,5 +1,5 @@
 <template lang="pug">
-svg(v-if='svgData' ref='svg' :style="{fill: attribute.fill || fill}" :viewBox="attribute.viewBox || `0 0 ${size} ${size}`" @mouseover="()=>{fill = svgHover || attribute.fill || svgFill}" @mouseleave="()=>{fill = attribute.fill || svgFill}")
+svg(v-if='svgData' ref='svg' :style="{fill: attribute.fill || fill}" :viewBox="attribute.viewBox || `0 0 ${size || 24} ${size || 24}`" @mouseover="()=>{fill = svgHover || attribute.fill || color}" @mouseleave="()=>{fill = attribute.fill || color}")
     g
         path(v-for="p in svgData" :d='p.path' :fill="p.fill")
 </template>
@@ -9,12 +9,16 @@ export default {
     name: 'ss-svg',
     props: {
         svg: String | Object,
-        svgSize: Number,
+        size: {
+            type: Number,
+            default: null
+        },
         color: String,
         svgHover: String
     },
     data() {
         return {
+            svgData: null,
             attribute: {},
             svgPath: {
                 json: {
@@ -79,47 +83,32 @@ export default {
                     {path: 'M22.875 10.063c-2.442 5.217-8.337 12.319-12.063 12.319-3.672 0-4.203-7.831-6.208-13.043-.987-2.565-1.624-1.976-3.474-.681l-1.128-1.455c2.698-2.372 5.398-5.127 7.057-5.28 1.868-.179 3.018 1.098 3.448 3.832.568 3.593 1.362 9.17 2.748 9.17 1.08 0 3.741-4.424 3.878-6.006.243-2.316-1.703-2.386-3.392-1.663 2.673-8.754 13.793-7.142 9.134 2.807z'}
                 ]
             },
-            fill: 'var(--content-text)'
+            fill: this.color || 'var(--content-text)'
         };
     },
     mounted() {
-        this.fill = this.color || window.getComputedStyle(this.$refs.svg.parentElement);
-    },
-    computed: {
-        svgFill() {
-            if (this.color)
-                return this.color;
+        // this.fill = this.color;
+
+        let data;
+        if (typeof this.svg === 'string') {
+            if (this.svgPath.hasOwnProperty(this.svg))
+                data = this.svgPath[this.svg];
             else
-                return this.computedColor?.color;
-        },
-        size() {
-            return this.svgSize || 24;
-        },
-        svgData() {
-            if (this.svg) {
-                let data;
-                if (typeof this.svg === 'string') {
-                    if (this.svgPath.hasOwnProperty(this.svg))
-                        data = this.svgPath[this.svg];
-                    else
-                        return [{path: this.svg}];
-                }
-
-                if (!data)
-                    return null;
-
-                if (Array.isArray(data))
-                    return data;
-
-                if (data?.attribute && typeof data.attribute === 'object') {
-                    this.attribute = data.attribute;
-                }
-
-                if (Array.isArray(data?.path))
-                    return data.path;
-            }
-            return null;
+                this.svgData = [{path: this.svg}];
         }
+
+        if (!data)
+            this.svgData = [{path: this.svg}];
+
+        if (Array.isArray(data))
+            this.svgData = data;
+
+        if (data?.attribute && typeof data.attribute === 'object') {
+            this.attribute = data.attribute;
+        }
+
+        if (Array.isArray(data?.path))
+            this.svgData = data.path;
     }
 };
 </script>
