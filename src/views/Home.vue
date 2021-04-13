@@ -1,6 +1,20 @@
 <template lang="pug">
     div
         sui-card
+            sui-slider(:slideArray="slide" :show-arrow="true" :height=500)
+        sui-card
+            sui-slider(:slideArray="slide" :show-arrow="false" :show-pagination="true" :height=500)
+        sui-card
+            template(#title) SVG
+            template(#content)
+                sui-svg(svg="youtube" color="red")
+                pre
+                sui-svg(svg="facebook")
+                pre
+                sui-svg(svg="javascript")
+                pre
+                sui-svg(color="green" svg-hover="red" :size=15 svg="M 4 8 L 10 1 L 13 0 L 12 3 L 5 9 C 6 10 6 11 7 10 C 7 11 8 12 7 12 A 1.42 1.42 0 0 1 6 13 A 5 5 0 0 0 4 10 Q 3.5 9.9 3.5 10.5 T 2 11.8 T 1.2 11 T 2.5 9.5 T 3 9 A 5 5 90 0 0 0 7 A 1.42 1.42 0 0 1 1 6 C 1 5 2 6 3 6 C 2 7 3 7 4 8 M 10 1 L 10 3 L 12 3 L 10.2 2.8 L 10 1")
+        sui-card
             template(#image)
                 img(style='width: 20rem' src="@/assets/skate.jpg")
             template(#content)
@@ -849,6 +863,7 @@ export default {
     components: {SuiButton},
     data() {
         return {
+            slide: [{"text":"Welcome","textAlign": ['left', 'top'], "uniqueId":"xe290IF52xy3", 'src': 'https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2E4MTVhZjc3LTA5NmUtNDU3Zi04NDc2LTk5NGZiYzhmNWRiOC9pbWFnZS8xMzI5MjdfMnliVHQ4SlMxNjEzNTcwNyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjgwMCwiZml0IjoiaW5zaWRlIn19fQ=='}, {"text":"Hello Dog","textAlign": ['right', 'bottom'],"uniqueId":"xe290IF52xy3"}],
             colorScheme: new ColorMangle('#00807f').colorScheme(),
             suiInputSelection1: [
                 {value: 'manual', text: 'Style your menu manually!'},
