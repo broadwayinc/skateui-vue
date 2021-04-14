@@ -22,7 +22,7 @@ export default {
             default: 'text'
         },
         menuStyle: Object,
-        value: String,
+        value: [Number, String],
         option: Array,
         button: {
             type: [Array, Object],
@@ -41,13 +41,14 @@ export default {
     },
     data() {
         return {
-            customValue: '',
             searching: false,
             currentSelection: -1
         }
     },
-    created() {
-        this.customValue = this.value;
+    computed: {
+        customValue() {
+            return this.value;
+        }
     },
     methods: {
         arrowSelection(event) {
