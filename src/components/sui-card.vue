@@ -38,7 +38,7 @@ export default {
     },
     mounted() {
         if (this.stickyMobileButtonFooter) {
-            this.resizeEventId = window.sui_app.registerEvent.resize(() => {
+            this.resizeEventId = window.sui_on.registerEvent.resize(() => {
                 if (window.sui_app.viewport === 'phone') {
                     this.sticky = true;
                 } else {
@@ -48,7 +48,7 @@ export default {
         }
     },
     destroyed() {
-        window.sui_app.removeEvent.resize(this.resizeEventId);
+        window.sui_on.removeEvent.resize(this.resizeEventId);
     },
     computed: {
         titleStyle() {
@@ -173,6 +173,9 @@ div.sui-card {
     }
 
     & > .image:not(:empty) {
+        @media @phone {
+            margin: 0 -.65em;
+        }
         margin: 0 -1.3em;
 
         & > * {
