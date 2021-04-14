@@ -4,7 +4,7 @@ div
         template(v-slot:nav)
             .nav
                 .nav-info
-                    i.material-icons.hamburger(onclick="sui_popup.handler('hamburger-menu', 'left', true)") menu
+                    i.material-icons.hamburger(onclick="sui_popup.handler({id:'hamburger-menu', pop:'left', closeOnBackgroundClick: true})") menu
                     // img(src="@/assets/pixelheart.png")
                     h6 MONOMONO
                 .nav-icon
@@ -31,7 +31,7 @@ div
     sui-card#hamburger-menu
         template(#title)
             | Welcome Baksa Gimm!
-            .close(onclick="sui_popup.handler('hamburger-menu', 'close')")
+            .close(onclick="sui_popup.handler({id: 'hamburger-menu', pop: 'close'})")
         template(#image)
             .profile
                 img(src="@/assets/myface.jpg")
