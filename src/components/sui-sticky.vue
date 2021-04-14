@@ -27,45 +27,7 @@ export default {
     },
     computed: {
         elementId() {
-            function generateId(option) {
-                let limit = 12;
-                let prefix = '';
-
-                if (typeof option === 'number') limit = option;
-                else if (typeof option === 'string') prefix = `${option}_`;
-
-                const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-                let text = '';
-                for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
-
-                const numb = new Date()
-                    .getTime()
-                    .toString()
-                    .substring(7, 13); // SECOND, MILLISECOND
-
-                const shuffleArray = (array) => {
-                    let currentIndex = array.length;
-                    let temporaryValue, randomIndex;
-                    while (0 !== currentIndex) {
-                        randomIndex = Math.floor(Math.random() * currentIndex);
-                        currentIndex -= 1;
-                        temporaryValue = array[currentIndex];
-                        array[currentIndex] = array[randomIndex];
-                        array[randomIndex] = temporaryValue;
-                    }
-                    return array;
-                };
-
-                const letter_array = shuffleArray((text + numb).split(''));
-
-                let output = '';
-                for (let i = 0; i < limit; i++) output += letter_array[i];
-
-                return prefix + output;
-            }
-
-            return generateId(this.$options.name);
+            return window.sui_generateId(this.$options.name);
         }
     },
     created() {
@@ -135,40 +97,16 @@ export default {
                 this.element.style.position = 'sticky';
                 this.adjust_sticky();
 
-                if (window.sui_app) {
-                    this.scroll_eventId = window.sui_app.registerEvent.scroll(this.adjust_sticky);
-                    this.resize_eventId = window.sui_app.registerEvent.resize(this.adjust_sticky);
-                    return;
-                }
-
-                document.addEventListener(
-                    'scroll',
-                    this.adjust_sticky,
-                    {passive: true}
-                );
-                window.addEventListener(
-                    'resize',
-                    this.adjust_sticky,
-                    {passive: true}
-                );
+                this.scroll_eventId = window.sui_on.registerEvent.scroll(this.adjust_sticky);
+                this.resize_eventId = window.sui_on.registerEvent.resize(this.adjust_sticky);
             }
 
             disable() {
                 this.element.style.position = null;
                 this.element.style.top = null;
 
-                if (window.sui_app) {
-                    window.sui_app.removeEvent.scroll(this.scroll_eventId);
-                    window.sui_app.removeEvent.resize(this.resize_eventId);
-                    return;
-                }
-
-                document.removeEventListener('scroll',
-                    this.adjust_sticky,
-                    {passive: true});
-                window.removeEventListener('resize',
-                    this.adjust_sticky,
-                    {passive: true});
+                window.sui_on.removeEvent.scroll(this.scroll_eventId);
+                window.sui_on.removeEvent.resize(this.resize_eventId);
             }
         }
 
