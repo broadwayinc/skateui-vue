@@ -298,8 +298,8 @@
                 sui-input(
                     label="Number"
                     type="number"
-                    value="1"
-                    :button="[{position: 'right', text: '+', action: () => { log('hello'); }}, {position: 'left', text: '−', action: () => {}}]"
+                    :value="numberInputValue"
+                    :button="[{position: 'right', text: '+', action: () => { increase() }}, {position: 'left', text: '−', action: () => { decrease() }}]"
                     )
                 br
                 br
@@ -885,12 +885,19 @@ export default {
                 'How big is Korea?',
                 'How to eat Kimchi?'
             ],
-            suiInputAutocomplete1 : []
+            suiInputAutocomplete1 : [],
+            numberInputValue: 1
         };
     },
     methods: {
         log(button) {
             console.log("Home log", button)
+        },
+        increase() {
+            this.numberInputValue += 1;
+        },
+        decrease() {
+            this.numberInputValue -= 1;
         },
         getSearch(text) {
             console.log("This is the text", text);
