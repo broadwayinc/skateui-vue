@@ -426,10 +426,10 @@ div.sui-input {
 
     label {
         width: calc(100% - 4px);
-        left: 12px;
+        left: 14px;
         text-align: left;
         box-sizing: border-box;
-        line-height: 1em;
+        line-height: unset;
         overflow: hidden;
         position: absolute;
         z-index: 1;
@@ -445,7 +445,7 @@ div.sui-input {
         }
 
         &:not(:empty) {
-            margin-top: calc(-1em + 2px);
+            margin-top: calc(-1em - 2px);
             padding-left: 0.5em;
         }
 
