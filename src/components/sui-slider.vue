@@ -5,6 +5,7 @@
                 li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
                     .imageWrapper(:style="[style_imageWrapper(sl)]")
                         img(v-if="sl.image" style='position:absolute; width: 100%' :src="sl.image")
+                        //sui-image(v-if="sl.image" :style="{position:'absolute', width:'100%', display:'block'}" :src="sl.image")
                         .slideText
                             sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
             .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
@@ -55,8 +56,8 @@ export default {
         }
     },
     created() {
-        if (window.sui_app)
-            this.eventId = window.sui_app.registerEvent.resize(() => {
+        if (window.sui_on)
+            this.eventId = window.sui_on.registerEvent.resize(() => {
                 try {
                     this.pageWidth = document.getElementById(this.elementId).getBoundingClientRect().width;
                 } catch (e) {
@@ -94,8 +95,7 @@ export default {
         });
     },
     destroyed() {
-        if (window.sui_app)
-            window.sui_app.removeEvent.resize(this.eventId);
+        window.sui_on.removeEvent.resize(this.eventId);
     },
     computed: {
         dragDirection() {
