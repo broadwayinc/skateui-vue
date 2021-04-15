@@ -36,179 +36,6 @@ export default {
         if (!this.colorScheme)
             throw 'no color scheme';
 
-        if (!window.sui_screen)
-            window.sui_screen = {
-                handler: (id, stickTo, closeWhenBackgroundClick) => {
-                    let screen = document.getElementsByClassName('sui-screen')[0];
-                    if (!screen) {
-                        // if there is no overlay screen, create one
-                        screen = document.createElement('div');
-                        screen.classList.add('sui-screen');
-                        screen.classList.add(stickTo);
-
-                        // let body = document.getElementsByClassName('sui-frame')[0];
-                        let body = document.getElementsByTagName('BODY')[0];
-                        document.body.style.top = `-${window.scrollY}px`;
-                        document.body.style.position = 'fixed';
-
-                        if (closeWhenBackgroundClick) {
-                            screen.addEventListener('click', function () {
-                                window.sui_popup.handler(id);
-                            });
-                        }
-
-                        body.append(screen);
-                    } else if (id) {
-                        const scrollY = document.body.style.top;
-                        document.body.style.position = '';
-                        document.body.style.top = '';
-                        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-
-                        // clean all element but the element with id given by the id argument
-                        let child = screen.children;
-
-                        let cid = child.length;
-                        while (cid--) {
-                            if (child[cid].id !== id) {
-
-                                let classList = window.sui_popup.classList.direction.concat(window.sui_popup.classList.stickTo);
-
-                                for (let c of classList)
-                                    child[cid].classList.remove(c);
-
-                                let dummy = document.getElementById('_dummy_' + child[cid].id);
-                                if (dummy) {
-                                    dummy.parentNode.insertBefore(child[cid], dummy);
-                                    dummy.remove();
-                                }
-                            }
-                        }
-                    }
-                    return screen;
-                }
-            };
-
-        if (!window.sui_popup)
-            window.sui_popup = {
-                classList: {
-                    // DO NOT! change the order of array
-                    stickTo: [
-                        '_stickto-center',
-                        '_stickto-top',
-                        '_stickto-bottom',
-                        '_stickto-right',
-                        '_stickto-left'
-                    ],
-                    direction: [
-                        '_center',
-                        '_down',
-                        '_up',
-                        '_left',
-                        '_right'
-                    ]
-                },
-                eventListener: {},
-                timeout: null,
-                handler: (id, stickTo = 'center', closeWhenBackgroundClicked = false, overlayColor = 'rgba(0, 0, 0, 0.33)') => {
-
-                    if (!id)
-                        // no id
-                        return;
-
-                    let stickToList = window.sui_popup.classList.stickTo;
-                    let directionList = window.sui_popup.classList.direction;
-                    let direction;
-
-                    if (stickTo !== 'close') {
-                        stickTo = '_stickto-' + stickTo;
-                        direction = directionList[stickToList.indexOf(stickTo)];
-                        if (!stickToList.includes(stickTo))
-                            throw 'allowed argument for stickTo:' + JSON.stringify(stickToList);
-
-                        if (!directionList.includes(direction))
-                            throw 'allowed argument for stickTo:' + JSON.stringify(directionList);
-
-                        if (window.sui_popup.timeout)
-                            clearTimeout(window.sui_popup.timeout);
-                        window.sui_popup.timeout = null;
-                    }
-
-                    id = id[0] === '#' ? id.substring(1) : id;
-
-                    let el = document.getElementById(id);
-                    if (!el)
-                        // no matching popup
-                        return;
-
-                    let isUp = el.closest('.sui-screen');
-                    if (stickTo === 'close' && !isUp)
-                        // nothing to close
-                        return;
-
-                    let screen = window.sui_screen.handler(id, stickTo, closeWhenBackgroundClicked);
-
-                    if (isUp) {
-                        // popup is showing
-                        for (let c of directionList)
-                            el.classList.remove(c);
-
-                        screen.style.backgroundColor = 'transparent';
-
-                        let cl_idx = el.classList.length, immediate = false;
-
-                        while (cl_idx--) {
-                            if (el.classList[cl_idx].includes('_stickto-center'))
-                                immediate = true;
-                        }
-
-                        window.sui_popup.timeout = setTimeout(() => {
-                            // cleanup
-                            for (let c of stickToList)
-                                el.classList.remove(c);
-
-                            el.classList.remove('sui-popup');
-                            el.removeEventListener('click', window.sui_popup.eventListener[id]);
-                            window.sui_popup.eventListener[id] = null;
-
-                            let dummy = document.getElementById('_dummy_' + id);
-                            if (dummy) {
-                                dummy.parentNode.insertBefore(el, dummy);
-                                dummy.remove();
-                            }
-                            screen.remove();
-                        }, immediate ? 0 : 750);
-
-                    } else {
-                        let bool = !el.classList.contains('sui-popup');
-
-                        window.sui_popup.eventListener[id] = function (e) {
-                            e.stopPropagation();
-                        };
-
-                        el.addEventListener('click', window.sui_popup.eventListener[id]);
-                        if (bool) {
-                            el.classList.add('sui-popup');
-                            if (!el.closest('.sui-screen')) {
-                                let dummy = document.createElement('div');
-                                dummy.classList.add('sui-dummy');
-                                dummy.id = '_dummy_' + id;
-                                el.parentNode.insertBefore(dummy, el);
-                                screen.append(el);
-                            }
-                        }
-
-                        el.classList.add(stickTo);
-
-                        window.sui_popup.timeout = setTimeout(() => {
-                            screen.style.backgroundColor = overlayColor;
-                            el.classList.add(direction);
-                        }, direction === '_center' ? 0 : 100);
-
-                        return el;
-                    }
-                }
-            };
-
         if (!window.sui_app)
             window.sui_app = {
                 scrollOffset: 0,
@@ -252,67 +79,6 @@ export default {
                     }
                 },
                 colorScheme: null,
-                generateId(option) {
-                    let limit = 12;
-                    let prefix = '';
-
-                    if (typeof option === 'number') limit = option;
-                    else if (typeof option === 'string') prefix = `${option}_`;
-
-                    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-                    let text = '';
-                    for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
-
-                    const numb = new Date()
-                        .getTime()
-                        .toString()
-                        .substring(7, 13); // SECOND, MILLISECOND
-
-                    const shuffleArray = (array) => {
-                        let currentIndex = array.length;
-                        let temporaryValue, randomIndex;
-                        while (0 !== currentIndex) {
-                            randomIndex = Math.floor(Math.random() * currentIndex);
-                            currentIndex -= 1;
-                            temporaryValue = array[currentIndex];
-                            array[currentIndex] = array[randomIndex];
-                            array[randomIndex] = temporaryValue;
-                        }
-                        return array;
-                    };
-
-                    const letter_array = shuffleArray((text + numb).split(''));
-
-                    let output = '';
-                    for (let i = 0; i < limit; i++) output += letter_array[i];
-
-                    return prefix + output;
-                },
-                registerEvent: {
-                    scroll: (f) => {
-                        let id = window.sui_app.generateId('scroll');
-                        window.sui_app.scroll_callback[id] = f;
-                        return id;
-                    },
-                    resize: (f) => {
-                        let id = window.sui_app.generateId('resize');
-                        window.sui_app.resize_callback[id] = f;
-                        return id;
-                    }
-                },
-                removeEvent: {
-                    scroll: (id) => {
-                        if (id)
-                            delete window.sui_app.scroll_callback[id];
-                    },
-                    resize: (id) => {
-                        if (id)
-                            delete window.sui_app.resize_callback[id];
-                    }
-                },
-                scroll_callback: {},
-                resize_callback: {},
                 init: (option) => {
                     window.sui_app.navbarStyle = window.getComputedStyle(document.getElementsByTagName('nav')[0]);
 
@@ -334,49 +100,8 @@ export default {
                     window.sui_app.updateViewport();
                     window.sui_app.calcNavbarHeight();
 
-                    document.addEventListener(
-                        'scroll',
-                        (event) => {
-                            window.requestAnimationFrame(() => {
-                                window.sui_app.calcNavbarHeight();
-
-                                if (Object.keys(window.sui_app.scroll_callback).length) {
-                                    for (let c in window.sui_app.scroll_callback)
-                                        if (typeof window.sui_app.scroll_callback[c] === 'function') {
-                                            try {
-                                                window.sui_app.scroll_callback[c](event);
-                                            } catch (err) {
-                                                console.error(err);
-                                                delete window.sui_app.scroll_callback[c];
-                                            }
-
-                                        }
-                                }
-                            });
-                        },
-                        {passive: true}
-                    );
-
-                    window.addEventListener(
-                        'resize',
-                        (event) => {
-                            window.requestAnimationFrame(() => {
-                                window.sui_app.updateViewport();
-                                if (Object.keys(window.sui_app.resize_callback).length) {
-                                    for (let c in window.sui_app.resize_callback)
-                                        if (typeof window.sui_app.resize_callback[c] === 'function') {
-                                            try {
-                                                window.sui_app.resize_callback[c](event);
-                                            } catch (err) {
-                                                console.log(err);
-                                                delete window.sui_app.resize_callback[c];
-                                            }
-                                        }
-                                }
-                            });
-                        },
-                        {passive: true}
-                    );
+                    window.sui_on.registerEvent.scroll(window.sui_app.calcNavbarHeight);
+                    window.sui_on.registerEvent.resize(window.sui_app.updateViewport);
 
                     return true;
                 }
@@ -511,20 +236,20 @@ div.sui-dummy {
 }
 
 div.sui-screen {
-    &._stickto-bottom {
+    &._pop-bottom {
         justify-content: flex-end;
     }
 
-    &._stickto-top {
+    &._pop-top {
         justify-content: flex-start;
     }
 
-    &._stickto-left {
+    &._pop-left {
         justify-content: center;
         align-items: flex-start;
     }
 
-    &._stickto-right {
+    &._pop-right {
         justify-content: center;
         align-items: flex-end;
     }
@@ -541,7 +266,7 @@ div.sui-screen {
     background-color: transparent;
     transition: background-color .5s;
 
-    &._stickto-center {
+    &._pop-center {
         transition: background-color 0s;
     }
 
@@ -555,35 +280,35 @@ div.sui-popup {
         margin: 0 !important;
     }
 
-    &._stickto-bottom {
+    &._pop-bottom {
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
         bottom: -100%;
         margin: 0 auto !important;
     }
 
-    &._stickto-top {
+    &._pop-top {
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
         bottom: 100%;
         margin: 0 auto !important;
     }
 
-    &._stickto-right {
+    &._pop-right {
         border-top-right-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
         left: 100%;
         margin: 0 !important;
     }
 
-    &._stickto-left {
+    &._pop-left {
         border-top-left-radius: 0 !important;
         border-bottom-left-radius: 0 !important;
         left: -100%;
         margin: 0 !important;
     }
 
-    &._stickto-center {
+    &._pop-center {
         margin: auto !important;
     }
 
