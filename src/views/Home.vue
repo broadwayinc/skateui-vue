@@ -840,7 +840,7 @@
                 .content
                     img.block(src="@/assets/brunomars.png")
                     .title ...I mean really short
-            .article
+            //.article
                 .content
                     img.block(src="@/assets/dia.png")
                     .title DIA is called sing-ger in AU
@@ -865,7 +865,7 @@
             .article
                 .content
                     img(src="@/assets/skate.jpg")
-            .article
+            //.article
                 .content
                     img(src="@/assets/dia.png")
             .article
