@@ -306,6 +306,21 @@
                 sui-input(placeholder="Required form" label="Required" required)
                 br
                 br
+                sui-input(suffix=".com" prefix="https://www." placeholder="Enter your domain name" label="Input with prefix and suffix")
+                br
+                br
+                sui-input(suffix="@email.com" placeholder="Email with suffix" label="Input with a suffix and button" :button="[{position: 'right', icon: 'send', action: () => {}}]" :right-click="log('Hello')")
+                br
+                br
+                sui-input(
+                    prefix="$"
+                    label="Currency with prefix"
+                    type="number"
+                    :value="numberInputValue"
+                    :button="[{position: 'right', text: '+', action: () => { increase() }}, {position: 'left', text: '−', action: () => { decrease() }}]"
+                )
+                br
+                br
                 sui-input(error placeholder="You got an Error" message="You Got Error" label="Error")
                 br
                 br
@@ -481,7 +496,10 @@
             template(#title)
                 h6 Textarea
             template(#content)
-                sui-textarea(label="텍스트에리아" placeholder="Bye" :button="[{position: 'left', img: '@/assets/myface.jpg'}, {position: 'right', icon: 'send'}]")
+                sui-textarea(label="텍스트에리아" placeholder="이름" :button="[{position: 'left', img: '@/assets/myface.jpg'}, {position: 'right', icon: 'send'}]")
+                br
+                br
+                sui-textarea(label="사진 없는 텍스트에리아" placeholder="안녕히가세요" :button="[{position: 'right', icon: 'send'}]")
         br
         br
         sui-card

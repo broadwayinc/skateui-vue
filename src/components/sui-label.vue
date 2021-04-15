@@ -1,32 +1,37 @@
 <template lang="pug">
     div(:id="id" :class="{ 'sui-input': type !== 'textarea', 'sui-textarea': type === 'textarea', left: buttonLeft, right: buttonRight, error: error, disabled: disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'}")
-        slot
-        label(v-if="label") {{ label }}
-            span(v-if="required" style="color:var(--alert)")  *
-        fieldset
-            legend(v-if="label") {{ label }}
-                span(v-if="required")  *
-        template(v-if="buttonLeft && buttonLeft.action")
-            button.left(:disabled="disabled" :style="buttonLeft.style" @click="buttonLeft.action")
-                template(v-if="buttonLeft.text") {{ buttonLeft.text }}
-                template(v-else)
-                    i.material-icons {{ buttonLeft.icon }}
-        template(v-else-if="buttonLeft")
-            .left
-                template(v-if="buttonLeft.img")
-                    img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
-                template(v-else)
-                        i.material-icons {{buttonLeft.icon}}
-        template(v-if="buttonRight && buttonRight.action")
-            button.right(:disabled="disabled" :style="buttonRight.style" @click="buttonRight.action")
-                template(v-if="buttonRight.text") {{ buttonRight.text }}
-                template(v-else)
-                    i.material-icons {{ buttonRight.icon }}
-        template(v-else-if="buttonRight")
-            .right
-                i.material-icons {{ buttonRight.icon }}
-        .downarrow(v-if="type === 'select' || type === 'fullscreen-select'")
-        .message(v-if="message") {{ message }}
+        div.sui-input-wrapper
+            slot
+            label(v-if="label") {{ label }}
+                span(v-if="required" style="color:var(--alert)")  *
+            fieldset
+                legend(v-if="label") {{ label }}
+                    span(v-if="required")  *
+            .prefix(v-if="prefix") {{ prefix }}
+            .left-wrapper(v-if="buttonLeft")
+                template(v-if="buttonLeft && buttonLeft.action")
+                    button.left(:disabled="disabled" :style="buttonLeft.style" @click="buttonLeft.action")
+                        template(v-if="buttonLeft.text") {{ buttonLeft.text }}
+                        template(v-else)
+                            i.material-icons {{ buttonLeft.icon }}
+                template(v-else-if="buttonLeft")
+                    .left
+                        template(v-if="buttonLeft.img")
+                            img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
+                        template(v-else)
+                            i.material-icons {{buttonLeft.icon}}
+            .suffix(v-if="suffix") {{ suffix }}
+            .right-wrapper(v-if="buttonRight")
+                template(v-if="buttonRight && buttonRight.action")
+                    button.right(:disabled="disabled" :style="buttonRight.style" @click="buttonRight.action")
+                        template(v-if="buttonRight.text") {{ buttonRight.text }}
+                        template(v-else)
+                            i.material-icons {{ buttonRight.icon }}
+                template(v-else-if="buttonRight")
+                    .right
+                        i.material-icons {{ buttonRight.icon }}
+            .downarrow(v-if="type === 'select' || type === 'fullscreen-select'")
+            .message(v-if="message") {{ message }}
 </template>
 
 <script>
@@ -39,6 +44,8 @@ export default {
             type: String,
             default: 'text'
         },
+        prefix: String,
+        suffix: String,
         button: {
             type: [Array, Object],
             default: null
@@ -143,8 +150,8 @@ div.sui-input {
     margin-bottom: 1rem;
     box-shadow: inset 0 0 0 4px var(--content-focus_screen);
 
-    &.error {
-        & label {
+    &.error .sui-input-wrapper {
+        & > label {
             color: var(--alert);
         }
 
@@ -207,66 +214,74 @@ div.sui-input {
         }
     }
 
-    &.left,
-    &.right {
+    &.left .sui-input-wrapper,
+    &.right .sui-input-wrapper {
         user-select: none;
 
         & > input {
-            padding-right: 3.3em;
 
             &:focus {
-                & ~ button.left,
-                & ~ button.right {
+                & ~ .right-wrapper button.left,
+                & ~ .right-wrapper button.right {
                     color: var(--content-focus);
                     background-color: var(--content-focus_screen);
                 }
             }
         }
 
-        & > .left,
-        & > .right {
-            display: inline-flex;
-            width: 2.8rem;
-            height: 2.8rem;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            z-index: 1;
-            right: 0;
-            cursor: pointer;
-            box-sizing: border-box;
+        & .left-wrapper {
+            order: -2;
+        }
 
-            &.left {
-                right: unset;
-                left: 0;
+        & .left-wrapper,
+        & .right-wrapper {
+            position: relative;
 
-                &::before {
-                    content: none;
+            & > .left,
+            & > .right {
+                display: inline-flex;
+                width: 2.8rem;
+                height: 2.8rem;
+                justify-content: center;
+                align-items: center;
+                z-index: 1;
+                right: 0;
+                cursor: pointer;
+                box-sizing: border-box;
+
+                &.left {
+                    right: unset;
+                    left: 0;
+
+                    &::before {
+                        content: none;
+                    }
+                }
+
+                &::before,
+                &.left::after {
+                    // icon separator
+                    content: "";
+                    width: 2px;
+                    height: 50%;
+                    background-color: var(--content-text_shadow);
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: -1px;
+                }
+
+                &.left::after {
+                    left: unset;
+                    right: 1px;
                 }
             }
 
-            &::before,
-            &.left::after {
-                // icon separator
-                content: "";
-                width: 2px;
-                height: 50%;
-                background-color: var(--content-text_shadow);
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                left: -1px;
-            }
-
-            &.left::after {
-                left: unset;
-                right: 1px;
-            }
         }
     }
 
-    &:not(.disabled) {
-        & > button {
+    &:not(.disabled) .sui-input-wrapper {
+        & button {
             &:hover {
                 color: var(--content-focus);
                 background-color: var(--content-focus_screen);
@@ -274,7 +289,7 @@ div.sui-input {
         }
     }
 
-    &.transparent {
+    &.transparent .sui-input-wrapper {
         *:not(.right):not(.menu) {
             border-color: transparent !important;
             background-color: transparent !important;
@@ -289,25 +304,17 @@ div.sui-input {
         }
     }
 
-    & > .message {
+    & .sui-input-wrapper > .message {
         font-size: 12px;
         text-align: right;
         color: var(--alert);
         position: absolute;
         width: calc(100% - 4px);
         white-space: nowrap;
+        bottom: calc(-1.5em - 0.75em);
     }
 
     &.left {
-
-        & > input:focus, & > select:focus {
-            & ~ .left,
-            & ~ button.left {
-                border-color: var(--content-focus);
-                color: var(--content-focus);
-            }
-        }
-
         &.error > input:focus {
             & ~ .left {
                 border-color: var(--alert);
@@ -315,27 +322,19 @@ div.sui-input {
                 background-color: var(--alert-screen);
             }
         }
+    }
+    &.left .sui-input-wrapper {
+        & > input:focus, & > select:focus {
+            & ~ .left-wrapper .left,
+            & ~ .left-wrapper button.left {
+                border-color: var(--content-focus);
+                color: var(--content-focus);
+            }
+        }
 
         & > select, & > input {
             box-shadow: none;
-            min-width: calc(100% - 2.8rem);
-            width: calc(100% - 2.8rem);
             border-left: none;
-        }
-
-        &::before {
-            // icon space
-            content: "";
-            position: relative;
-            width: 2.8rem;
-            height: 2.8rem;
-            box-sizing: border-box;
-            border-left: solid 2px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            border-color: transparent;
-            padding-top: 2px;
         }
 
         & > .left {
@@ -425,11 +424,11 @@ div.sui-input {
         }
     }
 
-    & > * {
+    & .sui-input-wrapper > * {
         vertical-align: top;
     }
 
-    & > .downarrow {
+    & .sui-input-wrapper > .downarrow {
         &::before {
             content: "";
             border-top: .3em solid var(--content-text);
@@ -442,7 +441,7 @@ div.sui-input {
         display: none;
     }
 
-    & > .uparrow {
+    & .sui-input-wrapper > .uparrow {
         &::before {
             content: "";
             border-bottom: .3em solid var(--content-text);
@@ -455,15 +454,15 @@ div.sui-input {
         display: none;
     }
 
-    & > select {
+    & .sui-input-wrapper > select {
         border: none;
         border-radius: 0;
         appearance: none;
         white-space: nowrap;
     }
 
-    & > input,
-    & > select {
+    & .sui-input-wrapper > input,
+    & .sui-input-wrapper > select {
         &::placeholder {
             color: var(--content-placeholder);
         }
@@ -475,18 +474,18 @@ div.sui-input {
 
         position: relative;
         z-index: 1;
+        flex-grow: 1;
 
         text-shadow: 1px 1px var(--content-text_shadow);
         min-height: 100%;
-        min-width: 100%;
-        width: 100%;
+        min-width: 30px;
 
         box-sizing: border-box;
         vertical-align: middle;
         background-color: transparent;
         color: var(--content-text);
         font: inherit;
-        line-height: 2.5rem;
+        line-height: 2.8rem;
         padding: 2px .75em 0;
         font-size: 1rem;
         border: none;
@@ -511,12 +510,12 @@ div.sui-input {
         }
     }
 
-    & > .option, & > .option-fullscreen {
+    & .sui-input-wrapper > .option, & .sui-input-wrapper > .option-fullscreen {
         display: none;
         position: absolute;
     }
 
-    &.select {
+    &.select .sui-input-wrapper {
         & > input {
             display: none;
         }
@@ -641,12 +640,60 @@ div.sui-input {
             cursor: default;
         }
     }
+    .sui-input-wrapper {
+        display: flex;
+
+        .prefix,
+        .suffix {
+            word-break: normal;
+            display: flex;
+            align-items: center;
+            background-color: var(--background-text_screen);
+            border: 2px solid var(--content-text_transparent);
+            border-top: none;
+            border-bottom: none;
+            flex-basis: auto;
+            padding: 2px 0.75em 0;
+            min-width: calc(2.8rem - 1.5em);
+            flex-shrink: 0;
+            height: calc(2.8rem - 2px);
+            justify-content: center;
+        }
+
+        .prefix {
+            border-left: 0;
+            order: -1;
+
+            & ~ .left-wrapper .left::after {
+                width: 0 !important;
+            }
+        }
+
+        .suffix {
+            border-right: 0;
+
+            & ~ .right-wrapper .right::before {
+                width: 0;
+            }
+        }
+    }
+    &.left .sui-input-wrapper {
+        .prefix {
+            border-left: 2px solid var(--content-text_transparent);
+        }
+    }
+    &.right .sui-input-wrapper {
+        .suffix {
+            border-right: 2px solid var(--content-text_transparent);
+        }
+    }
 }
+
 div.sui-textarea {
     position: relative;
 
     &.left {
-        & > .textarea {
+        & .textarea {
             & > textarea,
             &::after {
                 // make space for icon
@@ -654,7 +701,7 @@ div.sui-textarea {
             }
         }
 
-        & > .left {
+        & .left {
             // the icon
             position: absolute;
             width: 2.8rem;
@@ -682,11 +729,11 @@ div.sui-textarea {
             border-color: var(--content-focus);
         }
 
-        & > .left {
+        & .left {
             color: var(--content-focus);
         }
 
-        & > label {
+        & label {
             &::after {
                 background-color: var(--content-focus);
             }
@@ -700,14 +747,14 @@ div.sui-textarea {
     }
 
     &.right {
-        & > .textarea {
+        & .textarea {
             & > textarea,
             &::after {
                 padding-right: 3.3em;
             }
         }
 
-        & > .right {
+        & .right {
             display: inline-flex;
             width: 2.8em;
             height: 2.8em;
@@ -793,7 +840,7 @@ div.sui-textarea {
         }
     }
 
-    & > .textarea {
+    & .textarea {
         position: relative;
         vertical-align: middle;
         display: inline-grid;
