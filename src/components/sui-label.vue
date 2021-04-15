@@ -114,14 +114,14 @@ export default {
                     });
                     textarea.addEventListener('focus', (e) => {
                         let target = e.target;
-                        let par = target.parentNode.parentNode;
+                        let par = target.parentNode.parentNode.parentNode;
                         if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
                             par.classList.add('focus');
 
                     });
                     textarea.addEventListener('blur', (e) => {
                         let target = e.target;
-                        let par = target.parentNode.parentNode;
+                        let par = target.parentNode.parentNode.parentNode;
                         if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
                             par.classList.remove('focus');
                     });
