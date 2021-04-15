@@ -1,5 +1,5 @@
 <template lang='pug'>
-    sui-label(:type="type" :label="label" :error="error" :button="button" :required="required" :message="message || null" :disabled="disabled || null")
+    sui-label(:type="type" :label="label" :error="error" :button="button" :required="required" :message="message || null" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
         input(:disabled="disabled" :placeholder="placeholder" :type="type" v-model="customValue" :style="{ textAlign: this.button ? this.button.length === 2 ? 'center' : null : null }"  @keyup="keypress" @keydown="arrowSelection")
         div(v-show="searching" class="option")
             template(v-for="(x, idx) in option")
@@ -17,6 +17,8 @@ export default {
             default: null
         },
         label: String,
+        suffix: String,
+        prefix: String,
         type: {
             type: String,
             default: 'text'
