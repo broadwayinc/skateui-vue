@@ -10,8 +10,9 @@ import SuiAccordion from '../components/sui-accordion';
 import SuiTooltip from '../components/sui-tooltip';
 import SuiAutosize from '../components/sui-autosize';
 import SuiSteps from '../components/sui-steps';
+import SuiImage from '../components/sui-image';
 import SuiSvg from '../components/sui-svg';
-import {ColorMangle} from "colormangle";
+import '@/lib/skateui.js';
 
 export default {
     install(Vue, options) {
@@ -28,12 +29,6 @@ export default {
         Vue.component('sui-autosize', SuiAutosize);
         Vue.component('sui-svg', SuiSvg);
         Vue.component('sui-steps', SuiSteps);
-        let cs = new ColorMangle('#00807f').colorScheme();
-        let body = document.getElementsByTagName('BODY')[0];
-        for (let c in cs) {
-            body.style.setProperty(c, cs[c]);
-            if (c === '--toolbar')
-                body.style.backgroundColor = cs[c];
-        }
+        Vue.component('sui-image', SuiImage);
     }
 }

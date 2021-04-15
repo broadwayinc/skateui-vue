@@ -31,7 +31,7 @@ div
     sui-card#hamburger-menu
         template(#title)
             | Welcome Baksa Gimm!
-            .close(onclick="sui_popup.handler('hamburger-menu', 'close')")
+            .close(onclick="sui_popup.handler({id: 'hamburger-menu', pop: 'close'})")
         template(#image)
             .profile
                 img(src="@/assets/myface.jpg")

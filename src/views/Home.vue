@@ -863,17 +863,29 @@ export default {
     components: {SuiButton},
     data() {
         return {
-            slide: [{"text":"Welcome","textAlign": ['left', 'top'], "uniqueId":"xe290IF52xy3", 'src': 'https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2E4MTVhZjc3LTA5NmUtNDU3Zi04NDc2LTk5NGZiYzhmNWRiOC9pbWFnZS8xMzI5MjdfMnliVHQ4SlMxNjEzNTcwNyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjgwMCwiZml0IjoiaW5zaWRlIn19fQ=='}, {"text":"Hello Dog","textAlign": ['right', 'bottom'],"uniqueId":"xe290IF52xy3"}],
+            showZoom: false,
+            slide: [{
+                "text": "Welcome",
+                "textAlign": ['left', 'top'],
+                "uniqueId": "xe290IF52xy3",
+                'src': 'https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2E4MTVhZjc3LTA5NmUtNDU3Zi04NDc2LTk5NGZiYzhmNWRiOC9pbWFnZS8xMzI5MjdfMnliVHQ4SlMxNjEzNTcwNyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjgwMCwiZml0IjoiaW5zaWRlIn19fQ=='
+            }, {"text": "Hello Dog", "textAlign": ['right', 'bottom'], "uniqueId": "xe290IF52xy3"}],
             colorScheme: new ColorMangle('#00807f').colorScheme(),
             suiInputSelection1: [
                 {value: 'manual', text: 'Style your menu manually!'},
-                {value:'menuclass', text:'class .menu provides faint line separator, pointer cursor and the hovering color.'},
+                {
+                    value: 'menuclass',
+                    text: 'class .menu provides faint line separator, pointer cursor and the hovering color.'
+                },
                 {value: 'mousedown', text: 'Attach mousedown event to each menu to change the input value.'}
             ],
             suiInputSelection2: [
                 {value: 'style', text: 'Style your menu manually!'},
                 {value: 'fullscreen', text: 'Full screen option is useful in mobile.'},
-                {value: 'class', text: 'class .menu provides pointer cursor and the hovering color. Note in full screen option, line separator is not provided. (Because it looks better width hr)'},
+                {
+                    value: 'class',
+                    text: 'class .menu provides pointer cursor and the hovering color. Note in full screen option, line separator is not provided. (Because it looks better width hr)'
+                },
                 {value: 'mousedown', text: 'Attach mousedown event to each menu to change the input value.'},
                 {value: 'Singapore'},
                 {value: 'Russia'}
@@ -891,7 +903,7 @@ export default {
     },
     methods: {
         log(button) {
-            console.log("Home log", button)
+            console.log("Home log", button);
         },
         increase() {
             this.numberInputValue += 1;
@@ -904,97 +916,19 @@ export default {
             text = text.toLowerCase();
             this.suiInputAutocomplete1 = this.suiDatabase.filter(word => {
                 let regex = new RegExp(text + '(.)?', 'g');
-                if(text) {
-                    if(word.toLowerCase().match(regex)) {
+                if (text) {
+                    if (word.toLowerCase().match(regex)) {
                         return word;
                     }
                 }
-            })
+            });
         }
-    },
-    mounted() {
-        // pure javascript handlers
-        // window.sui_textarea = {
-        //     init: (el) => {
-        //         let setup = (el) => {
-        //             el.setAttribute('rows', '1');
-        //             let parent = el.parentElement;
-        //             let replica = document.createElement('div');
-        //             replica.classList.add('textarea');
-        //             parent.insertBefore(replica, el);
-        //             replica.append(el);
-        //             el.addEventListener('input', (e) => {
-        //                 let target = e.target;
-        //                 target.parentNode.dataset.replica = target.value;
-        //             });
-        //             el.addEventListener('focus', (e) => {
-        //                 let target = e.target;
-        //                 let par = target.parentNode.parentNode;
-        //                 if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
-        //                     par.classList.add('focus');
-        //
-        //             });
-        //             el.addEventListener('blur', (e) => {
-        //                 let target = e.target;
-        //                 let par = target.parentNode.parentNode;
-        //                 if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
-        //                     par.classList.remove('focus');
-        //             });
-        //         };
-        //
-        //         if (el) setup(el);
-        //         else {
-        //             el = document.getElementsByTagName('textarea');
-        //             for (let i = 0; i < el.length; i++) {
-        //                 if (el[i].parentNode.classList.contains('sui-textarea'))
-        //                     setup(el[i]);
-        //             }
-        //         }
-        //     }
-        // };
-        // window.sui_textarea.init();
-        // window.sui_accordion = {
-        //     timeout: null,
-        //     handler: (ev) => {
-        //         let el = ev.target.closest('.sui-accordion');
-        //
-        //         if (!el)
-        //             return;
-        //
-        //         let bool = !el.classList.contains('minus');
-        //
-        //         if (bool)
-        //             el.classList.add('minus');
-        //         else
-        //             el.classList.remove('minus');
-        //
-        //         if (el)
-        //             el = el.lastChild;
-        //
-        //         if (window.sui_accordion.timeout)
-        //             clearTimeout(window.sui_accordion.timeout);
-        //         window.sui_accordion.timeout = null;
-        //
-        //         if (bool) {
-        //             el.style.maxHeight = '100vh';
-        //             window.sui_accordion.timeout = setTimeout(() => {
-        //                 // use this.$nextTick() for vue
-        //                 el.style.maxHeight = 'unset';
-        //             }, 750);
-        //         } else {
-        //             el.style.maxHeight = '100vh';
-        //             window.sui_accordion.timeout = setTimeout(() => {
-        //                 el.style.maxHeight = '0';
-        //             }, 100);
-        //         }
-        //     }
-        // };
     }
-
 };
 </script>
 <style lang="less">
 @import '../assets/viewport.less';
+
 div.sui-list {
     --grid: 1fr 1fr 1fr;
     @media @laptop {

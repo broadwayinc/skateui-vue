@@ -115,8 +115,7 @@ export default {
                 });
 
                 this.adjustSize();
-                if (window.sui_app)
-                    this.eventId = window.sui_app.registerEvent.resize(this.adjustSize.bind(this));
+                this.eventId = window.sui_on.registerEvent.resize(this.adjustSize.bind(this));
             }
 
             adjustSize() {
@@ -181,8 +180,7 @@ export default {
             }
 
             destroy() {
-                if (window.sui_app)
-                    window.sui_app.removeEvent.resize(this.eventId);
+                window.sui_on.removeEvent.resize(this.eventId);
             }
         }
 
@@ -204,45 +202,7 @@ export default {
     },
     computed: {
         elementId() {
-            function generateId(option) {
-                let limit = 12;
-                let prefix = '';
-
-                if (typeof option === 'number') limit = option;
-                else if (typeof option === 'string') prefix = `${option}_`;
-
-                const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-                let text = '';
-                for (let i = 0; i < limit - 6; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
-
-                const numb = new Date()
-                    .getTime()
-                    .toString()
-                    .substring(7, 13); // SECOND, MILLISECOND
-
-                const shuffleArray = (array) => {
-                    let currentIndex = array.length;
-                    let temporaryValue, randomIndex;
-                    while (0 !== currentIndex) {
-                        randomIndex = Math.floor(Math.random() * currentIndex);
-                        currentIndex -= 1;
-                        temporaryValue = array[currentIndex];
-                        array[currentIndex] = array[randomIndex];
-                        array[randomIndex] = temporaryValue;
-                    }
-                    return array;
-                };
-
-                const letter_array = shuffleArray((text + numb).split(''));
-
-                let output = '';
-                for (let i = 0; i < limit; i++) output += letter_array[i];
-
-                return prefix + output;
-            }
-
-            return generateId(this.$options.name);
+            return window.sui_generateId(this.$options.name);
         },
         inputValue: {
             get: function () {
