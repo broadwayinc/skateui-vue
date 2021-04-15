@@ -587,10 +587,10 @@
                     :ratio='[16,9]'
                     parallax
                     null-image="/img/bunnykit_small.gif"
-                    :computed-style="(s)=>{console.log(s.width);}"
-                    :on-click="(e)=>{console.log(e);}"
-                    :on-load="(e)=>{console.log(e)}"
-                    :on-error="(e)=>{console.log(e)}")
+                    :computed-style="(s)=>{/*console.log(s.width);*/}"
+                    :on-click="(e)=>{/*console.log(e)*/;}"
+                    :on-load="(e)=>{/*console.log(e)*/}"
+                    :on-error="(e)=>{/*console.log(e)*/}")
                 br
                 sui-image(
                     src="/img/dia.png"
@@ -598,12 +598,12 @@
                     :ratio='[16,9]'
                     parallax
                     null-image="/img/bunnykit_small.gif"
-                    :computed-style="(s)=>{console.log(s.width);}"
-                    :on-click="(e)=>{console.log(e);}"
-                    :on-load="(e)=>{console.log(e)}"
-                    :on-zoom="(e)=>{console.log(e);showZoom = !!e}"
+                    :computed-style="(s)=>{/*console.log(s.width);*/}"
+                    :on-click="(e)=>{/*console.log(e);*/}"
+                    :on-load="(e)=>{/*console.log(e)*/}"
+                    :on-zoom="(e)=>{/*console.log(e);showZoom = !!e*/}"
                     zoom-canvas='zoom'
-                    :on-error="(e)=>{console.log(e)}")
+                    :on-error="(e)=>{/*console.log(e)*/}")
                 #zoom(v-show='showZoom' style="width:300px;height:300px;background-color:blue")
                 br
                 sui-image(
@@ -611,12 +611,12 @@
                     src="/img/ia.png"
                     light-box
                     broken-msg="Sorry, The image link is broken :("
-                    :computed-style="(s)=>{console.log(s.width);}"
-                    :on-click="(e)=>{console.log(e);}"
-                    :on-load="(e)=>{console.log(e)}"
-                    :on-zoom="(e)=>{console.log(e);showZoom = !!e}"
+                    :computed-style="(s)=>{/*console.log(s.width);*/}"
+                    :on-click="(e)=>{/*console.log(e);*/}"
+                    :on-load="(e)=>{/*console.log(e)*/}"
+                    :on-zoom="(e)=>{/*console.log(e);showZoom = !!e*/}"
                     zoom-canvas='zoom'
-                    :on-error="(e)=>{console.log(e)}")
+                    :on-error="(e)=>{/*console.log(e)*/}")
                 sui-image(
                     src="/img/ia.png"
                     light-box
@@ -624,12 +624,12 @@
                     parallax
                     null-image="/img/bunnykit_small.gif"
                     broken-msg='/img/sealpixel.jpeg'
-                    :computed-style="(s)=>{console.log(s.width);}"
-                    :on-click="(e)=>{console.log(e);}"
-                    :on-load="(e)=>{console.log(e)}"
-                    :on-zoom="(e)=>{console.log(e);showZoom = !!e}"
+                    :computed-style="(s)=>{/*console.log(s.width);*/}"
+                    :on-click="(e)=>{/*console.log(e);*/}"
+                    :on-load="(e)=>{/*console.log(e)*/}"
+                    :on-zoom="(e)=>{/*console.log(e);showZoom = !!e*/}"
                     zoom-canvas='zoom'
-                    :on-error="(e)=>{console.log(e)}")
+                    :on-error="(e)=>{/*console.log(e)*/}")
         br
         br
         sui-card(content-center)
