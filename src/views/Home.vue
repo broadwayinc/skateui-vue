@@ -195,7 +195,7 @@
                     li It is advised to not use more than 2 footer buttons.
             template(#buttonFooter)
                 sui-button(type="nude") CANCEL
-                sui-button(@click="log('omg I am clicked')") COWABUNGA
+                sui-button COWABUNGA
             template(#footer) I'm your footer.
         br
         br
@@ -349,7 +349,7 @@
                 sui-input(style="width: 23em" label="Search" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search'}]"  @rightClick="" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
                 br
                 br
-                sui-button(onclick="sui_popup.handler('searchmobile','top', false, 'var(--content)')") SEARCH POP
+                sui-button(onclick="sui_popup.handler({id: 'searchmobile',pop:'top', closeOnBackgroundClick: false, overlayColor: 'var(--content)'})") SEARCH POP
                 sui-input#searchmobile.transparent(:menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search', action: () => {}}]" @rightClick="sui_popup.handler('searchmobile')" :output="(v) => { getSearch(v); }" :option="suiInputAutocomplete1")
                 br
                 br
@@ -577,6 +577,61 @@
                         They said I rap like a robot, so call me Rap-bot
         br
         br
+        sui-card(content-center :style="{width: '600px'}")
+            template(#title)
+                h6 Image
+            template(#content)
+                sui-image(
+                    :src="{source: '/img/dia.png', crop:{x:50,y:50}}"
+                    light-box
+                    :ratio='[16,9]'
+                    parallax
+                    null-image="/img/bunnykit_small.gif"
+                    :computed-style="(s)=>{console.log(s.width);}"
+                    :on-click="(e)=>{console.log(e);}"
+                    :on-load="(e)=>{console.log(e)}"
+                    :on-error="(e)=>{console.log(e)}")
+                br
+                sui-image(
+                    src="/img/dia.png"
+                    light-box
+                    :ratio='[16,9]'
+                    parallax
+                    null-image="/img/bunnykit_small.gif"
+                    :computed-style="(s)=>{console.log(s.width);}"
+                    :on-click="(e)=>{console.log(e);}"
+                    :on-load="(e)=>{console.log(e)}"
+                    :on-zoom="(e)=>{console.log(e);showZoom = !!e}"
+                    zoom-canvas='zoom'
+                    :on-error="(e)=>{console.log(e)}")
+                #zoom(v-show='showZoom' style="width:300px;height:300px;background-color:blue")
+                br
+                sui-image(
+                    :style='{minHeight:"100px"}'
+                    src="/img/ia.png"
+                    light-box
+                    broken-msg="Sorry, The image link is broken :("
+                    :computed-style="(s)=>{console.log(s.width);}"
+                    :on-click="(e)=>{console.log(e);}"
+                    :on-load="(e)=>{console.log(e)}"
+                    :on-zoom="(e)=>{console.log(e);showZoom = !!e}"
+                    zoom-canvas='zoom'
+                    :on-error="(e)=>{console.log(e)}")
+                sui-image(
+                    src="/img/ia.png"
+                    light-box
+                    :ratio='[16,9]'
+                    parallax
+                    null-image="/img/bunnykit_small.gif"
+                    broken-msg='/img/sealpixel.jpeg'
+                    :computed-style="(s)=>{console.log(s.width);}"
+                    :on-click="(e)=>{console.log(e);}"
+                    :on-load="(e)=>{console.log(e)}"
+                    :on-zoom="(e)=>{console.log(e);showZoom = !!e}"
+                    zoom-canvas='zoom'
+                    :on-error="(e)=>{console.log(e)}")
+        br
+        br
         sui-card(content-center)
             template(#title)
                 h6 POP UP
@@ -585,16 +640,16 @@
                 sui-button(onclick="sui_popup.handler('myModal')") Default
                 br
                 br
-                sui-button(onclick="sui_popup.handler('myModal','top')") Top
+                sui-button(onclick="sui_popup.handler({id:'myModal',pop:'top'})") Top
                 br
                 br
-                sui-button(onclick="sui_popup.handler('myModal','left')") Left
+                sui-button(onclick="sui_popup.handler({id:'myModal',pop:'left'})") Left
                 br
                 br
-                sui-button(onclick="sui_popup.handler('myModal','bottom')") Bottom
+                sui-button(onclick="sui_popup.handler({id:'myModal',pop:'bottom'})") Bottom
                 br
                 br
-                sui-button(onclick="sui_popup.handler('myModal','right')") Right
+                sui-button(onclick="sui_popup.handler({id:'myModal',pop:'right'})") Right
                 br
                 br
                 sui-button(onclick="sui_popup.handler('somerandomstuff')") SPAM
@@ -840,9 +895,9 @@
                 .content
                     img.block(src="@/assets/brunomars.png")
                     .title ...I mean really short
-            //.article
+            .article
                 .content
-                    img.block(src="@/assets/dia.png")
+                    img.block(src="/img/dia.png")
                     .title DIA is called sing-ger in AU
                     .text.
                         AU is well known for it's mystic land of exotic nature.
@@ -865,9 +920,9 @@
             .article
                 .content
                     img(src="@/assets/skate.jpg")
-            //.article
+            .article
                 .content
-                    img(src="@/assets/dia.png")
+                    img(src="/img/dia.png")
             .article
                 .content
                     img(src="@/assets/brunomars.png")
@@ -918,6 +973,9 @@ export default {
             suiInputAutocomplete1 : [],
             numberInputValue: 1
         };
+    },
+    computed: {
+        console: () => console
     },
     methods: {
         log(button) {
