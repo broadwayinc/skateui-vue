@@ -134,7 +134,7 @@ img {
     }
 
     & > img {
-        box-shadow: black 0 0 48px;
+        box-shadow: rgba(0,0,0,0.05) 0 0 48px;
         display: block;
         margin: auto;
         max-height: 100%;

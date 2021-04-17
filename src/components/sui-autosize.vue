@@ -1,5 +1,5 @@
 <template lang="pug">
-.sui-autosize(:id="elementId")
+.sui-autosize(:id="elementId" :style="{'--text-align': textAlign}")
     textarea(:placeholder='placeholder' rows="1" v-model="inputValue" :maxlength="maxlength")
 </template>
 
@@ -14,7 +14,8 @@ export default {
         output: Function,
         allowEnter: Boolean,
         maxlength: Number,
-        readonly: Boolean
+        readonly: Boolean,
+        textAlign: String,
     },
     data() {
         return {
@@ -223,6 +224,7 @@ export default {
     border: 2px dashed transparent;
     font-size: var(--auto-size);
     display: inline-block;
+    box-sizing: border-box;
 
     &:not(.readonly) {
         border-color: var(--content-text_shadow);
@@ -275,6 +277,7 @@ export default {
             background-color: transparent;
             line-height: 1.5em;
             font-size: 1em;
+            text-align: var(--text-align);
             padding: .5rem 0.75rem;
             outline: none;
             border: none;

@@ -80,12 +80,13 @@ export default {
 @import '../assets/viewport.less';
 
 div.sui-card {
+    margin: 2px;
     tab-size: 1em;
     background-color: var(--content);
     color: var(--content-text);
     border-radius: 8px;
     padding: 0 1.3em;
-
+    box-sizing: border-box;
     @media @phone {
         padding: 0 .65em;
         border-radius: 0;
@@ -93,7 +94,8 @@ div.sui-card {
 
     box-shadow: 0 0 0 2px var(--content-text_screen);
     text-align: left;
-    max-width: calc(100% - 2.6em);
+    //max-width: calc(100% - 2.6em);
+    max-width: 100%;
 
     display: inline-block;
     vertical-align: top;
@@ -173,10 +175,10 @@ div.sui-card {
     }
 
     & > .image:not(:empty) {
+        margin: 0 -1.3em;
         @media @phone {
             margin: 0 -.65em;
         }
-        margin: 0 -1.3em;
 
         & > * {
             //width: 100%;

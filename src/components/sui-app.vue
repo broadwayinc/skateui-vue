@@ -4,10 +4,11 @@
         slot(name="nav")
     .view(v-if="loaded")
         slot(name="page")
-        .notification(:class="{show: notification_computed}")
-            template(v-if="notification_computed")
-                i.material-icons.icon(v-if="notification_computed.icon") {{notification_computed.icon}}
-                .text {{notification_computed.text}}
+        #sui-app-notification(:class="{show: notification_computed}" v-if="notification_computed")
+            sui-card(:style="{backgroundColor:'var(--content-text)',color:'var(--content)', maxWidth: 'unset', borderRadius:'8px'}")
+                .notification-head(@click="()=>{console.log('yto')}")
+                    i.material-icons.icon(v-if="notification_computed.icon") {{notification_computed.icon}}
+                    p {{notification_computed.text}}
 </template>
 <script>
 import {ColorMangle} from 'colormangle';
@@ -80,9 +81,15 @@ export default {
                 },
                 colorScheme: null,
                 init: (option) => {
-                    window.sui_app.navbarStyle = window.getComputedStyle(document.getElementsByTagName('nav')[0]);
-
                     let {colorScheme = 'teal', hideNavbar = false} = option;
+
+                    let navBar = document.getElementsByTagName('nav')[0];
+
+                    if (navBar)
+                        window.sui_app.navbarStyle = window.getComputedStyle(navBar);
+                    else
+                        hideNavbar = false;
+
                     window.sui_app.hideNavbar = hideNavbar;
 
                     let cs = new ColorMangle(colorScheme).colorScheme();
@@ -99,7 +106,6 @@ export default {
 
                     window.sui_app.updateViewport();
                     window.sui_app.calcNavbarHeight();
-
                     window.sui_on.registerEvent.scroll(window.sui_app.calcNavbarHeight);
                     window.sui_on.registerEvent.resize(window.sui_app.updateViewport);
 
@@ -117,6 +123,7 @@ export default {
         });
     },
     computed: {
+        console: () => console,
         notification_computed() {
             if (this.notification) {
                 if (typeof this.notification === 'string')
@@ -154,78 +161,46 @@ export default {
 
         & + .view {
             padding-top: calc(3rem + 16px);
+
+            & > #sui-app-notification {
+                top: calc(3rem + 16px + var(--navbar-top));
+            }
         }
     }
 
     & > .view {
         max-width: 100%;
-        // check for quirks
-        //flex-grow: 1;
-        //justify-content: center;
-        //display: flex;
-        //align-items: center;
-        //flex-direction: column;
-        //flex-wrap: wrap;
-
-        //overflow-x: hidden;
         position: relative;
 
         & > * {
             max-width: 100%;
         }
 
-        & > .notification {
-            border-radius: 8px;
+        & > #sui-app-notification {
             position: fixed;
-            top: calc(3rem + 16px);
-            padding: 8px;
-            background-color: var(--content-text);
-            color: var(--content);
-            box-shadow: 0 0 1px 1px var(--content);
-            margin: 16px;
-            opacity: 0;
-            transition: opacity .5s;
-            cursor: pointer;
-            flex-wrap: wrap;
-            user-select: none;
-            max-width: calc(100% - 40px - 16px);
-            display: flex;
-            align-items: flex-start;
-            z-index: 8888;
+            top: 0;
+            right: 0;
+            padding: 8px 1rem;
+            box-sizing: border-box;
 
-            &:hover {
-                a {
-                    text-decoration: underline;
-                }
-            }
-
-            &.show {
-                opacity: 1;
-            }
-
-            & > * {
-                padding: 8px;
-            }
-
-            & > .icon:not(:empty) + .text {
-                max-width: calc(100% - 40px - 16px);
-            }
-
-            & > .text {
-                white-space: pre-wrap;
-                font-size: .88rem;
-                line-height: 1rem;
-                min-height: calc(40px - 16px);
+            .notification-head {
                 display: flex;
-                align-items: center;
-            }
+                padding: 8px;
 
-            & > a {
-                flex-basis: 100%;
-                line-height: 1rem;
-                font-size: .88rem;
-                font-weight: 500;
-                text-align: right;
+                & > p {
+                    padding: 2px 0;
+                    font-size: 16px;
+                    line-height: 20px;
+                }
+
+                i {
+                    padding-right: 4px;
+                    font-size: 24px;
+                }
+
+                * {
+                    vertical-align: middle;
+                }
             }
         }
     }

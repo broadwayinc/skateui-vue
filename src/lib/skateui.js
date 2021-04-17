@@ -246,17 +246,15 @@
                     'scroll',
                     (event) => {
                         window.requestAnimationFrame(() => {
-                            if (Object.keys(window.sui_on.scroll_callback).length) {
-                                for (let c in window.sui_on.scroll_callback)
-                                    if (typeof window.sui_on.scroll_callback[c] === 'function') {
-                                        try {
-                                            window.sui_on.scroll_callback[c](event);
-                                        } catch (err) {
-                                            console.error(err);
-                                            delete window.sui_on.scroll_callback[c];
-                                        }
+                            for (let c in window.sui_on.scroll_callback)
+                                if (typeof window.sui_on.scroll_callback[c] === 'function') {
+                                    try {
+                                        window.sui_on.scroll_callback[c](event);
+                                    } catch (err) {
+                                        console.error(err);
+                                        delete window.sui_on.scroll_callback[c];
                                     }
-                            }
+                                }
                         });
                     },
                     {passive: true}
@@ -266,17 +264,15 @@
                     'resize',
                     (event) => {
                         window.requestAnimationFrame(() => {
-                            if (Object.keys(window.sui_on.resize_callback).length) {
-                                for (let c in window.sui_on.resize_callback)
-                                    if (typeof window.sui_on.resize_callback[c] === 'function') {
-                                        try {
-                                            window.sui_on.resize_callback[c](event);
-                                        } catch (err) {
-                                            console.log(err);
-                                            delete window.sui_on.resize_callback[c];
-                                        }
+                            for (let c in window.sui_on.resize_callback)
+                                if (typeof window.sui_on.resize_callback[c] === 'function') {
+                                    try {
+                                        window.sui_on.resize_callback[c](event);
+                                    } catch (err) {
+                                        console.log(err);
+                                        delete window.sui_on.resize_callback[c];
                                     }
-                            }
+                                }
                         });
                     },
                     {passive: true}
@@ -683,6 +679,10 @@
             calcParallax() {
                 if (this.parallax && this.loaded) {
                     let imgHeight = parseFloat(this.parentComputedStyle.height);
+
+                    if (this.offset.top + imgHeight - window.scrollY < 0 || window.scrollY + window.innerHeight - this.offset.top < 0)
+                        return;
+
                     let imgHalfHeight = imgHeight / 2;
                     let viewHalfHeight = window.innerHeight / 2;
 
@@ -690,9 +690,6 @@
                         this.offset.top + imgHalfHeight - viewHalfHeight : this.offset.top;
 
                     let scroll_y = window.scrollY + (window.sui_app?.navbarHeight_dynamic || 0);
-
-                    if (this.offset.top + imgHeight - window.scrollY < 0 || window.scrollY + window.innerHeight - this.offset.top < 0)
-                        return;
 
                     let distance = (imgPivot - scroll_y) / window.innerHeight;
 

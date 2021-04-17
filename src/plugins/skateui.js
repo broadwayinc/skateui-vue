@@ -12,11 +12,13 @@ import SuiAutosize from '../components/sui-autosize';
 import SuiSteps from '../components/sui-steps';
 import SuiImage from '../components/sui-image';
 import SuiSvg from '../components/sui-svg';
+import SuiList from '../components/sui-list';
 import '@/lib/skateui.js';
 
 export default {
     install(Vue, options) {
         Vue.component('sui-card', SuiCard);
+        Vue.component('sui-list', SuiList);
         Vue.component('sui-slider', SuiSlider);
         Vue.component('sui-button', SuiButton);
         Vue.component('sui-label', SuiLabel);

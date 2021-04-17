@@ -40,7 +40,6 @@ export default {
                 if (!elementId) throw 'no id';
 
                 this.disableSticky = disableSticky;
-                this.elementId = null;
                 this.element = null;
                 this.scroll_eventId = null;
                 this.resize_eventId = null;
@@ -52,38 +51,32 @@ export default {
                 this.offset = 0;
                 this.adjust_sticky = (function () {
 
-                    let doIt = () => {
-                        if (!this.sticky_computedStyle) return;
+                    if (!this.sticky_computedStyle)
+                        return;
 
-                        this.stickyHeight = parseFloat(this.sticky_computedStyle.height);
-                        let screenOverload = this.stickyHeight - document.documentElement.clientHeight;
-                        screenOverload = screenOverload > 0 ? screenOverload : 0;
-                        const currentPageScrollPosition = window.pageYOffset;
+                    this.stickyHeight = parseFloat(this.sticky_computedStyle.height);
+                    let screenOverload = this.stickyHeight - document.documentElement.clientHeight;
+                    screenOverload = screenOverload > 0 ? screenOverload : 0;
+                    const currentPageScrollPosition = window.pageYOffset;
 
-                        const offsetHeight = this.ignoreNavbar ? 0 : window?.sui_app?.navbarHeight_dynamic || 0;
+                    const offsetHeight = this.ignoreNavbar ? 0 : window?.sui_app?.navbarHeight_dynamic || 0;
 
-                        if (screenOverload) {
-                            screenOverload = screenOverload * -1;
-                            const scrollSum = this.previousScroll - currentPageScrollPosition;
-                            let sum = scrollSum + this.dynamicOffset;
-                            sum = offsetHeight < sum ? offsetHeight : screenOverload > sum ? screenOverload : sum;
-                            this.dynamicOffset = sum;
-                        } else
-                            this.dynamicOffset = offsetHeight + this.offset;
+                    if (screenOverload) {
+                        screenOverload = screenOverload * -1;
+                        const scrollSum = this.previousScroll - currentPageScrollPosition;
+                        let sum = scrollSum + this.dynamicOffset;
+                        sum = offsetHeight < sum ? offsetHeight : screenOverload > sum ? screenOverload : sum;
+                        this.dynamicOffset = sum;
+                    } else
+                        this.dynamicOffset = offsetHeight + this.offset;
 
-                        this.previousScroll = currentPageScrollPosition;
-                        this.element.style.top = this.dynamicOffset + 'px';
-                    };
-                    if (window?.sui_app) doIt();
-                    else
-                        window.requestAnimationFrame(() => {
-                            doIt();
-                        });
+                    this.previousScroll = currentPageScrollPosition;
+                    this.element.style.top = this.dynamicOffset + 'px';
+
                 }).bind(this);
 
                 this.offset = offset;
                 this.ignoreNavbar = ignoreNavbar;
-                this.elementId = elementId;
                 this.element = document.getElementById(elementId);
                 this.sticky_computedStyle = window.getComputedStyle(this.element);
 
