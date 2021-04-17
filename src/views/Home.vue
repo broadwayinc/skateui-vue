@@ -344,18 +344,18 @@ div
             sui-select(fullscreen :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" :option="suiInputSelection2" label="Fullscreen Selector" :button="[{position: 'left', icon: 'public'}]")
             br
             br
-            sui-input(type="autocomplete" placeholder="Suggestion box" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
+            sui-input(type="autocomplete" :value="searchValue" placeholder="Suggestion box" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
             sui-button SEARCH
             br
             br
-            sui-input(style="width: 23em" label="Search" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search'}]"  @rightClick="" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
+            sui-input(style="width: 23em" :value="searchValue" label="Search" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search'}]"  @rightClick="" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
             br
             br
             sui-button(onclick="sui_popup.handler({id: 'searchmobile',pop:'top', closeOnBackgroundClick: false, overlayColor: 'var(--content)'})") SEARCH POP
             sui-input#searchmobile.transparent(:menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search', action: () => {}}]" @rightClick="sui_popup.handler('searchmobile')" :output="(v) => { getSearch(v); }" :option="suiInputAutocomplete1")
             br
             br
-            sui-input(type="autocomplete" error message="Full Combo" label="Full Combo" required :button="[{position: 'left', icon: 'search'}, {position: 'right', icon: 'search'}]" @rightClick="" :output="(v) => { getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
+            sui-input(type="autocomplete" error  :value="searchValue" message="Full Combo" label="Full Combo" required :button="[{position: 'left', icon: 'search'}, {position: 'right', icon: 'search'}]" @rightClick="" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
     br
     br
     sui-card(style="display: inline-block;")
@@ -847,6 +847,7 @@ export default {
                 'src': 'https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2E4MTVhZjc3LTA5NmUtNDU3Zi04NDc2LTk5NGZiYzhmNWRiOC9pbWFnZS8xMzI5MjdfMnliVHQ4SlMxNjEzNTcwNyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjgwMCwiZml0IjoiaW5zaWRlIn19fQ=='
             }, {"text": "Hello Dog", "textAlign": ['right', 'bottom'], "uniqueId": "xe290IF52xy3"}],
             colorScheme: new ColorMangle('#00807f').colorScheme(),
+            searchValue: '',
             suiInputSelection1: [
                 {value: 'manual', text: 'Style your menu manually!'},
                 {
