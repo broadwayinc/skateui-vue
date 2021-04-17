@@ -48,8 +48,13 @@ export default {
         }
     },
     computed: {
-        customValue() {
-            return this.value;
+        customValue: {
+            get() {
+                return this.value;
+            },
+            set(v) {
+                this.value = v;
+            }
         }
     },
     methods: {
