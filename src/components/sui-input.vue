@@ -3,7 +3,6 @@
         input(:disabled="disabled" :placeholder="placeholder" :type="type" v-model="customValue" :style="{ textAlign: has2Buttons() ? 'center' : null }"  @keyup="keypress" @keydown="arrowSelection")
         div(v-show="searching" class="option")
             template(v-for="(x, idx) in option")
-                //hr(v-if="idx !== 0" style="margin: .25rem .5rem")
                 .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
 </template>
 
@@ -24,7 +23,10 @@ export default {
             default: 'text'
         },
         menuStyle: Object,
-        value: [Number, String],
+        value: {
+            type: [Number, String],
+            default: null
+        },
         option: Array,
         button: {
             type: [Array, Object],
@@ -52,8 +54,8 @@ export default {
             get() {
                 return this.value;
             },
-            set(v) {
-                this.value = v;
+            set(newValue) {
+                this.output(newValue);
             }
         }
     },
