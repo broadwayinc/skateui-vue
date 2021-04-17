@@ -1,7 +1,6 @@
 <template lang="pug">
     div(:id="id" :class="{ 'sui-input': type !== 'textarea', 'sui-textarea': type === 'textarea', left: buttonLeft, right: buttonRight, error: error, disabled: disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'}")
         div.sui-input-wrapper
-            slot
             label(v-if="label") {{ label }}
                 span(v-if="required" style="color:var(--alert)")  *
             fieldset
@@ -30,6 +29,7 @@
                 template(v-else-if="buttonRight")
                     .right
                         i.material-icons {{ buttonRight.icon }}
+            slot
             .downarrow(v-if="type === 'select' || type === 'fullscreen-select'")
             .message(v-if="message") {{ message }}
 </template>
@@ -490,10 +490,11 @@ div.sui-input {
         color: var(--content-text);
         font: inherit;
         line-height: 2.8rem;
-        padding: 2px .75em 0;
+        padding: 0 .75em;
         font-size: 1rem;
         border: none;
         outline: none;
+        order: -1;
 
         &:focus {
             & ~ fieldset {
@@ -653,12 +654,9 @@ div.sui-input {
             word-break: normal;
             display: flex;
             align-items: center;
-            background-color: var(--background-text_screen);
-            border: 2px solid var(--content-text_transparent);
-            border-top: none;
-            border-bottom: none;
+            font-weight: 600;
             flex-basis: auto;
-            padding: 2px 0.75em 0;
+            padding: 2px 0 0;
             min-width: calc(2.8rem - 1.5em);
             flex-shrink: 0;
             height: calc(2.8rem - 2px);
@@ -666,30 +664,20 @@ div.sui-input {
         }
 
         .prefix {
-            border-left: 0;
+            padding-left: 0.75em;
             order: -1;
-
-            & ~ .left-wrapper .left::after {
-                width: 0 !important;
+            
+            & ~ input {
+                padding-left: 0.1rem
             }
         }
 
         .suffix {
-            border-right: 0;
+            padding-right: 0.75em;
 
-            & ~ .right-wrapper .right::before {
-                width: 0;
+            & ~ input {
+                padding-right: 0.1rem
             }
-        }
-    }
-    &.left .sui-input-wrapper {
-        .prefix {
-            border-left: 2px solid var(--content-text_transparent);
-        }
-    }
-    &.right .sui-input-wrapper {
-        .suffix {
-            border-right: 2px solid var(--content-text_transparent);
         }
     }
 }
