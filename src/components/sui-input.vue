@@ -1,6 +1,6 @@
 <template lang='pug'>
     sui-label(:type="type" :label="label" :error="error" :button="button" :required="required" :message="message || null" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
-        input(:disabled="disabled" :placeholder="placeholder" :type="type" v-model="customValue" :style="{ textAlign: this.button ? this.button.length === 2 ? 'center' : null : null }"  @keyup="keypress" @keydown="arrowSelection")
+        input(:disabled="disabled" :placeholder="placeholder" :type="type" v-model="customValue" :style="{ textAlign: has2Buttons() ? 'center' : null }"  @keyup="keypress" @keydown="arrowSelection")
         div(v-show="searching" class="option")
             template(v-for="(x, idx) in option")
                 //hr(v-if="idx !== 0" style="margin: .25rem .5rem")
@@ -84,6 +84,12 @@ export default {
         selectChoice(x) {
             this.output(x);
             this.customValue = typeof x === 'string' ? x : x.text ? x.text : x.value;
+        },
+        has2Buttons() {
+            if(this.button?.length === 2){
+                return this.button[0].action && this.button[1].action;
+            }
+            return false;
         }
     }
 };
