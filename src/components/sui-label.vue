@@ -607,7 +607,8 @@ div.sui-input {
                 top: calc(100% - 1px);
                 background-color: var(--content);
                 display: block;
-                width: 100%;
+                width: calc(100% - 4px);
+                left: 2px;
                 box-sizing: border-box;
 
                 z-index: 9999;
