@@ -301,7 +301,7 @@ div
                 label="Number"
                 type="number"
                 :value="numberInputValue"
-                :button="[{position: 'right', text: '+', action: () => { increase() }}, {position: 'left', text: '−', action: () => { decrease() }}]"
+                :button="[{position: 'right', icon: 'add', action: () => { increase() }}, {position: 'left', icon: 'remove', action: () => { decrease() }}]"
             )
             br
             br
@@ -319,7 +319,7 @@ div
                 label="Currency with prefix"
                 type="number"
                 :value="numberInputValue"
-                :button="[{position: 'right', text: '+', action: () => { increase() }}, {position: 'left', text: '−', action: () => { decrease() }}]"
+                :button="[{position: 'right', icon: 'add', action: () => { increase() }}, {position: 'left', icon: 'remove', action: () => { decrease() }}]"
             )
             br
             br
@@ -744,7 +744,7 @@ div
                 br
                 br
                 .quantity
-                    sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                    sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', icon: 'add', action: () => {}}, {position: 'left', icon: 'remove', action: () => {}}]")
     br
     br
     sui-card(close-button)
@@ -762,7 +762,7 @@ div
                 br
                 br
                 .quantity
-                    sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                    sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', icon: 'add', action: () => {}}, {position: 'left', icon: 'remove', action: () => {}}]")
     br
     br
     sui-card(title-background="yellow" close-button)
@@ -779,7 +779,7 @@ div
                 //br
                 //br
                 //.quantity
-                    sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                    sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', icon: 'add', action: () => {}}, {position: 'left', icon: 'remove', action: () => {}}]")
     br
     br
     sui-card(disabled title-background="var(--alert)" title-color="white")
@@ -797,7 +797,7 @@ div
                 br
                 br
                 .quantity
-                    sui-input(disabled style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+                    sui-input(disabled style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', icon: 'add', action: () => {}}, {position: 'left', icon: 'remove', action: () => {}}]")
     br
     br
     sui-card(:style="{backgroundColor: 'var(--background-focus_transparent)', color:'var(--background-text'}")
