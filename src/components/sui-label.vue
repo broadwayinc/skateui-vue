@@ -17,7 +17,7 @@
                 template(v-else-if="buttonLeft")
                     .left
                         template(v-if="buttonLeft.img")
-                            img(src="@/assets/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
+                            img(src="/img/myface.jpg" style="width: calc(100% - 12px);height: calc(100% - 12px);border-radius: 100%;display: block;")
                         template(v-else)
                             i.material-icons {{buttonLeft.icon}}
             .suffix(v-if="suffix") {{ suffix }}

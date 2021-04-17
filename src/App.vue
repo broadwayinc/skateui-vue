@@ -1,12 +1,12 @@
 <template lang="pug">
 div
-    sui-app(:hide-navbar='true')
+    sui-app(:hide-navbar='true' :notification="notification" color-scheme='#1B8381')
         template(v-slot:nav)
             .nav
                 .nav-info
-                    i.material-icons.hamburger(onclick="sui_popup.handler('hamburger-menu', 'left', true)") menu
-                    // img(src="@/assets/pixelheart.png")
-                    h6 MONOMONO
+                    i.material-icons.hamburger(onclick="sui_popup.handler({id:'hamburger-menu', pop:'left', closeOnBackgroundClick:true})") menu
+                    // img(src="/img/pixelheart.png")
+                    h6 SPRITEMINT
                 .nav-icon
                     sui-button(type="nude") Login
                     sui-button Sign In
@@ -34,7 +34,7 @@ div
             .close(onclick="sui_popup.handler({id: 'hamburger-menu', pop: 'close'})")
         template(#image)
             .profile
-                img(src="@/assets/myface.jpg")
+                img(src="/img/myface.jpg")
         template(#content)
             // category navigation
             .menublock(v-for="(nav, name) in navigation" :class="{disabled:nav.disabled, selected:nav.selected}")
@@ -57,12 +57,16 @@ div
                     a {{name}}
 </template>
 <script>
-import navbarImgSample from '@/assets/bunnykit.gif';
+import navbarImgSample from '../public/img/bunnykit.gif';
 
 export default {
     name: "app",
     data() {
         return {
+            notification: {
+                text: 'There is no search result',
+                icon: 'help'
+            },
             appName: 'Bunnykit',
             navbarImage: navbarImgSample,
             selectedListMode: 2,
@@ -132,6 +136,7 @@ export default {
     padding: 1rem;
     box-sizing: border-box;
     position: relative;
+
     img {
         width: 70%;
         display: block;
@@ -387,7 +392,7 @@ div.app-grid {
                 ". sidenav list . .";
 
     // adjust the desktop / laptop grid size from here
-    grid-template-columns: auto minmax(auto, 250px) minmax(auto, 800px) auto auto;
+    grid-template-columns: auto auto minmax(auto, 800px) auto auto;
     @media @laptop {
         grid-template-columns: auto minmax(auto, 250px) minmax(auto, 800px) auto auto;
     }

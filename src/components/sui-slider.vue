@@ -1,18 +1,17 @@
 <template lang="pug">
-    .sui-sliderWrapper
-        .sui-slider(:id='elementId' :style="computedStyle")
-            .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
-                li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
-                    .imageWrapper(:style="[style_imageWrapper(sl)]")
-                        img(v-if="sl.image" style='position:absolute; width: 100%' :src="sl.image")
-                        //sui-image(v-if="sl.image" :style="{position:'absolute', width:'100%', display:'block'}" :src="sl.image")
-                        .slideText
-                            sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
-            .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
-                .swiper-pagination-bullet(v-for="(slide, i) in slideArray" :class="{'swiper-pagination-bullet-active': currentSlideIndex === i}" @click="goToSlide(i)")
-            .swiper-controls(v-if="showArrow")
-                .controls.prev(v-if="loop || currentSlideIndex !== 0" @click="prev()" :style='{backgroundImage:`url("${swiper_arrows.prev}")`}')
-                .controls.next(v-if="loop || currentSlideIndex !== slideArray.length - 1" @click="next()" :style='{backgroundImage:`url("${swiper_arrows.next}")`}')
+.sui-sliderWrapper
+    .sui-slider(:id='elementId' :style="computedStyle")
+        .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
+            li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
+                .imageWrapper(:style="[style_imageWrapper(sl)]")
+                    sui-image(v-if="sl.image" :src="sl.image" :ratio="[16,9]")
+                    .slideText
+                        sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
+        .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
+            .swiper-pagination-bullet(v-for="(slide, i) in slideArray" :class="{'swiper-pagination-bullet-active': currentSlideIndex === i}" @click="goToSlide(i)")
+        .swiper-controls(v-if="showArrow")
+            .controls.prev(v-if="loop || currentSlideIndex !== 0" @click="prev()" :style='{backgroundImage:`url("${swiper_arrows.prev}")`}')
+            .controls.next(v-if="loop || currentSlideIndex !== slideArray.length - 1" @click="next()" :style='{backgroundImage:`url("${swiper_arrows.next}")`}')
 </template>
 
 <script>
@@ -37,6 +36,7 @@ export default {
     },
     data() {
         return {
+            imgLoaded: {},
             eventId: null,
             slider: null,
             currentSlideIndex: 0,
@@ -53,7 +53,7 @@ export default {
             slideTextSize: null,
             slideHeight_calculated: '100%',
             thumbnailHeight: null
-        }
+        };
     },
     created() {
         if (window.sui_on)
@@ -115,7 +115,7 @@ export default {
         },
         slideArray_computed() {
             let sl = [];
-            const img_to_fetch = []
+            const img_to_fetch = [];
             if (Array.isArray(this.slideArray)) {
                 for (const s of this.slideArray) {
                     if (typeof s === 'string') {
@@ -155,7 +155,7 @@ export default {
             let obj = {
                 '--slideFocus': this.paginationFocusColor || this.color['--content-focus'],
                 '--slideBlur': this.paginationBlurColor || this.color['--content-text'],
-                height: this.height + 'px'
+                // height: this.height + 'px'
             };
             return obj;
         },
@@ -218,12 +218,12 @@ export default {
             }
         },
         async prev() {
-            if(!this.isDisabled) {
+            if (!this.isDisabled) {
                 this.isDisabled = true;
                 setTimeout(() => {
                     this.isDisabled = false;
                 }, 600);
-                if(this.currentSlideIndex === 0) {
+                if (this.currentSlideIndex === 0) {
                     this.currentSlideIndex = this.slideArray.length - 1;
                     this.sliderPosition = 0;
                     this.currentSlide_index_output();
@@ -241,13 +241,13 @@ export default {
             }
         },
         async next() {
-            if(!this.isDisabled) {
+            if (!this.isDisabled) {
                 this.isDisabled = true;
                 setTimeout(() => {
                     this.isDisabled = false;
                 }, 600);
 
-                if(this.slideArray.length - 1 == this.currentSlideIndex) {
+                if (this.slideArray.length - 1 == this.currentSlideIndex) {
                     this.currentSlideIndex = 0;
                     this.sliderPosition = this.pageWidth * (this.slideArray.length + 1) * -1;
                     this.currentSlide_index_output();
@@ -306,6 +306,13 @@ export default {
 </script>
 <style lang="less">
 .sui-sliderWrapper {
+    // Caution: try doing strict styling on unscoped css
+    & > ul {
+        padding: 0;
+        margin: 0;
+        display: block;
+    }
+
     position: relative;
     height: 100%;
 
@@ -347,12 +354,6 @@ export default {
 
 .wrapper {
     width: 800px;
-}
-
-ul {
-    padding: 0;
-    margin: 0;
-    display: block;
 }
 
 .slide-item {
@@ -406,7 +407,9 @@ ul {
     display: flex;
 
     .slideText {
-        margin: 4%;
+        //margin: 4%;
+        position: absolute;
+        //height: 100%;
         width: 100%;
     }
 }

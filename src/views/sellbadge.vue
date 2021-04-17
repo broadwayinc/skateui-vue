@@ -3,7 +3,7 @@ div(style="text-align:center;margin: 8px auto;")
     sui-card.head_card
         .image
             .profile_head
-                img(src="@/assets/sealawkward.jpeg")
+                img(src="/img/sealawkward.jpeg")
                 .photo_button
                     sui-button(type="icon" icon="photo_camera")
         .content
@@ -19,115 +19,104 @@ div(style="text-align:center;margin: 8px auto;")
             sui-autosize.text_shadow(:value='name' :max="48" :min="18")
             hr
             sui-autosize(:value='description' :max="24" :min="16" allow-enter)
-            br
-            br
-            br
-            br
-            //sui-accordion.newBadge
-                .title + Create New Badge
-                hr
-                .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
-                    br
-                    p OS system fonts should be used.
-                    br
-                    h1 This is &lt;h1&gt;
-                    br
-                    h2 This is &lt;h2&gt;
-                    br
-                    h3 This is &lt;h3&gt;
-                    br
-                    h4 This is &lt;h4&gt;
-                    br
-                    h5 This is &lt;h5&gt;
-                    br
-                    h6 This is &lt;h6&gt;
-                    br
-                    p This is &lt;p&gt;
-                    br
-                    small This is &lt;small&gt;
-            .cart
-                img(src="@/assets/penguin.png")
-                .detail.
-                    Penguin Badge
-                br
-                small(style="color:var(--content-focus);font-weight:bold") 53 left
-                br
-                .price $ 100
-                br
-                br
-                .quantity
-                    sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
-            br
-            .cart
-                img(src="@/assets/sealpixel.jpeg")
-                .detail.
-                    Seal Badge
-                br
-                small(style="color:var(--content-focus);font-weight:bold") 53 left
-                br
-                .price $ 10
-                br
-                br
-                .quantity
-                    sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
-            br
-            .cart
-                img(src="@/assets/iceberg.png")
-                .detail.
-                    Iceberg Badge
-                br
-                small(style="color:var(--content-focus);font-weight:bold") Unlimited
-                br
-                .price $ 5
-                br
-                br
-                .quantity
-                    sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
-            br
-            br
-            div(style="text-align:left;line-height:2;")
-                .badgepack
-                    | ITEMS:
-                    pre
-                    img(src="@/assets/sealpixel.jpeg" style="width:32px;height:32px;")
-                    | +3
-                    pre
-                    img(src="@/assets/iceberg.png" style="width:32px;height:32px;")
-                    | +1
-                | TAX:
-                pre
-                | $40.00
-                br
-                hr
-                h4(style="display:inline-block;") TOTAL:
-                pre
-                h4(style="display:inline-block;") $100,000
-            br
-            br
-            div(style="text-align:center;")
-                sui-button CHECKOUT
-            br
-            div(style="text-align:center")
-                sui-button Create New Badge
+            //.cart
+            //    img(src="/img/penguin.png")
+            //    .detail.
+            //        Penguin Badge
+            //    br
+            //    small(style="color:var(--content-focus);font-weight:bold") 53 left
+            //    br
+            //    .price $ 100
+            //    br
+            //    br
+            //    .quantity
+            //        sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+            //br
+            //.cart
+            //    img(src="/img/sealpixel.jpeg")
+            //    .detail.
+            //        Seal Badge
+            //    br
+            //    small(style="color:var(--content-focus);font-weight:bold") 53 left
+            //    br
+            //    .price $ 10
+            //    br
+            //    br
+            //    .quantity
+            //        sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+            //br
+            //.cart
+            //    img(src="/img/iceberg.png")
+            //    .detail.
+            //        Iceberg Badge
+            //    br
+            //    small(style="color:var(--content-focus);font-weight:bold") Unlimited
+            //    br
+            //    .price $ 5
+            //    br
+            //    br
+            //    .quantity
+            //        sui-input(style="width:10rem" label="Quantity" type="number" value="0" :button="[{position: 'right', text: '+', action: () => {}}, {position: 'left', text: '−', action: () => {}}]")
+            //br
+            //br
+            //div(style="text-align:left;line-height:2;")
+            //    .badgepack
+            //        | ITEMS:
+            //        pre
+            //        img(src="/img/sealpixel.jpeg" style="width:32px;height:32px;")
+            //        | +3
+            //        pre
+            //        img(src="/img/iceberg.png" style="width:32px;height:32px;")
+            //        | +1
+            //    | TAX:
+            //    pre
+            //    | $40.00
+            //    br
+            //    hr
+            //    h4(style="display:inline-block;") TOTAL:
+            //    pre
+            //    h4(style="display:inline-block;") $100,000
+            //br
+            //br
+            //div(style="text-align:center;")
+            //    sui-button CHECKOUT
+            //br
+            //div(style="text-align:center")
+            //    sui-button Create New Badge
     br
+    br
+    sui-list(ref="pixel")
+        template(#pre)
+            .createNew
+                h3 +
+                div(style="padding: 0 1rem")
+                    sui-autosize(value='CREATE NEW SPRITE' readonly :min="18" :max="24" text-align='center')
+                small(style="padding: 0 1rem;text-align: left;font-size: 12px;white-space: break-spaces;").
+                    Create and sell your own pixel art!
+                    Use your pixel art to get support from your followers
+    br
+    sui-accordion
+        .title(style="text-align:left;") Draft Sprites
+        hr
+        .content
+            sui-list(ref="pixel")
     br
     sui-card.head_card
         template(#title) Supporters
         template(#content)
             .board
                 .face
-                    img(src="@/assets/myface.jpg")
+                    img(src="/img/myface.jpg")
                 .board_message
                     sui-autosize(value="I support you Awkward Seal!" allow-enter :max="32" :min="18" :readonly="true")
                     .badgepack(style="text-align:right")
-                        img(src="@/assets/sealpixel.jpeg" style="width:32px;height:32px;")
+                        img(src="/img/sealpixel.jpeg" style="width:32px;height:32px;")
                         | +3
                         pre
-                        img(src="@/assets/iceberg.png" style="width:32px;height:32px;")
+                        img(src="/img/iceberg.png" style="width:32px;height:32px;")
                         | +1
                         pre
                         | Baksa Gimm
-
     br
     br
     br
@@ -143,54 +132,34 @@ export default {
         };
     },
     mounted() {
-        window.sui_textarea = {
-            init: (el) => {
-                let setup = (el) => {
-                    el.setAttribute('rows', '1');
-                    let parent = el.parentElement;
-                    let replica = document.createElement('div');
-                    replica.classList.add('textarea');
-                    parent.insertBefore(replica, el);
-                    replica.append(el);
-                    el.addEventListener('input', (e) => {
-                        let target = e.target;
-                        target.parentNode.dataset.replica = target.value;
-                    });
-                    el.addEventListener('focus', (e) => {
-                        let target = e.target;
-                        let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui-textarea') && !par.classList.contains('focus'))
-                            par.classList.add('focus');
-
-                    });
-                    el.addEventListener('blur', (e) => {
-                        let target = e.target;
-                        let par = target.parentNode.parentNode;
-                        if (par.classList.contains('sui-textarea') && par.classList.contains('focus'))
-                            par.classList.remove('focus');
-                    });
-                };
-
-                if (el) setup(el);
-                else {
-                    el = document.getElementsByTagName('textarea');
-                    for (let i = 0; i < el.length; i++) {
-                        if (el[i].parentNode.classList.contains('sui-textarea'))
-                            setup(el[i]);
-                    }
-                }
+        this.$refs.pixel.addList([
+            {
+                image: '/img/sealawkward.jpeg',
+                title: 'Awkward Seal',
+                price: '$99.99'
+            },
+            {
+                image: '/img/penguin.png',
+                title: 'Penguin',
+                price: '$9.99'
+            },
+            {
+                image: '/img/iceberg.png',
+                title: 'Ice berg',
+                price: '$4.99'
             }
-        };
-        window.sui_textarea.init();
+        ]);
     }
 };
 </script>
 
 <style scoped lang="less">
-.newBadge{
-    margin: 0px -.5em;
-    width: calc(100% + 1em);
-    max-width: unset !important;
+.createNew {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .board {
     display: flex;
@@ -218,6 +187,7 @@ export default {
         justify-content: space-between;
     }
 }
+
 .badgepack {
 
     & > * {
@@ -226,6 +196,7 @@ export default {
         line-height: 32px;
     }
 }
+
 .head_card {
     //max-width: 640px;
     //width: 70%
