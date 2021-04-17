@@ -167,6 +167,7 @@ div.sui-input {
             }
         }
 
+        .left,
         .right {
             background-color: var(--alert-screen);
             color: var(--alert);
@@ -315,11 +316,14 @@ div.sui-input {
     }
 
     &.left {
-        &.error > input:focus {
-            & ~ .left {
+        &.error input:focus {
+            & ~ .left-wrapper > .left {
                 border-color: var(--alert);
                 color: var(--alert);
                 background-color: var(--alert-screen);
+                & > i {
+                    color: var(--alert);
+                }
             }
         }
     }
