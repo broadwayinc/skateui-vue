@@ -196,6 +196,10 @@ div.sui-card {
 
         & + .content {
             padding-top: 0.8rem;
+
+            & + .button_footer:not(.sticky) {
+                padding-top: 0;
+            }
         }
     }
 
@@ -290,6 +294,7 @@ div.sui-card {
 
     & > .button_footer:not(.sticky) {
         text-align: right;
+        padding-top: 0.8rem;
 
         &:not(:empty) {
             padding-bottom: 1.5em;
