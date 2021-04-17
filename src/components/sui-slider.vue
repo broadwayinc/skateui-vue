@@ -18,7 +18,6 @@
 export default {
     name: "ss-slide",
     props: {
-        height: Number,
         nullIcon: String | Boolean,
         nullColor: String,
         paginationBlurColor: String,
@@ -36,7 +35,6 @@ export default {
     },
     data() {
         return {
-            imgLoaded: {},
             eventId: null,
             slider: null,
             currentSlideIndex: 0,
@@ -155,7 +153,6 @@ export default {
             let obj = {
                 '--slideFocus': this.paginationFocusColor || this.color['--content-focus'],
                 '--slideBlur': this.paginationBlurColor || this.color['--content-text'],
-                // height: this.height + 'px'
             };
             return obj;
         },
