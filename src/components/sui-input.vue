@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         arrowSelection(event) {
-            if(this.option.length) {
+            if(this.option?.length) {
                 if(event.code === 'ArrowUp' && this.currentSelection > -1) {
                     this.currentSelection -= 1;
                 }
