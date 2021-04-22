@@ -1,5 +1,5 @@
 <template lang="pug">
-.sui-list(style="--textclamp: 3;" :style="{'--readmore':'\"...Read More\"'}")
+.sui-list(style="--textclamp: 3;" :style="cssVar")
     .article(v-if="$slots.pre")
         .content
             slot(name="pre")
@@ -42,10 +42,18 @@ export default {
             type: Number,
             default: 6
         },
+        minColumns: {
+            type: Number,
+            default: 1
+        },
         endOfList: {
             type: Function,
             default: () => {
             }
+        },
+        readmore: {
+            type: String,
+            default: '"...Read More"'
         }
     },
     data() {
@@ -59,7 +67,6 @@ export default {
         if (this.sets < 2)
             throw 'need at least 2 sets';
     },
-
     methods: {
         removeList(url) {
             if (url) {
@@ -194,6 +201,23 @@ export default {
                 this.endOfList(true);
             }
         }
+    },
+    computed: {
+        cssVar() {
+            let col = this.minColumns;
+            if (col < 1)
+                throw 'min-columns should be at least 1';
+            let css = '';
+            while (col--) {
+                css += '1fr ';
+            }
+            return {
+                '--list-col-desktop': css + '1fr 1fr',
+                '--list-col-laptop': css + '1fr',
+                '--list-col-phone': css,
+                '--readmore': this.readmore
+            };
+        }
     }
 };
 </script>
@@ -202,12 +226,12 @@ export default {
 @import "../assets/viewport.less";
 
 div.sui-list {
-    --grid: 1fr 1fr 1fr;
+    --grid: var(--list-col-desktop);
     @media @laptop {
-        --grid: 1fr 1fr;
+        --grid: var(--list-col-laptop);
     }
     @media @phone {
-        --grid: 1fr;
+        --grid: var(--list-col-phone);
     }
     display: grid;
     grid-template-columns: var(--grid);
