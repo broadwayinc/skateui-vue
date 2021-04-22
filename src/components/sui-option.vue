@@ -37,6 +37,9 @@ label.sui-toggle {
         opacity: 0.5;
         user-select: none;
         cursor: default;
+        & > .toggle {
+            background-color: var(--content-text);
+        }
     }
 
     *:not(pre) {
@@ -60,15 +63,15 @@ label.sui-toggle {
             &:after {
                 right: 2px;
                 background-color: var(--button-text);
+                border: .1em solid var(--content_shade);
             }
-
-            background-color: var(--button-focus_faded);
+            background-color: var(--button);
         }
     }
 
     &:active:not(.disabled) {
         .toggle {
-            background-color: var(--button-focus);
+            background-color: var(--button);
         }
     }
 
@@ -84,7 +87,7 @@ label.sui-toggle {
             right: calc(1.75em - 1em + 8px - 2px);
             background-color: var(--content);
             transition: right 0.066s;
-            border: .1em solid var(--content-text_shadow);
+            border: .1em solid var(--content-text_transparent);
         }
 
         display: inline-block;
@@ -93,8 +96,8 @@ label.sui-toggle {
         width: 1.75em;
         font-size: 1.25em;
         left: -4px;
-        border: 2px solid var(--content-text_screen);
-        background-color: var(--content-text_soft);
+        border: 2px solid var(--shadow);
+        background-color: var(--content-focus-nude);
         border-radius: 1em;
     }
 }
@@ -134,13 +137,14 @@ label.sui-radio {
         &:checked + .radio {
             border: 0.2em solid var(--content);
             box-sizing: border-box;
-            background-color: var(--content-text_soft);
+            background-color: var(--content-text);
         }
     }
 
     &:active:not(.disabled) {
         & > .radio {
-            border-color: var(--content-text_soft);
+            border-color: var(--content-focus);
+            background-color: var(--content-text);
         }
     }
 
@@ -153,7 +157,7 @@ label.sui-radio {
         box-sizing: border-box;
         left: -2px;
         border: 0.2em solid var(--content-text_transparent);
-        box-shadow: 0 0 0 2px var(--content-text_soft);
+        box-shadow: 0 0 0 2px var(--content-text);
         border-radius: 1em;
         vertical-align: middle;
     }
