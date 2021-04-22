@@ -55,23 +55,10 @@ export default {
     },
     created() {
         if (window.sui_on)
-            this.eventId = window.sui_on.registerEvent.resize(() => {
-                try {
-                    this.pageWidth = document.getElementById(this.elementId).getBoundingClientRect().width;
-                } catch (e) {
-                    //console.log("Error")
-                }
-            });
+            this.eventId = window.sui_on.registerEvent.resize(this.setWidth);
     },
     mounted() {
-        this.pageWidth = document.getElementById(this.elementId).getBoundingClientRect().width;
-        this.sliderPosition = -this.pageWidth;
-        this.savedSliderPosition = -this.pageWidth;
-        try {
-            this.pageWidth = document.getElementById(this.elementId).getBoundingClientRect().width;
-        } catch (e) {
-            //console.log("Error")
-        }
+        this.setWidth();
         this.slider = document.getElementById(this.elementId);
         this.slider.addEventListener('touchstart', (e) => {
             this.registerTouchEvent(e, 'touch');
@@ -165,6 +152,18 @@ export default {
         },
     },
     methods: {
+        setWidth() {
+            this.pageWidth = document.getElementById(this.elementId).getBoundingClientRect().width;
+            this.sliderPosition = -this.pageWidth;
+            this.savedSliderPosition = -this.pageWidth;
+            this.currentSlideIndex = 0;
+
+            // try {
+            //     this.pageWidth = document.getElementById(this.elementId).getBoundingClientRect().width;
+            // } catch (e) {
+            //     //console.log("Error")
+            // }
+        },
         registerTouchEvent(e, type = 'mouse') {
             if (!this.isDisabled) {
                 if (e.target.nodeName === 'IMG') {
