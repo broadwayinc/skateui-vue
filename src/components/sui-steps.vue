@@ -47,12 +47,11 @@ div.sui-steps {
         cursor: default;
         padding-right: 1em;
         padding-top: .25em;
-        border-top: 3px solid var(--content-placeholder);
-        color: var(--content-placeholder);
+        color: var(--button-nude_placeholder);
         flex-grow: 1;
         margin-right: 3px;
         font-weight: 500;
-
+        border-top: 3px solid;
         & > .left {
             padding-right: .5em;
 
@@ -62,14 +61,14 @@ div.sui-steps {
         }
 
         &.complete {
-            border-top: 3px solid var(--content-focus_soft);
-            color: var(--content-focus_soft);
+            border-top: 3px solid var(--button);
+            color: var(--button-nude_placeholder);
         }
 
         &.current {
-            border-top: 3px solid var(--content-focus);
-            color: var(--content-focus);
-            text-shadow: 1px 1px var(--content-text_transparent);
+            border-top: 3px solid var(--button);
+            color: var(--button-nude);
+            text-shadow: 1px 1px var(--content-text_shade);
         }
     }
 
@@ -113,7 +112,7 @@ div.sui-steps {
                 position: absolute;
 
                 circle {
-                    stroke: var(--content-text_shadow);
+                    stroke: var(--button-nude_shade);
                 }
 
                 & + svg {
@@ -122,7 +121,7 @@ div.sui-steps {
                     transform-origin: 50% 50%;
 
                     circle {
-                        stroke: var(--content-focus);
+                        stroke: var(--button);
                         stroke-dasharray: calc(var(--circum) * 1em);
                         stroke-dashoffset: calc(var(--offset) * 1em);
                         transition: stroke-dashoffset .25s;
