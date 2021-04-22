@@ -148,7 +148,7 @@ div.sui-input {
     width: 18rem;
     max-width: 100%;
     margin-bottom: 1rem;
-    box-shadow: inset 0 0 0 4px var(--content-focus_screen);
+    box-shadow: inset 0 0 0 4px var(--content-focus_shadow);
 
     &.error .sui-input-wrapper {
         & > label {
@@ -169,17 +169,17 @@ div.sui-input {
 
         .left,
         .right {
-            background-color: var(--alert-screen);
+            background-color: var(--alert_shadow);
             color: var(--alert);
         }
 
         input, select {
-            background-color: var(--alert-screen);
+            background-color: var(--alert_shadow);
             border-color: var(--alert);
 
             &:focus {
                 border-color: var(--alert);
-                background-color: var(--alert-screen);
+                background-color: var(--alert_shadow);
 
                 & ~ fieldset {
                     border-color: var(--alert);
@@ -198,7 +198,7 @@ div.sui-input {
                 }
 
                 & ~ .right {
-                    background-color: var(--alert-screen) !important;
+                    background-color: var(--alert_shadow) !important;
                     color: var(--alert) !important;
                 }
             }
@@ -211,7 +211,7 @@ div.sui-input {
         &:hover {
             cursor: pointer;
             color: var(--content-focus);
-            background-color: var(--content-focus_screen);
+            background-color: var(--content-focus_shadow);
         }
     }
 
@@ -225,7 +225,7 @@ div.sui-input {
                 & ~ .right-wrapper button.left,
                 & ~ .right-wrapper button.right {
                     color: var(--content-focus);
-                    background-color: var(--content-focus_screen);
+                    background-color: var(--content-focus_shadow);
                 }
             }
         }
@@ -285,7 +285,7 @@ div.sui-input {
         & button {
             &:hover {
                 color: var(--content-focus);
-                background-color: var(--content-focus_screen);
+                background-color: var(--content-focus_shadow);
             }
         }
     }
@@ -320,7 +320,7 @@ div.sui-input {
             & ~ .left-wrapper > .left {
                 border-color: var(--alert);
                 color: var(--alert);
-                background-color: var(--alert-screen);
+                background-color: var(--alert_shadow);
                 & > i {
                     color: var(--alert);
                 }
@@ -365,7 +365,7 @@ div.sui-input {
 
         &.error > .left {
             border-color: var(--alert);
-            background-color: var(--alert-screen);
+            background-color: var(--alert_shadow);
         }
     }
 
@@ -468,7 +468,7 @@ div.sui-input {
     & .sui-input-wrapper > input,
     & .sui-input-wrapper > select {
         &::placeholder {
-            color: var(--content-placeholder);
+            color: var(--content-text_placeholder);
         }
 
         &:read-only {
@@ -544,10 +544,10 @@ div.sui-input {
 
                 & > .menu {
                     &:hover {
-                        background-color: var(--alert-screen);
+                        background-color: var(--alert_shadow);
                     }
 
-                    box-shadow: inset 0 0 0 .5px var(--alert-transparent);
+                    box-shadow: inset 0 0 0 .5px var(--alert_transparent);
                 }
             }
         }
@@ -593,7 +593,7 @@ div.sui-input {
                     cursor: pointer;
 
                     &:hover {
-                        background-color: var(--content-focus_screen);
+                        background-color: var(--content-focus_shadow);
                     }
 
                     & > * {
@@ -622,7 +622,7 @@ div.sui-input {
 
                     &.selected,
                     &:hover {
-                        background-color: var(--content-focus_screen);
+                        background-color: var(--content-focus_shadow);
                     }
 
                     box-shadow: 0 1px 0 var(--content-text_transparent);
@@ -771,7 +771,7 @@ div.sui-textarea {
 
             &:hover {
                 color: var(--content-focus);
-                background-color: var(--content-focus_screen);
+                background-color: var(--content-focus_shadow);
             }
         }
     }
@@ -855,7 +855,7 @@ div.sui-textarea {
             border: none;
 
             &::placeholder {
-                color: var(--content-placeholder);
+                color: var(--content-text_placeholder);
             }
 
             &:read-only {
@@ -876,7 +876,7 @@ div.sui-textarea {
             font-size: 1rem;
             outline: none;
             border-color: var(--content-text_transparent);
-            box-shadow: inset 0 0 0 4px var(--content-focus_screen);
+            box-shadow: inset 0 0 0 4px var(--content-focus_shadow);
             border-top: none;
             /* Place on top of each other */
             grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
