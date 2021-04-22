@@ -1,10 +1,10 @@
 <template lang="pug">
-.sui-sliderWrapper
+.sui-sliderWrapper(:style="{paddingBottom: showPagination ? '16px' : null}")
     .sui-slider(:id='elementId' :style="computedStyle")
         .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
             li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
                 .imageWrapper(:style="[style_imageWrapper(sl)]")
-                    sui-image(v-if="sl.image" :src="sl.image" :ratio="[16,9]")
+                    sui-image(v-if="sl.image" :src="sl.image" :ratio="[16,9]" :style="{display: 'block'}")
                     .slideText
                         sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
         .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
@@ -90,14 +90,6 @@ export default {
             }
             return direction;
         },
-        color() {
-            let color = {
-                '--button': '#ff851b',
-                '--content-focus': '#ff851b',
-                '--content-text': '#333333'
-            };
-            return color;
-        },
         slideArray_computed() {
             let sl = [];
             const img_to_fetch = [];
@@ -138,8 +130,8 @@ export default {
         },
         computedStyle() {
             let obj = {
-                '--slideFocus': this.paginationFocusColor || this.color['--content-focus'],
-                '--slideBlur': this.paginationBlurColor || this.color['--content-text'],
+                '--slideFocus': this.paginationFocusColor || 'var(--background-focus)',
+                '--slideBlur': this.paginationBlurColor || 'var(--background-text_placeholder)',
             };
             return obj;
         },
@@ -281,7 +273,7 @@ export default {
             };
         },
         style_imageWrapper(sl) {
-            const height = this.showPagination ? 'calc(100% - 16px)' : null;
+            // const height = this.showPagination ? 'calc(100% - 16px)' : null;
             let alignItems = 'center';
             try {
                 switch (sl.textAlign[1]) {
@@ -294,7 +286,10 @@ export default {
                 }
             } catch (err) {
             }
-            return {height, alignItems};
+            return {
+                // height,
+                alignItems
+            };
         }
     }
 
