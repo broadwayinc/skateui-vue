@@ -311,9 +311,35 @@
 
                 this.img = element;
                 this.img.setAttribute('alt', brokenMsg);
+
+                let grandParent = document.createElement('div');
+                grandParent.classList.add('sui-image-parent');
+                this.grandParent = grandParent;
+
                 let parent = document.createElement('div');
                 parent.classList.add('sui-image');
                 this.parent = parent;
+
+                let inlineStyle = [];
+                for (let i = 0, l = this.img.style.length; i < l; i++)
+                    inlineStyle.push(this.img.style[i]);
+
+                for (let s of inlineStyle) {
+                    this.grandParent.style.setProperty(s, this.img.style.getPropertyValue(s));
+                    this.img.style.removeProperty(s);
+                }
+
+                let imgClassList = [];
+                let imgClassListLength = this.img.classList.length;
+
+                for (let i = 0; i < imgClassListLength; i++) {
+                    imgClassList.push(this.img.classList[i]);
+                }
+
+                for (let c of imgClassList) {
+                    this.parent.classList.add(c);
+                    this.img.classList.remove(c);
+                }
 
                 if (nullImage && typeof nullImage === 'string') {
                     this.nullImage = nullImage;
@@ -321,8 +347,9 @@
                     this.parent.style.setProperty('--null-image', url);
                 }
 
-                this.img.parentNode.insertBefore(parent, this.img);
-                parent.append(this.img);
+                this.grandParent.append(this.parent);
+                this.img.parentNode.insertBefore(this.grandParent, this.img);
+                this.parent.append(this.img);
 
                 this.parentComputedStyle = window.getComputedStyle(this.parent);
 
@@ -639,9 +666,11 @@
                         this.img.classList.add('ratio');
                     let paddingTop = ratio[1] / (ratio[0] / 100);
                     this.parent.style.paddingTop = paddingTop + '%';
+                    this.parent.style.overflow = 'hidden';
                     this.ratio = ratio;
                 } else if (this.img.classList.contains('ratio')) {
                     this.img.classList.remove('ratio');
+                    this.parent.style.overflow = 'unset';
                     this.parent.style.paddingTop = null;
                 }
             }
