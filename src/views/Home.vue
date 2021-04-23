@@ -1,10 +1,10 @@
 <template lang="pug">
 div
-    //sui-card
-        //sui-slider(:slideArray="slide" :show-arrow="true" :height=500)
     sui-card(:style="{display:'block'}")
         template(#content)
             sui-slider(:slideArray="slide" :show-arrow="false" :show-pagination="true")
+    br
+    br
     sui-card
         template(#title) SVG
         template(#content)
@@ -15,6 +15,8 @@ div
             sui-svg(svg="javascript")
             pre
             sui-svg(color="green" svg-hover="red" :size=15 svg="M 4 8 L 10 1 L 13 0 L 12 3 L 5 9 C 6 10 6 11 7 10 C 7 11 8 12 7 12 A 1.42 1.42 0 0 1 6 13 A 5 5 0 0 0 4 10 Q 3.5 9.9 3.5 10.5 T 2 11.8 T 1.2 11 T 2.5 9.5 T 3 9 A 5 5 90 0 0 0 7 A 1.42 1.42 0 0 1 1 6 C 1 5 2 6 3 6 C 2 7 3 7 4 8 M 10 1 L 10 3 L 12 3 L 10.2 2.8 L 10 1")
+    br
+    br
     sui-card
         template(#image)
             img(style='width: 20rem' src="/img/skate.jpg")
@@ -46,78 +48,85 @@ div
                 Content inside the card has an indent/styling depending on what/where you put in stuff
             br
             br
-            sui-accordion
-                .title Fonts
-                hr
-                .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
-                    br
-                    p OS system fonts should be used.
-                    br
-                    h1 This is &lt;h1&gt;
-                    br
-                    h2 This is &lt;h2&gt;
-                    br
-                    h3 This is &lt;h3&gt;
-                    br
-                    h4 This is &lt;h4&gt;
-                    br
-                    h5 This is &lt;h5&gt;
-                    br
-                    h6 This is &lt;h6&gt;
-                    br
-                    p This is &lt;p&gt;
-                    br
-                    small This is &lt;small&gt;
+            sui-accordion(title="Fonts")
+                br
+                p OS system fonts should be used.
+                br
+                h1 This is &lt;h1&gt;
+                br
+                h2 This is &lt;h2&gt;
+                br
+                h3 This is &lt;h3&gt;
+                br
+                h4 This is &lt;h4&gt;
+                br
+                h5 This is &lt;h5&gt;
+                br
+                h6 This is &lt;h6&gt;
+                br
+                p This is &lt;p&gt;
+                br
+                small This is &lt;small&gt;
             br
-            sui-accordion
-                .title Color Scheme
-                hr
-                .content(style="padding: 0 .5em;" onclick="(function(event){event.stopPropagation()})(event)")
-                    br
-                    div(v-for="(c, k) in colorScheme" :style="{display:'flex',alignItems:'center'}")
-                        p {{k}} : {{c}}&nbsp;
-                        div(:style="{width:'1em',height:'1em',backgroundColor:c,border:'1px solid'}")
+            sui-accordion(title='Color Scheme')
+                br
+                div(v-for="(c, k) in colorScheme" :style="{display:'flex',alignItems:'center'}")
+                    p {{k}} : {{c}}&nbsp;
+                    div(:style="{width:'1em',height:'1em',backgroundColor:c,border:'1px solid'}")
         template(#buttonFooter)
         template(#footer) I am your footer! The font size here is 0.8rem unless tag is used.
     br
     br
     div
-        sui-card EMPTY
-        sui-card
-            template(#title) TITLE
-        sui-card
+        sui-card(:style="{marginRight: '1rem'}")
+            template Default Slot
+        sui-card(:style="{marginRight: '1rem'}")
             template(#content) CONTENT
-        sui-card
-            template(#buttonFooter) BUTTON
-        sui-card
-            template(#footer) FOOTER
-        sui-card
+        sui-card(:style="{marginRight: '1rem'}")
             template(#title) TITLE
             template(#content) CONTENT
             template(#footer) FOOTER
-        sui-card
+        sui-card(:style="{marginRight: '1rem'}")
+            template(#title) TITLE
+            template(#content) CONTENT
+            template(#buttonFooter) BUTTON
+            template(#footer) FOOTER
+        sui-card(:style="{marginRight: '1rem'}")
+            template(#title)
+                div Custom title
+            template(#content) CONTENT
+            template(#buttonFooter) BUTTON
+            template(#footer) FOOTER
+        sui-card(:style="{marginRight: '1rem'}")
             template(#title) TITLE
             template(#image)
-                div(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+                div(style="padding: 1rem;background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
             template(#content) CONTENT
             template(#buttonFooter) BUTTON
             template(#footer) FOOTER
-        sui-card
+        sui-card(:style="{marginRight: '1rem'}")
             template(#image)
-                div(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+                div(style="padding: 1rem;background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
             template(#content) CONTENT
             template(#buttonFooter) BUTTON
             template(#footer) FOOTER
-        sui-card(align="center")
-            template(#title) TITLE (.center)
+        sui-card(content-center :style="{marginRight: '1rem'}" :close-button="()=>{console.log('closed')}")
+            template(#title) TITLE (content-center)
             template(#image)
-                div(style="background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+                div(style="padding: 1rem;background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
+            template(#content) CONTENT (.center)
+            template(#buttonFooter) BUTTON (.center)
+            template(v-slot:footer) FOOTER (.center)
+        sui-card(disabled)
+            template(#title) TITLE (content-center)
+            template(#image)
+                div(style="padding: 1rem;background-color:var(--content-text);color:var(--content);text-align:center;") IMAGE
             template(#content) CONTENT (.center)
             template(#buttonFooter) BUTTON (.center)
             template(v-slot:footer) FOOTER (.center)
     br
     br
-    sui-card
+    sui-card(content-center)
         template(v-slot:title)
             h6 TITLE
         template(v-slot:content).
@@ -133,19 +142,20 @@ div
             it is not advised to use it with the title. (or vice versa)
     br
     br
-    sui-card(title-background title-color)
+    sui-card(sticky-title)
         template(#title)
-            div
-                img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em .5em .5em 0;border-radius:2em;border:solid 1px;' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2U5Yjg5NGM1LWQ1NDgtNGZkYi04YTJlLTdkNTllOTIyNzMyMC9pbWFnZS8yODg4NjcwX2tEVGFDRmUyMDcwNjc2NTQiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjQ4MCwiaGVpZ2h0Ijo0ODAsImZpdCI6Im91dHNpZGUifX19")
+            div(style="background-color:var(--analogous_placeholder);color:var(--analogous-text);")
+                img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em;border-radius:2em;' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2U5Yjg5NGM1LWQ1NDgtNGZkYi04YTJlLTdkNTllOTIyNzMyMC9pbWFnZS8yODg4NjcwX2tEVGFDRmUyMDcwNjc2NTQiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjQ4MCwiaGVpZ2h0Ijo0ODAsImZpdCI6Im91dHNpZGUifX19")
                 p(style="vertical-align:middle;display:inline;") The Turtle Has Escaped!
 
         template(#content).
             I changed up some styles in the title.
             We can highlight the title to alert users, or make use for something else.
 
-            In this example, you may want to remove the default top padding of the title.
-            simply add "margin-top: -1em" on the direct child div in the title div.
+            By inserting a div, the title will escape the default paddings.
             (have a look inside this .vue file)
+
+            Also, the title can be sticky
         template(#footer) I am your footer... don't ignore me...
     br
     br
@@ -174,7 +184,6 @@ div
             br
             p We will use the ".button_footer" div for card buttons.
         template(#buttonFooter)
-            //.hideonphone // Jinyoon redo this part
             sui-button HELLO
         //.button_footer.sticky.viewonphone
             sui-button HELLO
@@ -554,29 +563,25 @@ div
         template(#title)
             h6 Accordion
         template(#content)
-            sui-accordion
-                .title Click Me
-                hr
-                .content(onclick="(function(event){event.stopPropagation()})(event)").
-                    &nbsp;
-                    Look, I was gonna go easy on you
-                    Not to hurt your feelings
-                    But I'm only going to get this one chance
-                    Something's wrong, I can feel it
-                    (Six minutes)
-                    Just a feeling I've got
-                    Like something's about to happen
-                    But I don't know what
-                    If that means what I think it means
-                    We're in trouble, big trouble
-                    And if he is as bananas as you say
-                    I'm not taking any chances
-                    You are just what the doc ordered
-                    I'm beginnin' to feel like a Rap God, Rap God
-                    All my people from the front to the back nod, back nod
-                    Now, who thinks their arms are long enough
-                    To slap box, slap box?
-                    They said I rap like a robot, so call me Rap-bot
+            sui-accordion(title="Click Me").
+                Look, I was gonna go easy on you
+                Not to hurt your feelings
+                But I'm only going to get this one chance
+                Something's wrong, I can feel it
+                (Six minutes)
+                Just a feeling I've got
+                Like something's about to happen
+                But I don't know what
+                If that means what I think it means
+                We're in trouble, big trouble
+                And if he is as bananas as you say
+                I'm not taking any chances
+                You are just what the doc ordered
+                I'm beginnin' to feel like a Rap God, Rap God
+                All my people from the front to the back nod, back nod
+                Now, who thinks their arms are long enough
+                To slap box, slap box?
+                They said I rap like a robot, so call me Rap-bot
     br
     br
     sui-card(content-center :style="{width: '600px'}")
@@ -700,7 +705,7 @@ div
             sui-option(type="radio" label="Radio 2" value="2" name="bigradio" large disabled)
     br
     br
-    sui-card(close-button)
+    sui-card(:close-button="()=>{console.log('close')}")
         template(#title)
             h6 Image Editor
         template(#image)
@@ -729,7 +734,7 @@ div
                 It should always be separate page.
     br
     br
-    sui-card(close-button)
+    sui-card(:close-button="()=>{console.log('close')}")
         template(#title)
             | Expected Delivery: 1985 / Aug / 20
         template(#content)
@@ -747,7 +752,7 @@ div
                     sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', icon: 'add', action: () => {}}, {position: 'left', icon: 'remove', action: () => {}}]")
     br
     br
-    sui-card(close-button)
+    sui-card(:close-button="()=>{console.log('close')}")
         template(#title)
             | Digital Coupon
         template(#content)
@@ -765,7 +770,7 @@ div
                     sui-input(style="width:10rem" label="Quantity" type="number" value="1" :button="[{position: 'right', icon: 'add', action: () => {}}, {position: 'left', icon: 'remove', action: () => {}}]")
     br
     br
-    sui-card(title-background="yellow" close-button)
+    sui-card(:close-button="()=>{console.log('close')}")
         template(#title)
             | NFT - Digital assets (click for more info)
         template(#content)
@@ -831,7 +836,6 @@ div
     br
 </template>
 <script>
-import {ColorMangle} from 'colormangle';
 import SuiButton from "../components/sui-button";
 
 export default {
@@ -844,9 +848,9 @@ export default {
                 "text": "Welcome",
                 "textAlign": ['left', 'top'],
                 "uniqueId": "xe290IF52xy3",
-                'src': 'https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2E4MTVhZjc3LTA5NmUtNDU3Zi04NDc2LTk5NGZiYzhmNWRiOC9pbWFnZS8xMzI5MjdfMnliVHQ4SlMxNjEzNTcwNyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjgwMCwiZml0IjoiaW5zaWRlIn19fQ=='
+                'src': './img/footprint.png'
             }, {"text": "Hello Dog", "textAlign": ['right', 'bottom'], "uniqueId": "xe290IF52xy3"}],
-            colorScheme: new ColorMangle('#00807f').colorScheme(),
+            colorScheme: window.sui_app.colorScheme,
             searchValue: '',
             suiInputSelection1: [
                 {value: 'manual', text: 'Style your menu manually!'},
@@ -968,7 +972,7 @@ Seeing my face in lights or my name in marquees found down on Broadway`
         };
     },
     mounted() {
-        this.$refs.list.addList(this.list);
+        // this.$refs.list.addList(this.list);
     },
     computed: {
         console: () => console
