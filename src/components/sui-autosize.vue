@@ -230,7 +230,7 @@ export default {
         border-color: var(--content-text_shadow);
 
         &.focus, &:hover {
-            border-color: var(--content-placeholder);
+            border-color: var(--content-text_placeholder);
         }
     }
 
@@ -261,7 +261,7 @@ export default {
             width: 100%;
 
             &::placeholder {
-                color: var(--content-placeholder);
+                color: var(--content-text_placeholder);
             }
 
             &:read-only {
