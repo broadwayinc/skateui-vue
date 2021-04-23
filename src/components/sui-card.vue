@@ -1,16 +1,21 @@
 <template lang='pug'>
-div.sui-card(:class="{center: align === 'center'}" :style="[customStyle, {color: color ? color : null}]")
-    .title(v-if="hasTitleSlot()" :style="titleStyle")
-        slot(name="title")
-        .close(v-if="closeButton")
-    .image(v-if="hasImageSlot()")
+div.sui-card
+    template(v-if="hasTitleSlot()")
+        sui-sticky(v-if="stickyTitle" :style="{zIndex:1}")
+            .title(:class="{hasCloseButton: typeof closeButton === 'function'}")
+                slot(name="title")
+                .close(v-if="typeof closeButton === 'function'" @click.stop="closeButton")
+        .title(v-else :class="{hasCloseButton: typeof closeButton === 'function'}")
+            slot(name="title")
+            .close(v-if="typeof closeButton === 'function'" @click.stop="closeButton")
+    .image(v-if="hasImageSlot()" :class="{disabled}")
         slot(name="image")
-    .content(v-if="hasContentSlot()" :class="{center: contentCenter}" :style="{opacity: disabled ? 0.5 : 1}")
+    .content(v-if="hasContentSlot()" :class="{center: contentCenter, disabled}")
         slot(name="content")
     slot
-    .button_footer(v-if="hasButtonFooterSlot()" :class="{sticky: stickyMobileButtonFooter && sticky}")
+    .button(v-if="hasButtonFooterSlot()" :class="{disabled, sticky: stickyMobileButtonFooter}")
         slot(name="buttonFooter")
-    .footer(v-if="hasFooterSlot()" :style="{opacity: footerAlert !== false ? 1 : 0.5, color: footerAlert}")
+    .footer(v-if="hasFooterSlot()" :class="{disabled}")
         slot(name="footer")
 </template>
 
@@ -18,44 +23,19 @@ div.sui-card(:class="{center: align === 'center'}" :style="[customStyle, {color:
 export default {
     name: 'sui-card',
     props: {
-        align: String,
-        background: String,
-        color: String,
-        titleBackground: Boolean | String,
-        titleColor: [String, Boolean],
         contentCenter: Boolean,
-        footerAlert: [String, Boolean],
         stickyMobileButtonFooter: Boolean,
-        closeButton: Boolean,
+        closeButton: Function,
         disabled: Boolean,
-        customStyle: Object
+        stickyTitle: Boolean
     },
     data() {
         return {
-            resizeEventId: null,
-            sticky: false
+            resizeEventId: null
         };
-    },
-    mounted() {
-        if (this.stickyMobileButtonFooter) {
-            this.resizeEventId = window.sui_on.registerEvent.resize(() => {
-                if (window.sui_app.viewport === 'phone') {
-                    this.sticky = true;
-                } else {
-                    this.sticky = false;
-                }
-            });
-        }
     },
     destroyed() {
         window.sui_on.removeEvent.resize(this.resizeEventId);
-    },
-    computed: {
-        titleStyle() {
-            let color = (this.titleColor === '' || typeof this.titleColor === 'boolean') && this.titleColor !== false ? 'var(--content-focus-text)' : this.titleColor;
-            let bgColor = (this.titleBackground === '' || typeof this.titleBackground === 'boolean') && this.titleBackground !== false ? 'var(--content-focus)' : this.titleBackground;
-            return {color: color, backgroundColor: bgColor};
-        }
     },
     methods: {
         hasTitleSlot() {
@@ -80,56 +60,75 @@ export default {
 @import '../assets/viewport.less';
 
 div.sui-card {
-    margin: 2px;
+    .disabled {
+        opacity: .5;
+        user-select: none;
+        pointer-events: none;
+
+        * {
+            user-select: none !important;
+            pointer-events: none !important;
+        }
+    }
+
     tab-size: 1em;
     background-color: var(--content);
     color: var(--content-text);
     border-radius: 8px;
-    padding: 0 1.3em;
+
+    --side-padding: 1.3em;
+
     box-sizing: border-box;
+    @media @tablet {
+        display: block;
+    }
+
     @media @phone {
-        padding: 0 .65em;
+        --side-padding: .65em;
+        //padding: 0 .65em;
         border-radius: 0;
     }
 
-    box-shadow: 0 0 0 2px var(--content-text_screen);
+    padding: 0 var(--side-padding);
+
+    box-shadow: 0 0 0 1px var(--content-text_shadow);
     text-align: left;
-    //max-width: calc(100% - 2.6em);
     max-width: 100%;
+    //max-width: 100vw;
 
     display: inline-block;
     vertical-align: top;
 
-    &.center {
-        & .title, & .content, & .button_footer, & .footer {
-            text-align: center;
-        }
-    }
-
     * {
-        //margin: 0; ??
         white-space: pre-wrap;
         word-break: break-word;
     }
 
-    & > .title, & > .image {
+    .title, & > .image {
         overflow: hidden;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
     }
 
-    & > .title:not(:empty) {
+    .title:not(:empty) {
+        background-color: var(--content);
+
+        &.hasCloseButton {
+            padding-right: 2rem;
+
+            & > div:not(.close) {
+                margin-right: -2rem;
+            }
+        }
+
         position: relative;
         padding-top: 0.5rem;
-        padding-left: 1.3em;
-        padding-right: 1.3em;
-        margin: 0 -1.3em;
-        @media @phone {
-            margin: 0 -0.65em;
-        }
-        min-height: 2rem;
+        padding-left: var(--side-padding);
+        padding-right: var(--side-padding);
+        margin: 0 calc(-1 * var(--side-padding));
+
         line-height: 2rem;
-        border-bottom: 1px solid var(--content-text_transparent);
+        border-bottom: 1px solid var(--content-text_shade);
         text-shadow: 1px 1px var(--content-text_shadow);
 
         & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > small {
@@ -140,7 +139,7 @@ div.sui-card {
         }
 
         & > div:not(.close) {
-            margin-top: -.5em;
+            margin: -.5em calc(-1 * var(--side-padding)) 0;
         }
 
         & + .image {
@@ -150,10 +149,10 @@ div.sui-card {
 
         & > .close {
             &::after {
-                content: '\00D7';
-                font-size: 1.3em;
+                content: '✕';
                 line-height: 1;
                 vertical-align: top;
+                cursor: pointer;
             }
 
             &:hover {
@@ -161,16 +160,12 @@ div.sui-card {
             }
 
             opacity: .5;
-            cursor: pointer;
-            width: 1.3em;
             text-align: center;
             display: block;
             position: absolute;
-            right: 0.3em;
-            @media @phone {
-                right: 1em;
-            }
-            top: 0.3em;
+            right: 0.5em;
+            top: 0.5em;
+            height: 1em;
         }
     }
 
@@ -197,7 +192,7 @@ div.sui-card {
         & + .content {
             padding-top: 0.8rem;
 
-            & + .button_footer:not(.sticky) {
+            & + .button:not(.sticky) {
                 padding-top: 0;
             }
         }
@@ -263,14 +258,14 @@ div.sui-card {
             }
         }
 
-        & > hr {
+        & > hr, .sui-accordion hr {
             margin-top: 1em;
             border-left: 0;
             border-right: 0;
             margin-left: -.5em;
             margin-right: -.5em;
             max-width: unset;
-            width: calc(100% + 1em);
+            //width: calc(100% + 1em);
         }
 
         &.center {
@@ -282,7 +277,7 @@ div.sui-card {
                 text-align: center;
             }
 
-            & + .button_footer {
+            & + .button {
                 text-align: center;
 
                 & + .footer {
@@ -292,7 +287,7 @@ div.sui-card {
         }
     }
 
-    & > .button_footer:not(.sticky) {
+    & > .button:not(.sticky) {
         text-align: right;
         padding-top: 0.8rem;
 
@@ -323,18 +318,21 @@ div.sui-card {
         }
     }
 
-    & > .button_footer.sticky {
-        text-align: right;
-        position: fixed;
-        overflow-y: hidden;
-        overflow-x: scroll;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 9999;
-        background-color: var(--content);
-        padding: 8px;
-        border-top: 2px solid var(--content-text_transparent);
+    & > .button.sticky:not(empty) {
+        padding-bottom: 1.5em;
+        @media @phone {
+            text-align: right !important;
+            position: fixed;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background-color: var(--content);
+            padding: 8px;
+            border-top: 1px solid var(--content-text_transparent);
+        }
     }
 
     & > .footer {
