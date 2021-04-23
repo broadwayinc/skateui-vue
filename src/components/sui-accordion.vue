@@ -1,13 +1,20 @@
 <template lang='pug'>
-    .sui-accordion(onclick="sui_accordion.handler(event)")
+.sui-accordion
+    .sui-accordion-head(onclick="sui_accordion.handler(event)")
+        .sui-accordion-title {{title}}
+        hr
+    .sui-accordion-content
         slot
 </template>
 
 <script>
 export default {
     name: 'sui-accordion',
+    props: {
+        title: String
+    },
     mounted() {
-        if(!window.sui_accordion) {
+        if (!window.sui_accordion) {
             window.sui_accordion = {
                 timeout: null,
                 handler: (ev) => {
@@ -52,53 +59,61 @@ export default {
 div.sui-accordion {
     position: relative;
 
-    & > .title {
-        & + hr {
-            margin-top: 0;
-            border-left: 0;
-            border-right: 0;
-            max-width: unset;
-            width: 100%;
+    & > .sui-accordion-head {
+
+        hr {
+            display: none;
         }
 
-        &::after {
-            content: "+";
-            font-size: 1.5em;
-            line-height: 2rem;
-            position: absolute;
-            right: 0;
-            font-weight: 300;
-            width: 1em;
-            text-align: center;
-        }
-
-        padding-right: 1.5em;
-        padding-left: .25rem;
-        box-sizing: border-box;
-        width: 100%;
-        cursor: pointer;
-        position: relative;
-        line-height: 2rem;
-
-        color: var(--content-text_soft);
-
-        &:hover {
-            text-shadow: 1px 1px var(--content-text_shadow);
-            color: var(--content-text);
+        & > .sui-accordion-title:not(:empty) {
+            & + hr {
+                display: block;
+                margin-top: 0;
+                border-left: 0;
+                border-right: 0;
+                max-width: unset;
+                //width: 100%;
+            }
 
             &::after {
+                content: "+";
+                font-size: 1.5em;
+                line-height: 2rem;
+                position: absolute;
+                right: 0;
+                font-weight: 300;
+                width: 1em;
+                text-align: center;
+            }
+
+            padding-right: 1.5em;
+            //padding-left: .25rem;
+            box-sizing: border-box;
+            width: 100%;
+            cursor: pointer;
+            position: relative;
+            line-height: 2rem;
+
+            color: var(--content-text_soft);
+
+            &:hover {
                 text-shadow: 1px 1px var(--content-text_shadow);
+                color: var(--content-text);
+
+                &::after {
+                    text-shadow: 1px 1px var(--content-text_shadow);
+                }
             }
         }
     }
 
-    &.minus > .title {
+    &.minus > .sui-accordion-head > .sui-accordion-title {
         &::after {
             content: "-";
         }
     }
 
-    & > .content {
+    & > .sui-accordion-content {
         overflow: hidden;
         max-height: 0;
         transition: max-height .5s;
