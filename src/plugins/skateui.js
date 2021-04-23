@@ -13,6 +13,8 @@ import SuiSteps from '../components/sui-steps';
 import SuiImage from '../components/sui-image';
 import SuiSvg from '../components/sui-svg';
 import SuiList from '../components/sui-list';
+import SuiApp from '../components/sui-app';
+import SuiSticky from '../components/sui-sticky';
 import '@/lib/skateui.js';
 
 export default {
@@ -32,5 +34,7 @@ export default {
         Vue.component('sui-svg', SuiSvg);
         Vue.component('sui-steps', SuiSteps);
         Vue.component('sui-image', SuiImage);
+        Vue.component('sui-app', SuiApp);
+        Vue.component('sui-sticky', SuiSticky);
     }
 }
