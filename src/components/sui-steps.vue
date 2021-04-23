@@ -47,7 +47,7 @@ div.sui-steps {
         cursor: default;
         padding-right: 1em;
         padding-top: .25em;
-        color: var(--button-nude_placeholder);
+        color: var(--content-text_transparent);
         flex-grow: 1;
         margin-right: 3px;
         font-weight: 500;
@@ -61,7 +61,7 @@ div.sui-steps {
         }
 
         &.complete {
-            border-top: 3px solid var(--button);
+            border-top: 3px solid var(--button_placeholder);
             color: var(--button-nude_placeholder);
         }
 
