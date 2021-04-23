@@ -37,6 +37,8 @@ export default {
     word-break: break-word;
 }
 button.sui-button, a.sui-button {
+    border-radius: 2px;
+
     max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
     min-height: 2.8rem;
@@ -52,11 +54,12 @@ button.sui-button, a.sui-button {
     cursor: pointer;
     user-select: none;
 
-    border: solid 0.25rem var(--button-focus);
-    box-shadow: 0 0 0 0.125rem var(--shadow);
+    border: solid 0.2rem var(--button-border);
+
+
     font-weight: 500;
-    text-shadow: 0 0 8px var(--button-focus);
-    background-color: var(--button-focus_faded);
+    //text-shadow: 0 0 8px var(--button);
+    background-color: var(--button);
     color: var(--button-text);
     text-transform: uppercase;
 
@@ -81,24 +84,24 @@ button.sui-button, a.sui-button {
     }
 
     &:hover {
-        background-color: var(--button-focus);
+        box-shadow: 0 0 0 2px var(--shade);
     }
 
     &:active {
         box-shadow: none;
-        border: solid 0.25rem var(--shade);
+        border-color: var(--button-border);
     }
 
     &.nude {
         background-color: unset;
-        color: var(--button);
+        color: var(--button-nude);
         box-shadow: none;
         border: solid 0.25rem transparent;
         text-shadow: none;
         font-weight: 600;
 
         &:hover {
-            text-shadow: 1px 1px var(--content-text_shadow);
+            text-shadow: 1px 1px var(--transparent);
         }
 
         &:active {
