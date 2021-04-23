@@ -1,12 +1,12 @@
 <template lang="pug">
 div
-    sui-app(:hide-navbar='true' :notification="notification" color-scheme='#1B8381')
+    sui-app(:hide-navbar='true' :notification="notification" color-scheme='#FFD43B')
         template(v-slot:nav)
             .nav
                 .nav-info
                     i.material-icons.hamburger(onclick="sui_popup.handler({id:'hamburger-menu', pop:'left', closeOnBackgroundClick:true})") menu
                     // img(src="/img/pixelheart.png")
-                    h6 SPRITEMINT
+                    h6 PIXSHELL
                 .nav-icon
                     sui-button(type="nude") Login
                     sui-button Sign In
@@ -15,9 +15,17 @@ div
             //section.slide
             .app-grid
                 #search
+                    p search
                 #hashtag
-                #sidenav.hideontablet
+                    p hashtag
+                #sidenav
                     sui-sticky(:offset="18" :style="{paddingLeft: '1rem'}")
+                        .menublock(v-for="(sub, name) in navigation" :class="{disabled:sub.disabled, selected:sub.selected}")
+                            .left(v-if="sub.icon")
+                                i.material-icons {{sub.icon}}
+                            .new(v-if="sub.new")
+                                small {{sub.new}}
+                            a {{name}}
                         template(v-for="(nav, name) in customNavigation")
                             template(v-if="name !== '%%null%%'")
                                 .menublock(v-for="(sub, name) in nav" :class="{disabled:sub.disabled, selected:sub.selected}")
@@ -26,8 +34,8 @@ div
                                     .new(v-if="sub.new")
                                         small {{sub.new}}
                                     a {{name}}
-                #list
-                    router-view(v-show="selectedListMode !== listmode.length - 1")
+                #view
+                    router-view
     sui-card#hamburger-menu
         template(#title)
             | Welcome Baksa Gimm!
@@ -57,7 +65,6 @@ div
                     a {{name}}
 </template>
 <script>
-import navbarImgSample from '../public/img/bunnykit.gif';
 
 export default {
     name: "app",
@@ -67,9 +74,6 @@ export default {
                 text: 'There is no search result',
                 icon: 'help'
             },
-            appName: 'Bunnykit',
-            navbarImage: navbarImgSample,
-            selectedListMode: 2,
             navigation: {
                 'Account Settings': {
                     icon: 'person',
@@ -110,22 +114,6 @@ export default {
                 }
             }
         };
-    },
-    computed: {
-        listmode() {
-            return [(() => {
-                for (let nav in this.navigation) {
-                    if (this.navigation[nav]?.selected)
-                        return nav;
-                }
-            })(), 'Images', 'Shop', 'New'];
-        }
-    },
-    mounted() {
-        // let editor = new Wysiwyg4All({
-        //     elementId: 'editor',
-        //     placeholder: 'Write new article'
-        // });
     }
 };
 </script>
@@ -389,12 +377,12 @@ div.app-grid {
     grid-template-areas:
                 ". . search . ."
                 ". sidenav hashtag . ."
-                ". sidenav list . .";
+                ". sidenav view . .";
 
     // adjust the desktop / laptop grid size from here
-    grid-template-columns: auto auto minmax(auto, 800px) auto auto;
+    grid-template-columns: auto auto auto auto auto;
     @media @laptop {
-        grid-template-columns: auto minmax(auto, 250px) minmax(auto, 800px) auto auto;
+        grid-template-columns: auto auto auto auto auto;
     }
 
     @media @tablet {
@@ -402,10 +390,13 @@ div.app-grid {
         grid-template-areas:
                 "search"
                 "hashtag"
-                "list";
+                "view";
         #search, #hashtag {
             padding-left: 8px !important;
             padding-right: 8px !important;
+        }
+        #sidenav {
+            display: none;
         }
     }
 
@@ -453,92 +444,8 @@ div.app-grid {
         }
     }
 
-    & > #list {
-        grid-area: list;
-
-        & > div > div {
-            //width: 100%;
-        }
-
-        #listmode {
-            margin-bottom: 8px;
-            display: grid;
-            gap: 8px;
-            grid-template-columns: var(--listmode);
-            background-color: var(--background);
-
-            & > .mode {
-                position: relative;
-                border-bottom: 2px solid var(--background-text_screen);
-                color: var(--background-placeholder);
-                box-shadow: inset 0 -1px 0 0 var(--background-text_shadow);
-                padding-bottom: .5rem;
-                padding-top: 1rem;
-                text-align: center;
-                flex-grow: 1;
-                cursor: pointer;
-
-                &:hover, &.selected {
-                    border-bottom: 2px solid var(--background-focus);
-                    color: var(--background-text);
-                    text-shadow: 1px 1px var(--background-text_shadow);
-                }
-
-                &.create {
-                    & > * {
-                        display: inline-block;
-                        vertical-align: middle;
-                    }
-                }
-            }
-        }
-
-        & > #wysiwyg {
-            min-height: calc(100vh - 13rem);
-            padding-bottom: 1rem;
-
-            & > .sui-card {
-                width: 100%;
-
-                & > .content > #editor {
-                    margin: 0 -1.3em;
-                    padding: 2em calc(1.3em + 0.5rem);
-                    max-width: unset;
-                }
-
-                & > #toolbar {
-                    //margin: 0 -1.3em;
-                    box-shadow: 0 2px var(--content-text_shadow);
-                    margin-bottom: 1.5em;
-                    display: flex;
-                    //padding-left: 1.3em;
-                    //justify-content: flex-end;
-                    flex-wrap: wrap;
-
-                    & > i {
-                        cursor: pointer;
-                        border-radius: 8px;
-                        color: var(--content-text_soft);
-
-                        &:hover {
-                            color: var(--content-text);
-                            text-shadow: 1px 1px var(--content-text_shadow);
-                        }
-
-                        margin-bottom: 0.75em;
-
-                        &:not(:last-child) {
-                            margin-right: .75em;
-                        }
-
-                        flex-shrink: 0;
-                        font-size: 1.5rem;
-                        padding: .25rem;
-                    }
-                }
-            }
-
-        }
+    & > #view {
+        grid-area: view;
     }
 
     & > #sidenav {
