@@ -136,7 +136,6 @@ export default {
 <style lang="less">
 @import '../assets/normalize.css';
 @import '../assets/viewport.less';
-@import "../../node_modules/flexboxgrid/css/flexboxgrid.min.css";
 
 .sui-app {
     width: 100%;
