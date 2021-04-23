@@ -4,22 +4,20 @@
         slot(name="nav")
     .view(v-if="loaded")
         slot(name="page")
-        #sui-app-notification(:class="{show: notification_computed}" v-if="notification_computed")
-            sui-card(:style="{backgroundColor:'var(--content-text)',color:'var(--content)', maxWidth: 'unset', borderRadius:'8px'}")
-                .notification-head(@click="()=>{console.log('yto')}")
-                    i.material-icons.icon(v-if="notification_computed.icon") {{notification_computed.icon}}
-                    p {{notification_computed.text}}
+    #sui-app-notification(:class="{show: notification_computed}" v-if="notification_computed")
+        sui-card(:style="{backgroundColor:'var(--content-text)',color:'var(--content)', maxWidth: 'unset'}")
+            .notification-head(@click="()=>{console.log('yto')}")
+                i.material-icons.icon(v-if="notification_computed.icon") {{notification_computed.icon}}
+                p {{notification_computed.text}}
 </template>
 <script>
-import {ColorMangle} from 'colormangle';
+import ColorMangle from '../lib/colormangle';
 
 export default {
     name: "sui-app",
     props: {
-        colorScheme: {
-            type: String | Object,
-            default: 'teal'
-        },
+        darkMode: Boolean,
+        colorScheme: String | Object,
         notification: {
             type: String | Object,
             default: function () {
@@ -34,8 +32,6 @@ export default {
         };
     },
     created() {
-        if (!this.colorScheme)
-            throw 'no color scheme';
 
         if (!window.sui_app)
             window.sui_app = {
@@ -81,7 +77,7 @@ export default {
                 },
                 colorScheme: null,
                 init: (option) => {
-                    let {colorScheme = 'teal', hideNavbar = false} = option;
+                    let {colorScheme, hideNavbar = false, darkMode} = option;
 
                     let navBar = document.getElementsByTagName('nav')[0];
 
@@ -92,7 +88,7 @@ export default {
 
                     window.sui_app.hideNavbar = hideNavbar;
 
-                    let cs = new ColorMangle(colorScheme).colorScheme();
+                    let cs = new ColorMangle(colorScheme || undefined).colorScheme(undefined, darkMode);
                     let body = document.getElementsByTagName('BODY')[0];
 
                     for (let c in cs) {
@@ -119,7 +115,8 @@ export default {
         // only one sui-app is allowed
         this.loaded = window.sui_app.init({
             hideNavbar: this.hideNavbar,
-            colorScheme: this.colorScheme
+            colorScheme: this.colorScheme,
+            darkMode: this.darkMode
         });
     },
     computed: {
@@ -139,6 +136,7 @@ export default {
 <style lang="less">
 @import '../assets/normalize.css';
 @import '../assets/viewport.less';
+@import "../../node_modules/flexboxgrid/css/flexboxgrid.min.css";
 
 .sui-app {
     width: 100%;
@@ -161,10 +159,10 @@ export default {
 
         & + .view {
             padding-top: calc(3rem + 16px);
+        }
 
-            & > #sui-app-notification {
-                top: calc(3rem + 16px + var(--navbar-top));
-            }
+        & ~ #sui-app-notification {
+            top: calc(3rem + 16px + var(--navbar-top));
         }
     }
 
@@ -175,32 +173,33 @@ export default {
         & > * {
             max-width: 100%;
         }
+    }
 
-        & > #sui-app-notification {
-            position: fixed;
-            top: 0;
-            right: 0;
-            padding: 8px 1rem;
-            box-sizing: border-box;
+    & > #sui-app-notification {
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: 8px 1rem;
+        box-sizing: border-box;
+        z-index: 1;
 
-            .notification-head {
-                display: flex;
-                padding: 8px;
+        .notification-head {
+            display: flex;
+            padding: 8px;
 
-                & > p {
-                    padding: 2px 0;
-                    font-size: 16px;
-                    line-height: 20px;
-                }
+            & > p {
+                padding: 2px 0;
+                font-size: 16px;
+                line-height: 20px;
+            }
 
-                i {
-                    padding-right: 4px;
-                    font-size: 24px;
-                }
+            i {
+                padding-right: 4px;
+                font-size: 24px;
+            }
 
-                * {
-                    vertical-align: middle;
-                }
+            * {
+                vertical-align: middle;
             }
         }
     }
