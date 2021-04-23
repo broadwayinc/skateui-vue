@@ -47,7 +47,7 @@ div.sui-steps {
         cursor: default;
         padding-right: 1em;
         padding-top: .25em;
-        color: var(--content-text_transparent);
+        color: var(--content-text_placeholder);
         flex-grow: 1;
         margin-right: 3px;
         font-weight: 500;
