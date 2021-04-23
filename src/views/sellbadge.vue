@@ -1,9 +1,9 @@
 <template lang="pug">
-div(style="text-align:center;margin: 8px auto;")
+div(style="margin: 8px auto;")
     sui-card.head_card
         .image
             .profile_head
-                img(src="/img/sealawkward.jpeg")
+                sui-image(src="/img/sealawkward.jpeg")
                 .photo_button
                     sui-button(type="icon" icon="photo_camera")
         .content
@@ -85,21 +85,19 @@ div(style="text-align:center;margin: 8px auto;")
             //    sui-button Create New Badge
     br
     br
-    sui-list(ref="pixel")
+    sui-list(ref="pixel" :min-columns="2")
         template(#pre)
             .createNew
                 h3 +
                 div(style="padding: 0 1rem")
-                    sui-autosize(value='CREATE NEW SPRITE' readonly :min="18" :max="24" text-align='center')
-                small(style="padding: 0 1rem;text-align: left;font-size: 12px;white-space: break-spaces;").
+                    sui-autosize(value='CREATE NEW SPRITE' readonly :min="14" :max="24" text-align='center')
+                //small(style="padding: 0 1rem;text-align: left;font-size: 12px;white-space: break-spaces;").
                     Create and sell your own pixel art!
                     Use your pixel art to get support from your followers
     br
-    sui-accordion
-        .title(style="text-align:left;") Draft Sprites
-        hr
-        .content
-            sui-list(ref="pixel")
+    br
+    sui-accordion(title="Draft Sprite")
+        sui-list(ref="pixel_draft" :min-columns="3")
     br
     sui-card.head_card
         template(#title) Supporters
@@ -108,7 +106,7 @@ div(style="text-align:center;margin: 8px auto;")
                 .face
                     img(src="/img/myface.jpg")
                 .board_message
-                    sui-autosize(value="I support you Awkward Seal!" allow-enter :max="32" :min="18" :readonly="true")
+                    sui-autosize(value="I support you Awkward Seal!" allow-enter :max="32" :min="14" :readonly="true")
                     .badgepack(style="text-align:right")
                         img(src="/img/sealpixel.jpeg" style="width:32px;height:32px;")
                         | +3
@@ -132,10 +130,21 @@ export default {
         };
     },
     mounted() {
+        this.$refs.pixel_draft.addList([
+            {
+                image: '/img/sealawkward.jpeg',
+            },
+            {
+                image: '/img/penguin.png'
+            },
+            {
+                image: '/img/iceberg.png'
+            }
+        ]);
         this.$refs.pixel.addList([
             {
                 image: '/img/sealawkward.jpeg',
-                title: 'Awkward Seal',
+                title: 'Seal Pixel',
                 price: '$99.99'
             },
             {
@@ -145,7 +154,7 @@ export default {
             },
             {
                 image: '/img/iceberg.png',
-                title: 'Ice berg',
+                title: 'Ice Berg',
                 price: '$4.99'
             }
         ]);
@@ -418,7 +427,7 @@ div.sui-textarea {
             border: none;
 
             &::placeholder {
-                color: var(--content-placeholder);
+                color: var(--content-text_placeholder);
             }
 
             &:read-only {
