@@ -29,6 +29,7 @@ export default {
         parallax: Boolean,
         showArrow: {type: Boolean, default: true},
         onLoad: Function,
+        errorImage: String,
         loop: {type: Boolean, default: false}
     },
     data() {

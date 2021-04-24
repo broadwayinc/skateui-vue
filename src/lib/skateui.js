@@ -293,7 +293,7 @@
                     src = '',
                     computedStyle,
                     brokenMsg,
-                    nullImage,
+                    errorImage,
                     onLoad = () => {
                     },
                     onError = () => {
@@ -341,10 +341,10 @@
                     this.img.classList.remove(c);
                 }
 
-                if (nullImage && typeof nullImage === 'string') {
-                    this.nullImage = nullImage;
-                    let url = `url('${nullImage}')`;
-                    this.parent.style.setProperty('--null-image', url);
+                if (errorImage && typeof errorImage === 'string') {
+                    this.errorImage = errorImage;
+                    let url = `url('${errorImage}')`;
+                    this.parent.style.setProperty('--error-image', url);
                 }
 
                 this.grandParent.append(this.parent);
@@ -444,9 +444,9 @@
                     img.onerror = () => {
                         loader.classList.add('_hideLoader');
                     };
-                    if (this.nullImage && typeof this.nullImage === 'string') {
-                        let url = `url('${this.nullImage}')`;
-                        img.style.setProperty('--null-image', url);
+                    if (this.errorImage && typeof this.errorImage === 'string') {
+                        let url = `url('${this.errorImage}')`;
+                        img.style.setProperty('--error-image', url);
                     }
 
                     img.setAttribute('alt', this.img.getAttribute('alt'));
