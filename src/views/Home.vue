@@ -306,7 +306,7 @@
                 sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]")
                 br
                 br
-                sui-input(placeholder="Input with regex validation" :value="regexValue" :output="(v) => { regexValue = v; }" regex='^[0]?10([-]?[0-9]{4}){2}$' label="Input with regex validation" :button="[{position: 'right', icon: 'send'}]")
+                sui-input(placeholder="Input with regex validation" message="You must input a valid Korean number (0)10-XXXX-XXXX" :value="regexValue" :output="(v) => { regexValue = v; }" regex='^[0]?10([-]?[0-9]{4}){2}$' label="Input with regex validation" :button="[{position: 'right', icon: 'send'}]")
                 br
                 br
                 sui-input(

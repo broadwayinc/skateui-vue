@@ -1,5 +1,5 @@
 <template lang='pug'>
-    sui-label(:type="type" :label="label" :error="error" :button="button" :required="required" :message="message || null" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
+    sui-label(:type="type" :label="label" :error="isError" :button="button" :required="required" :message="message || null" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
         input(:disabled="disabled" :placeholder="placeholder" :type="type" v-model="customValue" :style="{ textAlign: has2Buttons() ? 'center' : null }"  @keyup="keypress" @keydown="arrowSelection")
         div(v-show="searching" class="option")
             template(v-for="(x, idx) in option")
@@ -47,6 +47,7 @@ export default {
     data() {
         return {
             regexExpression: Object,
+            regexFail: false,
             searching: false,
             currentSelection: -1
         }
@@ -62,7 +63,10 @@ export default {
             set(newValue) {
                 this.output(newValue);
             }
-        }
+        },
+        isError() {
+            return this.error || this.regexFail;
+        },
     },
     methods: {
         arrowSelection(event) {
@@ -82,7 +86,9 @@ export default {
         keypress(event) {
             if(this.regex) {
                 if(!this.value.match(this.regexExpression)) {
-
+                    this.regexFail = true;
+                } else {
+                    this.regexFail = false;
                 }
             }
             if(this.type === 'autocomplete') {

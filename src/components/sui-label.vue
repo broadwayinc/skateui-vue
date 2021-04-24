@@ -31,7 +31,7 @@
                         i.material-icons {{ buttonRight.icon }}
             slot
             .downarrow(v-if="type === 'select' || type === 'fullscreen-select'")
-            .message(v-if="message") {{ message }}
+            .message(v-if="message && error") {{ message }}
 </template>
 
 <script>
