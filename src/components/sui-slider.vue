@@ -4,7 +4,7 @@
         .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
             li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
                 .imageWrapper(:style="[style_imageWrapper(sl)]")
-                    sui-image(v-if="sl.image" :src="sl.image" :ratio="[16,9]" :style="{display: 'block'}")
+                    sui-image(v-if="sl.image" :src="sl.image" :ratio="[16,9]" :style="{display: 'block'}" :parallax="parallax")
                     .slideText
                         sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
         .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
@@ -26,7 +26,7 @@ export default {
         outputCurrentIndex: Function,
         ratio: Array,
         showText: Boolean,
-        parallax: String | Boolean,
+        parallax: Boolean,
         showArrow: {type: Boolean, default: true},
         onLoad: Function,
         loop: {type: Boolean, default: false}
