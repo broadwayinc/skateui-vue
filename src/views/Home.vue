@@ -2,7 +2,11 @@
     div
         sui-card(:style="{display:'block'}")
             template(#content)
-                sui-slider(:slideArray="slide" :show-arrow="false" :show-pagination="true")
+                sui-slider(
+                    :slideArray="slide"
+                    :show-arrow="false"
+                    :show-pagination="true"
+                    parallax)
         br
         br
         sui-card
