@@ -18,6 +18,7 @@ export default {
         label: String,
         suffix: String,
         prefix: String,
+        regex: String,
         type: {
             type: String,
             default: 'text'
@@ -45,9 +46,13 @@ export default {
     },
     data() {
         return {
+            regexExpression: Object,
             searching: false,
             currentSelection: -1
         }
+    },
+    created() {
+        this.regexExpression = new RegExp(this.regex, "g");
     },
     computed: {
         customValue: {
@@ -75,6 +80,11 @@ export default {
             }
         },
         keypress(event) {
+            if(this.regex) {
+                if(!this.value.match(this.regexExpression)) {
+
+                }
+            }
             if(this.type === 'autocomplete') {
                 if(event.code !== 'Enter') this.searching = true;
             }
