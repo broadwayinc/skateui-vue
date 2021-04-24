@@ -18,8 +18,6 @@
 export default {
     name: "ss-slide",
     props: {
-        nullIcon: String | Boolean,
-        nullColor: String,
         paginationBlurColor: String,
         paginationFocusColor: String,
         showPagination: {type: Boolean, default: false},
