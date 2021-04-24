@@ -12,7 +12,7 @@ export default {
         zoomCanvas: Node | String,
         onLoad: Function,
         onError: Function,
-        nullImage: String,
+        errorImage: String,
         brokenMsg: {type: String, default: ''},
         onClick: Function,
         onZoom: Function,
@@ -33,7 +33,7 @@ export default {
             brokenMsg: this.brokenMsg,
             zoomCanvas: this.zoomCanvas,
             computedStyle: this.computedStyle,
-            nullImage: this.nullImage,
+            errorImage: this.errorImage,
             onLoad: this.onLoad,
             onError: this.onError,
             onClick: this.onClick,
@@ -93,7 +93,7 @@ export default {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-image: var(--null-image);
+                background-image: var(--error-image);
                 border: dashed 4px;
                 box-sizing: border-box;
                 border-color: var(--content-text_shadow);
