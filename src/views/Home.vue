@@ -6,6 +6,7 @@
                     :slideArray="slide"
                     :show-arrow="false"
                     :show-pagination="true"
+                    error-image="/img/bunnykit_small.gif"
                     parallax)
         br
         br
@@ -600,7 +601,7 @@
                     light-box
                     :ratio='[16,9]'
                     parallax
-                    null-image="/img/bunnykit_small.gif"
+                    error-image="/img/bunnykit_small.gif"
                     :computed-style="(s)=>{/*console.log(s.width);*/}"
                     :on-click="(e)=>{/*console.log(e)*/;}"
                     :on-load="(e)=>{/*console.log(e)*/}"
@@ -611,7 +612,7 @@
                     light-box
                     :ratio='[16,9]'
                     parallax
-                    null-image="/img/bunnykit_small.gif"
+                    error-image="/img/bunnykit_small.gif"
                     :computed-style="(s)=>{/*console.log(s.width);*/}"
                     :on-click="(e)=>{/*console.log(e);*/}"
                     :on-load="(e)=>{/*console.log(e)*/}"
@@ -636,7 +637,7 @@
                     light-box
                     :ratio='[16,9]'
                     parallax
-                    null-image="/img/bunnykit_small.gif"
+                    error-image="/img/bunnykit_small.gif"
                     broken-msg='/img/sealpixel.jpeg'
                     :computed-style="(s)=>{/*console.log(s.width);*/}"
                     :on-click="(e)=>{/*console.log(e);*/}"
