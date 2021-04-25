@@ -489,8 +489,8 @@ div.sui-input {
         background-color: transparent;
         color: var(--content-text);
         font: inherit;
-        line-height: 2.8rem;
-        padding: 0 .75em;
+        line-height: calc(2.8rem - 2px);
+        padding: 2px 0.75em 0 0.75em;
         font-size: 1rem;
         border: none;
         outline: none;
