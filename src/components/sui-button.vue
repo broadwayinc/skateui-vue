@@ -50,7 +50,6 @@ button.sui-button, a.sui-button {
 
     line-height: calc(2rem - 4px);
     font-size: 0.88rem;
-    vertical-align: middle;
     cursor: pointer;
     user-select: none;
 

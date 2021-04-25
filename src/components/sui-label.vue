@@ -490,7 +490,7 @@ div.sui-input {
         color: var(--content-text);
         font: inherit;
         line-height: calc(2.8rem - 2px);
-        padding: 2px 0.75em 0 0.75em;
+        padding: 0 0.75em 0 0.75em;
         font-size: 1rem;
         border: none;
         outline: none;
@@ -656,7 +656,7 @@ div.sui-input {
             align-items: center;
             font-weight: 600;
             flex-basis: auto;
-            padding: 2px 0 0;
+            padding: 0;
             min-width: calc(2.8rem - 1.5em);
             flex-shrink: 0;
             height: calc(2.8rem - 2px);
