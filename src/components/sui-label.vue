@@ -372,8 +372,8 @@ div.sui-input {
     fieldset {
         position: absolute;
         top: 0;
-        right: 0;
-        left: 0;
+        right: -2px;
+        left: -2px;
         bottom: 0;
         text-align: left;
         border: 2px solid var(--content-text_transparent);
