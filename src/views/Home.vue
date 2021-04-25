@@ -3,6 +3,7 @@
         sui-card(:style="{display:'block'}")
             template(#content)
                 sui-slider(
+                    :customStyle={paginationColor: 'green'}
                     :slideArray="slide"
                     :show-arrow="false"
                     :show-pagination="true"
