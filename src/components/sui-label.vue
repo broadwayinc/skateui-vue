@@ -231,7 +231,7 @@ div.sui-input {
         }
 
         & .left-wrapper {
-            order: -2;
+            order: -3;
         }
 
         & .left-wrapper,
@@ -665,7 +665,7 @@ div.sui-input {
 
         .prefix {
             padding-left: 0.75em;
-            order: -1;
+            order: -2;
             
             & ~ input {
                 padding-left: 0.1rem
