@@ -1,6 +1,7 @@
 <template lang="pug">
     div(:id="id" :class="{ 'sui-input': type !== 'textarea', 'sui-textarea': type === 'textarea', left: buttonLeft, right: buttonRight, error: error, disabled: disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'}")
         div.sui-input-wrapper
+            slot
             label(v-if="label") {{ label }}
                 span(v-if="required" style="color:var(--alert)")  *
             fieldset
@@ -29,7 +30,6 @@
                 template(v-else-if="buttonRight")
                     .right
                         i.material-icons {{ buttonRight.icon }}
-            slot
             .downarrow(v-if="type === 'select' || type === 'fullscreen-select'")
             .message(v-if="message && error") {{ message }}
 </template>
