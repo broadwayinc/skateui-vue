@@ -18,8 +18,7 @@
 export default {
     name: "ss-slide",
     props: {
-        paginationBlurColor: String,
-        paginationFocusColor: String,
+        customStyle: Object,
         showPagination: {type: Boolean, default: false},
         slideArray: Array,
         outputText: Function,
@@ -129,8 +128,8 @@ export default {
         },
         computedStyle() {
             let obj = {
-                '--slideFocus': this.paginationFocusColor || 'var(--background-focus)',
-                '--slideBlur': this.paginationBlurColor || 'var(--background-text_placeholder)',
+                '--slideFocus': this.customStyle.paginationFocusColor || 'var(--background-focus)',
+                '--slideBlur': this.customStyle.paginationColor || 'var(--background-text_placeholder)',
             };
             return obj;
         },
