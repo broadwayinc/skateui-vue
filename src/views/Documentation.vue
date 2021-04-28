@@ -8,6 +8,7 @@
                 Skate-UI is a responsive component based UI framework for Vue.js that is quick and easy to start with.
         br
         br
+
         // Card
         sui-card
             template(#title)
@@ -28,10 +29,64 @@
                 br
                 h4 Props
                 h5 contentCenter boolean
-                div The contentCenter prop sets the alignment of the content in content, footerButton, and footer.
+                div The contentCenter prop sets the alignment of content, footerButton, and footer. The default position of content is left aligned and the default position of footerButton and footer is right aligned.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-card(style="max-width: 300px" content-center)
+                            template(#title) Title is not centered
+                            template(#image)
+                                img(style='width: 100%;' src="/img/skateui.jpg")
+                            template(#content) Content is centered
+                            template(#buttonFooter)
+                                sui-button Button is Centered
+                            template(#footer) Footer is centered
+                    div.example-code
+                        Prism(inline language="html" :code="cardPropContentCenter")
                 br
                 h5 stickyMobileButtonFooter boolean
-                div Th
+                div The stickyMobileButtonFooter stickies the contents of buttonFooter to the bottom of the screen on mobile devices.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-card(style="max-width: 300px" sticky-mobile-button-footer)
+                            template(#content) The button below will be stickied on mobile devices.
+                            template(#buttonFooter)
+                                sui-button Sticky Button
+                    div.example-code
+                        Prism(inline language="html" :code="cardPropStickyMobileButtonFooter")
+                br
+                h5 closeButton function
+                div The closeButton takes a function that will be executed on left click.
+                br
+                h5 disabled boolean
+                div
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-card(style="max-width: 300px" disabled)
+                            template(#title) Title has not been disabled
+                            template(#image)
+                                img(style='height: 150px; width: auto' src="/img/skateui.jpg")
+                            template(#content) Content has been disabled
+                            template(#buttonFooter)
+                                sui-button Button Disabled
+                            template(#footer) Footer Disabled
+                    div.example-code
+                        Prism(inline language="html" :code="cardPropDisabled")
+                br
+                h5 stickyTitle boolean
+                div
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-card(style="max-width: 300px" sticky-title)
+                            template(#title) Title is Sticky
+                            template(#image)
+                                img(style='height: 150px; width: auto' src="/img/skateui.jpg")
+                            template(#content) This is some random content to create length to show the scrolling of the title.
+                    div.example-code
+                        Prism(inline language="html" :code="cardPropStickyTitle")
                 br
                 h4 Example
                 div Cards have no set width by default so they will grow with the size of their content. You can set their width using the style attribute.
@@ -65,13 +120,17 @@
 </template>
 <script>
 import Prism from 'vue-prism-component'
-import {cardExample1, cardExample2} from '../lib/code-library'
+import {cardPropContentCenter, cardPropStickyMobileButtonFooter, cardPropDisabled, cardPropStickyTitle, cardExample1, cardExample2} from '../lib/code-library'
 
 export default {
     name: "documentation",
     components: {Prism},
     data() {
         return {
+            cardPropContentCenter: cardPropContentCenter(),
+            cardPropStickyMobileButtonFooter: cardPropStickyMobileButtonFooter(),
+            cardPropDisabled: cardPropDisabled(),
+            cardPropStickyTitle: cardPropStickyTitle(),
             cardExample1: cardExample1(),
             cardExample2: cardExample2(),
         }
