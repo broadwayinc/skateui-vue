@@ -12,10 +12,26 @@
         sui-card
             template(#title)
                 h2 Cards
-            template(v-slot:content)
+            template(#content)
                 h4 About
                 div.
                     Cards are the building blocks of Skate-UI. Content should wrapped within a sui-card. It includes options for title, image, content, button footer and footer. Cards are inline-blocks by default and have paddings set. You can overwrite the paddings with your own values using the style attribute.
+                br
+                div.
+                    &lt;<span style="font-weight: bold;">sui-card</span>>
+                        &lt;template <span style="font-weight: bold;">#title</span>>&lt;/template>
+                        &lt;template <span style="font-weight: bold;">#image</span>>&lt;/template>
+                        &lt;template <span style="font-weight: bold;">#content</span>>&lt;/template>
+                        &lt;template <span style="font-weight: bold;">#footerButton</span>>&lt;/template>
+                        &lt;template <span style="font-weight: bold;">#footer</span>>&lt;/template>
+                    &lt;/<span style="font-weight: bold;">sui-card</span>>
+                br
+                h4 Props
+                h5 contentCenter boolean
+                div The contentCenter prop sets the alignment of the content in content, footerButton, and footer.
+                br
+                h5 stickyMobileButtonFooter boolean
+                div Th
                 br
                 h4 Example
                 div Cards have no set width by default so they will grow with the size of their content. You can set their width using the style attribute.
@@ -60,6 +76,11 @@ export default {
             cardExample2: cardExample2(),
         }
     },
+    methods: {
+        alert(msg) {
+            alert(msg);
+        }
+    }
 }
 </script>
 <style lang="less">

@@ -13,11 +13,14 @@ return `<sui-card style="max-width: 300px" content-center>
 }
 
 export const cardExample2 = () => {
-    return `<sui-card style="max-width: 250px; margin-right: 8px;" content-center>
+return `<!--Content only-->
+<sui-card style="max-width: 250px; margin-right: 8px;" content-center>
     <template #content>
         I have nothing but content!
     </template>
 </sui-card>
+
+<!--Content and image-->
 <sui-card style="max-width: 250px;">
     <template #image>
         <img src="..." />
