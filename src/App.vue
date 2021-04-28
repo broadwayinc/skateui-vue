@@ -446,7 +446,7 @@ div.app-grid {
 
     & > #view {
         grid-area: view;
-        padding: 0 8px;
+        padding: 0 1rem;
     }
 
     & > #sidenav {
