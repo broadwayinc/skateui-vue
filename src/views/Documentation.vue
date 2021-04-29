@@ -29,7 +29,7 @@
                 br
                 h4 Props
                 h5 contentCenter boolean
-                div The contentCenter prop sets the alignment of content, footerButton, and footer. The default position of content is left aligned and the default position of footerButton and footer is right aligned.
+                div An optional boolean that centers the alignment of <code>content</code>, <code>footerButton</code>, and <code>footer</code>. The default position of <code>content</code> is left aligned and the default position of <code>footerButton</code> and <code>footer</code> is right aligned.
                 br
                 div.example-wrapper
                     div.example-viewer
@@ -45,7 +45,7 @@
                         Prism(inline language="html" :code="cardPropContentCenter")
                 br
                 h5 stickyMobileButtonFooter boolean
-                div The stickyMobileButtonFooter stickies the contents of buttonFooter to the bottom of the screen on mobile devices.
+                div An optional boolean that sticks the contents of <code>buttonFooter</code> to the bottom of the screen on mobile devices.
                 br
                 div.example-wrapper
                     div.example-viewer
@@ -56,16 +56,16 @@
                     div.example-code
                         Prism(inline language="html" :code="cardPropStickyMobileButtonFooter")
                 br
-                h5 closeButton function
-                div The closeButton takes a function that will be executed on left click.
+                h5 closeButton Function
+                div An optional prop that accepts a function that will be executed on left click.
                 br
                 h5 disabled boolean
-                div
+                div An optional boolean will put all the contents except for <code>title</code> in a blurred state.
                 br
                 div.example-wrapper
                     div.example-viewer
                         sui-card(style="max-width: 300px" disabled)
-                            template(#title) Title has not been disabled
+                            template(#title) Title will not been disabled
                             template(#image)
                                 img(style='height: 150px; width: auto' src="/img/skateui.jpg")
                             template(#content) Content has been disabled
@@ -76,7 +76,7 @@
                         Prism(inline language="html" :code="cardPropDisabled")
                 br
                 h5 stickyTitle boolean
-                div
+                div An optional boolean that turns <code>title</code> into a scrolling content.
                 br
                 div.example-wrapper
                     div.example-viewer
@@ -89,7 +89,7 @@
                         Prism(inline language="html" :code="cardPropStickyTitle")
                 br
                 h4 Example
-                div Cards have no set width by default so they will grow with the size of their content. You can set their width using the style attribute.
+                div Cards have no set width by default so they will expand according to the size of their content. You can set their width using the style attribute.
                 div.example-wrapper
                     div.example-viewer
                         sui-card(style="max-width: 300px" content-center)
@@ -97,6 +97,7 @@
                             template(#image)
                                 img(style='height: 150px; width: auto' src="/img/skate.jpg")
                             template(#content) Content: Create beautiful components in minutes!
+                                img(style="width: 80px;" src="/img/swimdog.gif")
                             template(#buttonFooter)
                                 sui-button Click Me
                             template(#footer) Footer
@@ -104,7 +105,7 @@
                         Prism(inline language="html" :code="cardExample1")
                 br
                 h4 Optional Content
-                div All content in cards are optional, making it a very flexible component. For example, we could build a card that only contains content or a card that contains only an image with a description of the text.
+                div All content in cards are optional, making it a very flexible component. For example, we could build a card that only contains <code>content</code> or a card that contains only <code>image</code> and <code>content</code>.
                 div.example-wrapper
                     div.example-viewer
                         sui-card(style="max-width: 250px; margin-right: 8px;" content-center)
@@ -160,5 +161,11 @@ export default {
     display: block;
     border-radius: 0;
     padding: 8px;
+}
+code {
+    color: var(--complementary-text);
+    background-color: var(--complementary);
+    padding: 1px 5px;
+    border-radius: 2px
 }
 </style>

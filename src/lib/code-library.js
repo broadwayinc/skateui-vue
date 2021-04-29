@@ -61,6 +61,7 @@ return `<sui-card style="max-width: 300px" content-center>
     </template>
     <template #content>
         Content: Create beautiful components in minutes!
+        <img src="..." />g
     </template>
     <template #buttonFooter>
         <sui-button>Click Me</sui-button>
