@@ -88,3 +88,23 @@ return `<!--Content only-->
     </template>
 </sui-card>`
 }
+
+export const buttonPropType = () => {
+    return `<sui-button>BUTTON</sui-button>
+<sui-button type="nude">NUDE</sui-button>
+<sui-button type="icon" icon="translate"></sui-button>`
+}
+
+export const buttonPropLoading = () => {
+    return `<sui-button loading>BUTTON</sui-button>
+<sui-button type="nude" loading>NUDE</sui-button>`
+}
+
+export const buttonPropCustomStyle = () => {
+    return `<sui-button :customStyle="{color: '#ff00ff', backgroundColor: 'pink'}">BUTTON</sui-button>
+<sui-button type="nude" :customStyle="{color: '#ff00ff'}">NUDE</sui-button>`
+}
+
+export const buttonEventClick = () => {
+    return `<sui-button @click="sayHi()">Say Hi!</sui-button>`
+}
