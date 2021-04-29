@@ -1,5 +1,5 @@
 <template lang='pug'>
-    a.sui-button(v-if="href" @click="leftClick" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
+    a.sui-button(v-if="href" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
         slot
     button.sui-button(v-else @click="leftClick" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
         slot(v-if="!loading")
