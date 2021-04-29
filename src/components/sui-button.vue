@@ -1,7 +1,7 @@
 <template lang='pug'>
-    a.sui-button(v-if="href" @click="leftClick" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
+    a.sui-button(v-if="href" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
         slot
-    button.sui-button(v-else @click="leftClick" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
+    button.sui-button(v-else @click="leftClick" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle" :disabled="disabled")
         slot(v-if="!loading")
         i.material-icons(v-if="type === 'icon'") {{ icon }}
         ._loader(v-if="loading")
@@ -14,6 +14,7 @@ export default {
         type: {
             type: String
         },
+        disabled: Boolean,
         href: String,
         target: String,
         icon: String,
@@ -128,6 +129,13 @@ button.sui-button, a.sui-button {
             width: 1.15rem;
             font-size: 1.15rem;
             vertical-align: middle;
+        }
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        &:hover {
+            box-shadow: none;
         }
     }
 }
