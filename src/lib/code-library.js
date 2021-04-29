@@ -108,3 +108,24 @@ export const buttonPropCustomStyle = () => {
 export const buttonEventClick = () => {
     return `<sui-button @click="sayHi()">Say Hi!</sui-button>`
 }
+
+export const accordionPropTitle = () => {
+    return `<sui-accordion title="Skate-UI Poem">
+    Roses are red
+    Violets are blue
+    Skate UI is easy
+    Just like ABC
+</sui-accordion>`
+}
+
+export const accordionExample1 = () => {
+    return `<sui-accordion title="List #1">
+    Please go to the market whenever you are free.
+</sui-accordion>
+<sui-accordion title="List #2">
+    Please go to bed before 10pm.
+</sui-accordion>
+<sui-accordion title="List #3">
+    Please go school before 9am.
+</sui-accordion>`
+}

@@ -175,12 +175,47 @@
                     div.example-code
                         Prism(inline language="html" :code="buttonEventClick")
                 br
+        br
+        br
+        sui-card
+            template(#title)
+                h2 Accordion
+            template(#content)
+                h4 About
+                div Accordions provide a simple way to collapse lengthy groups of information.
+                br
+                h4 Props
+                h5 title String
+                div Title is a required prop that serves as the heading and clickable for collapsed information.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-accordion(title="Skate-UI Poem").
+                            Roses are red
+                            Violets are blue
+                            Skate UI is easy
+                            Just like ABC
+                    div.example-code
+                        Prism(inline language="html" :code="accordionPropTitle")
+                h4 Examples
+                div Accordions are capable of holding any content within it's body. They can also be stacked to form a collapsible list.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-accordion(title="List #1").
+                            Please go to the market whenever you are free.
+                        sui-accordion(title="List #2").
+                            Please go to bed before 10pm.
+                        sui-accordion(title="List #3").
+                            Please go school before 9am.
+                    div.example-code
+                        Prism(inline language="html" :code="accordionExample1")
 
 
 </template>
 <script>
 import Prism from 'vue-prism-component'
-import {cardPropContentCenter, cardPropStickyMobileButtonFooter, cardPropDisabled, cardPropStickyTitle, cardExample1, cardExample2, buttonPropType, buttonPropLoading, buttonPropCustomStyle, buttonEventClick} from '../lib/code-library'
+import {cardPropContentCenter, cardPropStickyMobileButtonFooter, cardPropDisabled, cardPropStickyTitle, cardExample1, cardExample2, buttonPropType, buttonPropLoading, buttonPropCustomStyle, buttonEventClick, accordionPropTitle, accordionExample1} from '../lib/code-library'
 
 export default {
     name: "documentation",
@@ -197,6 +232,8 @@ export default {
             buttonPropLoading: buttonPropLoading(),
             buttonPropCustomStyle: buttonPropCustomStyle(),
             buttonEventClick: buttonEventClick(),
+            accordionPropTitle: accordionPropTitle(),
+            accordionExample1: accordionExample1(),
         }
     },
     methods: {
