@@ -14,7 +14,10 @@ label(:class="{'sui-toggle': type === 'toggle', 'sui-radio': type === 'radio', '
 export default {
     name: 'sui-toggle',
     props: {
-        type: String,
+        type: {
+            type: String,
+            default: 'radio'
+        },
         label: String,
         large: Boolean,
         disabled: Boolean,
