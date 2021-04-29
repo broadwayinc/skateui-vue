@@ -124,7 +124,7 @@
             template(#content)
                 h4 About
                 div.
-                    Buttons provide the option to display your buttons in 3 different button styles. For greater control, you can customize buttons using the <code>customStyle</code> prop. SUI-Button accepts standard html attributes <code>href</code> and <code>target</code>.
+                    Buttons provide the option to display your buttons in 3 different button styles. For greater control, you can customize buttons using the <code>customStyle</code> prop. SUI-Button accepts standard html attributes such as <code>href</code>, <code>target</code> and <code>disabled</code>g.
                 br
                 div.
                     &lt;<span style="font-weight: bold;">sui-button</span>>Button Text&lt;/<span style="font-weight: bold;">sui-button</span>>
