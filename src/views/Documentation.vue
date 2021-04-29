@@ -1,5 +1,5 @@
 <template lang="pug">
-    div
+    div.documentation
         // Introduction
         sui-card
             template(#title)
@@ -116,12 +116,71 @@
                             template(#content) Some Description
                     div.example-code
                         Prism(inline language="html" :code="cardExample2")
+        br
+        br
+        sui-card
+            template(#title)
+                h2 Buttons
+            template(#content)
+                h4 About
+                div.
+                    Buttons provide the option to display your buttons in 3 different button styles. For greater control, you can customize buttons using the <code>customStyle</code> prop. SUI-Button accepts standard html attributes <code>href</code> and <code>target</code>.
+                br
+                div.
+                    &lt;<span style="font-weight: bold;">sui-button</span>>Button Text&lt;/<span style="font-weight: bold;">sui-button</span>>
+                br
+                h4 Props
+                h5 type String
+                div An optional string that accepts <code>nude</code> or <code>icon</code> as a value. When using <code>icon</code>, you must include the prop <code>icon</code> to provide the content of the button.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-button Button
+                        sui-button(type="nude") Nude
+                        sui-button(type="icon" icon="translate")
+                    div.example-code
+                        Prism(inline language="html" :code="buttonPropType")
+                br
+                h5 icon String
+                div A required string that is used together with <code>type</code> of <code>icon</code>. Skate-UI uses the material icons library as it's default icon package. For a full list of usable icons, <a href="https://fonts.google.com/icons?selected=Material+Icons" target="_blank">click here</a>.
+                br
+                h5 loading boolean
+                div An optional boolean that is used to place the button in a loading state. Note: The <code>icon</code> buttons do not have a loading state.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-button(loading) Button
+                        sui-button(type="nude" loading) Nude
+                    div.example-code
+                        Prism(inline language="html" :code="buttonPropLoading")
+                br
+                h5 customStyle Object
+                div An optional object that contains CSS for the button. You must pass in the css in camel case only.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-button(:customStyle="{color: '#ff00ff', backgroundColor: 'pink'}") Button
+                        sui-button(type="nude" :customStyle="{color: '#ff00ff'}") Nude
+                        sui-button(type="icon" icon="translate" :customStyle="{color: '#ff00ff', backgroundColor: 'pink'}")
+                    div.example-code
+                        Prism(inline language="html" :code="buttonPropCustomStyle")
+                br
+                h4 Events
+                h5 click Function
+                div An optional event that can accept a function that runs when the button is clicked. The button emits a <code>click</code> event on click.
+                br
+                div.example-wrapper
+                    div.example-viewer
+                        sui-button(@click="sayHi()") Say Hi!
+                    div.example-code
+                        Prism(inline language="html" :code="buttonEventClick")
+                br
 
 
 </template>
 <script>
 import Prism from 'vue-prism-component'
-import {cardPropContentCenter, cardPropStickyMobileButtonFooter, cardPropDisabled, cardPropStickyTitle, cardExample1, cardExample2} from '../lib/code-library'
+import {cardPropContentCenter, cardPropStickyMobileButtonFooter, cardPropDisabled, cardPropStickyTitle, cardExample1, cardExample2, buttonPropType, buttonPropLoading, buttonPropCustomStyle, buttonEventClick} from '../lib/code-library'
 
 export default {
     name: "documentation",
@@ -134,38 +193,50 @@ export default {
             cardPropStickyTitle: cardPropStickyTitle(),
             cardExample1: cardExample1(),
             cardExample2: cardExample2(),
+            buttonPropType: buttonPropType(),
+            buttonPropLoading: buttonPropLoading(),
+            buttonPropCustomStyle: buttonPropCustomStyle(),
+            buttonEventClick: buttonEventClick(),
         }
     },
     methods: {
         alert(msg) {
             alert(msg);
+        },
+        sayHi() {
+            alert('Hello!');
         }
     }
 }
 </script>
 <style lang="less">
 @import '../assets/viewport.less';
-.example-wrapper {
-    background-color: var(--background);
-    border-radius: 8px;
-    border: 1px solid var(--content-text_shadow);
-    margin: 8px 0;
-    overflow: hidden;
+.documentation {
+    .example-wrapper {
+        background-color: var(--background);
+        border-radius: 8px;
+        border: 1px solid var(--content-text_shadow);
+        margin: 8px 0;
+        overflow: hidden;
 
-    .example-viewer {
+        .example-viewer {
+            padding: 8px;
+        }
+    }
+    :not(pre) > code[class*="language-"] {
+        white-space: pre-wrap;
+        display: block;
+        border-radius: 0;
         padding: 8px;
     }
-}
-:not(pre) > code[class*="language-"] {
-    white-space: pre-wrap;
-    display: block;
-    border-radius: 0;
-    padding: 8px;
-}
-code {
-    color: var(--complementary-text);
-    background-color: var(--complementary);
-    padding: 1px 5px;
-    border-radius: 2px
+    code:not([class*="language-"]) {
+        color: var(--complementary-text);
+        background-color: var(--complementary);
+        padding: 1px 5px;
+        border-radius: 2px
+    }
+    a {
+        color: var(--complementary);
+    }
 }
 </style>
