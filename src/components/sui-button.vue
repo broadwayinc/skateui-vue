@@ -1,10 +1,12 @@
 <template lang='pug'>
-    a.sui-button(v-if="href" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle")
-        slot
-    button.sui-button(v-else @click="leftClick" :class="{nude: type === 'nude', icon: type === 'icon'}" :style="customStyle" :disabled="disabled")
-        slot(v-if="!loading")
-        i.material-icons(v-if="type === 'icon'") {{ icon }}
-        ._loader(v-if="loading")
+a.sui-button(v-if="href" @click="click" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}")
+    i.material-icons(v-if="type === 'icon'") {{ icon || 'link' }}
+    slot(v-else-if="$slots.default")
+    template(v-else) {{href}}
+button.sui-button(v-else :type="typeAttribute" @click="click" :class="{nude: type === 'nude', icon: type === 'icon'}" :disabled="disabled")
+    i.material-icons(v-if="type === 'icon'") {{ icon || 'check' }}
+    ._loader(v-else-if="showLoading")
+    slot(v-else)
 </template>
 
 <script>
@@ -19,14 +21,44 @@ export default {
         target: String,
         icon: String,
         loading: {
-            type: Boolean,
+            type: Boolean || Function,
             default: false
         },
-        customStyle: Object
+    },
+    data() {
+        return {
+            loading_onclick: false
+        };
+    },
+    computed: {
+        showLoading() {
+            return this.loading_onclick || this.loading === true;
+        },
+        typeAttribute() {
+            for (let t of ['button', 'submit', 'reset']) {
+                if (this.type === t) return t;
+            }
+            return null;
+        }
+    },
+    mounted() {
+        if (this.$el.style.backgroundColor || this.$el.style.background)
+            this.$el.style.borderColor = 'transparent';
     },
     methods: {
-        leftClick() {
-            this.$emit('click');
+        async click(e) {
+            if (typeof this.loading === 'function') {
+                this.loading_onclick = true;
+
+                let p = this.loading(e);
+
+                if (p instanceof Promise)
+                    await p;
+
+                this.loading_onclick = false;
+                return;
+            } else
+                this.$emit('click');
         },
     }
 };
@@ -37,6 +69,7 @@ export default {
     white-space: pre-wrap;
     word-break: break-word;
 }
+
 button.sui-button, a.sui-button {
     border-radius: 2px;
 
@@ -51,23 +84,21 @@ button.sui-button, a.sui-button {
 
     line-height: calc(2rem - 4px);
     font-size: 0.88rem;
+    vertical-align: middle;
     cursor: pointer;
     user-select: none;
-
-    border: solid 0.2rem var(--button-border);
-
+    border: solid 3px var(--button-border, #4646b5);
 
     font-weight: 500;
-    //text-shadow: 0 0 8px var(--button);
-    background-color: var(--button);
-    color: var(--button-text);
+    background-color: var(--button, #4848db);
+    color: var(--button-text, white);
     text-transform: uppercase;
 
     ._loader {
         display: inline-block;
-        border: .15em solid var(--content-text_transparent);
+        border: .15em solid var(--content-text_transparent, rgba(0, 0, 0, 0.22));
         border-radius: 50%;
-        border-top: .15em solid var(--button-text);
+        border-top: .15em solid var(--button-text, white);
         vertical-align: middle;
         margin: -0.22rem 0;
         width: 1rem;
@@ -84,24 +115,23 @@ button.sui-button, a.sui-button {
     }
 
     &:hover {
-        box-shadow: 0 0 0 2px var(--shade);
+        box-shadow: 0 0 0 1px var(--content-text_shade, rgba(0, 0, 0, 0.066));
     }
 
     &:active {
         box-shadow: none;
-        border-color: var(--button-border);
+        border-color: var(--button-border, #4646b5);
     }
 
     &.nude {
         background-color: unset;
-        color: var(--button-nude);
+        color: var(--button-nude, inherit);
         box-shadow: none;
         border: solid 0.25rem transparent;
         text-shadow: none;
-        font-weight: 600;
 
         &:hover {
-            text-shadow: 1px 1px var(--transparent);
+            text-shadow: 1px 1px var(--content-text_shade, rgba(0, 0, 0, 0.066));
         }
 
         &:active {
@@ -110,7 +140,7 @@ button.sui-button, a.sui-button {
         }
 
         & ._loader {
-            border-top: .15em solid var(--content-text);
+            border-top: .15em solid var(--content-text, inherit);
         }
     }
 
@@ -134,11 +164,13 @@ button.sui-button, a.sui-button {
 
     &:disabled {
         opacity: 0.5;
+
         &:hover {
             box-shadow: none;
         }
     }
 }
+
 a.sui-button {
     text-decoration: none;
 }

@@ -265,7 +265,7 @@ div.sui-input {
                     content: "";
                     width: 2px;
                     height: 50%;
-                    background-color: var(--content-text_shadow);
+                    background-color: var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
@@ -357,7 +357,7 @@ div.sui-input {
                 content: "";
                 width: 2px;
                 height: 50%;
-                background-color: var(--content-text_shadow);
+                background-color: var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                 position: absolute;
                 right: -1px;
             }
@@ -376,7 +376,7 @@ div.sui-input {
         left: -2px;
         bottom: 0;
         text-align: left;
-        border: 2px solid var(--content-text_transparent);
+        border: 2px solid var(--content-text_transparent, rgba(0, 0, 0, 0.22));
 
         legend {
             position: relative;
@@ -402,7 +402,7 @@ div.sui-input {
         font-weight: 500;
         white-space: nowrap;
         color: var(--content-text_soft);
-        text-shadow: 1px 1px var(--content-text_shadow);
+        text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
         user-select: none;
 
         & ~ fieldset {
@@ -468,7 +468,7 @@ div.sui-input {
     & .sui-input-wrapper > input,
     & .sui-input-wrapper > select {
         &::placeholder {
-            color: var(--content-text_placeholder);
+            color: var(--content-text_placeholder, rgba(0, 0, 0, 0.33));
         }
 
         &:read-only {
@@ -480,7 +480,7 @@ div.sui-input {
         z-index: 1;
         flex-grow: 1;
 
-        text-shadow: 1px 1px var(--content-text_shadow);
+        text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
         min-height: 100%;
         min-width: 30px;
 
@@ -566,7 +566,7 @@ div.sui-input {
             & ~ .option {
                 & > .menu > .text {
                     font-size: .8em;
-                    text-shadow: 1px 1px var(--content-text_shadow);
+                    text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                     padding: .75em .75em .75em 1.25em
                 }
             }
@@ -625,7 +625,7 @@ div.sui-input {
                         background-color: var(--content-focus_shadow);
                     }
 
-                    box-shadow: 0 1px 0 var(--content-text_transparent);
+                    box-shadow: 0 1px 0 var(--content-text_transparent, rgba(0, 0, 0, 0.22));
                 }
             }
 
@@ -710,7 +710,7 @@ div.sui-textarea {
                 content: "";
                 width: 2px;
                 height: 1.4rem;
-                background-color: var(--content-text_shadow);
+                background-color: var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                 position: absolute;
                 right: -1px;
             }
@@ -764,7 +764,7 @@ div.sui-textarea {
                 content: "";
                 width: 2px;
                 height: 1.4em;
-                background-color: var(--content-text_shadow);
+                background-color: var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                 position: absolute;
                 left: -1px;
             }
@@ -788,7 +788,7 @@ div.sui-textarea {
         font-weight: 500;
         white-space: nowrap;
         color: var(--content-text_soft);
-        text-shadow: 1px 1px var(--content-text_shadow);
+        text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
 
         & ~ fieldset {
             top: -12px;
@@ -820,7 +820,7 @@ div.sui-textarea {
         left: 0;
         bottom: 0;
         text-align: left;
-        border: 2px solid var(--content-text_transparent);
+        border: 2px solid var(--content-text_transparent, rgba(0, 0, 0, 0.22));
 
         legend {
             position: relative;
@@ -839,7 +839,7 @@ div.sui-textarea {
         display: inline-grid;
         min-height: 2.8em;
         width: 100%;
-        text-shadow: 1px 1px var(--content-text_shadow);
+        text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
 
         &::after {
             content: attr(data-replica) " ";
@@ -855,7 +855,7 @@ div.sui-textarea {
             border: none;
 
             &::placeholder {
-                color: var(--content-text_placeholder);
+                color: var(--content-text_placeholder, rgba(0, 0, 0, 0.33));
             }
 
             &:read-only {
@@ -875,7 +875,7 @@ div.sui-textarea {
             padding: calc(0.515em + 1px) 0.75em;
             font-size: 1rem;
             outline: none;
-            border-color: var(--content-text_transparent);
+            border-color: var(--content-text_transparent, rgba(0, 0, 0, 0.22));
             box-shadow: inset 0 0 0 4px var(--content-focus_shadow);
             border-top: none;
             /* Place on top of each other */

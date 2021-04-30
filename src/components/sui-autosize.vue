@@ -33,13 +33,13 @@ export default {
                 this.value = '';
                 this.allowEnter = false;
                 this.readonly = false;
+                let setValue = "";
                 if (typeof el === 'string')
                     this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
                 else if (typeof el === 'object' && Object.keys(el).length) {
                     let {element, elementId, max, min, value, allowEnter, readonly} = el;
 
-                    this.value = value || "";
-
+                    setValue = value;
                     if (allowEnter)
                         this.allowEnter = allowEnter;
 
@@ -63,22 +63,44 @@ export default {
 
 
                 this.textarea = this.element.childNodes[0];
+                this.value = setValue || this.textarea.value || "";
                 this.textarea.readOnly = this.readonly;
                 this.elementStyle = window.getComputedStyle(this.textarea);
                 this.init();
             }
 
             updateValue(v) {
-                let target = v || this.textarea;
-                target.parentNode.dataset.replica = target.value;
-                this.value = target.value;
-                this.adjustSize();
+                let value = v || this.textarea.value;
+                this.textarea.parentNode.dataset.replica = value;
+                if (this.textarea.value !== value)
+                    this.textarea.value = value;
+                this.value = value;
+                return this.adjustSize();
+            }
+
+            async initTextareaSize() {
+                this.placeholder = this.textarea.getAttribute('placeholder');
+
+                let setValue = this.value;
+
+                if (this.placeholder) {
+                    await this.updateValue(this.placeholder);
+                    this.element.style.minWidth = this.elementStyle.width;
+                    this.placeholdersize = this.fontsize;
+                    this.element.style.setProperty('--placeholder-size', `${this.placeholdersize}px`);
+                    this.element.style.setProperty('--placeholder-height', this.elementStyle.height);
+                } else this.placeholdersize = this.max;
+
+                this.textarea.value = setValue;
+                this.textarea.parentNode.dataset.replica = setValue;
+                this.value = setValue;
+
+                await this.adjustSize();
             }
 
             init() {
                 let el = this.textarea;
                 let parent = this.element;
-                el.value = this.value;
 
                 el.setAttribute('rows', '1');
 
@@ -90,7 +112,11 @@ export default {
                 parent.insertBefore(replica, el);
                 replica.append(el);
 
-                replica.dataset.replica = el.value;
+                this.placeholder = el.getAttribute('placeholder');
+
+                this.initTextareaSize();
+
+                this.eventId = window.sui_on.registerEvent.resize(this.initTextareaSize.bind(this));
 
                 el.addEventListener('keydown', (e) => {
                     if (!this.allowEnter && e.key === 'Enter')
@@ -114,9 +140,6 @@ export default {
                     if (!target.readOnly && par.classList.contains('sui-autosize') && par.classList.contains('focus'))
                         par.classList.remove('focus');
                 });
-
-                this.adjustSize();
-                this.eventId = window.sui_on.registerEvent.resize(this.adjustSize.bind(this));
             }
 
             adjustSize() {
@@ -177,7 +200,19 @@ export default {
                     });
                 };
 
-                runUp();
+                if (!this.value) {
+                    this.fontsize = this.placeholdersize;
+                    if (!this.textarea.parentNode.classList.contains('empty'))
+                        this.textarea.parentNode.classList.add('empty');
+
+                    this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
+                    return;
+                }
+
+                if (this.textarea.parentNode.classList.contains('empty'))
+                    this.textarea.parentNode.classList.remove('empty');
+
+                return runUp();
             }
 
             destroy() {
@@ -227,10 +262,10 @@ export default {
     box-sizing: border-box;
 
     &:not(.readonly) {
-        border-color: var(--content-text_shadow);
+        border-color: var(--content-text_shade, #b3b3b3);
 
         &.focus, &:hover {
-            border-color: var(--content-text_placeholder);
+            border-color: var(--content-text_placeholder, #b3b3b3);
         }
     }
 
@@ -247,6 +282,12 @@ export default {
             color: var(--content-text);
         }
 
+        &.textarea.empty {
+            & > textarea:placeholder-shown, &::after {
+                height: var(--placeholder-height);
+            }
+        }
+
         & > textarea {
             position: absolute;
             top: 0;
@@ -261,7 +302,8 @@ export default {
             width: 100%;
 
             &::placeholder {
-                color: var(--content-text_placeholder);
+                font-size: var(--placeholder-size);
+                color: var(--content-text_placeholder, #b3b3b3);
             }
 
             &:read-only {
