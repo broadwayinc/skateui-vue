@@ -72,7 +72,6 @@ div.sui-accordion {
                 border-left: 0;
                 border-right: 0;
                 max-width: unset;
-                //width: 100%;
             }
 
             &::after {
@@ -87,21 +86,23 @@ div.sui-accordion {
             }
 
             padding-right: 1.5em;
-            //padding-left: .25rem;
             box-sizing: border-box;
             width: 100%;
             cursor: pointer;
             position: relative;
             line-height: 2rem;
-
             color: var(--content-text_soft);
 
             &:hover {
-                text-shadow: 1px 1px var(--content-text_shadow);
+                text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                 color: var(--content-text);
 
                 &::after {
-                    text-shadow: 1px 1px var(--content-text_shadow);
+                    text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
+                }
+
+                & + hr {
+                    opacity: 1;
                 }
             }
         }

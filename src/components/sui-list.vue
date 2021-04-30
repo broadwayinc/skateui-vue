@@ -26,7 +26,7 @@
                 .article(v-if="article.type === 'text'")
                     .content(style="justify-content: center;")
                         div(style='width:100%;box-sizing:border-box;' :style="{padding: article.description ? '0' : '0 6%'}")
-                            sui-autosize(v-if='article.title' style='width:100%;font-weight: 500;text-shadow: 1px 1px var(--content-text_shadow);' :text-align='!article.description ? "center" : null' :value="article.title.length > 64 ? article.title.substring(0, 64) + '...' : article.title" readonly :min="16" :max="article.description ? 24 : 48")
+                            sui-autosize(v-if='article.title' style='width:100%;font-weight: 500;text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));' :text-align='!article.description ? "center" : null' :value="article.title.length > 64 ? article.title.substring(0, 64) + '...' : article.title" readonly :min="16" :max="article.description ? 24 : 48")
                         p.description(v-if='article.description') {{article.description.length > 256 ? article.description.substring(0, 256) + '...' : article.description}}
                         .shade(v-if="article.description || article.title.length > 64")
     .article(v-if="$slots.post")
@@ -336,7 +336,7 @@ div.sui-list {
                 -webkit-box-orient: vertical;
                 font-weight: 500;
                 color: var(--content-text_soft);
-                text-shadow: 1px 1px var(--content-text_shadow);
+                text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                 overflow: hidden;
                 font-size: .8rem;
                 line-height: 1.25;

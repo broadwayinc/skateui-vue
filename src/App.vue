@@ -1,41 +1,42 @@
 <template lang="pug">
 div
-    sui-app(:hide-navbar='true' :notification="notification" color-scheme='#FFD43B')
+    sui-app(:hide-navbar='true')
         template(v-slot:nav)
             .nav
                 .nav-info
                     i.material-icons.hamburger(onclick="sui_popup.handler({id:'hamburger-menu', pop:'left', closeOnBackgroundClick:true})") menu
-                    // img(src="/img/pixelheart.png")
-                    h6 PIXSHELL
+                    //img(src="/img/pixelheart.png")
+                    h6 ASDF
                 .nav-icon
                     sui-button(type="nude") Login
                     sui-button Sign In
-        //router-view
-        template(v-slot:page)
-            //section.slide
-            .app-grid
-                #search
-                    p search
-                #hashtag
-                    p hashtag
-                #sidenav
-                    sui-sticky(:offset="18" :style="{paddingLeft: '1rem'}")
-                        .menublock(v-for="(sub, name) in navigation" :class="{disabled:sub.disabled, selected:sub.selected}")
-                            .left(v-if="sub.icon")
-                                i.material-icons {{sub.icon}}
-                            .new(v-if="sub.new")
-                                small {{sub.new}}
-                            a {{name}}
-                        template(v-for="(nav, name) in customNavigation")
-                            template(v-if="name !== '%%null%%'")
-                                .menublock(v-for="(sub, name) in nav" :class="{disabled:sub.disabled, selected:sub.selected}")
-                                    .left(v-if="sub.icon")
-                                        i.material-icons {{sub.icon}}
-                                    .new(v-if="sub.new")
-                                        small {{sub.new}}
-                                    a {{name}}
-                #view
-                    router-view
+        .app-grid
+            #sidenav
+                sui-sticky(style="padding-left: 1rem;padding-top: 1rem;")
+                    .menublock(v-for="(sub, name) in navigation" :class="{disabled:sub.disabled, selected:sub.selected}")
+                        .left(v-if="sub.icon")
+                            i.material-icons {{sub.icon}}
+                        .new(v-if="sub.new")
+                            small {{sub.new}}
+                        a {{name}}
+                    template(v-for="(nav, name) in customNavigation")
+                        template(v-if="name !== '%%null%%'")
+                            .menublock(v-for="(sub, name) in nav" :class="{disabled:sub.disabled, selected:sub.selected}")
+                                .left(v-if="sub.icon")
+                                    i.material-icons {{sub.icon}}
+                                .new(v-if="sub.new")
+                                    small {{sub.new}}
+                                a {{name}}
+            #view
+                router-view
+        template(v-slot:notification)
+            sui-card(:close='(e)=>{console.log(e)}' style="margin: 8px;border: solid 1px var(--saturate, #4848db);font-size:.8rem;")
+                template(#title)
+                    div(style="background-color:var(--button);color:var(--button-text);padding:var(--padding-title);") New Message
+                div(style="padding:1em 0;line-height:2em;")
+                    i.material-icons(style="vertical-align:middle;display:inline-block;font-size:2em;line-height:1;") email
+                    pre
+                    | Your E-Mail has not been verified
     sui-card#hamburger-menu
         template(#title)
             | Welcome Baksa Gimm!
@@ -114,6 +115,9 @@ export default {
                 }
             }
         };
+    },
+    computed: {
+        console: () => console
     }
 };
 </script>
@@ -265,7 +269,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100%;
+    padding: .25rem .5rem;
 
     & > .nav-info:first-child {
         display: flex;
@@ -371,76 +375,24 @@ section.slide {
 }
 
 div.app-grid {
+    width: 1000px;
+    max-width: 100%;
+    margin: auto;
     display: grid;
-    grid-template-rows: auto;
-    width: 100%;
     grid-template-areas:
-                ". . search . ."
-                ". sidenav hashtag . ."
-                ". sidenav view . .";
+                "sidenav view";
 
     // adjust the desktop / laptop grid size from here
-    grid-template-columns: auto auto auto auto auto;
-    @media @laptop {
-        grid-template-columns: auto auto auto auto auto;
-    }
+    grid-template-columns: auto minmax(auto, 75%);
 
     @media @tablet {
-        grid-template-columns: auto;
+        width: 100%;
+        grid-template-columns: minmax(0, 100%);
         grid-template-areas:
-                "search"
-                "hashtag"
                 "view";
-        #search, #hashtag {
-            padding-left: 8px !important;
-            padding-right: 8px !important;
-        }
+
         #sidenav {
             display: none;
-        }
-    }
-
-    & > #search {
-        grid-area: search;
-    }
-
-
-    & > #hashtag {
-        grid-area: hashtag;
-        color: var(--background-text);
-
-        & > .category {
-            opacity: .66;
-            text-shadow: 1px 1px var(--background-text_shadow);
-            padding-bottom: 1rem;
-        }
-
-        & > .hashtag {
-            padding-bottom: 1rem;
-
-            & > a {
-                font-size: .8rem;
-                cursor: pointer;
-                color: var(--background-text_soft);
-                padding: .25em .5em;
-                border-radius: 8px;
-
-                &:not(:last-child) {
-                    margin-right: .5em;
-                }
-
-                &:hover {
-                    color: var(--background-text);
-                    background-color: var(--background-text_shadow);
-                    text-shadow: 1px 1px var(--background-text_shadow);
-                }
-
-                &.selected {
-                    color: var(--background-focus-text);
-                    background-color: var(--background-focus);
-                    text-shadow: 1px 1px var(--background-text_shadow);
-                }
-            }
         }
     }
 
@@ -450,6 +402,7 @@ div.app-grid {
     }
 
     & > #sidenav {
+        padding-right: 1rem;
         grid-area: sidenav;
         position: relative;
     }

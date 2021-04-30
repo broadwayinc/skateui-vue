@@ -1,14 +1,11 @@
 <template lang="pug">
-.sui-app
+#sui-app
     nav(v-if="$slots.nav")
         slot(name="nav")
-    .view(v-if="loaded")
-        slot(name="page")
-    #sui-app-notification(:class="{show: notification_computed}" v-if="notification_computed")
-        sui-card(:style="{backgroundColor:'var(--content-text)',color:'var(--content)', maxWidth: 'unset'}")
-            .notification-head(@click="()=>{console.log('yto')}")
-                i.material-icons.icon(v-if="notification_computed.icon") {{notification_computed.icon}}
-                p {{notification_computed.text}}
+    #sui-app-view(v-if="loaded")
+        slot
+    #sui-app-notification
+        slot(name="notification")
 </template>
 <script>
 import ColorMangle from '../lib/colormangle';
@@ -18,12 +15,6 @@ export default {
     props: {
         darkMode: Boolean,
         colorScheme: String | Object,
-        notification: {
-            type: String | Object,
-            default: function () {
-                return '';
-            }
-        },
         hideNavbar: Boolean
     },
     data() {
@@ -32,7 +23,6 @@ export default {
         };
     },
     created() {
-
         if (!window.sui_app)
             window.sui_app = {
                 scrollOffset: 0,
@@ -45,9 +35,12 @@ export default {
                 viewport: 'desktop',
                 touchScreen: window.matchMedia('(pointer: coarse)').matches,
                 updateViewport() {
-                    if (window.sui_app.hideNavbar) {
+                    if (window.sui_app.navbarStyle) {
                         let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
-                        window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight + 16;
+                        window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight;
+                        window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight;
+
+                        document.getElementsByTagName('body')[0].style.setProperty('--navbar-height', `${navbarHeight}px`);
                     }
 
                     window.sui_app.viewport = 'desktop';
@@ -63,7 +56,7 @@ export default {
 
                     return window.sui_app.viewport;
                 },
-                calcNavbarHeight() {
+                calcNavbarPosition() {
                     if (window.sui_app.hideNavbar) {
                         const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
                         const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
@@ -98,12 +91,16 @@ export default {
                             body.style.backgroundColor = cs[c];
                     }
 
-                    window.sui_app.colorScheme = cs;
+                    body.style.setProperty('--navbar-top', `${0}px`);
 
+                    window.sui_app.colorScheme = cs;
                     window.sui_app.updateViewport();
-                    window.sui_app.calcNavbarHeight();
-                    window.sui_on.registerEvent.scroll(window.sui_app.calcNavbarHeight);
                     window.sui_on.registerEvent.resize(window.sui_app.updateViewport);
+
+                    if (hideNavbar) {
+                        window.sui_app.calcNavbarPosition();
+                        window.sui_on.registerEvent.scroll(window.sui_app.calcNavbarPosition);
+                    }
 
                     return true;
                 }
@@ -119,17 +116,6 @@ export default {
             darkMode: this.darkMode
         });
     },
-    computed: {
-        console: () => console,
-        notification_computed() {
-            if (this.notification) {
-                if (typeof this.notification === 'string')
-                    return {text: this.notification};
-                return this.notification;
-            }
-            return null;
-        }
-    }
 };
 
 </script>
@@ -137,36 +123,39 @@ export default {
 @import '../assets/normalize.css';
 @import '../assets/viewport.less';
 
-.sui-app {
-    width: 100%;
+#sui-app {
+    width: 100vw;
+    max-width: 100%;
     min-height: 100vh;
+
     background-color: var(--background);
     color: var(--background-text);
     position: relative;
+
+    display: flex;
+    justify-content: center;
 
     & > nav {
         background-color: var(--toolbar);
         color: var(--toolbar-text);
         box-shadow: 0 2px var(--shadow);
-        padding: 8px 1rem;
-        width: calc(100% - 2rem);
-        height: 3rem;
+        width: 100%;
         top: var(--navbar-top);
         position: fixed;
         overflow: hidden;
         z-index: 9999;
 
-        & + .view {
-            padding-top: calc(3rem + 16px);
+        & + #sui-app-view {
+            padding-top: var(--navbar-height);
         }
 
         & ~ #sui-app-notification {
-            top: calc(3rem + 16px + var(--navbar-top));
+            top: calc(var(--navbar-height) + var(--navbar-top));
         }
     }
 
-    & > .view {
-        max-width: 100%;
+    #sui-app-view {
+        width: 100%;
         position: relative;
 
         & > * {
@@ -175,130 +164,118 @@ export default {
     }
 
     & > #sui-app-notification {
+        font-size: .88rem;
+
+        & > div {
+            box-shadow: 0 0 8px 4px var(--shadow);
+            display: inline-block;
+        }
+
         position: fixed;
         top: 0;
-        right: 0;
-        padding: 8px 1rem;
-        box-sizing: border-box;
+        text-align: center;
+        max-width: 100%;
         z-index: 1;
+    }
+}
 
-        .notification-head {
-            display: flex;
-            padding: 8px;
+div {
+    &.sui-dummy {
+        display: none;
+    }
 
-            & > p {
-                padding: 2px 0;
-                font-size: 16px;
-                line-height: 20px;
-            }
-
-            i {
-                padding-right: 4px;
-                font-size: 24px;
-            }
-
-            * {
-                vertical-align: middle;
-            }
+    &.sui-screen {
+        &._pop-bottom {
+            justify-content: flex-end;
         }
-    }
-}
 
-div.sui-dummy {
-    display: none;
-}
+        &._pop-top {
+            justify-content: flex-start;
+        }
 
-div.sui-screen {
-    &._pop-bottom {
-        justify-content: flex-end;
-    }
+        &._pop-left {
+            justify-content: center;
+            align-items: flex-start;
+        }
 
-    &._pop-top {
-        justify-content: flex-start;
-    }
+        &._pop-right {
+            justify-content: center;
+            align-items: flex-end;
+        }
 
-    &._pop-left {
+        z-index: 9999;
         justify-content: center;
-        align-items: flex-start;
-    }
-
-    &._pop-right {
-        justify-content: center;
-        align-items: flex-end;
-    }
-
-    z-index: 9999;
-    justify-content: center;
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: transparent;
-    transition: background-color .5s;
-
-    &._pop-center {
-        transition: background-color 0s;
-    }
-
-    overflow: hidden;
-}
-
-div.sui-popup {
-    overflow-y: auto;
-    overflow-x: hidden;
-    @media @tablet {
-        margin: 0 !important;
-    }
-
-    &._pop-bottom {
-        border-bottom-left-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-        bottom: -100%;
-        margin: 0 auto !important;
-    }
-
-    &._pop-top {
-        border-top-left-radius: 0 !important;
-        border-top-right-radius: 0 !important;
-        bottom: 100%;
-        margin: 0 auto !important;
-    }
-
-    &._pop-right {
-        border-top-right-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-        left: 100%;
-        margin: 0 !important;
-    }
-
-    &._pop-left {
-        border-top-left-radius: 0 !important;
-        border-bottom-left-radius: 0 !important;
-        left: -100%;
-        margin: 0 !important;
-    }
-
-    &._pop-center {
-        margin: auto !important;
-    }
-
-    display: block !important;
-
-    position: relative;
-
-    max-height: 100%;
-
-    &._up, &._down {
+        display: flex;
+        position: fixed;
+        flex-direction: column;
+        top: 0;
+        right: 0;
         bottom: 0;
-    }
-
-    &._left, &._right {
         left: 0;
+        background-color: transparent;
+        transition: background-color .5s;
+
+        &._pop-center {
+            transition: background-color 0s;
+        }
+
+        overflow: hidden;
     }
 
-    transition: bottom .5s, left .5s;
+    &.sui-popup {
+        overflow-y: auto;
+        overflow-x: hidden;
+        @media @tablet {
+            margin: 0 !important;
+        }
+
+        &._pop-bottom {
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            bottom: -100%;
+            margin: 0 auto !important;
+        }
+
+        &._pop-top {
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+            bottom: 100%;
+            margin: 0 auto !important;
+        }
+
+        &._pop-right {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            left: 100%;
+            margin: 0 !important;
+        }
+
+        &._pop-left {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            left: -100%;
+            margin: 0 !important;
+        }
+
+        &._pop-center {
+            margin: auto !important;
+        }
+
+        display: block !important;
+
+        position: relative;
+
+        max-height: 100%;
+
+        &._up, &._down {
+            bottom: 0;
+        }
+
+        &._left, &._right {
+            left: 0;
+        }
+
+        transition: bottom .5s, left .5s;
+    }
 }
 </style>

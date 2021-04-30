@@ -1,10 +1,10 @@
 <template lang='pug'>
-div.sui-steps(:class="{ line: type === 'line', ring: type === 'ring' }" :style="{'--ring-count': steps.length, '--ring-status': completed}")
+div.sui-steps(:class="{ line: type === 'line', ring: type === 'ring' }" :style="{'--ring-count': steps.length, '--ring-status': complete + (type === 'ring' ? 1 : 0)}")
     svg
         circle.step(r="1.5em" cx="50%" cy="50%")
     svg
         circle.step(r="1.5em" cx="50%" cy="50%")
-    .step(v-for="(step,idx) in steps" :class="{'complete': idx < completed, 'current': type === 'line' ? idx === completed : idx === completed - 1 }")
+    .step(v-for="(step,idx) in steps" :class="{'complete': idx < complete, 'current': idx === complete }")
         template(v-if="typeof step === 'string'") {{ step.text ? step.text : step }}
         template(v-else)
             .left
@@ -19,6 +19,11 @@ export default {
         type: String,
         steps: Array,
         completed: Number
+    },
+    computed: {
+        complete() {
+            return this.steps.length < this.completed ? this.steps.length : this.completed;
+        }
     }
 };
 </script>
@@ -47,11 +52,11 @@ div.sui-steps {
         cursor: default;
         padding-right: 1em;
         padding-top: .25em;
-        color: var(--content-text_placeholder);
+        color: var(--content-text_placeholder, #b3b3b3);
         flex-grow: 1;
         margin-right: 3px;
-        font-weight: 500;
         border-top: 3px solid;
+
         & > .left {
             padding-right: .5em;
 
@@ -61,14 +66,14 @@ div.sui-steps {
         }
 
         &.complete {
-            border-top: 3px solid var(--button_placeholder);
-            color: var(--button-nude_placeholder);
+            opacity: .5;
+            border-top: 3px solid var(--saturate, #4848db);
+            color: var(--button-nude, inherit);
         }
 
         &.current {
-            border-top: 3px solid var(--button);
-            color: var(--button-nude);
-            text-shadow: 1px 1px var(--content-text_shade);
+            border-top: 3px solid var(--saturate, #4848db);
+            color: var(--button-nude, inherit);
         }
     }
 
@@ -85,8 +90,6 @@ div.sui-steps {
             text-align: center;
             justify-content: center;
             align-items: center;
-            font-weight: 500;
-            text-shadow: 1px 1px var(--content-text_transparent);
         }
 
         padding-bottom: 0;
@@ -112,7 +115,7 @@ div.sui-steps {
                 position: absolute;
 
                 circle {
-                    stroke: var(--button-nude_shade);
+                    stroke: var(--saturate_transparent, rgba(72, 72, 219, 0.22));
                 }
 
                 & + svg {
@@ -121,7 +124,7 @@ div.sui-steps {
                     transform-origin: 50% 50%;
 
                     circle {
-                        stroke: var(--button);
+                        stroke: var(--saturate, #4848db);
                         stroke-dasharray: calc(var(--circum) * 1em);
                         stroke-dashoffset: calc(var(--offset) * 1em);
                         transition: stroke-dashoffset .25s;

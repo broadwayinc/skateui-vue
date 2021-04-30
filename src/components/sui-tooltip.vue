@@ -1,9 +1,9 @@
 <template lang='pug'>
-    .sui-tooltip(:id="id" :class="{left:isLeft, bottom: isBottom}" @mouseenter="setPosition")
-        .content
-            small
-                slot
-        i.material-icons.left help
+.sui-tooltip(:class="{left:isLeft, bottom: isBottom}" @mouseenter="setPosition")
+    .content(:style='{width: maxWidth}')
+        small
+            slot
+    i.material-icons.left help
 </template>
 
 <script>
@@ -14,87 +14,53 @@ export default {
     },
     data() {
         return {
-            id: null,
-            arrowHeight: 13.5,
-            bottomBlocked: false,
-            topBlocked: false,
-            rightBlocked: false,
-            leftBlocked: false
-        }
-    },
-    mounted() {
-        this.id = this.elementId();
-    },
-    computed: {
-        isLeft() {
-            if(this.leftBlocked) return false;
-            if(this.rightBlocked) return true;
-            return this.direction === 'left' || this.direction === 'bottom-left'
-        }  ,
-        isBottom() {
-            if(this.bottomBlocked) return false;
-            if(this.topBlocked) return true;
-            return this.direction === 'bottom' || this.direction === 'bottom-left'
-        }
+            isBottom: false,
+            isLeft: false,
+            maxWidth: null
+        };
     },
     methods: {
-        elementId() {
-            return window.sui_generateId(this.$options.name);
-        },
-        setPosition() {
-            let windowHeight = window.innerHeight;
-            let windowWidth = window.innerWidth;
-            let el = document.getElementById(this.id);
+        setPosition(e) {
+            let y = window.innerHeight / 2 - 24;
+            let x = window.innerWidth / 2 + 24;
 
-            if(windowHeight - el.getBoundingClientRect().y < el.querySelector('.content').clientHeight + this.arrowHeight) {
-                this.bottomBlocked = true;
-            } else {
-                this.bottomBlocked = false;
-            }
-            if(el.getBoundingClientRect().y < el.querySelector('.content').clientHeight + this.arrowHeight) {
-               this.topBlocked = true;
-            } else {
-                this.topBlocked = false;
-            }
-            if(windowWidth - el.getBoundingClientRect().x < el.querySelector('.content').clientWidth) {
-                this.rightBlocked = true;
-            } else {
-                this.rightBlocked = false;
-            }
-            if(el.getBoundingClientRect().x < el.querySelector('.content').clientWidth) {
-                this.leftBlocked = true;
-            } else {
-                this.leftBlocked = false;
-            }
+            this.isBottom = (e.clientY < y || this.direction?.includes('bottom')) && (!this.direction || !this.direction?.includes('top'));
+            this.isLeft = (e.clientX > x || this.direction?.includes('left')) && (!this.direction || !this.direction?.includes('right'));
+            this.maxWidth = this.isLeft ? `${e.clientX}px` : `calc(${window.innerWidth - e.clientX}px)`;
         }
     }
 };
 </script>
 <style scoped lang="less">
 @import '../assets/viewport.less';
+
 div.sui-tooltip {
     height: 1.25em;
     display: inline-block;
     position: relative;
     text-align: left;
     vertical-align: middle;
+    cursor: pointer;
 
     &.bottom {
         & > .content {
             top: calc(0px + 2em);
             bottom: unset;
-
+            &::after {
+                margin-top: -0.5em;
+                margin-bottom: unset;
+                border-bottom: solid .5em var(--content-text, black);
+                border-top: 0;
+                bottom: unset;
+                top: 0;
+            }
             &::before {
-                content: "";
-                width: 0;
-                height: 0;
-                position: absolute;
-                top: calc(0px - .75em);
-                left: calc(1em - 3px);
-                border-top: none;
-                border-bottom: .75em solid var(--content-text);
-                border-left: .5em solid transparent;
-                border-right: .5em solid transparent;
+                margin-top: calc(-0.5em - 3px);
+                margin-bottom: unset;
+                border-bottom: solid calc(.5em + 2px) var(--content, white);
+                border-top: 0;
+                bottom: unset;
+                top: 0;
             }
         }
     }
@@ -105,32 +71,55 @@ div.sui-tooltip {
             right: calc(-100% + 0.5em);
             text-align: right;
 
+            &::after {
+                left: calc(100% - 1em - 4px);
+                border-right: .5em solid transparent;
+                border-left: 0;
+            }
             &::before {
-                right: calc(1em - 3px);
-                left: unset;
+                left: calc(100% - 1em - 4px);
+                border-right: calc(.5em + 2px) solid transparent;
+                border-left: 0;
             }
         }
     }
 
     & > .content {
-        &::before {
-            content: "";
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: calc(1em + 4px);
             width: 0;
             height: 0;
-            position: absolute;
-            bottom: calc(0px - .75em);
-            left: calc(1em - 3px);
-            border-top: .75em solid var(--content-text);
-            border-left: .5em solid transparent;
-            border-right: .5em solid transparent;
+            border: 0.5em solid transparent;
+            border-top-color: var(--content-text, black);
+            border-bottom: 0;
+            border-right: 0;
+            margin-left: -0.25em;
+            margin-bottom: -0.5em;
         }
-
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: calc(1em + 4px);
+            width: 0;
+            height: 0;
+            border: calc(0.5em + 2px) solid transparent;
+            border-top-color: var(--content, white);
+            border-bottom: 0;
+            border-right: 0;
+            margin-left: calc(-0.25em - 1px);
+            margin-bottom: calc(-0.5em - 3px);
+        }
         small {
             text-align: left;
-            background-color: var(--content-text);
-            color: var(--content);
+            background-color: var(--content-text, black);
+            color: var(--content, white);
             padding: .5em 1em;
-            box-shadow: 0 0 0 3px var(--content-text_transparent);
+            box-shadow: 0 0 0 2px var(--content, white);
+            border-radius: 8px;
         }
 
         width: 50vw;
@@ -147,18 +136,6 @@ div.sui-tooltip {
 
     &:hover > .content {
         display: block;
-    }
-
-    @media @touch {
-        &:active > .content {
-            display: block;
-        }
-    }
-
-    & > .left {
-        cursor: pointer;
-        font-size: 1.25em;
-        line-height: 1em;
     }
 }
 </style>

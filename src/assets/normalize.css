@@ -363,6 +363,7 @@ pre {
     display: inline;
     tab-size: 1em;
     margin: 0;
+    flex-shrink: 0;
 }
 
 h1,

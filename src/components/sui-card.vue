@@ -2,18 +2,18 @@
 div.sui-card
     template(v-if="hasTitleSlot()")
         sui-sticky(v-if="stickyTitle" :style="{zIndex:1}")
-            .title(:class="{hasCloseButton: typeof closeButton === 'function'}")
+            .title(:class="{hasCloseButton: typeof close === 'function'}")
                 slot(name="title")
-                .close(v-if="typeof closeButton === 'function'" @click.stop="closeButton")
-        .title(v-else :class="{hasCloseButton: typeof closeButton === 'function'}")
+                .close(v-if="typeof close === 'function'" @click.stop="close")
+        .title(v-else :class="{hasCloseButton: typeof close === 'function'}")
             slot(name="title")
-            .close(v-if="typeof closeButton === 'function'" @click.stop="closeButton")
+            .close(v-if="typeof close === 'function'" @click.stop="close")
     .image(v-if="hasImageSlot()" :class="{disabled}")
         slot(name="image")
     .content(v-if="hasContentSlot()" :class="{center: contentCenter, disabled}")
         slot(name="content")
     slot
-    .button(v-if="hasButtonFooterSlot()" :class="{disabled, sticky: stickyMobileButtonFooter}")
+    .button(v-if="hasButtonFooterSlot()" :class="{disabled, sticky: stickyMobileButton}")
         slot(name="buttonFooter")
     .footer(v-if="hasFooterSlot()" :class="{disabled}")
         slot(name="footer")
@@ -24,8 +24,8 @@ export default {
     name: 'sui-card',
     props: {
         contentCenter: Boolean,
-        stickyMobileButtonFooter: Boolean,
-        closeButton: Function,
+        stickyMobileButton: Boolean,
+        close: Function,
         disabled: Boolean,
         stickyTitle: Boolean
     },
@@ -61,7 +61,7 @@ export default {
 
 div.sui-card {
     .disabled {
-        opacity: .5;
+        opacity: .33;
         user-select: none;
         pointer-events: none;
 
@@ -74,28 +74,31 @@ div.sui-card {
     tab-size: 1em;
     background-color: var(--content);
     color: var(--content-text);
-    border-radius: 8px;
 
-    --side-padding: 1.3em;
-
+    --padding-indent: 1.3rem;
+    --border-radius: 8px;
+    border-radius: var(--border-radius);
     box-sizing: border-box;
+
+    & > * {
+        box-sizing: border-box;
+    }
+
     @media @tablet {
         display: block;
     }
 
     @media @phone {
-        --side-padding: .65em;
-        //padding: 0 .65em;
-        border-radius: 0;
+        --padding-indent: .65rem;
     }
 
-    padding: 0 var(--side-padding);
+    --padding-title: 0.5em var(--padding-indent) .15em;
 
-    box-shadow: 0 0 0 1px var(--content-text_shadow);
+    padding: 0 var(--padding-indent);
+
+    box-shadow: 0 0 0 1px var(--content-text_shadow, transparent);
     text-align: left;
     max-width: 100%;
-    //max-width: 100vw;
-
     display: inline-block;
     vertical-align: top;
 
@@ -105,9 +108,12 @@ div.sui-card {
     }
 
     .title, & > .image {
-        overflow: hidden;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
+    }
+
+    & > .image {
+        overflow: hidden;
     }
 
     .title:not(:empty) {
@@ -117,19 +123,35 @@ div.sui-card {
             padding-right: 2rem;
 
             & > div:not(.close) {
+                // custom title div
                 margin-right: -2rem;
+
+                & + .close {
+                    // hide close button
+                    opacity: 0;
+                }
+
+                &::after {
+                    // close button overlay
+                    vertical-align: top;
+                    cursor: pointer;
+                    font-family: sans-serif;
+                    content: '✕';
+                    line-height: 1;
+                    opacity: 1; // can't hover pseudo element
+                    position: absolute;
+                    right: 0.5em;
+                    top: 0.5em;
+                }
             }
         }
 
         position: relative;
-        padding-top: 0.5rem;
-        padding-left: var(--side-padding);
-        padding-right: var(--side-padding);
-        margin: 0 calc(-1 * var(--side-padding));
+        padding: var(--padding-title);
+        margin: 0 calc(-1 * var(--padding-indent));
 
-        line-height: 2rem;
-        border-bottom: 1px solid var(--content-text_shade);
-        text-shadow: 1px 1px var(--content-text_shadow);
+        line-height: 2em;
+        box-shadow: 0 calc(var(--padding-indent) / 2 + 1px) 0 calc(-1 * var(--padding-indent) / 2) var(--content-text_transparent, #b3b3b3);
 
         & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > small {
             min-height: 2em;
@@ -139,7 +161,10 @@ div.sui-card {
         }
 
         & > div:not(.close) {
-            margin: -.5em calc(-1 * var(--side-padding)) 0;
+            margin: -.5em calc(-1 * var(--padding-indent)) -.15em;
+            box-shadow: 0 1px var(--content);
+            border-top-left-radius: calc(var(--border-radius) - 0.05em);
+            border-top-right-radius: calc(var(--border-radius) - 0.05em);
         }
 
         & + .image {
@@ -153,19 +178,17 @@ div.sui-card {
                 line-height: 1;
                 vertical-align: top;
                 cursor: pointer;
+                font-family: sans-serif;
             }
 
             &:hover {
                 opacity: 1;
             }
 
-            opacity: .5;
-            text-align: center;
-            display: block;
+            opacity: .88;
             position: absolute;
             right: 0.5em;
             top: 0.5em;
-            height: 1em;
         }
     }
 
@@ -176,7 +199,6 @@ div.sui-card {
         }
 
         & > * {
-            //width: 100%;
             display: block;
         }
 
@@ -199,11 +221,13 @@ div.sui-card {
     }
 
     & > .content:not(:empty) {
+        width: 100%;
+
         & > * {
             max-width: 100%;
         }
 
-        h1, h2, h3, h4, h5 {
+        h1, h2, h3 {
             text-shadow: 1px 1px rgba(0, 0, 0, 0.11);
         }
 
@@ -238,7 +262,6 @@ div.sui-card {
                 cursor: pointer;
 
                 &:hover {
-                    text-shadow: 1px 1px var(--content-text_shadow);
                     text-decoration: underline;
                 }
             }
@@ -246,11 +269,13 @@ div.sui-card {
             .price {
                 font-size: 1.953em;
                 color: var(--content-text_soft);
-                text-shadow: 1px 1px var(--content-text_shadow);
+                text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                 text-align: right;
                 cursor: default;
                 user-select: none;
                 padding-right: .25em;
+                line-height: 1.25;
+                margin-top: 1em;
             }
 
             .quantity {
@@ -265,7 +290,6 @@ div.sui-card {
             margin-left: -.5em;
             margin-right: -.5em;
             max-width: unset;
-            //width: calc(100% + 1em);
         }
 
         &.center {
@@ -331,7 +355,7 @@ div.sui-card {
             z-index: 9999;
             background-color: var(--content);
             padding: 8px;
-            border-top: 1px solid var(--content-text_transparent);
+            border-top: 1px solid var(--content-text_transparent, #b3b3b3);
         }
     }
 

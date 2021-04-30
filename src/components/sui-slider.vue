@@ -1,10 +1,10 @@
 <template lang="pug">
-.sui-sliderWrapper(:style="{paddingBottom: showPagination ? '16px' : null}")
+.sui-sliderWrapper(:style="{paddingBottom: showPagination ? '24px' : null}")
     .sui-slider(:id='elementId' :style="computedStyle")
         .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
             li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
                 .imageWrapper(:style="[style_imageWrapper(sl)]")
-                    sui-image(v-if="sl.image" :src="sl.image" :ratio="[16,9]" :style="{display: 'block'}" :parallax="parallax")
+                    sui-image(v-if="sl.image" :error-img='errorImg' :src="sl.image" :ratio="ratio || [16,9]" :style="{display: 'block'}" :parallax="parallax")
                     .slideText
                         sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
         .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
@@ -25,10 +25,10 @@ export default {
         outputCurrentIndex: Function,
         ratio: Array,
         showText: Boolean,
-        parallax: Boolean,
+        parallax: String | Boolean,
         showArrow: {type: Boolean, default: true},
         onLoad: Function,
-        errorImage: String,
+        errorImg: String,
         loop: {type: Boolean, default: false}
     },
     data() {
@@ -128,8 +128,8 @@ export default {
         },
         computedStyle() {
             let obj = {
-                '--slideFocus': this.customStyle.paginationFocusColor || 'var(--background-focus)',
-                '--slideBlur': this.customStyle.paginationColor || 'var(--background-text_placeholder)',
+                '--slideFocus': this.customStyle?.paginationFocusColor || 'var(--saturate, #4848db)',
+                '--slideBlur': this.customStyle?.paginationColor || 'var(--background-text_placeholder, #b3b3b3)',
             };
             return obj;
         },
@@ -310,7 +310,8 @@ export default {
 
         .swiper-pagination {
             position: absolute;
-            bottom: 0;
+            //bottom: 0;
+            bottom: -3px; // something is taking up space
             text-align: center;
             width: 100%;
         }
