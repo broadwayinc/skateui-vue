@@ -1,13 +1,13 @@
 <template lang='pug'>
 div.sui-card
     template(v-if="hasTitleSlot()")
-        sui-sticky(v-if="stickyTitle" :style="{zIndex:1}")
-            .title(:class="{hasCloseButton: typeof close === 'function'}")
-                slot(name="title")
-                .close(v-if="typeof close === 'function'" @click.stop="close")
+        sui-sticky.title(v-if="stickyTitle" :style="{zIndex:1}" :class="{hasCloseButton: typeof close === 'function'}")
+            slot(name="title")
+            .close(v-if="typeof close === 'function'" @click.stop="close")
         .title(v-else :class="{hasCloseButton: typeof close === 'function'}")
             slot(name="title")
             .close(v-if="typeof close === 'function'" @click.stop="close")
+    hr
     .image(v-if="hasImageSlot()" :class="{disabled}")
         slot(name="image")
     .content(v-if="hasContentSlot()" :class="{center: contentCenter, disabled}")
@@ -25,9 +25,9 @@ export default {
     props: {
         contentCenter: Boolean,
         stickyMobileButton: Boolean,
-        close: Function,
         disabled: Boolean,
-        stickyTitle: Boolean
+        stickyTitle: Boolean,
+        close: Function
     },
     data() {
         return {
@@ -75,10 +75,26 @@ div.sui-card {
     background-color: var(--content);
     color: var(--content-text);
 
-    --padding-indent: 1.3rem;
-    --border-radius: 8px;
-    border-radius: var(--border-radius);
+    --card-indent: 1.3rem; /* fallback */
+    --card-indent: clamp(.65rem, 2vw, 1.3rem);
+    --card-border-radius: clamp(0px, calc(var(--border-radius, 3px) * 3), 12px);
+    --padding-title: 0.5em var(--card-indent) 0.15em;
+
+    border-radius: var(--card-border-radius);
     box-sizing: border-box;
+
+    & > hr {
+        border-left: 0;
+        border-right: 0;
+        margin: 0 calc(-1 * var(--card-indent));
+        max-width: 100vw;
+        opacity: 1;
+        border-bottom: none;
+        background-color: transparent;
+        color: transparent;
+        border-top-color: var(--content-text_shade);
+        border-top-style: solid;;
+    }
 
     & > * {
         box-sizing: border-box;
@@ -88,14 +104,7 @@ div.sui-card {
         display: block;
     }
 
-    @media @phone {
-        --padding-indent: .65rem;
-    }
-
-    --padding-title: 0.5em var(--padding-indent) .15em;
-
-    padding: 0 var(--padding-indent);
-
+    padding: 0 var(--card-indent);
     box-shadow: 0 0 0 1px var(--content-text_shadow, transparent);
     text-align: left;
     max-width: 100%;
@@ -107,17 +116,26 @@ div.sui-card {
         word-break: break-word;
     }
 
-    .title, & > .image {
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
+    .title, & > .image:nth-child(2) {
+        overflow: hidden;
+        border-top-left-radius: var(--card-border-radius);
+        border-top-right-radius: var(--card-border-radius);
     }
 
     & > .image {
         overflow: hidden;
     }
 
+    hr:first-child {
+        display: none;
+    }
+
     .title:not(:empty) {
         background-color: var(--content);
+
+        * {
+            vertical-align: middle;
+        }
 
         &.hasCloseButton {
             padding-right: 2rem;
@@ -148,10 +166,10 @@ div.sui-card {
 
         position: relative;
         padding: var(--padding-title);
-        margin: 0 calc(-1 * var(--padding-indent));
+        margin: 0 calc(-1 * var(--card-indent));
 
         line-height: 2em;
-        box-shadow: 0 calc(var(--padding-indent) / 2 + 1px) 0 calc(-1 * var(--padding-indent) / 2) var(--content-text_transparent, #b3b3b3);
+        //box-shadow: 0 calc(var(--card-indent) / 2 + 1px) 0 calc(-1 * var(--card-indent) / 2) var(--content-text_transparent, #b3b3b3);
 
         & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > small {
             min-height: 2em;
@@ -161,10 +179,7 @@ div.sui-card {
         }
 
         & > div:not(.close) {
-            margin: -.5em calc(-1 * var(--padding-indent)) -.15em;
-            box-shadow: 0 1px var(--content);
-            border-top-left-radius: calc(var(--border-radius) - 0.05em);
-            border-top-right-radius: calc(var(--border-radius) - 0.05em);
+            margin: -.5em calc(-1 * var(--card-indent)) -.15em;
         }
 
         & + .image {
@@ -193,10 +208,7 @@ div.sui-card {
     }
 
     & > .image:not(:empty) {
-        margin: 0 -1.3em;
-        @media @phone {
-            margin: 0 -.65em;
-        }
+        margin: 0 calc(-1 * var(--card-indent));
 
         & > * {
             display: block;
@@ -249,7 +261,7 @@ div.sui-card {
                 height: 24vw;
                 max-width: 160px;
                 max-height: 160px;
-                border-radius: 4px;
+                border-radius: var(--card-border-radius);
                 object-fit: contain;
                 display: inline;
                 float: left;
@@ -289,7 +301,7 @@ div.sui-card {
             border-right: 0;
             margin-left: -.5em;
             margin-right: -.5em;
-            max-width: unset;
+            max-width: 100vw;
         }
 
         &.center {

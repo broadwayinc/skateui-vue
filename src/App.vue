@@ -6,10 +6,10 @@ div
                 .nav-info
                     i.material-icons.hamburger(onclick="sui_popup.handler({id:'hamburger-menu', pop:'left', closeOnBackgroundClick:true})") menu
                     //img(src="/img/pixelheart.png")
-                    h6 ASDF
+                    h6 JEMPACK
                 .nav-icon
                     sui-button(type="nude") Login
-                    sui-button Sign In
+                    sui-button(@click="(e)=>{console.log(e);notification=true}") Sign In
         .app-grid
             #sidenav
                 sui-sticky(style="padding-left: 1rem;padding-top: 1rem;")
@@ -30,13 +30,12 @@ div
             #view
                 router-view
         template(v-slot:notification)
-            sui-card(:close='(e)=>{console.log(e)}' style="margin: 8px;border: solid 1px var(--saturate, #4848db);font-size:.8rem;")
+            sui-card(v-if='notification' :close='(e)=>{console.log(e);notification=false}' style="margin: 8px;border: solid 1px var(--alert, #4848db);font-size:.8rem;")
                 template(#title)
-                    div(style="background-color:var(--button);color:var(--button-text);padding:var(--padding-title);") New Message
-                div(style="padding:1em 0;line-height:2em;")
-                    i.material-icons(style="vertical-align:middle;display:inline-block;font-size:2em;line-height:1;") email
-                    pre
-                    | Your E-Mail has not been verified
+                    div(style="background-color:var(--alert);color:var(--alert-text);")
+                        i.material-icons(style="font-size:1.5em;margin: .5em") warning
+                        span Alert
+                div(style="padding:1em 0;line-height:2em;") Your E-Mail has not been verified
     sui-card#hamburger-menu
         template(#title)
             | Welcome Baksa Gimm!
@@ -71,10 +70,7 @@ export default {
     name: "app",
     data() {
         return {
-            notification: {
-                text: 'There is no search result',
-                icon: 'help'
-            },
+            notification: false,
             navigation: {
                 'Account Settings': {
                     icon: 'person',

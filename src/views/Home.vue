@@ -151,9 +151,8 @@ div
     sui-card(sticky-title)
         template(#title)
             div(style="background-color:var(--analogous);color:var(--analogous-text);")
-                img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em 1em;border-radius:2em;' src="https://d2068sxih1zpja.cloudfront.net/eyJidWNrZXQiOiJiaW5jc3RvcmFnZSIsImtleSI6InBsYXphL2U5Yjg5NGM1LWQ1NDgtNGZkYi04YTJlLTdkNTllOTIyNzMyMC9pbWFnZS8yODg4NjcwX2tEVGFDRmUyMDcwNjc2NTQiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjQ4MCwiaGVpZ2h0Ijo0ODAsImZpdCI6Im91dHNpZGUifX19")
+                img(style='width:2em;height:2em;display:inline;vertical-align:middle;margin:.5em 1em;border-radius:2em;' src="/img/bear.png")
                 p(style="vertical-align:middle;display:inline;") The Turtle Has Escaped!
-
         template(#content).
             I changed up some styles in the title.
             We can highlight the title to alert users, or make use for something else.
@@ -190,9 +189,9 @@ div
             br
             p We will use the ".button_footer" div for card buttons.
         template(#buttonFooter)
-            sui-button.hellobutton HELLO
+            sui-button.customButton HELLO
         //.button_footer.sticky.viewonphone
-            sui-button HELLO
+            sui-button.customButton HELLO
     br
     br
     sui-card
@@ -211,8 +210,8 @@ div
                 li Only one button is allowed to be filled! Rest should be nude.
                 li It is advised to not use more than 2 footer buttons.
         template(#buttonFooter)
-            sui-button(type="nude") CANCEL
-            sui-button COWABUNGA
+            sui-button.customButton(type="nude") CANCEL
+            sui-button.customButton COWABUNGA
         template(#footer) I'm your footer.
     br
     br
@@ -226,8 +225,8 @@ div
 
                 In that case, simply use footer text as a link or a button.
         template(#buttonFooter)
-            sui-button(type="nude") STEAL
-            sui-button BUY
+            sui-button.customButton(type="nude") STEAL
+            sui-button.customButton BUY
         template(#footer)
             a(style='color: var(--content-text);opacity:50%' href="https://www.google.com/search?q=dog&rlz=1C5CHFA_enKR901KR901&oq=dog&aqs=chrome..69i57j46i275j0l3j46j0l4.822j0j4&sourceid=chrome&ie=UTF-8") I lost my dog
     br
@@ -239,20 +238,20 @@ div
             h6 There are only 3 types of buttons:
             br
             br
-            sui-button filled
-            sui-button(type="nude") nude
-            sui-button(type="icon" icon="create")
+            sui-button.customButton filled
+            sui-button.customButton(type="nude") nude
+            sui-button.customButton(type="icon" icon="create")
             br
             br
             br
             p.
-                button.sui-button - Filled
-                button.sui-button.nude - Nude
-                button.sui-button.icon - Icon
+                button.sui-button.customButton - Filled
+                button.sui-button.customButton.nude - Nude
+                button.sui-button.customButton.icon - Icon
 
                 Filled is a default.
-                Nude style is applied if you add ".nude" class to button.sui-button element.
-                Icon style is applied if you add ".icon" class to button.sui-button element.
+                Nude style is applied if you add ".nude" class to button.sui-button.customButton element.
+                Icon style is applied if you add ".icon" class to button.sui-button.customButton element.
 
                 Other than these two &lt;a&gt; tag can be used as a button as well.
             br
@@ -278,8 +277,8 @@ div
                 It's best not to put spinner inside icon button.
             br
             br
-            sui-button(loading)
-            sui-button(type="nude" loading)
+            sui-button.customButton(loading)
+            sui-button.customButton(type="nude" loading)
     br
     br
     sui-card(content-center)
@@ -294,8 +293,8 @@ div
                 the .button_footer will stack your buttons vertically in reverse order,
                 Will add underline in nude button.
         template(#buttonFooter)
-            sui-button(type="nude") STEAL
-            sui-button BUY
+            sui-button.customButton(type="nude") STEAL
+            sui-button.customButton BUY
         template(#footer) This is a footer
     br
     br
@@ -363,13 +362,13 @@ div
             br
             br
             sui-input(type="autocomplete" :value="searchValue" placeholder="Suggestion box" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
-            sui-button SEARCH
+            sui-button.customButton SEARCH
             br
             br
             sui-input(style="width: 23em" :value="searchValue" label="Search" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search'}]"  @rightClick="" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
             br
             br
-            sui-button(onclick="sui_popup.handler({id: 'searchmobile',pop:'top', closeOnBackgroundClick: false, overlayColor: 'var(--content)'})") SEARCH POP
+            sui-button.customButton(onclick="sui_popup.handler({id: 'searchmobile',pop:'top', closeOnBackgroundClick: false, overlayColor: 'var(--content)'})") SEARCH POP
             sui-input#searchmobile.transparent(:menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search', action: () => {}}]" @rightClick="sui_popup.handler('searchmobile')" :output="(v) => { getSearch(v); }" :option="suiInputAutocomplete1")
             br
             br
@@ -409,8 +408,8 @@ div
                         | &#9;
                         sui-input(style="width:13rem" placeholder="000000" type="password")
         template(#buttonFooter)
-            sui-button(type="nude") Login
-            sui-button Sign-Up
+            sui-button.customButton(type="nude") Login
+            sui-button.customButton Sign-Up
         template(#footer)
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
     br
@@ -441,8 +440,8 @@ div
                         pre
                         sui-input(style="width:13rem" placeholder="000000" type="password" label="Serial")
         template(#buttonFooter)
-            sui-button(type="nude") Login
-            sui-button Sign-Up
+            sui-button.customButton(type="nude") Login
+            sui-button.customButton Sign-Up
         template(#footer)
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
     br
@@ -479,8 +478,8 @@ div
                         | &#9;
                         sui-input(style="width:13rem" placeholder="000000" type="password")
         template(#buttonFooter)
-            sui-button(type="nude") Login
-            sui-button Sign-Up
+            sui-button.customButton(type="nude") Login
+            sui-button.customButton Sign-Up
         template(#footer)
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
     br
@@ -506,8 +505,8 @@ div
                 pre
                 sui-input(style="width:14rem" placeholder="000000" type="password" label="Serial")
         template(#buttonFooter)
-            sui-button(type="nude") Login
-            sui-button Sign-Up
+            sui-button.customButton(type="nude") Login
+            sui-button.customButton Sign-Up
         template(#footer)
             a(href='https://google.com' style="opacity:0.5;color: var(--content-text)") I forgot my password
     br
@@ -636,22 +635,22 @@ div
             h6 POP UP
         template(#content) Push A Button
         template(#buttonFooter)
-            sui-button(onclick="sui_popup.handler('myModal')") Default
+            sui-button.customButton(onclick="sui_popup.handler('myModal')") Default
             br
             br
-            sui-button(onclick="sui_popup.handler({id:'myModal',pop:'top'})") Top
+            sui-button.customButton(onclick="sui_popup.handler({id:'myModal',pop:'top'})") Top
             br
             br
-            sui-button(onclick="sui_popup.handler({id:'myModal',pop:'left'})") Left
+            sui-button.customButton(onclick="sui_popup.handler({id:'myModal',pop:'left'})") Left
             br
             br
-            sui-button(onclick="sui_popup.handler({id:'myModal',pop:'bottom'})") Bottom
+            sui-button.customButton(onclick="sui_popup.handler({id:'myModal',pop:'bottom'})") Bottom
             br
             br
-            sui-button(onclick="sui_popup.handler({id:'myModal',pop:'right'})") Right
+            sui-button.customButton(onclick="sui_popup.handler({id:'myModal',pop:'right'})") Right
             br
             br
-            sui-button(onclick="sui_popup.handler('somerandomstuff')") SPAM
+            sui-button.customButton(onclick="sui_popup.handler('somerandomstuff')") SPAM
     sui-card#myModal(content-center style="display:none;")
         template(#title)
             h6 POP UP
@@ -666,11 +665,11 @@ div
                 Just give it an ID and hide it somewhere.
                 The JS function will take care of it.
         template(#buttonFooter)
-            sui-button(onclick="sui_popup.handler('myModal')") OK
+            sui-button.customButton(onclick="sui_popup.handler('myModal')") OK
     #somerandomstuff(style="display:none;background-color:red;color:white;padding: 2em;text-align:right;")
         | I'm A SPAMMER
         pre
-        sui-button(onclick="sui_popup.handler('somerandomstuff')") OK
+        sui-button.customButton(onclick="sui_popup.handler('somerandomstuff')") OK
     br
     br
     sui-card
@@ -700,8 +699,8 @@ div
             img(src="/img/myface.jpg")
         template(#content)
         template(#buttonFooter)
-            sui-button(type="nude") Change Image
-            sui-button UPLOAD
+            sui-button.customButton(type="nude") Change Image
+            sui-button.customButton UPLOAD
     br
     br
     br
@@ -810,7 +809,7 @@ div
         h4(style="display:inline-block;") $100,000
     br
     br
-    sui-button CHECKOUT
+    sui-button.customButton CHECKOUT
     br
     br
     br
@@ -820,11 +819,9 @@ div
     br
 </template>
 <script>
-import SuiButton from "../components/sui-button";
 
 export default {
     name: "home",
-    components: {SuiButton},
     data() {
         return {
             showZoom: false,
@@ -991,5 +988,10 @@ Seeing my face in lights or my name in marquees found down on Broadway`
 @import '../assets/viewport.less';
 .hellobutton {
     background: red;
+}
+.customButton {
+    --color: red;
+    --background-color: aqua;
+    //--border-radius: 24rem;
 }
 </style>
