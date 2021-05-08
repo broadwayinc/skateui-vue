@@ -41,6 +41,7 @@ div.sui-tooltip {
     text-align: left;
     vertical-align: middle;
     cursor: pointer;
+    --tooltip-border-radius: clamp(0px, calc(var(--border-radius, 3px) * 2), 16px);
 
     &.bottom {
         & > .content {
@@ -114,12 +115,13 @@ div.sui-tooltip {
             margin-bottom: calc(-0.5em - 3px);
         }
         small {
+            line-height: 1.25;
             text-align: left;
             background-color: var(--content-text, black);
             color: var(--content, white);
-            padding: .5em 1em;
+            padding: .75em 1em;
             box-shadow: 0 0 0 2px var(--content, white);
-            border-radius: 8px;
+            border-radius: var(--tooltip-border-radius);
         }
 
         width: 50vw;

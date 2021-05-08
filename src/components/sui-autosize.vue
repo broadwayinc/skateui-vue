@@ -259,7 +259,7 @@ export default {
     border: 2px dashed transparent;
     font-size: var(--auto-size);
     display: inline-block;
-    box-sizing: border-box;
+    max-width: calc(100% - 4px);
 
     &:not(.readonly) {
         border-color: var(--content-text_shade, #b3b3b3);

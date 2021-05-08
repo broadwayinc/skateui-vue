@@ -8,7 +8,7 @@
         slot(name="notification")
 </template>
 <script>
-import ColorMangle from '../lib/colormangle';
+import ColorMangle from 'colormangle';
 
 export default {
     name: "sui-app",
@@ -124,6 +124,9 @@ export default {
 @import '../assets/viewport.less';
 
 #sui-app {
+
+    --border-radius: 3px;
+
     width: 100vw;
     max-width: 100%;
     min-height: 100vh;
@@ -136,8 +139,8 @@ export default {
     justify-content: center;
 
     & > nav {
-        background-color: var(--toolbar);
-        color: var(--toolbar-text);
+        background-color: var(--navbar-background-color, var(--content));
+        color: var(--navbar-color, var(--content-text));
         box-shadow: 0 2px var(--shadow);
         width: 100%;
         top: var(--navbar-top);
@@ -165,6 +168,11 @@ export default {
 
     & > #sui-app-notification {
         font-size: .88rem;
+        &:empty {
+            opacity: 0;
+        }
+        opacity: 1;
+        transition: opacity .25s;
 
         & > div {
             box-shadow: 0 0 8px 4px var(--shadow);

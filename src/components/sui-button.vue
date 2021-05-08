@@ -42,8 +42,9 @@ export default {
         }
     },
     mounted() {
-        if (this.$el.style.backgroundColor || this.$el.style.background)
-            this.$el.style.borderColor = 'transparent';
+        let bk = this.$el.style.backgroundColor || this.$el.style.background;
+        if (bk)
+            this.$el.style.setProperty('--button-background-color', bk);
     },
     methods: {
         async click(e) {
@@ -56,28 +57,29 @@ export default {
                     await p;
 
                 this.loading_onclick = false;
-                return;
             } else
-                this.$emit('click');
+                this.$emit('click', e);
         },
     }
 };
 </script>
 <style scoped lang="less">
-.sui-card .sui-button {
+.sui-button {
     margin: 0;
     white-space: pre-wrap;
     word-break: break-word;
+    --button-border-radius: var(--border-radius, 4px);
+    & + .sui-button {
+        margin-left: 0.25rem;
+    }
 }
 
 button.sui-button, a.sui-button {
-    border-radius: 2px;
-
+    border-radius: var(--button-border-radius);
     max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
     min-height: 2.8rem;
     padding: .25rem 1rem;
-    margin: 0.25rem;
     display: inline-block;
     box-sizing: border-box;
     text-align: center;
@@ -87,22 +89,22 @@ button.sui-button, a.sui-button {
     vertical-align: middle;
     cursor: pointer;
     user-select: none;
-    border: solid 3px var(--button-border, #4646b5);
+    border: solid 3px var(--button-background-color, var(--button-border, #4646b5));
 
     font-weight: 500;
-    background-color: var(--button, #4848db);
-    color: var(--button-text, white);
+    background-color: var(--button-background-color, var(--button, #4848db));
+    color: var(--button-color, var(--button-text, white));
     text-transform: uppercase;
 
     ._loader {
         display: inline-block;
-        border: .15em solid var(--content-text_transparent, rgba(0, 0, 0, 0.22));
+        border: .15em solid var(--content-text_transparent, #7f7f7f);
         border-radius: 50%;
-        border-top: .15em solid var(--button-text, white);
+        border-top: .15em solid;
         vertical-align: middle;
-        margin: -0.22rem 0;
-        width: 1rem;
-        height: 1rem;
+        margin: .5em;
+        width: 1em;
+        height: 1em;
         animation: spin 2s linear infinite;
         @keyframes spin {
             0% {
@@ -120,14 +122,13 @@ button.sui-button, a.sui-button {
 
     &:active {
         box-shadow: none;
-        border-color: var(--button-border, #4646b5);
     }
 
     &.nude {
         background-color: unset;
         color: var(--button-nude, inherit);
         box-shadow: none;
-        border: solid 0.25rem transparent;
+        border: solid 3px transparent;
         text-shadow: none;
 
         &:hover {
@@ -140,7 +141,7 @@ button.sui-button, a.sui-button {
         }
 
         & ._loader {
-            border-top: .15em solid var(--content-text, inherit);
+            border-top: .15em solid inherit;
         }
     }
 

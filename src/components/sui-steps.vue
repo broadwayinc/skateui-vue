@@ -56,6 +56,7 @@ div.sui-steps {
         flex-grow: 1;
         margin-right: 3px;
         border-top: 3px solid;
+        line-height: 1.2;
 
         & > .left {
             padding-right: .5em;
