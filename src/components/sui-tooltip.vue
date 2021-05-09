@@ -41,7 +41,7 @@ div.sui-tooltip {
     text-align: left;
     vertical-align: middle;
     cursor: pointer;
-    --tooltip-border-radius: clamp(0px, calc(var(--border-radius, 3px) * 2), 16px);
+    --tooltip-border-radius: clamp(0px, calc(var(--border-radius, 3px) * 2), 1.25em);
 
     &.bottom {
         & > .content {

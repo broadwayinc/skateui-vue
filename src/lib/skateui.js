@@ -215,6 +215,49 @@
 
             return prefix + output;
         };
+    if (!window.sui_throttle)
+        window.sui_throttle = {
+            set: () => {
+                return {data: null};
+            },
+            run: (exec, throttle, option) => {
+                let latency, breakOff, errorHandler;
+                if (typeof option === 'number')
+                    latency = option;
+                else if (option && typeof option === 'object') {
+                    latency = typeof option.latency === 'number' ? option.latency : 1000;
+                    breakOff = option.breakOff;
+                    errorHandler = option.errorHandler || typeof option.errorHandler === 'boolean' ? option.errorHandler : true;
+                }
+
+                latency = typeof latency === 'number' ? latency : 1000;
+
+                const execute = async (f) => {
+                    if (f) {
+                        const exec = f();
+                        if (exec instanceof Promise) await exec;
+                    }
+                };
+
+                if (throttle.data)
+                    clearTimeout(throttle.data);
+
+                throttle.data = setTimeout(async () => {
+                    let breakOffError = false;
+                    try {
+                        await execute(exec);
+                        breakOffError = true;
+                        await execute(breakOff);
+                    } catch (err) {
+                        if (errorHandler) {
+                            if (typeof errorHandler === 'function')
+                                errorHandler(err, breakOffError);
+                            else throw err;
+                        }
+                    }
+                }, latency);
+            }
+        };
     if (!window.sui_on) {
         window.sui_on = {
             scroll_callback: {},
@@ -269,7 +312,7 @@
                                     try {
                                         window.sui_on.resize_callback[c](event);
                                     } catch (err) {
-                                        console.log(err);
+                                        console.error(err);
                                         delete window.sui_on.resize_callback[c];
                                     }
                                 }

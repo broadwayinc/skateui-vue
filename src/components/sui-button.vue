@@ -89,7 +89,27 @@ button.sui-button, a.sui-button {
     vertical-align: middle;
     cursor: pointer;
     user-select: none;
-    border: solid 3px var(--button-background-color, var(--button-border, #4646b5));
+    //border: solid 3px var(--button-background-color, var(--button-border, #4646b5));
+
+    position: relative;
+    overflow: hidden;
+    &:before {
+        position: absolute;
+        /* zero all offsets */
+        top: 0; right: 0; bottom: 0; left: 0;
+        /* doesn't work in Firefox */
+        backdrop-filter: blur(9px);
+        /* doesn't work in Edge */
+        --button-border-calc: calc(100% - var(--button-border-radius));
+        --poly: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 0,
+        var(--button-border-radius) var(--button-border-radius),
+        var(--button-border-radius) var(--button-border-calc),
+        var(--button-border-calc) var(--button-border-calc),
+        var(--button-border-calc) var(--button-border-radius),
+        var(--button-border-radius) var(--button-border-radius));
+        clip-path: var(--poly);
+        content: ''
+    }
 
     font-weight: 500;
     background-color: var(--button-background-color, var(--button, #4848db));
