@@ -8,7 +8,7 @@
         slot(name="notification")
 </template>
 <script>
-import ColorMangle from 'colormangle';
+import {ColorMangle} from 'colormangle';
 
 export default {
     name: "sui-app",
@@ -31,42 +31,45 @@ export default {
                 navbarHeight: 0,
                 hideNavbar: true,
                 navbarHeight_dynamic: 0,
-                breakPoint: [441, 767, 1365],
+                breakPoint: [442, 768, 1366],
                 viewport: 'desktop',
                 touchScreen: window.matchMedia('(pointer: coarse)').matches,
+                throttle: {
+                    viewport: window.sui_throttle.set()
+                },
                 updateViewport() {
-                    if (window.sui_app.navbarStyle) {
-                        let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
-                        window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight;
-                        window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight;
+                    window.sui_throttle.run(() => {
+                        if (window.sui_app.navbarStyle) {
+                            let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
+                            window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight;
+                            window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight;
 
-                        document.getElementsByTagName('body')[0].style.setProperty('--navbar-height', `${navbarHeight}px`);
-                    }
-
-                    window.sui_app.viewport = 'desktop';
-
-                    let viewport = ['phone', 'tablet', 'laptop'];
-                    for (let bp of window.sui_app.breakPoint) {
-                        let v = viewport.splice(0, 1);
-                        if (window.matchMedia(`(max-width: ${bp}px)`).matches) {
-                            window.sui_app.viewport = v[0];
-                            break;
+                            document.getElementById('sui-app').style.setProperty('--navbar-height', `${navbarHeight}px`);
                         }
-                    }
+
+                        window.sui_app.viewport = 'desktop';
+
+                        let viewport = ['phone', 'tablet', 'laptop'];
+                        for (let bp of window.sui_app.breakPoint) {
+                            let v = viewport.splice(0, 1);
+                            if (window.matchMedia(`(max-width: ${bp}px)`).matches) {
+                                window.sui_app.viewport = v[0];
+                                break;
+                            }
+                        }
+                    }, window.sui_app.throttle.viewport, 250);
 
                     return window.sui_app.viewport;
                 },
                 calcNavbarPosition() {
-                    if (window.sui_app.hideNavbar) {
-                        const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
-                        const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
-                        const navbarOffset = window.sui_app.navbarOffset + offsetDifference;
+                    const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
+                    const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
+                    const navbarOffset = window.sui_app.navbarOffset + offsetDifference;
 
-                        window.sui_app.navbarOffset = navbarOffset < -window.sui_app.navbarHeight - 2 ? -window.sui_app.navbarHeight - 2 : navbarOffset > 0 ? 0 : navbarOffset;
-                        window.sui_app.scrollOffset = scrollOffset;
-                        window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight + window.sui_app.navbarOffset;
-                        document.getElementsByTagName('body')[0].style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
-                    }
+                    window.sui_app.navbarOffset = navbarOffset < -window.sui_app.navbarHeight - 2 ? -window.sui_app.navbarHeight - 2 : navbarOffset > 0 ? 0 : navbarOffset;
+                    window.sui_app.scrollOffset = scrollOffset;
+                    window.sui_app.navbarHeight_dynamic = window.sui_app.navbarHeight + window.sui_app.navbarOffset;
+                    document.getElementById('sui-app').style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
                 },
                 colorScheme: null,
                 init: (option) => {
@@ -91,7 +94,7 @@ export default {
                             body.style.backgroundColor = cs[c];
                     }
 
-                    body.style.setProperty('--navbar-top', `${0}px`);
+                    document.getElementById('sui-app').style.setProperty('--navbar-top', `${0}px`);
 
                     window.sui_app.colorScheme = cs;
                     window.sui_app.updateViewport();
@@ -124,7 +127,6 @@ export default {
 @import '../assets/viewport.less';
 
 #sui-app {
-
     --border-radius: 3px;
 
     width: 100vw;
@@ -168,11 +170,13 @@ export default {
 
     & > #sui-app-notification {
         font-size: .88rem;
+
         &:empty {
             opacity: 0;
         }
+
         opacity: 1;
-        transition: opacity .25s;
+        transition: opacity 0.25s;
 
         & > div {
             box-shadow: 0 0 8px 4px var(--shadow);
@@ -184,6 +188,42 @@ export default {
         text-align: center;
         max-width: 100%;
         z-index: 1;
+    }
+
+    .hideonphone {
+        @media @phone {
+            display: none !important;
+        }
+    }
+
+    .hideontablet {
+        @media @tablet {
+            display: none !important;
+        }
+    }
+
+    .hideonlaptop {
+        @media @laptop {
+            display: none !important;
+        }
+    }
+
+    .viewonphone {
+        @media @notphone {
+            display: none !important;
+        }
+    }
+
+    .viewontablet {
+        @media @nottablet {
+            display: none !important;
+        }
+    }
+
+    .viewonlaptop {
+        @media @notlaptop {
+            display: none !important;
+        }
     }
 }
 

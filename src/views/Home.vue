@@ -541,9 +541,7 @@ div
                 sui-tooltip(direction="bottom-right").
                     This is a tooltip.
                     direction is bottom-right.
-                sui-tooltip(direction="bottom").
-                    This is a tooltip.
-                    direction is bottom.
+                sui-tooltip(direction="bottom") This is a tooltip.
     br
     br
     sui-card
