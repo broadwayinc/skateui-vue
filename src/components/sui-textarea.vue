@@ -1,34 +1,28 @@
 <template lang='pug'>
-    sui-label(type="textarea" :label="label" :error="error" :button="button" :required="required" :message="message || null" :disabled="disabled || null")
-        .textarea
-            textarea(:placeholder="placeholder" rows="1")
+sui-label(type="textarea" :suffix='suffix' :prefix='prefix' :label="label" :error="error" :required="required" :message="message" :disabled="disabled")
+    template(#button-left)
+        slot(name="button-left")
+    template(#button-right)
+        slot(name="button-right")
+    textarea(:placeholder="placeholder" rows="1" @keyup="(e)=>{keyOutput(e.code)}" )
 </template>
 <script>
 export default {
     name: 'sui-textarea',
     props: {
         error: Boolean,
-        placeholder: {
-            type: String,
-            default: null
-        },
+        placeholder: String,
+        prefix: String,
+        suffix: String,
         label: String,
-        button: {
-            type: [Array, Object],
-            default: null
-        },
         required: Boolean,
         disabled: Boolean,
-        message: {
-            type: String,
-            default: null
-        },
-    },
-    data() {
-      return {
-          buttonLeft: null,
-          buttonRight: null,
-      }
+        message: String,
+        keyOutput: {
+            type: Function,
+            default: () => {
+            }
+        }
     }
 };
 </script>

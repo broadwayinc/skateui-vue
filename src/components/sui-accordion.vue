@@ -91,11 +91,11 @@ div.sui-accordion {
             cursor: pointer;
             position: relative;
             line-height: 2rem;
-            color: var(--content-text_soft);
+            color: var(--content-text_soft, #808080);
 
             &:hover {
                 text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
-                color: var(--content-text);
+                color: inherit;
 
                 &::after {
                     text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));

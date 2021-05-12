@@ -1,9 +1,13 @@
 <template lang='pug'>
-    sui-label(:type="type" :label="label" :error="isError" :button="button" :required="required" :message="message || null" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
-        input(:disabled="disabled" :placeholder="placeholder" :type="type" v-model="customValue" :style="{ textAlign: has2Buttons() ? 'center' : null }"  @keyup="keypress" @keydown="arrowSelection")
-        div(v-show="searching" class="option")
-            template(v-for="(x, idx) in option")
-                .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
+sui-label(:show-selector='!!(searching && option.length)' :type="type" :label="label" :error="isError" :required="required" :message="message || null" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
+    template(#button-left)
+        slot(name="button-left")
+    template(#button-right)
+        slot(name="button-right")
+    input(:disabled="disabled" :placeholder="placeholder" :style='{textAlign: type==="number" ? "center" : null}' :type="type" v-model="customValue" @keyup="keypress" @keydown="arrowSelection")
+    div(v-show="searching && option.length" class="option")
+        template(v-for="(x, idx) in option")
+            .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
 </template>
 
 <script>
@@ -29,10 +33,6 @@ export default {
             default: null
         },
         option: Array,
-        button: {
-            type: [Array, Object],
-            default: null
-        },
         required: Boolean,
         disabled: Boolean,
         message: {
@@ -41,7 +41,13 @@ export default {
         },
         output: {
             type: Function,
-            default: () => {}
+            default: () => {
+            }
+        },
+        keyOutput: {
+            type: Function,
+            default: () => {
+            }
         }
     },
     data() {
@@ -50,7 +56,7 @@ export default {
             regexFail: false,
             searching: false,
             currentSelection: -1
-        }
+        };
     },
     created() {
         this.regexExpression = new RegExp(this.regex, "g");
@@ -70,45 +76,40 @@ export default {
     },
     methods: {
         arrowSelection(event) {
-            if(this.option?.length) {
-                if(event.code === 'ArrowUp' && this.currentSelection > -1) {
+            if (this.option?.length) {
+                if (event.code === 'ArrowUp' && this.currentSelection > -1) {
                     this.currentSelection -= 1;
                 }
-                if(event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
+                if (event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
                     this.currentSelection += 1;
                 }
-                if(event.code === 'Enter') {
+                if (event.code === 'Enter' && this.currentSelection > -1) {
                     this.searching = false;
                     this.customValue = this.option[this.currentSelection];
                 }
             }
         },
         keypress(event) {
-            if(this.regex) {
-                if(!this.value.match(this.regexExpression)) {
-                    this.regexFail = true;
-                } else {
-                    this.regexFail = false;
-                }
+            if (this.regex) {
+                this.regexFail = !this.value.match(this.regexExpression);
             }
-            if(this.type === 'autocomplete') {
-                if(event.code !== 'Enter') this.searching = true;
+            if (this.type === 'autocomplete') {
+                if (event.code !== 'Enter') this.searching = true;
             }
-            if(event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
+            if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
                 this.currentSelection = -1;
             }
-            this.output(this.customValue);
+            if (event.code !== 'Enter')
+                this.output(this.customValue);
+
+            this.keyOutput(event.code);
         },
         selectChoice(x) {
-            this.output(x);
             this.customValue = typeof x === 'string' ? x : x.text ? x.text : x.value;
+            this.output(this.customValue);
+            // enter always means option has been selected
+            this.keyOutput('Enter');
         },
-        has2Buttons() {
-            if(this.button?.length === 2){
-                return this.button[0].action && this.button[1].action;
-            }
-            return false;
-        }
     }
 };
 </script>

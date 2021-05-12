@@ -1,21 +1,21 @@
 <template lang='pug'>
-div.sui-card
+div.sui-card(:class="{disabled}")
     template(v-if="hasTitleSlot()")
-        sui-sticky.title(v-if="stickyTitle" :style="{zIndex:1}" :class="{hasCloseButton: typeof close === 'function'}")
+        sui-sticky.title(v-if="stickyTitle" :class="{hasCloseButton: typeof close === 'function'}")
             slot(name="title")
             .close(v-if="typeof close === 'function'" @click.stop="close")
         .title(v-else :class="{hasCloseButton: typeof close === 'function'}")
             slot(name="title")
             .close(v-if="typeof close === 'function'" @click.stop="close")
     hr
-    .image(v-if="hasImageSlot()" :class="{disabled}")
+    .image(v-if="hasImageSlot()")
         slot(name="image")
-    .content(v-if="hasContentSlot()" :class="{center: contentCenter, disabled}")
+    .content(v-if="hasContentSlot()" :class="{center: contentCenter}")
         slot(name="content")
     slot
-    .button(v-if="hasButtonFooterSlot()" :class="{disabled, sticky: stickyMobileButton}")
+    .button(v-if="hasButtonFooterSlot()" :class="{sticky: stickyMobileButton}")
         slot(name="buttonFooter")
-    .footer(v-if="hasFooterSlot()" :class="{disabled}")
+    .footer(v-if="hasFooterSlot()")
         slot(name="footer")
 </template>
 
@@ -60,8 +60,8 @@ export default {
 @import '../assets/viewport.less';
 
 div.sui-card {
-    .disabled {
-        opacity: .33;
+    &.disabled {
+        opacity: .25;
         user-select: none;
         pointer-events: none;
 
@@ -72,8 +72,8 @@ div.sui-card {
     }
 
     tab-size: 1em;
-    background-color: var(--content);
-    color: var(--content-text);
+    background-color: var(--content, #ffffff);
+    color: var(--content-text, rgba(0, 0, 0, 0.88));
 
     --card-indent: 1.3rem; /* fallback */
     --card-indent: clamp(.65rem, 2vw, 1.3rem);
@@ -83,17 +83,26 @@ div.sui-card {
     border-radius: var(--card-border-radius);
     box-sizing: border-box;
 
+    padding: 0 var(--card-indent);
+    margin: 1px;
+    box-shadow: 0 0 1px #808080;
+    text-align: left;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+
     & > hr {
         border-left: 0;
         border-right: 0;
-        margin: 0 calc(-1 * var(--card-indent));
+        margin: 0 calc(-1 * var(--card-indent) + .65em);
         max-width: 100vw;
-        opacity: 1;
-        border-bottom: none;
-        background-color: transparent;
-        color: transparent;
-        border-top-color: var(--content-text_shade);
-        border-top-style: solid;;
+        position: relative;
+        top: -2px;
+
+        &:not(:first-child) + .image {
+            position: relative;
+            top: -4px;
+        }
     }
 
     & > * {
@@ -104,16 +113,14 @@ div.sui-card {
         display: block;
     }
 
-    padding: 0 var(--card-indent);
-    box-shadow: 0 0 0 1px var(--content-text_shadow, transparent);
-    text-align: left;
-    max-width: 100%;
-    display: inline-block;
-    vertical-align: top;
-
     * {
         white-space: pre-wrap;
         word-break: break-word;
+    }
+
+    & > .sui-sticky {
+        background-color: var(--content, #ffffff);
+        box-shadow: 0 1px rgba(128, 128, 128, 0.5);
     }
 
     .title, & > .image:nth-child(2) {
@@ -131,11 +138,11 @@ div.sui-card {
     }
 
     .title:not(:empty) {
-        background-color: var(--content);
-
-        * {
-            vertical-align: middle;
-        }
+        z-index: 1;
+        position: relative;
+        padding: var(--padding-title);
+        margin: 0 calc(-1 * var(--card-indent));
+        line-height: 2em;
 
         &.hasCloseButton {
             padding-right: 2rem;
@@ -164,13 +171,6 @@ div.sui-card {
             }
         }
 
-        position: relative;
-        padding: var(--padding-title);
-        margin: 0 calc(-1 * var(--card-indent));
-
-        line-height: 2em;
-        //box-shadow: 0 calc(var(--card-indent) / 2 + 1px) 0 calc(-1 * var(--card-indent) / 2) var(--content-text_transparent, #b3b3b3);
-
         & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6, & > small {
             min-height: 2em;
             line-height: 2em;
@@ -196,11 +196,6 @@ div.sui-card {
                 font-family: sans-serif;
             }
 
-            &:hover {
-                opacity: 1;
-            }
-
-            opacity: .88;
             position: absolute;
             right: 0.5em;
             top: 0.5em;
@@ -209,12 +204,11 @@ div.sui-card {
 
     & > .image:not(:empty) {
         margin: 0 calc(-1 * var(--card-indent));
+        user-select: none;
 
         & > * {
             display: block;
         }
-
-        user-select: none;
 
         & > img {
             -webkit-user-drag: none;
@@ -234,6 +228,8 @@ div.sui-card {
 
     & > .content:not(:empty) {
         width: 100%;
+        padding: 2em 0.5rem 2.5em;
+        line-height: 1.5em;
 
         & > * {
             max-width: 100%;
@@ -242,9 +238,6 @@ div.sui-card {
         h1, h2, h3 {
             text-shadow: 1px 1px rgba(0, 0, 0, 0.11);
         }
-
-        padding: 2em 0.5rem 2.5em;
-        line-height: 1.5em;
 
         & > .cart {
             margin: 0px -.5em;
@@ -280,7 +273,7 @@ div.sui-card {
 
             .price {
                 font-size: 1.953em;
-                color: var(--content-text_soft);
+                color: var(--content-text_soft, rgba(0, 0, 0, 0.66));
                 text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
                 text-align: right;
                 cursor: default;
@@ -365,9 +358,9 @@ div.sui-card {
             left: 0;
             right: 0;
             z-index: 9999;
-            background-color: var(--content);
+            background-color: var(--content, #ffffff);
             padding: 8px;
-            border-top: 1px solid var(--content-text_transparent, #b3b3b3);
+            border-top: 1px solid rgba(128, 128, 128, 0.5);
         }
     }
 

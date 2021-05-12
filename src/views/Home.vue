@@ -303,16 +303,16 @@ div
             h6 INPUTS
         template(#content)
             sui-input(placeholder="Here's an Input form")
-            br
+                template(#button-left)
+                    img(src='img/myface.jpg')
+                template(#button-right)
+                    i.material-icons warning
             br
             sui-input(placeholder="Don't worry label is transparent" label="Input with label")
             br
-            br
             sui-input(placeholder="Input with button" label="Input with button" :button="[{position: 'right', icon: 'send'}]")
             br
-            br
             sui-input(placeholder="Input with regex validation" message="You must input a valid Korean number (0)10-XXXX-XXXX" :value="regexValue" :output="(v) => { regexValue = v; }" regex='^[0]?10([-]?[0-9]{4}){2}$' label="Input with regex validation" :button="[{position: 'right', icon: 'send'}]")
-            br
             br
             sui-input(
                 label="Number"
@@ -321,56 +321,54 @@ div
                 :button="[{position: 'right', icon: 'add', action: () => { increase() }}, {position: 'left', icon: 'remove', action: () => { decrease() }}]"
             )
             br
-            br
             sui-input(placeholder="Required form" label="Required" required)
             br
-            br
-            sui-input(suffix=".com" prefix="https://www." placeholder="Enter your domain name" label="Input with prefix and suffix")
-            br
+            sui-input(style='width: 500px' prefix="https://www." placeholder="your domain name" label="Input with prefix and suffix")
             br
             sui-input(suffix="@email.com" placeholder="Email with suffix" label="Input with a suffix and button" :button="[{position: 'right', icon: 'send', action: () => {}}]")
             br
-            br
             sui-input(
                 prefix="$"
-                label="Currency with prefix"
+                label="Bad design choice"
                 type="number"
                 :value="numberInputValue"
-                :button="[{position: 'right', icon: 'add', action: () => { increase() }}, {position: 'left', icon: 'remove', action: () => { decrease() }}]"
-            )
-            br
+                style="width: 10rem")
+                template(#button-left)
+                    sui-button(type="nude" @click="decrease" style="font-size: 1rem;color:inherit") -
+                template(#button-right)
+                    sui-button(type="nude" @click="increase" style="font-size: 1rem;color:inherit") +
             br
             sui-input(error placeholder="You got an Error" message="You Got Error" label="Error")
             br
+            sui-input(placeholder="Input with icon")
+                template(#button-right)
+                    sui-button HELLO
             br
-            sui-input(placeholder="Input with icon" :button="[{position: 'left', icon: 'email'}]")
+            sui-input(error placeholder="Icon & Label & Error & *" label="E-Mail" required message="It's a combo")
             br
+            sui-select(label="Selector" placeholder="Input as selector" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]" suffix="Yoyo" prefix="Mama")
+                template(#button-left)
+                    img(src='img/myface.jpg')
+                template(#button-right)
+                    img(src='img/myface.jpg')
+            sui-input(label="Full Combo" placeholder="Input as selector" suffix="Yoyo" prefix="Mama")
+                template(#button-left)
+                    img(src='img/myface.jpg')
+                template(#button-right)
+                    img(src='img/myface.jpg')
             br
-            sui-input(error placeholder="Icon & Label & Error & *" label="E-Mail" required :button="[{position: 'left', icon: 'email'}]" message="It's a combo")
+            sui-select(custom label="Custom Selector" placeholder="Input as custom selector" :option="suiInputSelection1")
             br
+            sui-select(fullscreen :option="suiInputSelection2" label="Fullscreen Selector")
             br
-            sui-select(label="Selector" placeholder="Input as selector" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
-            br
-            br
-            sui-select(:button="[{position: 'left', icon: 'public'}]" label="Selector" placeholder="Selector & Icon" :option="[{value: 'Singapore'}, {value:'Korea'}, {value:'Russia'}]")
-            br
-            br
-            sui-select(custom :button="[{position: 'left', icon: 'public'}]" label="Custom Selector" placeholder="Input as custom selector" :option="suiInputSelection1" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}")
-            br
-            br
-            sui-select(fullscreen :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" :option="suiInputSelection2" label="Fullscreen Selector" :button="[{position: 'left', icon: 'public'}]")
-            br
-            br
-            sui-input(type="autocomplete" :value="searchValue" placeholder="Suggestion box" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
+            sui-input(type="autocomplete" :value="searchValue" placeholder="Suggestion box" :output="(v) => { searchValue = v; getSearch(v); }" :option="suiInputAutocomplete1")
             sui-button.customButton SEARCH
             br
+            sui-input(style="width: 23em" :value="searchValue" label="Search" type="autocomplete" placeholder="Search Me" @rightClick="" :output="(v) => { searchValue = v; getSearch(v); }" :option="suiInputAutocomplete1")
             br
-            sui-input(style="width: 23em" :value="searchValue" label="Search" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search'}]"  @rightClick="" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
+            sui-button.customButton(onclick="sui_popup.handler({id: 'searchmobile', pop:'top', closeOnBackgroundClick: true, overlayColor: 'var(--content)'})") SEARCH POP
             br
-            br
-            sui-button.customButton(onclick="sui_popup.handler({id: 'searchmobile',pop:'top', closeOnBackgroundClick: false, overlayColor: 'var(--content)'})") SEARCH POP
-            sui-input#searchmobile.transparent(:menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}" style="box-shadow: 0 2px var(--content-text_transparent);width: 100%;overflow:visible;display:none;" type="autocomplete" placeholder="Search Me" :button="[{position: 'right', icon: 'search', action: () => {}}]" @rightClick="sui_popup.handler('searchmobile')" :output="(v) => { getSearch(v); }" :option="suiInputAutocomplete1")
-            br
+            sui-input#searchmobile(type="autocomplete" :key-output='(k)=>{if(k === "Enter") window.sui_popup.handler({id: "searchmobile"})}' :value="searchValue" placeholder="Suggestion box" :output="(v) => { console.log(v);searchValue = v; getSearch(v); }" :option="suiInputAutocomplete1")
             br
             sui-input(type="autocomplete" error  :value="searchValue" message="Full Combo" label="Full Combo" required :button="[{position: 'left', icon: 'search'}, {position: 'right', icon: 'search'}]" @rightClick="" :output="(v) => { searchValue = v; getSearch(v); }" :menu-style="{padding: '.5rem .75rem', fontSize: '.8em'}"  :option="suiInputAutocomplete1")
     br
@@ -515,7 +513,11 @@ div
         template(#title)
             h6 Textarea
         template(#content)
-            sui-textarea(label="텍스트에리아" placeholder="이름" :button="[{position: 'left', img: '/img/myface.jpg'}, {position: 'right', icon: 'send'}]")
+            sui-textarea(label="텍스트에리아" placeholder="이름" prefix="MYOT" suffix="aofj")
+                template(#button-left)
+                    img(src='img/myface.jpg')
+                template(#button-right)
+                    sui-button HELLO
             br
             br
             sui-textarea(label="사진 없는 텍스트에리아" placeholder="안녕히가세요" :button="[{position: 'right', icon: 'send'}]")
@@ -673,7 +675,7 @@ div
     sui-card
         template(#title) Auto Size
         template(#content)
-            sui-autosize(placeholder="This is a placeholder")
+            sui-autosize(allow-enter placeholder="Hey You")
     br
     sui-card
         template(#title)
@@ -955,7 +957,8 @@ Seeing my face in lights or my name in marquees found down on Broadway`
         // this.$refs.list.addList(this.list);
     },
     computed: {
-        console: () => console
+        console: () => console,
+        window: () => window
     },
     methods: {
         log(button) {
@@ -968,6 +971,10 @@ Seeing my face in lights or my name in marquees found down on Broadway`
             this.numberInputValue -= 1;
         },
         getSearch(text) {
+            if (!text) {
+                this.suiInputAutocomplete1 = [];
+                return;
+            }
             console.log("This is the text", text);
             text = text.toLowerCase();
             this.suiInputAutocomplete1 = this.suiDatabase.filter(word => {
@@ -984,9 +991,11 @@ Seeing my face in lights or my name in marquees found down on Broadway`
 </script>
 <style lang="less">
 @import '../assets/viewport.less';
+
 .hellobutton {
     background: red;
 }
+
 .customButton {
     --color: red;
     --background-color: aqua;

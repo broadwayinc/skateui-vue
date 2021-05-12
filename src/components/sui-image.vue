@@ -545,10 +545,10 @@ export default {
         &._hideLoader {
             display: none;
         }
+        border: .15em solid rgba(128, 128, 128, 0.5);
+        border-top: .15em solid white;
 
-        border: .15em solid var(--content-text_transparent, rgba(0, 0, 0, 0.22));
         border-radius: 50%;
-        border-top: .15em solid var(--button-text, white);
         vertical-align: middle;
 
         position: absolute;
@@ -572,7 +572,7 @@ export default {
 
 .sui-image-parent {
     width: 100%;
-    display: inline-flex;
+    display: flex;
 
     .sui-image {
         width: 100%;
@@ -596,7 +596,7 @@ export default {
                 text-align: center;
                 content: attr(alt);
                 font-size: 0.66rem;
-                color: var(--content-text_placeholder, rgba(0, 0, 0, 0.33));
+                color: black;
                 margin: auto;
                 display: flex;
                 justify-content: center;
@@ -608,10 +608,8 @@ export default {
                 width: 100%;
                 height: 100%;
                 background-image: var(--error-img);
-                border: dashed 4px;
                 box-sizing: border-box;
-                border-color: var(--content-text_shade);
-                background-color: var(--content);
+                background-color: #e6e6e6;
             }
         }
 

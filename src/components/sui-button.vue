@@ -66,9 +66,11 @@ export default {
 <style scoped lang="less">
 .sui-button {
     margin: 0;
+    flex-shrink: 0;
     white-space: pre-wrap;
     word-break: break-word;
-    --button-border-radius: var(--border-radius, 4px);
+    --button-border-radius: var(--border-radius, 3px);
+
     & + .sui-button {
         margin-left: 0.25rem;
     }
@@ -78,38 +80,20 @@ button.sui-button, a.sui-button {
     border-radius: var(--button-border-radius);
     max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
-    min-height: 2.8rem;
+    height: 2.8rem;
     padding: .25rem 1rem;
     display: inline-block;
     box-sizing: border-box;
     text-align: center;
 
-    line-height: calc(2rem - 4px);
     font-size: 0.88rem;
     vertical-align: middle;
     cursor: pointer;
     user-select: none;
-    //border: solid 3px var(--button-background-color, var(--button-border, #4646b5));
+    box-shadow: inset 0 0 0 3px rgba(128, 128, 128, 0.05);
 
     position: relative;
     overflow: hidden;
-    &:before {
-        position: absolute;
-        /* zero all offsets */
-        top: 0; right: 0; bottom: 0; left: 0;
-        /* doesn't work in Firefox */
-        backdrop-filter: blur(9px);
-        /* doesn't work in Edge */
-        --button-border-calc: calc(100% - var(--button-border-radius));
-        --poly: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 0,
-        var(--button-border-radius) var(--button-border-radius),
-        var(--button-border-radius) var(--button-border-calc),
-        var(--button-border-calc) var(--button-border-calc),
-        var(--button-border-calc) var(--button-border-radius),
-        var(--button-border-radius) var(--button-border-radius));
-        clip-path: var(--poly);
-        content: ''
-    }
 
     font-weight: 500;
     background-color: var(--button-background-color, var(--button, #4848db));
@@ -118,9 +102,9 @@ button.sui-button, a.sui-button {
 
     ._loader {
         display: inline-block;
-        border: .15em solid var(--content-text_transparent, #7f7f7f);
-        border-radius: 50%;
+        border: .15em solid rgba(128, 128, 128, 0.5);
         border-top: .15em solid;
+        border-radius: 50%;
         vertical-align: middle;
         margin: .5em;
         width: 1em;
@@ -137,7 +121,7 @@ button.sui-button, a.sui-button {
     }
 
     &:hover {
-        box-shadow: 0 0 0 1px var(--content-text_shade, rgba(0, 0, 0, 0.066));
+        box-shadow: 0 0 0 1px rgba(128, 128, 128, 0.25);
     }
 
     &:active {
@@ -148,20 +132,19 @@ button.sui-button, a.sui-button {
         background-color: unset;
         color: var(--button-nude, inherit);
         box-shadow: none;
-        border: solid 3px transparent;
         text-shadow: none;
 
+        ._loader {
+            border-top: .15em solid;
+        }
+
         &:hover {
-            text-shadow: 1px 1px var(--content-text_shade, rgba(0, 0, 0, 0.066));
+            text-shadow: 1px 1px rgba(128, 128, 128, 0.25);
         }
 
         &:active {
             text-shadow: none;
             box-shadow: none;
-        }
-
-        & ._loader {
-            border-top: .15em solid inherit;
         }
     }
 
@@ -176,7 +159,7 @@ button.sui-button, a.sui-button {
         align-items: center;
 
         & > * {
-            line-height: calc(2rem - 4px);
+            line-height: 2rem;
             width: 1.15rem;
             font-size: 1.15rem;
             vertical-align: middle;

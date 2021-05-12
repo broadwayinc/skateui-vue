@@ -1,12 +1,12 @@
 <template lang="pug">
 .sui-sliderWrapper(:style="{paddingBottom: showPagination ? '24px' : null}")
-    .sui-slider(:id='elementId' :style="computedStyle")
+    .sui-slider(:id='elementId')
         .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
             li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
                 .imageWrapper(:style="[style_imageWrapper(sl)]")
                     sui-image(v-if="sl.image" :error-img='errorImg' :src="sl.image" :ratio="ratio || [16,9]" :style="{display: 'block'}" :parallax="parallax")
-                    .slideText
-                        sui-autosize(:value="sl.text" style="{width: '100%'}" :style="{... style_slideText(sl), width: '100%'}" readonly)
+                    .slideText(:style="{...style_slideText(sl)}")
+                        sui-autosize(:value="sl.text" readonly)
         .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
             .swiper-pagination-bullet(v-for="(slide, i) in slideArray" :class="{'swiper-pagination-bullet-active': currentSlideIndex === i}" @click="goToSlide(i)")
         .swiper-controls(v-if="showArrow")
@@ -18,7 +18,6 @@
 export default {
     name: "ss-slide",
     props: {
-        customStyle: Object,
         showPagination: {type: Boolean, default: false},
         slideArray: Array,
         outputText: Function,
@@ -51,12 +50,12 @@ export default {
             thumbnailHeight: null
         };
     },
-    created() {
-        if (window.sui_on)
-            this.eventId = window.sui_on.registerEvent.resize(this.setWidth);
-    },
     mounted() {
         this.setWidth();
+
+        if (window.sui_on)
+            this.eventId = window.sui_on.registerEvent.resize(this.setWidth);
+
         this.slider = document.getElementById(this.elementId);
         this.slider.addEventListener('touchstart', (e) => {
             this.registerTouchEvent(e, 'touch');
@@ -126,13 +125,6 @@ export default {
             for (let i = 0; i < limit; i++) text += possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
             return `ss-slide_${text}`;
         },
-        computedStyle() {
-            let obj = {
-                '--slideFocus': this.customStyle?.paginationFocusColor || 'var(--saturate, #4848db)',
-                '--slideBlur': this.customStyle?.paginationColor || 'var(--background-text_placeholder, #b3b3b3)',
-            };
-            return obj;
-        },
         swiper_arrows() {
             let color = '#fff';
             return {
@@ -147,12 +139,6 @@ export default {
             this.sliderPosition = -this.pageWidth;
             this.savedSliderPosition = -this.pageWidth;
             this.currentSlideIndex = 0;
-
-            // try {
-            //     this.pageWidth = document.getElementById(this.elementId).getBoundingClientRect().width;
-            // } catch (e) {
-            //     //console.log("Error")
-            // }
         },
         registerTouchEvent(e, type = 'mouse') {
             if (!this.isDisabled) {
@@ -233,7 +219,7 @@ export default {
                     this.isDisabled = false;
                 }, 600);
 
-                if (this.slideArray.length - 1 == this.currentSlideIndex) {
+                if (this.slideArray.length - 1 === this.currentSlideIndex) {
                     this.currentSlideIndex = 0;
                     this.sliderPosition = this.pageWidth * (this.slideArray.length + 1) * -1;
                     this.currentSlide_index_output();
@@ -251,7 +237,7 @@ export default {
             }
         },
         style_slideText(sl) {
-            let textAlign = 'center';
+            let textAlign = 'center', color;
             try {
                 switch (sl.textAlign[0]) {
                     case 'left':
@@ -263,15 +249,18 @@ export default {
                 }
             } catch (err) {
             }
-            const color = sl.image !== '' ? this.textColor || 'white' : this.textColor || null;
+            if (sl.image) {
+                color = sl.image ? 'white' : null;
+            }
+
             return {
                 textAlign,
                 color,
-                textShadow: 'rgba(0, 0, 0, 0.5) 3px 3px 9px'
+                textShadow: sl.image ? 'rgba(0, 0, 0, 0.5) 3px 3px 9px' : null
             };
         },
         style_imageWrapper(sl) {
-            // const height = this.showPagination ? 'calc(100% - 16px)' : null;
+            // vertical alignment if slide text
             let alignItems = 'center';
             try {
                 switch (sl.textAlign[1]) {
@@ -285,7 +274,6 @@ export default {
             } catch (err) {
             }
             return {
-                // height,
                 alignItems
             };
         }
@@ -310,7 +298,6 @@ export default {
 
         .swiper-pagination {
             position: absolute;
-            //bottom: 0;
             bottom: -3px; // something is taking up space
             text-align: center;
             width: 100%;
@@ -321,14 +308,13 @@ export default {
             height: 8px;
             display: inline-block;
             border-radius: 50px;
-            background: var(--slideBlur);
-            opacity: 0.5;
+            background: var(--slide-pagination, rgba(128, 128, 128, 0.75));
             margin: auto 4px;
             cursor: pointer;
             transition: width 0.5s;
 
             &-active {
-                background: var(--slideFocus) !important;
+                background: var(--slide-pagination-focus, var(--saturate, #4848db)) !important;
                 opacity: 1 !important;
                 width: 24px;
             }
@@ -397,9 +383,7 @@ export default {
     display: flex;
 
     .slideText {
-        //margin: 4%;
         position: absolute;
-        //height: 100%;
         width: 100%;
     }
 }
