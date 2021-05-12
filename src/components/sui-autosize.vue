@@ -1,5 +1,5 @@
 <template lang="pug">
-.sui-autosize(:id="elementId" :style="{'--text-align': textAlign}")
+.sui-autosize(:id="elementId")
     textarea(:placeholder='placeholder' rows="1" v-model="inputValue" :maxlength="maxlength")
 </template>
 
@@ -15,7 +15,6 @@ export default {
         allowEnter: Boolean,
         maxlength: Number,
         readonly: Boolean,
-        textAlign: String,
     },
     data() {
         return {
@@ -29,11 +28,12 @@ export default {
                     throw 'no argument';
                 this.eventId = null;
                 this.max = 72;
-                this.min = 14;
+                this.min = 16;
                 this.value = '';
                 this.allowEnter = false;
                 this.readonly = false;
                 let setValue = "";
+
                 if (typeof el === 'string')
                     this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
                 else if (typeof el === 'object' && Object.keys(el).length) {
@@ -55,7 +55,7 @@ export default {
                         throw 'no element';
 
                     this.max = max || 72;
-                    this.min = min || 14;
+                    this.min = min || 16;
                 }
 
                 if (!this.element)
@@ -73,7 +73,7 @@ export default {
                 let value = v || this.textarea.value;
                 this.textarea.parentNode.dataset.replica = value;
                 if (this.textarea.value !== value)
-                    this.textarea.value = value;
+                    this.textarea.value = value + (value ? ' ' : '');
                 this.value = value;
                 return this.adjustSize();
             }
@@ -91,7 +91,7 @@ export default {
                     this.element.style.setProperty('--placeholder-height', this.elementStyle.height);
                 } else this.placeholdersize = this.max;
 
-                this.textarea.value = setValue;
+                this.textarea.value = setValue + (setValue ? ' ' : '');
                 this.textarea.parentNode.dataset.replica = setValue;
                 this.value = setValue;
 
@@ -259,13 +259,23 @@ export default {
     border: 2px dashed transparent;
     font-size: var(--auto-size);
     display: inline-block;
-    max-width: calc(100% - 4px);
+    max-width: calc(100% - 2px);
+    border-radius: 3px /* fallback */;
+    border-radius: clamp(0px, calc(var(--border-radius, 3px) * 2), .5em);
+
+    &.readonly {
+        cursor: default;
+
+        * {
+            cursor: default;
+        }
+    }
 
     &:not(.readonly) {
-        border-color: var(--content-text_shade, #b3b3b3);
+        border-color: rgba(128, 128, 128, 0.5);
 
-        &.focus, &:hover {
-            border-color: var(--content-text_placeholder, #b3b3b3);
+        &:hover {
+            border-color: rgba(128, 128, 128, 1);
         }
     }
 
@@ -279,7 +289,7 @@ export default {
         &::after {
             content: attr(data-replica) " ";
             white-space: pre-wrap;
-            color: var(--content-text);
+            color: transparent;
         }
 
         &.textarea.empty {
@@ -291,11 +301,9 @@ export default {
         & > textarea {
             position: absolute;
             top: 0;
-            color: transparent;
-            caret-color: var(--content-text);
             resize: none;
             overflow: hidden;
-            min-height: 1em;
+            min-height: 1.5em;
             z-index: 1;
             border: none;
             height: 100%;
@@ -303,7 +311,7 @@ export default {
 
             &::placeholder {
                 font-size: var(--placeholder-size);
-                color: var(--content-text_placeholder, #b3b3b3);
+                color: rgba(128, 128, 128, 0.75);
             }
 
             &:read-only {
@@ -311,16 +319,24 @@ export default {
             }
         }
 
+        & > textarea {
+            color: inherit;
+            caret-color: inherit;
+        }
+
+        &::after {
+            color: transparent;
+        }
+
         & > textarea,
         &::after {
             /* Identical styling required!! */
             box-sizing: border-box;
-            vertical-align: middle;
             background-color: transparent;
             line-height: 1.5em;
             font-size: 1em;
-            text-align: var(--text-align);
-            padding: .5rem 0.75rem;
+            padding: .5rem 0.75rem; /* fallback */
+            padding: .5rem clamp(4px, 1em, 1rem);
             outline: none;
             border: none;
             max-width: 100%;

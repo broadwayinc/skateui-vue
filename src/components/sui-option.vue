@@ -1,5 +1,5 @@
 <template lang='pug'>
-label(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', disabled}")
+label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', disabled}")
     template(v-if="type === 'checkbox'")
         input(type="checkbox" :value="value" :name="name" :disabled="disabled" :checked="checked")
         .checkbox
@@ -24,7 +24,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-label {
+label.sui-option {
     --border-radius: 1px;
 
     div.checkbox, div.radio {
@@ -32,13 +32,13 @@ label {
     }
 }
 
-label.disabled {
-    opacity: 0.33;
+label.sui-option.disabled {
+    opacity: 0.25;
     user-select: none;
     cursor: default;
 
     div.checkbox, div.radio {
-        box-shadow: 0 0 0 2px var(--content-text, inherit) !important;
+        box-shadow: 0 0 0 2px var(--content-text, black) !important;
         color: var(--content-text, black);
     }
 
@@ -48,7 +48,7 @@ label.disabled {
 
 }
 
-label.sui-checkbox {
+label.sui-option.sui-checkbox {
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -95,13 +95,13 @@ label.sui-checkbox {
         box-sizing: border-box;
         left: 2px;
         border: 0.2em solid transparent;
-        box-shadow: 0 0 0 2px var(--button-nude, inherit);
+        box-shadow: 0 0 0 2px var(--button-nude, black);
         border-radius: var(--border-radius);
         vertical-align: middle;
     }
 }
 
-label.sui-radio {
+label.sui-option.sui-radio {
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -138,7 +138,7 @@ label.sui-radio {
             box-sizing: border-box;
             left: 2px;
             border: 0.2em solid transparent;
-            box-shadow: 0 0 0 2px var(--button-nude, inherit);
+            box-shadow: 0 0 0 2px var(--button-nude, black);
             border-radius: 1em;
             vertical-align: middle;
         }

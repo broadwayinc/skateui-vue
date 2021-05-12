@@ -72,38 +72,35 @@ export default {
                     document.getElementById('sui-app').style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
                 },
                 colorScheme: null,
+                generateColorScheme(colorScheme, darkMode) {
+                    let cs = new ColorMangle(colorScheme || undefined).colorScheme(undefined, darkMode);
+                    let body = document.getElementsByTagName('BODY')[0];
+
+                    for (let c in cs)
+                        body.style.setProperty(c, cs[c]);
+
+                    window.sui_app.colorScheme = cs;
+                },
                 init: (option) => {
                     let {colorScheme, hideNavbar = false, darkMode} = option;
 
-                    let navBar = document.getElementsByTagName('nav')[0];
+                    window.sui_app.generateColorScheme(colorScheme, darkMode);
 
+                    let navBar = document.getElementsByTagName('nav')[0];
                     if (navBar)
                         window.sui_app.navbarStyle = window.getComputedStyle(navBar);
                     else
                         hideNavbar = false;
 
                     window.sui_app.hideNavbar = hideNavbar;
-
-                    let cs = new ColorMangle(colorScheme || undefined).colorScheme(undefined, darkMode);
-                    let body = document.getElementsByTagName('BODY')[0];
-
-                    for (let c in cs) {
-                        body.style.setProperty(c, cs[c]);
-                        if (c === '--toolbar')
-                            // set html body background color to match toolbar color
-                            body.style.backgroundColor = cs[c];
-                    }
-
-                    document.getElementById('sui-app').style.setProperty('--navbar-top', `${0}px`);
-
-                    window.sui_app.colorScheme = cs;
-                    window.sui_app.updateViewport();
-                    window.sui_on.registerEvent.resize(window.sui_app.updateViewport);
-
                     if (hideNavbar) {
                         window.sui_app.calcNavbarPosition();
                         window.sui_on.registerEvent.scroll(window.sui_app.calcNavbarPosition);
                     }
+
+                    document.getElementById('sui-app').style.setProperty('--navbar-top', `${0}px`);
+                    window.sui_app.updateViewport();
+                    window.sui_on.registerEvent.resize(window.sui_app.updateViewport);
 
                     return true;
                 }
@@ -126,9 +123,11 @@ export default {
 @import '../assets/normalize.css';
 @import '../assets/viewport.less';
 
-#sui-app {
+body {
     --border-radius: 3px;
+}
 
+#sui-app {
     width: 100vw;
     max-width: 100%;
     min-height: 100vh;
@@ -141,9 +140,9 @@ export default {
     justify-content: center;
 
     & > nav {
-        background-color: var(--navbar-background-color, var(--content));
-        color: var(--navbar-color, var(--content-text));
-        box-shadow: 0 2px var(--shadow);
+        background-color: var(--navbar-background-color, var(--content, #ffffff));
+        color: var(--navbar-color, var(--content-text, rgba(0, 0, 0, 0.88)));
+        box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
         width: 100%;
         top: var(--navbar-top);
         position: fixed;
@@ -179,7 +178,7 @@ export default {
         transition: opacity 0.25s;
 
         & > div {
-            box-shadow: 0 0 8px 4px var(--shadow);
+            box-shadow: 0 0 8px 4px rgba(128, 128, 128, 0.05);
             display: inline-block;
         }
 

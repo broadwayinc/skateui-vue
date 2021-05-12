@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-    sui-app(:hide-navbar='true' color-scheme='#f6f5f1')
+    sui-app(:hide-navbar='true' color-scheme='#005ac2')
         template(v-slot:nav)
             .nav
                 .nav-info

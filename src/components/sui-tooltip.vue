@@ -41,12 +41,14 @@ div.sui-tooltip {
     text-align: left;
     vertical-align: middle;
     cursor: pointer;
-    --tooltip-border-radius: clamp(0px, calc(var(--border-radius, 3px) * 2), 1.25em);
+    --tooltip-border-radius: 3px; /* fallback */
+    --tooltip-border-radius: clamp(3px, calc(var(--border-radius, 3px) / 2), 1em);
 
     &.bottom {
         & > .content {
-            top: calc(0px + 2em);
+            top: 2em;
             bottom: unset;
+
             &::after {
                 margin-top: -0.5em;
                 margin-bottom: unset;
@@ -55,6 +57,7 @@ div.sui-tooltip {
                 bottom: unset;
                 top: 0;
             }
+
             &::before {
                 margin-top: calc(-0.5em - 3px);
                 margin-bottom: unset;
@@ -73,12 +76,13 @@ div.sui-tooltip {
             text-align: right;
 
             &::after {
-                left: calc(100% - 1em - 4px);
+                left: calc(100% - 1em);
                 border-right: .5em solid transparent;
                 border-left: 0;
             }
+
             &::before {
-                left: calc(100% - 1em - 4px);
+                left: calc(100% - 1em);
                 border-right: calc(.5em + 2px) solid transparent;
                 border-left: 0;
             }
@@ -90,7 +94,7 @@ div.sui-tooltip {
             content: '';
             position: absolute;
             bottom: 0;
-            left: calc(1em + 4px);
+            left: 1em;
             width: 0;
             height: 0;
             border: 0.5em solid transparent;
@@ -100,11 +104,12 @@ div.sui-tooltip {
             margin-left: -0.25em;
             margin-bottom: -0.5em;
         }
+
         &::before {
             content: '';
             position: absolute;
             bottom: 0;
-            left: calc(1em + 4px);
+            left: 1em;
             width: 0;
             height: 0;
             border: calc(0.5em + 2px) solid transparent;
@@ -114,6 +119,7 @@ div.sui-tooltip {
             margin-left: calc(-0.25em - 1px);
             margin-bottom: calc(-0.5em - 3px);
         }
+
         small {
             line-height: 1.25;
             text-align: left;
