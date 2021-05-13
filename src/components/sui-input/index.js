@@ -1,0 +1,1 @@
+import SuiInput from "sui-input"; export default SuiInput;

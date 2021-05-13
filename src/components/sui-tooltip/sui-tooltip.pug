@@ -1,0 +1,6 @@
+
+.sui-tooltip(:class="{left:isLeft, bottom: isBottom}" @mouseenter="setPosition")
+    .content(:style='{width: maxWidth}')
+        small
+            slot
+    i.material-icons.left help
