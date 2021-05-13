@@ -1,0 +1,1 @@
+import SuiAccordion from "sui-accordion"; export default SuiAccordion;

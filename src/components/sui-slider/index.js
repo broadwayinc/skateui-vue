@@ -1,0 +1,1 @@
+import SuiSlider from "sui-slider"; export default SuiSlider;
