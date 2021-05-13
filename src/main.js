@@ -2,15 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import store from './store'
-import Skateui from "./plugins/skateui.js"
+import SkateUi from "./plugins/skateui.js"
 
-Vue.use(Skateui);
+Vue.use(SkateUi);
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  store,
   render: h => h(App)
 }).$mount('#app')
