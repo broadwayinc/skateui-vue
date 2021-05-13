@@ -114,8 +114,8 @@ div.sui-card {
     }
 
     * {
-        white-space: pre-wrap;
-        word-break: break-word;
+        //white-space: pre-wrap;
+        //word-break: break-word;
     }
 
     & > .sui-sticky {
