@@ -74,6 +74,9 @@ module.exports = function(grunt) {
         },
         pug: {
             component_pug: {
+                options: {
+                    doctype: "html"
+                },
                 files: grunt.file.expand(['src/components/*/']).map(function(cwd) {
                     return {
                         expand: true,
