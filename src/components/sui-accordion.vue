@@ -6,7 +6,6 @@
     .sui-accordion-content
         slot
 </template>
-
 <script>
 export default {
     name: 'sui-accordion',
