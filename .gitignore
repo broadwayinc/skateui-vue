@@ -1,6 +1,7 @@
-/node_modules/
+node_modules/
 .idea/
 package-lock.json
 src/components/sui-input-backup.vue
 src/components/sui-label-backup.vue
-/src/components/*
+dist/
+src/components/*/*
