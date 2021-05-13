@@ -1,0 +1,1 @@
+import SuiTextarea from "sui-textarea"; export default SuiTextarea;

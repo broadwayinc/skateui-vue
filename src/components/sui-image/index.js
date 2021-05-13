@@ -1,0 +1,1 @@
+import SuiImage from "sui-image"; export default SuiImage;
