@@ -89,7 +89,7 @@ module.exports = function(grunt) {
             }
         },
         includereplace: {
-            test: {
+            fileBuild: {
                 options: {
                     includesDir: './'
                 },
@@ -102,6 +102,16 @@ module.exports = function(grunt) {
                     }
                 })
             }
+        },
+        replace: {
+            assets: {
+                src: ['dist/src/components/sui-app.vue'],
+                overwrite: true,
+                replacements: [{
+                    from: '../../assets/normalize.css',
+                    to: '../assets/normalize.css'
+                }]
+            },
         }
     });
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -110,4 +120,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-pug');
     grunt.loadNpmTasks('grunt-contrib-uglify-es');
     grunt.loadNpmTasks('grunt-include-replace');
+    grunt.loadNpmTasks('grunt-text-replace');
 };
