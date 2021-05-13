@@ -44,6 +44,6 @@ for filename in os.listdir('./'):
                         found['src'] = name[0] + '.' + nav[tag]
                         found.string = ''
 
-                dup.write(str(work))
+                dup.write(str(work).replace('scoped=""', "scoped"))
 
 print('split file complete')

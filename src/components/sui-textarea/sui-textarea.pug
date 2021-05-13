@@ -1,0 +1,7 @@
+
+sui-label(type="textarea" :suffix='suffix' :prefix='prefix' :label="label" :error="error" :required="required" :message="message" :disabled="disabled")
+    template(#button-left)
+        slot(name="button-left")
+    template(#button-right)
+        slot(name="button-right")
+    textarea(:placeholder="placeholder" rows="1" @keyup="(e)=>{keyOutput(e.code)}" )
