@@ -1,1 +1,0 @@
-import SuiSticky from "sui-sticky"; export default SuiSticky;

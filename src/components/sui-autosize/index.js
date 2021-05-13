@@ -1,1 +1,0 @@
-import SuiAutosize from "sui-autosize"; export default SuiAutosize;

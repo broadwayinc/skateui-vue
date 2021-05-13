@@ -1,1 +1,0 @@
-import SuiApp from "sui-app"; export default SuiApp;
