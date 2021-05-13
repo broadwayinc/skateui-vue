@@ -1,1 +1,0 @@
-import SuiSvg from "sui-svg"; export default SuiSvg;

@@ -1,1 +1,0 @@
-<svg v-if="svgData" ref="svg" :style="{fill: attribute.fill || fill}" :viewBox="attribute.viewBox || `0 0 ${size || 24} ${size || 24}`" @mouseover="()=&gt;{fill = svgHover || attribute.fill || color}" @mouseleave="()=&gt;{fill = attribute.fill || color}"><g><path v-for="p in svgData" :d="p.path" :fill="p.fill"></path></g></svg>
