@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 for filename in os.listdir('./'):
     if filename.endswith(".vue") and filename[0] != '_':
 
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(filename, 'r', encoding='UTF8') as f:
             nav = {'template': 'pug', 'script': 'js', 'style': 'less'}
 
             name = os.path.splitext(filename)
@@ -24,7 +24,7 @@ for filename in os.listdir('./'):
 
             work = BeautifulSoup(f, features="html.parser")
 
-            with open('./{}/{}'.format(name[0], 'index.js'), 'w', encoding='utf-8') as indexjs:
+            with open('./{}/{}'.format(name[0], 'index.js'), 'w', encoding='UTF8') as indexjs:
                 moduleName = ''
 
                 for m in name[0].split('-'):
@@ -32,7 +32,7 @@ for filename in os.listdir('./'):
 
                 indexjs.write('import {} from "{}"; export default {};'.format(moduleName, name[0], moduleName))
 
-            with open('./{}/{}'.format(name[0], filename), 'w', encoding='utf-8') as dup:
+            with open('./{}/{}'.format(name[0], filename), 'w', encoding='UTF8') as dup:
                 for tag in nav:
                     found = work.find(tag, text=True)
 
