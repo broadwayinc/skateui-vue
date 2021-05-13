@@ -2,10 +2,16 @@
   "name": "skateui",
   "main": "src/plugins/skateui.js",
   "version": "0.1.3",
-  "private": true,
   "scripts": {
     "build": "cd src/components && python3 split-files.py && cd ../../ && npx grunt copy browserify pug less && npx grunt includereplace"
   },
+  "keywords": [
+    "skateui",
+    "vuejs",
+    "UiComponents"
+  ],
+  "author": "Baksa Gimm, Chua Jinyoon",
+  "license": "MIT",
   "dependencies": {
     "colormangle": "^0.1.85"
   },
