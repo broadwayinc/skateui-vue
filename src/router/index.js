@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Documentation from '../views/Documentation'
-import SellBadge from '../views/sellbadge.vue'
 
 Vue.use(VueRouter)
 
@@ -11,26 +9,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
-  },
-  {
-    path: '/docs',
-    name: 'Documentation',
-    component: Documentation
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: () => import('../views/test-component.vue')
-  },
-  {
-    path: '/sell',
-    name: 'Sell',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    components: {
-      default: SellBadge
-    }
   }
 ]
 
