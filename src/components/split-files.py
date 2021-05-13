@@ -37,7 +37,7 @@ for filename in os.listdir('./'):
                     found = work.find(tag, text=True)
 
                     if found:
-                        with open("./{}/{}.{}".format(name[0], name[0], nav[tag]), "w") as d:
+                        with open("./{}/{}.{}".format(name[0], name[0], nav[tag]), "w", encoding='UTF8') as d:
                             text = ''.join(found)
                             d.write(text.replace("../", "../../"))
 
