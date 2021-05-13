@@ -7,22 +7,22 @@
     "build": "cd src/components && python3 split-files.py && cd ../../ && npx grunt copy browserify pug less && npx grunt includereplace"
   },
   "dependencies": {
-    "babelify": "^10.0.0",
-    "colormangle": "^0.1.83",
-    "grunt-contrib-copy": "^1.0.0",
-    "uglifyify": "^5.0.2"
+    "colormangle": "^0.1.85"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.1",
     "babel-preset-minify": "^0.5.1",
+    "babelify": "^10.0.0",
     "grunt": "^1.4.0",
     "grunt-browserify": "^6.0.0",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-less": "^3.0.0",
     "grunt-contrib-pug": "^3.0.0",
     "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-include-replace": "^5.0.0",
-    "grunt-includes": "^1.1.0"
+    "grunt-includes": "^1.1.0",
+    "uglifyify": "^5.0.2"
   }
 }

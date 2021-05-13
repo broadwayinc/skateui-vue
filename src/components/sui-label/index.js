@@ -1,1 +1,0 @@
-import SuiLabel from "sui-label"; export default SuiLabel;

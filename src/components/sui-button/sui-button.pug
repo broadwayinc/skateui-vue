@@ -1,9 +1,0 @@
-
-a.sui-button(v-if="href" @click="click" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}")
-    i.material-icons(v-if="type === 'icon'") {{ icon || 'link' }}
-    slot(v-else-if="$slots.default")
-    template(v-else) {{href}}
-button.sui-button(v-else :type="typeAttribute" @click="click" :class="{nude: type === 'nude', icon: type === 'icon'}" :disabled="disabled")
-    i.material-icons(v-if="type === 'icon'") {{ icon || 'check' }}
-    ._loader(v-else-if="showLoading")
-    slot(v-else)
