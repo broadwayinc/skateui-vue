@@ -1,0 +1,8 @@
+
+#sui-app
+    nav(v-if="$slots.nav")
+        slot(name="nav")
+    #sui-app-view(v-if="loaded")
+        slot
+    #sui-app-notification
+        slot(name="notification")

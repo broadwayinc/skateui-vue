@@ -1,0 +1,1 @@
+import SuiTooltip from "sui-tooltip"; export default SuiTooltip;
