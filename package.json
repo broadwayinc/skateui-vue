@@ -1,7 +1,7 @@
 {
   "name": "skateui",
   "main": "src/plugins/skateui.js",
-  "version": "0.1.53",
+  "version": "0.1.55",
   "scripts": {
     "build": "cd src/components && python3 split-files.py && cd ../../ && npx grunt copy browserify pug less && npx grunt includereplace"
   },
