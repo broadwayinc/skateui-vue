@@ -1,7 +1,7 @@
 {
   "name": "skateui",
   "main": "src/plugins/skateui.js",
-  "version": "0.1.57",
+  "version": "0.1.58",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build-server": "cd src/components && python3 split-files.py && cd ../../ && npx grunt copy browserify pug less && npx grunt includereplace replace",
