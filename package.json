@@ -13,9 +13,6 @@
   ],
   "author": "Baksa Gimm, Chua Jinyoon",
   "license": "MIT",
-  "dependencies": {
-    "colormangle": "^0.1.85"
-  },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
     "@babel/core": "^7.14.0",
@@ -32,5 +29,8 @@
     "grunt-includes": "^1.1.0",
     "grunt-text-replace": "^0.4.0",
     "uglifyify": "^5.0.2"
+  },
+  "dependencies": {
+    "colormangle": "^0.1.91"
   }
 }
