@@ -261,7 +261,7 @@ export default {
     display: inline-block;
     max-width: calc(100% - 2px);
     border-radius: 3px /* fallback */;
-    border-radius: clamp(0px, calc(var(--border-radius, 3px) * 2), .5em);
+    border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
 
     &.readonly {
         cursor: default;
@@ -336,7 +336,7 @@ export default {
             line-height: 1.5em;
             font-size: 1em;
             padding: .5rem 0.75rem; /* fallback */
-            padding: .5rem clamp(4px, 1em, 1rem);
+            padding: .5rem ~"clamp(4px, 1em, 1rem)";
             outline: none;
             border: none;
             max-width: 100%;
