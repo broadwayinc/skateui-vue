@@ -221,7 +221,7 @@ fieldset.sui-label {
     padding: 0 .5em;
     min-width: calc(2.8rem * 3);
     border-radius: var(--border-radius, 3px); /* fallback */
-    border-radius: clamp(0px, var(--border-radius, 3px), 1.4rem);
+    border-radius: ~"clamp(0px, var(--border-radius, 3px), 1.4rem)";
     vertical-align: middle;
 
     &.showSelector:focus-within {
@@ -310,8 +310,8 @@ fieldset.sui-label {
                 &:not(.fullscreen) {
                     border-bottom-left-radius: var(--border-radius, 3px);
                     border-bottom-right-radius: var(--border-radius, 3px);
-                    border-bottom-left-radius: clamp(0px, var(--border-radius, 3px), 1em);
-                    border-bottom-right-radius: clamp(0px, var(--border-radius, 3px), 1em);
+                    border-bottom-left-radius: ~"clamp(0px, var(--border-radius, 3px), 1em)";
+                    border-bottom-right-radius: ~"clamp(0px, var(--border-radius, 3px), 1em)";
                 }
             }
 
