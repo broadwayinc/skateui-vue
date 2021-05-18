@@ -27,7 +27,7 @@ export default {
     name: 'ss-label',
     props: {
         showSelector: Boolean,
-        error: Boolean,
+        error: [Boolean, String],
         label: String,
         type: {
             type: String,
@@ -35,7 +35,7 @@ export default {
         },
         prefix: String,
         suffix: String,
-        required: Boolean,
+        required: [Boolean, String],
         disabled: Boolean,
         message: {
             type: String,
