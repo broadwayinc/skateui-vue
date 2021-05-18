@@ -1,7 +1,7 @@
 {
   "name": "skateui",
   "main": "src/plugins/skateui.js",
-  "version": "0.1.58",
+  "version": "0.1.71",
   "scripts": {
     "build-server": "cd src/components && python3 split-files.py && cd ../../ && npx grunt copy browserify pug less && npx grunt includereplace replace",
     "build": "cd src/components && py split-files.py && cd ../../ && grunt copy browserify pug less && grunt includereplace replace"
@@ -13,9 +13,6 @@
   ],
   "author": "Baksa Gimm, Chua Jinyoon",
   "license": "MIT",
-  "dependencies": {
-    "colormangle": "^0.1.85"
-  },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
     "@babel/core": "^7.14.0",
@@ -32,5 +29,8 @@
     "grunt-includes": "^1.1.0",
     "grunt-text-replace": "^0.4.0",
     "uglifyify": "^5.0.2"
+  },
+  "dependencies": {
+    "colormangle": "^0.1.91"
   }
 }

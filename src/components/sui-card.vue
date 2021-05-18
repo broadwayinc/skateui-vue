@@ -76,8 +76,9 @@ div.sui-card {
     color: var(--content-text, rgba(0, 0, 0, 0.88));
 
     --card-indent: 1.3rem; /* fallback */
-    --card-indent: clamp(.65rem, 2vw, 1.3rem);
-    --card-border-radius: clamp(0px, calc(var(--border-radius, 3px) * 2), .5em);
+    --card-indent: ~"clamp(.65rem, 2vw, 1.3rem)";
+    --card-border-radius: .5em; /* fallback */
+    --card-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
     --padding-title: 0.5em var(--card-indent) 0.15em;
 
     border-radius: var(--card-border-radius);
