@@ -1,10 +1,10 @@
 <template lang='pug'>
-sui-label(:show-selector='!!(searching && option.length)' :type="type" :label="label" :error="isError" :required="required" :message="message || null" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
+sui-label(:show-selector='!!(searching && option.length)' :type="type" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
     template(#button-left)
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(:disabled="disabled" :placeholder="placeholder" :style='{textAlign: type==="number" ? "center" : null}' :type="type" v-model="customValue" @keyup="keypress" @keydown="arrowSelection")
+    input(@invalid.prevent="invalidInput" :pattern="regex" :required="required" :disabled="disabled" :placeholder="placeholder" :style='{textAlign: type==="number" ? "center" : null}' :type="type" v-model="customValue" @keyup="keypress" @keydown="arrowSelection")
     div(v-show="searching && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
@@ -14,7 +14,9 @@ sui-label(:show-selector='!!(searching && option.length)' :type="type" :label="l
 export default {
     name: 'sui-input',
     props: {
-        error: Boolean,
+        error: {
+            type: [Boolean, String]
+        },
         placeholder: {
             type: String,
             default: null
@@ -23,6 +25,7 @@ export default {
         suffix: String,
         prefix: String,
         regex: String,
+        regexHelper: String,
         type: {
             type: String,
             default: 'text'
@@ -33,7 +36,7 @@ export default {
             default: null
         },
         option: Array,
-        required: Boolean,
+        required: [Boolean, String],
         disabled: Boolean,
         message: {
             type: String,
@@ -52,8 +55,8 @@ export default {
     },
     data() {
         return {
+            isTouched: false,
             regexExpression: Object,
-            regexFail: false,
             searching: false,
             currentSelection: -1
         };
@@ -71,10 +74,37 @@ export default {
             }
         },
         isError() {
-            return this.error || this.regexFail;
+            return this.isInvalid || this.error || this.regexFail;
         },
+        helperMessage() {
+            let helper =this.message || null;
+            if(this.requireFail && this.isInvalid) {
+                if(typeof this.required === 'string') {
+                    helper = this.required
+                }
+            } else if(this.regexFail && this.isInvalid) {
+                helper = this.regexHelper;
+            } else if(typeof this.error === 'string') {
+                helper = this.error;
+            }
+            return helper;
+        },
+        isInvalid() {
+            return this.isTouched && this.requireFail || this.regexFail;
+        },
+        requireFail() {
+            return this.required && this.value === '';
+        },
+        regexFail() {
+            return this.isTouched && this.regex && !this.value.match(this.regexExpression);
+        }
     },
     methods: {
+        invalidInput() {
+            this.isTouched = true;
+            if(this.requireFail) { this.$emit('requiredError'); }
+            else this.regexFail ? this.$emit('regexError') : this.$emit('error');
+        },
         arrowSelection(event) {
             if (this.option?.length) {
                 if (event.code === 'ArrowUp' && this.currentSelection > -1) {
@@ -90,9 +120,8 @@ export default {
             }
         },
         keypress(event) {
-            if (this.regex) {
-                this.regexFail = !this.value.match(this.regexExpression);
-            }
+            this.isTouched = true;
+
             if (this.type === 'autocomplete') {
                 if (event.code !== 'Enter') this.searching = true;
             }
