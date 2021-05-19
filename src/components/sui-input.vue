@@ -96,6 +96,7 @@ export default {
             return this.required && this.value === '';
         },
         regexFail() {
+            if(!this.required && this.value === '') return false;
             return this.isTouched && this.regex && !this.value.match(this.regexExpression);
         }
     },
