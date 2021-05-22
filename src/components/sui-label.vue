@@ -215,7 +215,7 @@ fieldset.sui-label {
     }
 
     position: relative;
-    text-align: left;
+    text-align: inherit;
     border: 2px solid rgba(128, 128, 128, 0.5);
 
     padding: 0 .5em;
@@ -243,6 +243,7 @@ fieldset.sui-label {
 
     legend {
         position: relative;
+        text-align: left;
         font-size: 0.8rem;
         height: 1rem;
         font-weight: 500;
@@ -354,6 +355,7 @@ fieldset.sui-label {
         input {
             word-break: keep-all;
             white-space: nowrap;
+            text-align: inherit;
 
             & ~ .option, & ~ .option.fullscreen {
                 text-align: left;
