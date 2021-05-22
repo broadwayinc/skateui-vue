@@ -4,7 +4,7 @@ sui-label(:show-selector='!!(searching && option.length)' :type="type" :label="l
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(@invalid.prevent="invalidInput" :pattern="regex" :required="required" :disabled="disabled" :placeholder="placeholder" :style='{textAlign: type==="number" ? "center" : null}' :type="type" v-model="customValue" @keyup="keypress" @keydown="arrowSelection")
+    input(@invalid.prevent="invalidInput" :pattern="regex" :required="required" :disabled="disabled" :placeholder="placeholder" :style='{textAlign: type==="number" ? "center" : null}' :type="type" v-model="customValue" @keyup="keypress" @keydown="() => {arrowSelection(); isTouched = true; }")
     div(v-show="searching && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
