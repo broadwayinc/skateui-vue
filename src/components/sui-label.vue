@@ -188,6 +188,10 @@ fieldset.sui-label {
     margin: 0;
     margin-top: 1rem;
 
+    &.disabled {
+        opacity: 0.5;
+    }
+
     &.label {
         margin-top: 0.6rem;
     }
