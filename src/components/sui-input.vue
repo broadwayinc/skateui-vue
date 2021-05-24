@@ -93,8 +93,8 @@ export default {
         }
     },
     methods: {
-        updateValue() {
-            this.$emit('input', this.$refs.input.value)
+        updateValue(value) {
+            this.$emit('input', value ? value : this.$refs.input.value);
         },
         invalidInput() {
             this.isTouched = true;
@@ -111,15 +111,13 @@ export default {
                 }
                 if (event.code === 'Enter' && this.currentSelection > -1) {
                     this.searching = false;
-                    this.value = this.option[this.currentSelection];
+                    this.$refs.input.blur();
+                    this.updateValue(this.option[this.currentSelection]);
                 }
             }
         },
         keypress(event) {
             this.isTouched = true;
-            // if (this.type === 'autocomplete') {
-            //     if (event.code !== 'Enter') this.searching = true;
-            // }
             if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
                 this.currentSelection = -1;
             }
@@ -129,7 +127,7 @@ export default {
             this.keyOutput(event.code);
         },
         selectChoice(x) {
-            this.value = typeof x === 'string' ? x : x.text ? x.text : x.value;
+            this.updateValue(typeof x === 'string' ? x : x.text ? x.text : x.value);
             this.output(this.value);
             // enter always means option has been selected
             this.keyOutput('Enter');
