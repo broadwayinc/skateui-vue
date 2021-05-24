@@ -4,7 +4,7 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(ref="input" @invalid.prevent="invalidInput" :pattern="regex" :required="required" :disabled="disabled" :placeholder="placeholder" :type="type" :value="value" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
+    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="placeholder" :type="type" :value="value" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
     div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
@@ -24,8 +24,8 @@ export default {
         label: String,
         suffix: String,
         prefix: String,
-        regex: String,
-        regexError: String,
+        pattern: String,
+        patternError: String,
         type: {
             type: String,
             default: 'text'
@@ -62,7 +62,7 @@ export default {
         };
     },
     created() {
-        this.regexExpression = new RegExp(this.regex, "g");
+        this.regexExpression = new RegExp(this.pattern, "g");
     },
     computed: {
         isError() {
@@ -75,7 +75,7 @@ export default {
                     helper = this.required
                 }
             } else if(this.regexFail && this.isInvalid) {
-                helper = this.regexError;
+                helper = this.patternError;
             } else if(typeof this.error === 'string') {
                 helper = this.error;
             }
@@ -89,7 +89,7 @@ export default {
         },
         regexFail() {
             if(!this.required && this.value === '') return false;
-            return this.isTouched && this.regex && !this.value.match(this.regexExpression);
+            return this.isTouched && this.pattern && !this.value.match(this.regexExpression);
         }
     },
     methods: {
@@ -99,7 +99,7 @@ export default {
         invalidInput() {
             this.isTouched = true;
             if(this.requireFail) { this.$emit('requiredError'); }
-            else this.regexFail ? this.$emit('regexError') : this.$emit('error');
+            else this.regexFail ? this.$emit('patternError') : this.$emit('error');
         },
         arrowSelection(event) {
             if (event && this.option?.length) {
