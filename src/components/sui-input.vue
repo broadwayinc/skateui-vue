@@ -42,11 +42,6 @@ export default {
             type: String,
             default: null
         },
-        output: {
-            type: Function,
-            default: () => {
-            }
-        },
         keyOutput: {
             type: Function,
             default: () => {
@@ -121,14 +116,10 @@ export default {
             if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
                 this.currentSelection = -1;
             }
-            if (event.code !== 'Enter')
-                this.output(this.value);
-
             this.keyOutput(event.code);
         },
         selectChoice(x) {
             this.updateValue(typeof x === 'string' ? x : x.text ? x.text : x.value);
-            this.output(this.value);
             // enter always means option has been selected
             this.keyOutput('Enter');
         },
