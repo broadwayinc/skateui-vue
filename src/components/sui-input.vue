@@ -1,11 +1,11 @@
 <template lang='pug'>
-sui-label(:show-selector='!!(searching && option.length)' :type="type" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
+sui-label(:show-selector='!!(option && option.length)' :type="type" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
     template(#button-left)
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(@invalid.prevent="invalidInput" :pattern="regex" :required="required" :disabled="disabled" :placeholder="placeholder" :type="type" v-model="customValue" @keyup="keypress" @keydown="() => {arrowSelection(); isTouched = true; }")
-    div(v-show="searching && option.length" class="option")
+    input(ref="input" @invalid.prevent="invalidInput" :pattern="regex" :required="required" :disabled="disabled" :placeholder="placeholder" :type="type" :value="value" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
+    div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
 </template>
@@ -64,15 +64,10 @@ export default {
     created() {
         this.regexExpression = new RegExp(this.regex, "g");
     },
+    updated() {
+        console.log("Mounting")
+    },
     computed: {
-        customValue: {
-            get() {
-                return this.value;
-            },
-            set(newValue) {
-                this.output(newValue);
-            }
-        },
         isError() {
             return this.isInvalid || this.error || this.regexFail;
         },
@@ -101,12 +96,16 @@ export default {
         }
     },
     methods: {
+        updateValue() {
+            this.$emit('input', this.$refs.input.value)
+        },
         invalidInput() {
             this.isTouched = true;
             if(this.requireFail) { this.$emit('requiredError'); }
             else this.regexFail ? this.$emit('regexError') : this.$emit('error');
         },
         arrowSelection(event) {
+            console.log(event)
             if (event && this.option?.length) {
                 if (event.code === 'ArrowUp' && this.currentSelection > -1) {
                     this.currentSelection -= 1;
@@ -116,27 +115,26 @@ export default {
                 }
                 if (event.code === 'Enter' && this.currentSelection > -1) {
                     this.searching = false;
-                    this.customValue = this.option[this.currentSelection];
+                    this.value = this.option[this.currentSelection];
                 }
             }
         },
         keypress(event) {
             this.isTouched = true;
-
-            if (this.type === 'autocomplete') {
-                if (event.code !== 'Enter') this.searching = true;
-            }
+            // if (this.type === 'autocomplete') {
+            //     if (event.code !== 'Enter') this.searching = true;
+            // }
             if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
                 this.currentSelection = -1;
             }
             if (event.code !== 'Enter')
-                this.output(this.customValue);
+                this.output(this.value);
 
             this.keyOutput(event.code);
         },
         selectChoice(x) {
-            this.customValue = typeof x === 'string' ? x : x.text ? x.text : x.value;
-            this.output(this.customValue);
+            this.value = typeof x === 'string' ? x : x.text ? x.text : x.value;
+            this.output(this.value);
             // enter always means option has been selected
             this.keyOutput('Enter');
         },
