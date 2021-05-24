@@ -107,7 +107,7 @@ export default {
             else this.regexFail ? this.$emit('regexError') : this.$emit('error');
         },
         arrowSelection(event) {
-            if (this.option?.length) {
+            if (event && this.option?.length) {
                 if (event.code === 'ArrowUp' && this.currentSelection > -1) {
                     this.currentSelection -= 1;
                 }
