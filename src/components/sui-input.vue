@@ -64,9 +64,6 @@ export default {
     created() {
         this.regexExpression = new RegExp(this.regex, "g");
     },
-    updated() {
-        console.log("Mounting")
-    },
     computed: {
         isError() {
             return this.isInvalid || this.error || this.regexFail;
@@ -105,7 +102,6 @@ export default {
             else this.regexFail ? this.$emit('regexError') : this.$emit('error');
         },
         arrowSelection(event) {
-            console.log(event)
             if (event && this.option?.length) {
                 if (event.code === 'ArrowUp' && this.currentSelection > -1) {
                     this.currentSelection -= 1;
