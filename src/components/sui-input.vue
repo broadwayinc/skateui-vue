@@ -25,7 +25,7 @@ export default {
         suffix: String,
         prefix: String,
         regex: String,
-        regexHelper: String,
+        regexError: String,
         type: {
             type: String,
             default: 'text'
@@ -75,7 +75,7 @@ export default {
                     helper = this.required
                 }
             } else if(this.regexFail && this.isInvalid) {
-                helper = this.regexHelper;
+                helper = this.regexError;
             } else if(typeof this.error === 'string') {
                 helper = this.error;
             }
