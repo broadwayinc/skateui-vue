@@ -39,6 +39,7 @@ export default {
                     src = '',
                     computedStyle,
                     errorImg,
+                    alt,
                     onLoad = () => {
                     },
                     onError = () => {
@@ -97,13 +98,13 @@ export default {
 
                 this.setSrc(src, lightBox);
                 this.setRatio(ratio);
+                this.alt = alt;
 
                 this.parallax = parallax;
                 this.zoomCanvas = zoomCanvas;
 
                 this.loaded = false;
                 this.onLoad = (function (e) {
-                    console.log(element);
                     this.loaded = true;
                     this.failed = false;
 
@@ -144,6 +145,8 @@ export default {
                 this.onError = (function (e) {
                     this.failed = e || true;
                     this.setSrc(errorImg);
+                    this.parent.classList.add('error');
+                    this.parent.dataset.alt = this.alt;
                     onError(e);
                 }).bind(this);
 
@@ -499,7 +502,8 @@ export default {
             onError: this.onError,
             onClick: this.onClick,
             onZoom: this.onZoom,
-            src: this.src
+            src: this.src,
+            alt: this.alt
         });
     },
     beforeDestroy() {
@@ -576,6 +580,14 @@ export default {
         position: relative;
         box-sizing: border-box;
         flex-grow: 1;
+        &.error {
+            &:after {
+                content: attr(data-alt);
+                position: absolute;
+                top: 0;
+                padding: 8px;
+            }
+        }
 
         & > img {
             display: block;
@@ -587,26 +599,6 @@ export default {
                 position: absolute;
                 height: 100%;
                 object-fit: cover;
-            }
-
-            &:after {
-                text-align: center;
-                content: attr(alt);
-                font-size: 0.66rem;
-                color: black;
-                margin: auto;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                z-index: 1;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: var(--error-img);
-                box-sizing: border-box;
-                background-color: #e6e6e6;
             }
         }
 
