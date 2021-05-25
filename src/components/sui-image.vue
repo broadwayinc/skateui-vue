@@ -1,5 +1,5 @@
 <template lang="pug">
-img(ref="SuiImage" loading="lazy")
+img(ref="SuiImage" loading="lazy" :alt="alt")
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
         onLoad: Function,
         onError: Function,
         errorImg: String,
-        brokenMsg: {type: String, default: ''},
+        alt: {type: String, default: ''},
         onClick: Function,
         onZoom: Function,
         src: Object | String,
@@ -38,7 +38,6 @@ export default {
                     zoomCanvas,
                     src = '',
                     computedStyle,
-                    brokenMsg,
                     errorImg,
                     onLoad = () => {
                     },
@@ -56,7 +55,6 @@ export default {
                     throw 'no element';
 
                 this.img = element;
-                this.img.setAttribute('alt', brokenMsg);
 
                 let grandParent = document.createElement('div');
                 grandParent.classList.add('sui-image-parent');
@@ -105,6 +103,7 @@ export default {
 
                 this.loaded = false;
                 this.onLoad = (function (e) {
+                    console.log(element);
                     this.loaded = true;
                     this.failed = false;
 
@@ -144,6 +143,7 @@ export default {
                 this.failed = false;
                 this.onError = (function (e) {
                     this.failed = e || true;
+                    this.setSrc(errorImg);
                     onError(e);
                 }).bind(this);
 
@@ -191,8 +191,6 @@ export default {
                     img.onerror = () => {
                         loader.classList.add('_hideLoader');
                     };
-
-                    img.setAttribute('alt', this.img.getAttribute('alt'));
 
                     wrapper.append(img);
 
@@ -494,7 +492,6 @@ export default {
             ratio: this.ratio,
             lightBox: this.lightBox,
             parallax: this.parallax,
-            brokenMsg: this.brokenMsg,
             zoomCanvas: this.zoomCanvas,
             computedStyle: this.computedStyle,
             errorImg: this.errorImg,
