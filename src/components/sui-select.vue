@@ -1,14 +1,15 @@
 <template lang='pug'>
 sui-label(:show-selector='!!((custom || fullscreen) && option.length)' :prefix="prefix" :suffix="suffix" type="select" :label="label" :error="error" :required="required" :message="message || null" :disabled="disabled || null")
     template(v-if="custom || fullscreen")
-        input.option-display(:placeholder="placeholder" v-model="customValue" :readonly="true" @keyup="output(customValue)")
+        input.option-display(:placeholder="placeholder" :value="getText(value)" :readonly="true")
+        input(:value="value" type="hidden")
         .option(v-show="custom || fullscreen" :class="{fullscreen}")
             template(v-for="(x, idx) in option")
                 .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text || x.value }}
     template(v-else)
-        select
-            option(v-if="placeholder" value="") {{ placeholder }}
-            option(v-for="x in option" :value="x.value") {{ x.text ? x.text : x.value }}
+        select(ref="select" @input="updateValue()")
+            option(v-if="placeholder" value="" disabled selected="value === ''") {{ placeholder }}
+            option(v-for="x in option" :value="x.value" :selected="x.value === value ? 'selected' : null") {{ x.text ? x.text : x.value }}
     template(#button-left)
         slot(name="button-left")
     template(#button-right)
@@ -27,11 +28,7 @@ export default {
         suffix: String,
         prefix: String,
         label: String,
-        type: {
-            type: String,
-            default: 'text'
-        },
-
+        type: String,
         fullscreen: Boolean,
         custom: Boolean,
         menuStyle: Object,
@@ -51,18 +48,26 @@ export default {
     },
     data() {
         return {
-            customValue: '',
             searching: false,
             currentSelection: -1
         };
     },
-    created() {
-        this.customValue = this.placeholder ? this.placeholder : this.option[0].text ? this.option[0].text : this.option[0].value;
-    },
     methods: {
+        updateValue(value) {
+            this.$emit('input', value ? value : this.$refs.select.value);
+        },
+        getText(value) {
+            for(let i = 0; i < this.option.length; i++) {
+                if(this.option[i].value === value || this.option[i].text === value) {
+                    if(this.option[i].text) return this.option[i].text;
+                    return this.option[i].value;
+                    break;
+                }
+            }
+        },
         selectChoice(x) {
+            this.updateValue(x.value);
             this.output(x);
-            this.customValue = typeof x === 'string' ? x : x.text ? x.text : x.value;
         },
     }
 };
