@@ -212,7 +212,9 @@ fieldset.sui-label {
     &.error {
         border-color: var(--alert, #ff6347) !important;
         background-color: var(--alert_shadow, rgba(255, 99, 71, 0.066));
-
+        & .option {
+            border-color: var(--alert, #ff6347) !important;
+        }
         label {
             color: var(--alert, #ff6347) !important;
         }
