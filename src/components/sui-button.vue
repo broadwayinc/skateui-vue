@@ -1,5 +1,5 @@
 <template lang='pug'>
-a.sui-button(v-if="href" @click="click" :href="href" :target="target ? target : null" :class="{nude: type === 'nude', icon: type === 'icon'}")
+a.sui-button(v-if="href" @click="click" :href="href" :target="target ? target : null" :class="{nude, icon}")
     i.material-icons(v-if="type === 'icon'") {{ icon || 'link' }}
     slot(v-else-if="$slots.default")
     template(v-else) {{href}}
