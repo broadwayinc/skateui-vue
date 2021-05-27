@@ -170,5 +170,8 @@ button.sui-button, a.sui-button {
 
 a.sui-button {
     text-decoration: none;
+    line-height: 2.8rem;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 </style>
