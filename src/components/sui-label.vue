@@ -190,6 +190,7 @@ fieldset.sui-label {
 
     &.disabled {
         opacity: 0.5;
+        pointer-events: none;
     }
 
     &.label {
