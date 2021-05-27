@@ -1,8 +1,8 @@
 <template lang='pug'>
-sui-label(:show-selector='!!((custom || fullscreen) && option.length)' :prefix="prefix" :suffix="suffix" type="select" :label="label" :error="error" :required="required" :message="message || null" :disabled="disabled || null")
+sui-label(:show-selector='!!((custom || fullscreen) && option.length)' :prefix="prefix" :suffix="suffix" type="select" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null")
     template(v-if="custom || fullscreen")
-        input.option-display(:placeholder="placeholder" :value="getText(value)" :readonly="true")
-        input(:value="value" type="hidden")
+        input.option-display(:placeholder="placeholder" :value="getText(value)")
+        input(:value="value" type="text" required @invalid.prevent="invalidInput" style="position: absolute; opacity: 0")
         .option(v-show="custom || fullscreen" :class="{fullscreen}")
             template(v-for="(x, idx) in option")
                 .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text || x.value }}
@@ -34,7 +34,7 @@ export default {
         menuStyle: Object,
         value: String,
         option: Array,
-        required: Boolean,
+        required: [Boolean, String],
         disabled: Boolean,
         message: {
             type: String,
@@ -49,10 +49,36 @@ export default {
     data() {
         return {
             searching: false,
-            currentSelection: -1
+            currentSelection: -1,
+            isTouched: false,
         };
     },
+    computed: {
+        isError() {
+            return this.isInvalid || this.error
+        },
+        helperMessage() {
+            let helper =this.message || null;
+            if(this.requireFail && this.isInvalid) {
+                if(typeof this.required === 'string') {
+                    helper = this.required
+                }
+            } else if(typeof this.error === 'string') {
+                helper = this.error;
+            }
+            return helper;
+        },
+        isInvalid() {
+            return this.isTouched && this.requireFail;
+        },
+        requireFail() {
+            return this.required && this.value === '';
+        },
+    },
     methods: {
+        invalidInput() {
+            this.isTouched = true;
+        },
         updateValue(value) {
             this.$emit('input', value ? value : this.$refs.select.value);
         },
