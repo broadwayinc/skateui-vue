@@ -3,8 +3,8 @@ a.sui-button(v-if="href" @click="click" :href="href" :target="target ? target : 
     i.material-icons(v-if="type === 'icon'") {{ icon || 'link' }}
     slot(v-else-if="$slots.default")
     template(v-else) {{href}}
-button.sui-button(v-else :type="typeAttribute" @click="click" :class="{nude: type === 'nude', icon: type === 'icon'}" :disabled="disabled")
-    i.material-icons(v-if="type === 'icon'") {{ icon || 'check' }}
+button.sui-button(v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled")
+    i.material-icons(v-if="icon") {{ icon || 'check' }}
     ._loader(v-else-if="showLoading")
     slot(v-else)
 </template>
@@ -13,13 +13,12 @@ button.sui-button(v-else :type="typeAttribute" @click="click" :class="{nude: typ
 export default {
     name: 'sui-button',
     props: {
-        type: {
-            type: String
-        },
+        type: String,
+        nude: Boolean,
         disabled: Boolean,
         href: String,
         target: String,
-        icon: String,
+        icon: [Boolean, String],
         loading: {
             type: Boolean || Function,
             default: false
@@ -33,12 +32,6 @@ export default {
     computed: {
         showLoading() {
             return this.loading_onclick || this.loading === true;
-        },
-        typeAttribute() {
-            for (let t of ['button', 'submit', 'reset']) {
-                if (this.type === t) return t;
-            }
-            return null;
         }
     },
     mounted() {
