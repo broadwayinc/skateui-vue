@@ -1,6 +1,6 @@
 <template lang='pug'>
 .sui-tooltip(:class="{left:isLeft, bottom: isBottom}" @mouseenter="setPosition")
-    .content(:style='{width: maxWidth}')
+    div(:style='{width: maxWidth}')
         small
             slot
     i.material-icons.left help
@@ -45,7 +45,7 @@ div.sui-tooltip {
     --tooltip-border-radius: ~"clamp(3px, calc(var(--border-radius, 3px) / 2), 1em)";
 
     &.bottom {
-        & > .content {
+        & > div {
             top: 2em;
             bottom: unset;
 
@@ -70,7 +70,7 @@ div.sui-tooltip {
     }
 
     &.left {
-        & > .content {
+        & > div {
             left: unset;
             right: calc(-100% + 0.5em);
             text-align: right;
@@ -89,7 +89,7 @@ div.sui-tooltip {
         }
     }
 
-    & > .content {
+    & > div {
         &::after {
             content: '';
             position: absolute;
@@ -142,7 +142,7 @@ div.sui-tooltip {
         left: calc(-100% + 0.5em);
     }
 
-    &:hover > .content {
+    &:hover > div {
         display: block;
     }
 }
