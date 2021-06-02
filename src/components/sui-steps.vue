@@ -22,7 +22,7 @@ export default {
     },
     computed: {
         complete() {
-            return this.steps.length < this.completed ? this.steps.length : this.completed;
+            return this.steps.length < this.completed ? this.steps.length - 1 : this.completed > this.steps.length - 1 ? this.steps.length - 1 : this.completed;
         }
     }
 };
