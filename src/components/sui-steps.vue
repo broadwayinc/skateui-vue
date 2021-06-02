@@ -35,7 +35,7 @@ div.sui-steps {
     justify-content: space-between;
 
     &.line {
-        overflow-x: scroll;
+        overflow: hidden;
 
         svg {
             display: none;
