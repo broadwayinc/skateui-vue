@@ -53,7 +53,6 @@ div.sui-steps {
         padding-right: 1em;
         padding-top: .25em;
         color: var(--content-text_placeholder, #b3b3b3);
-        flex-grow: 1;
         margin-right: 3px;
         border-top: 3px solid;
         line-height: 1.2;
@@ -81,6 +80,10 @@ div.sui-steps {
     &.ring {
         counter-reset: --ring-status var(--ring-status);
         position: relative;
+
+        & .step {
+            flex-grow: 1;
+        }
 
         &::before {
             content: counter(--ring-status);
