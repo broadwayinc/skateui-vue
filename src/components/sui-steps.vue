@@ -4,12 +4,7 @@ div.sui-steps(:class="{ line: type === 'line', ring: type === 'ring' }" :style="
         circle.step(r="1.5em" cx="50%" cy="50%")
     svg
         circle.step(r="1.5em" cx="50%" cy="50%")
-    .step(v-for="(step,idx) in steps" :class="{'complete': idx < complete, 'current': idx === complete }")
-        template(v-if="typeof step === 'string'") {{ step.text ? step.text : step }}
-        template(v-else)
-            .left
-                i.material-icons {{ step.icon }}
-            | {{ step.text }}
+    sui-step(v-for="(step,idx) in steps" :step-size="steps.length - 1" :step="step" :idx="idx" :complete="complete")
 </template>
 
 <script>
@@ -18,7 +13,7 @@ export default {
     props: {
         type: String,
         steps: Array,
-        completed: Number
+        completed: Number,
     },
     computed: {
         complete() {
@@ -42,7 +37,10 @@ div.sui-steps {
         }
 
         .step {
-            display: inline-flex;
+            &.active,
+            &.visible {
+                display: inline-flex;
+            }
         }
     }
 
