@@ -10,6 +10,7 @@ import SuiAccordion from '../components/sui-accordion';
 import SuiTooltip from '../components/sui-tooltip';
 import SuiAutosize from '../components/sui-autosize';
 import SuiSteps from '../components/sui-steps';
+import SuiStep from '../components/sui-step';
 import SuiImage from '../components/sui-image';
 import SuiSvg from '../components/sui-svg';
 import SuiList from '../components/sui-list';
@@ -33,6 +34,7 @@ export default {
         Vue.component('sui-autosize', SuiAutosize);
         Vue.component('sui-svg', SuiSvg);
         Vue.component('sui-steps', SuiSteps);
+        Vue.component('sui-step', SuiStep);
         Vue.component('sui-image', SuiImage);
         Vue.component('sui-app', SuiApp);
         Vue.component('sui-sticky', SuiSticky);
