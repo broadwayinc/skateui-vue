@@ -37,8 +37,8 @@ export default {
                 throttle: {
                     viewport: window.sui_throttle.set()
                 },
-                updateViewport() {
-                    window.sui_throttle.run(() => {
+                updateViewport(immediate) {
+                    let calcViewport = () => {
                         if (window.sui_app.navbarStyle) {
                             let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
                             window.sui_app.navbarHeight = isNaN(navbarHeight) ? 0 : navbarHeight;
@@ -57,7 +57,12 @@ export default {
                                 break;
                             }
                         }
-                    }, window.sui_app.throttle.viewport, 250);
+                    };
+
+                    if (immediate === true)
+                        calcViewport();
+                    else
+                        window.sui_throttle.run(calcViewport, window.sui_app.throttle.viewport, 250);
 
                     return window.sui_app.viewport;
                 },
@@ -99,7 +104,7 @@ export default {
                     }
 
                     document.getElementById('sui-app').style.setProperty('--navbar-top', `${0}px`);
-                    window.sui_app.updateViewport();
+                    window.sui_app.updateViewport(true);
                     window.sui_on.registerEvent.resize(window.sui_app.updateViewport);
 
                     return true;
