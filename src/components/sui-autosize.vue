@@ -26,6 +26,28 @@ export default {
             constructor(el) {
                 if (!el)
                     throw 'no argument';
+
+                this.scrollbarWidth = (() => {
+                    // Creating invisible container
+                    const outer = document.createElement('div');
+                    outer.style.visibility = 'hidden';
+                    outer.style.overflow = 'scroll'; // forcing scrollbar to appear
+                    outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+                    document.body.appendChild(outer);
+
+                    // Creating inner element and placing it in the container
+                    const inner = document.createElement('div');
+                    outer.appendChild(inner);
+
+                    // Calculating difference between container's full width and the child width
+                    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+
+                    // Removing temporary elements from the DOM
+                    outer.parentNode.removeChild(outer);
+
+                    return scrollbarWidth;
+                })();
+
                 this.eventId = null;
                 this.max = 72;
                 this.min = 16;
@@ -38,6 +60,15 @@ export default {
                     this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
                 else if (typeof el === 'object' && Object.keys(el).length) {
                     let {element, elementId, max, min, value, allowEnter, readonly} = el;
+
+                    max = max && typeof max === 'string' ? Number(max) : max;
+                    min = min && typeof min === 'string' ? Number(min) : min;
+
+                    if(min > max) {
+                        let big = min;
+                        min = max;
+                        max = big;
+                    }
 
                     setValue = value;
                     if (allowEnter)
@@ -60,7 +91,6 @@ export default {
 
                 if (!this.element)
                     throw 'no element';
-
 
                 this.textarea = this.element.childNodes[0];
                 this.value = setValue || this.textarea.value || "";
@@ -149,7 +179,8 @@ export default {
                     let charLength = this.textarea.value.length;
                     let div = width / charLength;
 
-                    div = div * 1.33;
+                    // div = div * 1.33;
+                    div = div * 2;
 
                     if (this.max < div)
                         this.fontsize = this.max;
@@ -259,7 +290,9 @@ export default {
     border: 2px dashed transparent;
     font-size: var(--auto-size);
     display: inline-block;
-    max-width: calc(100% - 2px);
+    box-sizing: border-box;
+    max-width: 100%;
+    //max-width: calc(100% - 4px);
     border-radius: 3px /* fallback */;
     border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
 
@@ -336,7 +369,7 @@ export default {
             line-height: 1.5em;
             font-size: 1em;
             padding: .5rem 0.75rem; /* fallback */
-            padding: .5rem ~"clamp(4px, 1em, 1rem)";
+            padding: .5rem ~"clamp(4px, 0.5em, 1rem)";
             outline: none;
             border: none;
             max-width: 100%;
