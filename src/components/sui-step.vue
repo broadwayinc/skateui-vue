@@ -1,6 +1,6 @@
 <template lang='pug'>
     .step(v-bind:class="[positionClass, {'complete': idx < complete, 'current': idx === complete}]")
-        template(v-if="typeof step === 'string'") {{ step.text ? step.text : step }} : {{ complete }}
+        template(v-if="typeof step === 'string'") {{ step.text ? step.text : step }}
         template(v-else-if="typeof step !== 'string'")
             .left
                 i.material-icons {{ step.icon }}
