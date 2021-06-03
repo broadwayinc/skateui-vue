@@ -65,8 +65,9 @@ export default {
                         // sticky overflowing
                         let scrollSum = this.previousScroll - currentPageScrollPosition;
                         let sum = scrollSum + this.dynamicOffset;
+
                         if(Math.abs(sum) > screenOverload + navbarHeight)
-                            this.dynamicOffset = scrollSum < 0 ? -screenOverload - navbarHeight : sum;
+                            this.dynamicOffset = scrollSum < 0 && sum < 0 ? -screenOverload - navbarHeight : sum < navbarHeight ? sum : navbarHeight;
                         else
                             this.dynamicOffset = sum < navbarHeight ? sum : navbarHeight;
                     } else
