@@ -36,9 +36,8 @@ export default {
 
             let right = this.stepSize - this.complete;
             let left = this.allowance - right;
-
             if(left > 0) {
-                for(let i = this.complete; i > left; i--) {
+                for(let i = this.complete; i >= this.complete - left; i--) {
                     if(this.idx === i) {
                         return "visible"
                     }
