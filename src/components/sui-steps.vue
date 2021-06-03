@@ -13,7 +13,10 @@ export default {
     props: {
         type: String,
         steps: Array,
-        completed: Number,
+        completed: {
+            type: Number,
+            default: 0
+        }
     },
     computed: {
         complete() {
