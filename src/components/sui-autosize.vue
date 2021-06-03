@@ -26,6 +26,7 @@ export default {
             constructor(el) {
                 if (!el)
                     throw 'no argument';
+
                 this.eventId = null;
                 this.max = 72;
                 this.min = 16;
@@ -38,6 +39,15 @@ export default {
                     this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
                 else if (typeof el === 'object' && Object.keys(el).length) {
                     let {element, elementId, max, min, value, allowEnter, readonly} = el;
+
+                    max = max && typeof max === 'string' ? Number(max) : max;
+                    min = min && typeof min === 'string' ? Number(min) : min;
+
+                    if(min > max) {
+                        let big = min;
+                        min = max;
+                        max = big;
+                    }
 
                     setValue = value;
                     if (allowEnter)
@@ -61,7 +71,6 @@ export default {
                 if (!this.element)
                     throw 'no element';
 
-
                 this.textarea = this.element.childNodes[0];
                 this.value = setValue || this.textarea.value || "";
                 this.textarea.readOnly = this.readonly;
@@ -70,7 +79,7 @@ export default {
             }
 
             updateValue(v) {
-                let value = v || this.textarea.value;
+                let value = typeof v === 'string' ? v : this.textarea.value;
                 this.textarea.parentNode.dataset.replica = value;
                 if (this.textarea.value !== value)
                     this.textarea.value = value + (value ? ' ' : '');
@@ -85,17 +94,14 @@ export default {
 
                 if (this.placeholder) {
                     await this.updateValue(this.placeholder);
+                    console.log({t:this.textarea.value})
                     this.element.style.minWidth = this.elementStyle.width;
                     this.placeholdersize = this.fontsize;
                     this.element.style.setProperty('--placeholder-size', `${this.placeholdersize}px`);
                     this.element.style.setProperty('--placeholder-height', this.elementStyle.height);
                 } else this.placeholdersize = this.max;
 
-                this.textarea.value = setValue + (setValue ? ' ' : '');
-                this.textarea.parentNode.dataset.replica = setValue;
-                this.value = setValue;
-
-                await this.adjustSize();
+                await this.updateValue(setValue);
             }
 
             init() {
@@ -146,10 +152,12 @@ export default {
 
                 if (!this.fontsize) {
                     let width = parseFloat(this.elementStyle.width);
-                    let charLength = this.textarea.value.length;
+                    let charLength = this.textarea.value.length || 1;
+                    console.log({charLength})
                     let div = width / charLength;
-
-                    div = div * 1.33;
+                    console.log({dd:div, max:this.max,min:this.min})
+                    div = Math.floor(div * 1.33);
+                    // div = div * 2;
 
                     if (this.max < div)
                         this.fontsize = this.max;
@@ -159,17 +167,21 @@ export default {
 
                     else
                         this.fontsize = div;
+
+                    console.log({div})
                 }
 
                 let runDown = () => {
-                    this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
-                    let doIt = async () => {
+                    console.log('down')
+                    let doIt = () => {
+                        this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
                         let howmanylines = height / (this.fontsize * 1.5);
                         if (howmanylines > 2 && this.fontsize > this.min) {
                             let minus = this.fontsize - 1;
                             this.fontsize = minus > this.min ? minus : this.min;
-                            await runDown();
+                            console.log({font:this.fontsize,min:this.min})
+                            doIt();
                         }
                     };
 
@@ -180,22 +192,23 @@ export default {
                 };
 
                 let runUp = () => {
-                    this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
 
-                    let doIt = async () => {
+                    console.log('up')
+                    let doIt = () => {
+                        this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
                         let howmanylines = height / (this.fontsize * 1.5);
                         if (howmanylines < 2 && this.fontsize < this.max) {
                             let plus = this.fontsize + 1;
                             this.fontsize = plus < this.max ? plus : this.max;
-                            await runUp();
+                            doIt();
                         } else {
-                            await runDown();
+                            return runDown();
                         }
                     };
 
-                    return new Promise(res => {
-                        doIt();
+                    return new Promise(async res => {
+                        await doIt();
                         res(true);
                     });
                 };
@@ -259,7 +272,9 @@ export default {
     border: 2px dashed transparent;
     font-size: var(--auto-size);
     display: inline-block;
-    max-width: calc(100% - 2px);
+    box-sizing: border-box;
+    max-width: 100%;
+    //max-width: calc(100% - 4px);
     border-radius: 3px /* fallback */;
     border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
 
@@ -311,6 +326,7 @@ export default {
 
             &::placeholder {
                 font-size: var(--placeholder-size);
+                white-space: nowrap;
                 color: rgba(128, 128, 128, 0.75);
             }
 
@@ -336,12 +352,12 @@ export default {
             line-height: 1.5em;
             font-size: 1em;
             padding: .5rem 0.75rem; /* fallback */
-            padding: .5rem ~"clamp(4px, 1em, 1rem)";
+            padding: .5rem ~"clamp(4px, 0.5em, 1rem)";
             outline: none;
             border: none;
             max-width: 100%;
             /* Place on top of each other */
-            //grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
+            grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
         }
     }
 }
