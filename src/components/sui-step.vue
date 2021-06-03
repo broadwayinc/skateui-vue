@@ -35,7 +35,7 @@ export default {
             }
 
             let right = this.stepSize - this.complete;
-            let left = this.allowance - right;
+            let left = this.allowance - right <= 0 ? 1 : this.allowance - right;
             if(left > 0) {
                 for(let i = this.complete; i >= this.complete - left; i--) {
                     if(this.idx === i) {
@@ -44,7 +44,8 @@ export default {
                 }
             }
             if(right > 0) {
-                for(let i = this.complete; i <= this.complete + this.allowance; i++) {
+                let limit = this.complete === 0 ? this.complete + this.allowance : this.complete + this.allowance - 1;
+                for(let i = this.complete; i <= limit; i++) {
                     if(this.idx === i) {
                         return "visible"
                     }
