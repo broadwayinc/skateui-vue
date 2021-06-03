@@ -43,7 +43,7 @@ export default {
                     max = max && typeof max === 'string' ? Number(max) : max;
                     min = min && typeof min === 'string' ? Number(min) : min;
 
-                    if(min > max) {
+                    if (min > max) {
                         let big = min;
                         min = max;
                         max = big;
@@ -94,7 +94,6 @@ export default {
 
                 if (this.placeholder) {
                     await this.updateValue(this.placeholder);
-                    console.log({t:this.textarea.value})
                     this.element.style.minWidth = this.elementStyle.width;
                     this.placeholdersize = this.fontsize;
                     this.element.style.setProperty('--placeholder-size', `${this.placeholdersize}px`);
@@ -153,11 +152,8 @@ export default {
                 if (!this.fontsize) {
                     let width = parseFloat(this.elementStyle.width);
                     let charLength = this.textarea.value.length || 1;
-                    console.log({charLength})
                     let div = width / charLength;
-                    console.log({dd:div, max:this.max,min:this.min})
                     div = Math.floor(div * 1.33);
-                    // div = div * 2;
 
                     if (this.max < div)
                         this.fontsize = this.max;
@@ -168,11 +164,9 @@ export default {
                     else
                         this.fontsize = div;
 
-                    console.log({div})
                 }
 
                 let runDown = () => {
-                    console.log('down')
                     let doIt = () => {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
@@ -180,7 +174,6 @@ export default {
                         if (howmanylines > 2 && this.fontsize > this.min) {
                             let minus = this.fontsize - 1;
                             this.fontsize = minus > this.min ? minus : this.min;
-                            console.log({font:this.fontsize,min:this.min})
                             doIt();
                         }
                     };
@@ -193,7 +186,6 @@ export default {
 
                 let runUp = () => {
 
-                    console.log('up')
                     let doIt = () => {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
