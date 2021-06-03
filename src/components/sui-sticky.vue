@@ -37,7 +37,7 @@ export default {
         class SuiSticky {
             constructor(option) {
                 let {elementId, offset = 0, ignoreNavbar = false, disableSticky = false} = option;
-                if (!elementId) throw 'no id';
+                if (!elementId) throw 'NO_ELEMENT_ID';
 
                 this.disableSticky = disableSticky;
                 this.element = null;
@@ -56,19 +56,21 @@ export default {
 
                     this.stickyHeight = parseFloat(this.sticky_computedStyle.height);
                     let screenOverload = this.stickyHeight - document.documentElement.clientHeight;
-                    screenOverload = screenOverload > 0 ? screenOverload : 0;
+
                     const currentPageScrollPosition = window.pageYOffset;
 
-                    const offsetHeight = this.ignoreNavbar ? 0 : window?.sui_app?.navbarHeight_dynamic || 0;
+                    const navbarHeight = this.ignoreNavbar ? 0 : (window?.sui_app?.navbarHeight_dynamic || 0);
 
-                    if (screenOverload) {
-                        screenOverload = screenOverload * -1;
-                        const scrollSum = this.previousScroll - currentPageScrollPosition;
+                    if (screenOverload > 0) {
+                        // sticky overflowing
+                        let scrollSum = this.previousScroll - currentPageScrollPosition;
                         let sum = scrollSum + this.dynamicOffset;
-                        sum = offsetHeight < sum ? offsetHeight : screenOverload > sum ? screenOverload : sum;
-                        this.dynamicOffset = sum;
+                        if(Math.abs(sum) > screenOverload + navbarHeight)
+                            this.dynamicOffset = scrollSum < 0 ? -screenOverload - navbarHeight : sum;
+                        else
+                            this.dynamicOffset = sum < navbarHeight ? sum : navbarHeight;
                     } else
-                        this.dynamicOffset = offsetHeight + this.offset;
+                        this.dynamicOffset = navbarHeight + this.offset;
 
                     this.previousScroll = currentPageScrollPosition;
                     this.element.style.top = this.dynamicOffset + 'px';
