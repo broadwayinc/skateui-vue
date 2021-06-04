@@ -1,10 +1,10 @@
 <template lang='pug'>
 label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', disabled}")
     template(v-if="type === 'checkbox'")
-        input(type="checkbox" :value="value" :name="name" :disabled="disabled" :checked="checked")
+        input(ref="option" type="checkbox" @input="updateValue()" :value="value || modelValue" :name="name" :disabled="disabled" :checked="checked")
         .checkbox
     template(v-if="type === 'radio'")
-        input(type="radio" :value="value" :name="name" :disabled="disabled" :checked="checked")
+        input(ref="option" type="radio" @input="updateValue()" :value="value || modelValue" :name="name" :disabled="disabled" :checked="checked")
         .radio
     pre
     p {{ label }}
@@ -13,14 +13,22 @@ label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type
 <script>
 export default {
     name: 'sui-option',
+    emits: ['update:modelValue', 'input'],
     props: {
+        modelValue: String | Number | Boolean,
         type: {type: String, default: 'checkbox'},
         label: String,
         disabled: Boolean,
         checked: Boolean,
         name: String,
-        value: String || Number
+        value: String | Number | Boolean
     },
+    methods: {
+        updateValue(value) {
+            this.$emit('input', JSON.parse(value ? value : this.$refs.option.checked));
+            this.$emit('update:modelValue', JSON.parse(value ? value : this.$refs.option.checked));
+        }
+    }
 };
 </script>
 <style scoped lang="less">
