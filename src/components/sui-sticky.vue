@@ -48,6 +48,7 @@ export default {
                 this.ignoreNavbar = false;
                 this.dynamicOffset = 0;
                 this.sticky_computedStyle = null;
+
                 this.offset = 0;
                 this.adjust_sticky = (function () {
 
@@ -55,17 +56,20 @@ export default {
                         return;
 
                     this.stickyHeight = parseFloat(this.sticky_computedStyle.height);
+
+                    console.log({s:this.stickyHeight,doc:document.documentElement.clientHeight,b:this.sticky_computedStyle.boxSizing})
+
                     let screenOverload = this.stickyHeight - document.documentElement.clientHeight;
 
                     const currentPageScrollPosition = window.pageYOffset;
 
                     const navbarHeight = this.ignoreNavbar ? 0 : (window?.sui_app?.navbarHeight_dynamic || 0);
-
+                    console.log({screenOverload})
                     if (screenOverload > 0) {
                         // sticky overflowing
                         let scrollSum = this.previousScroll - currentPageScrollPosition;
                         let sum = scrollSum + this.dynamicOffset;
-
+                        console.log({navbarHeight})
                         if(Math.abs(sum) > screenOverload + navbarHeight)
                             this.dynamicOffset = scrollSum < 0 && sum < 0 ? -screenOverload - navbarHeight : sum < navbarHeight ? sum : navbarHeight;
                         else
@@ -82,7 +86,6 @@ export default {
                 this.ignoreNavbar = ignoreNavbar;
                 this.element = document.getElementById(elementId);
                 this.sticky_computedStyle = window.getComputedStyle(this.element);
-
                 if (this.disableSticky)
                     return;
 
@@ -91,8 +94,8 @@ export default {
 
             activate() {
                 this.element.style.position = 'sticky';
+                this.element.style.boxSizing = 'border-box';
                 this.adjust_sticky();
-
                 this.scroll_eventId = window.sui_on.registerEvent.scroll(this.adjust_sticky);
                 this.resize_eventId = window.sui_on.registerEvent.resize(this.adjust_sticky);
             }
