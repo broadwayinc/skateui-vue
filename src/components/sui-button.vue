@@ -12,6 +12,7 @@ button.sui-button(v-else :type="type" @click="click" :class="{nude, icon}" :disa
 <script>
 export default {
     name: 'sui-button',
+    emits: ['click'],
     props: {
         type: String,
         nude: Boolean,
@@ -132,7 +133,7 @@ button.sui-button, a.sui-button {
         }
 
         &:hover {
-            text-shadow: 1px 1px rgba(128, 128, 128, 0.25);
+            text-shadow: 1px 1px rgba(128, 128, 128, 0.12);
         }
 
         &:active {
@@ -173,6 +174,7 @@ a.sui-button {
     line-height: 2.8rem;
     padding-top: 0;
     padding-bottom: 0;
+
     &.disabled {
         opacity: 0.5;
     }
