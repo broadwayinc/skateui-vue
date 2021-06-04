@@ -56,6 +56,7 @@ export default {
                     throw 'no element';
 
                 this.img = element;
+                this.img_style = window.getComputedStyle(this.img);
 
                 let grandParent = document.createElement('div');
                 grandParent.classList.add('sui-image-parent');
@@ -293,24 +294,24 @@ export default {
 
                     let w = e.target.naturalWidth;
                     let h = e.target.naturalHeight;
-                    let hh, ww, calib;
-                    if (w !== h) {
+                    let hh = 0, ww = 0, calib = w / imageWidth;
+                    if (w !== imageWidth) {
                         if (w / h > imageWidth / imageHeight) {
                             calib = h / imageHeight;
-                            ww = Math.abs(imageHeight / h * w - imageWidth) / 100 * this.src.crop.x * calib;
+                            // ww = (Math.abs(imageHeight / h * w - imageWidth) / 100) * this.src.crop.x * calib;
+                            ww = Math.abs(imageHeight / h * w - imageWidth) / 100 * this.current_objectPosition[0] * calib;
                             hh = 0;
                         } else if (w / h < imageWidth / imageHeight) {
                             calib = w / imageWidth;
                             ww = 0;
-                            hh = Math.abs(imageWidth / w * h - imageHeight) / 100 * this.src.crop.y * calib;
+                            // hh = (Math.abs(imageWidth / w * h - imageHeight) / 100) * this.src.crop.y * calib;
+                            hh = Math.abs(imageWidth / w * h - imageHeight) / 100 * this.current_objectPosition[1] * calib;
                         }
-                    } else {
-                        ww = 0;
-                        hh = 0;
-                        calib = w / imageWidth;
                     }
 
                     const canvas = this.zoomCanvas.getElementsByTagName('CANVAS')[0].getContext('2d');
+                    let lp = (this.current_objectPosition[0] / 100) * imageWidth;
+                    let tp = (this.current_objectPosition[1] / 100) * imageHeight;
                     canvas.drawImage(
                         e.target,
                         mzp.left * calib + ww,
@@ -421,13 +422,19 @@ export default {
             }
 
             setSrc(src, lightBox = this.lightBox) {
+                let crop_default = [];
+                this.img_style.objectPosition.split('%').map(s => {
+                    if (s)
+                        crop_default.push(parseFloat(s.trim()));
+                });
+                this.current_objectPosition = crop_default.length === 2 ? crop_default : [50, 50];
                 let {
                     dominantColor = null,
                     colorScheme = null,
                     source = this.img.src,
                     dimension = null,
                     fileType = '',
-                    crop = {x: 50, y: 30}
+                    crop = crop_default.length === 2 ? {x: crop_default[0], y: crop_default[1]} : {x: 50, y: 50}
                 } = typeof src === 'string' ?
                     {source: src} :
                     typeof src === 'object' && Object.keys(src) ?
@@ -477,11 +484,15 @@ export default {
                         const s = this.src.crop;
                         if (this.parallax) {
                             let summer = parallax_y < 0 ? s.y : 100 - s.y;
+                            this.current_objectPosition = [s.x, s.y + summer * parallax_y];
                             return s.x + '% ' + (s.y + summer * parallax_y) + '%';
-                        } else
+                        } else {
+                            this.current_objectPosition = [s.x, s.y];
                             return s.x + '% ' + s.y + '%';
+                        }
                     } catch (err) {
-                        return '50% 30%';
+                        this.current_objectPosition = [50, 50];
+                        return '50% 50%';
                     }
                 })();
             }
@@ -506,7 +517,10 @@ export default {
             alt: this.alt
         });
     },
-    beforeDestroy() {
+    // beforeDestroy() {
+    //     this.sui_image.disable();
+    // },
+    beforeUnmount() {
         this.sui_image.disable();
     },
     watch: {
@@ -546,6 +560,7 @@ export default {
         &._hideLoader {
             display: none;
         }
+
         border: .15em solid rgba(128, 128, 128, 0.5);
         border-top: .15em solid white;
 
@@ -580,6 +595,7 @@ export default {
         position: relative;
         box-sizing: border-box;
         flex-grow: 1;
+
         &.error {
             &:after {
                 content: attr(data-alt);
@@ -607,9 +623,11 @@ export default {
                 font-size: 2rem;
                 color: rgba(0, 0, 0, 0.5);
             }
-
+            --zoomer-border-radius: .5em; /* fallback */
+            --zoomer-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), 8px)";
+            border-radius: var(--zoomer-border-radius);
             background-color: rgba(255, 255, 255, 0.5);
-            border: 2px solid rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(0, 0, 0, 0.25);
             position: absolute;
             z-index: 1;
             pointer-events: none;
