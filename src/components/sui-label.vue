@@ -223,10 +223,10 @@ fieldset.sui-label {
 
     position: relative;
     text-align: inherit;
-    border: 2px solid rgba(128, 128, 128, 0.5);
+    border: 2px solid var(--border-color, rgba(128, 128, 128, 0.5));
 
     padding: 0 .5em;
-    min-width: calc(2.8rem * 3);
+    //min-width: calc(2.8rem * 3);
     border-radius: var(--border-radius, 3px); /* fallback */
     border-radius: ~"clamp(0px, var(--border-radius, 3px), 1.4rem)";
     vertical-align: middle;
@@ -430,7 +430,8 @@ fieldset.sui-label {
             position: relative;
             flex-grow: 1;
             min-height: calc(2.8rem - 4px);
-            min-width: 2em;
+            //min-width: 2em;
+            min-width: 1em;
             box-sizing: border-box;
             vertical-align: middle;
             background-color: transparent;

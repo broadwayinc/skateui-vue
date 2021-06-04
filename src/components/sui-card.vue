@@ -229,7 +229,7 @@ div.sui-card {
 
     & > .content:not(:empty) {
         width: 100%;
-        padding: 2em 0.5rem 2.5em;
+        padding: 2em 0.5rem 2em;
         line-height: 1.5em;
 
         & > * {

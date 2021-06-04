@@ -320,6 +320,7 @@ export default {
                 font-size: var(--placeholder-size);
                 white-space: nowrap;
                 color: rgba(128, 128, 128, 0.75);
+                font-weight: inherit !important;
             }
 
             &:read-only {
@@ -345,6 +346,7 @@ export default {
             font-size: 1em;
             padding: .5rem 0.75rem; /* fallback */
             padding: .5rem ~"clamp(4px, 0.5em, 1rem)";
+            font-weight: inherit !important;
             outline: none;
             border: none;
             max-width: 100%;
