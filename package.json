@@ -31,6 +31,6 @@
     "uglifyify": "^5.0.2"
   },
   "dependencies": {
-    "colormangle": "^0.1.91"
+    "colormangle": "^0.1.92"
   }
 }

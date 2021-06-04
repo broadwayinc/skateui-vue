@@ -4,7 +4,7 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="placeholder" :type="type" :value="value" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
+    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="placeholder" :type="type" :value="value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
     div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
@@ -13,7 +13,9 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
 <script>
 export default {
     name: 'sui-input',
+    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'error'],
     props: {
+        modelValue: String | Number,
         error: {
             type: [Boolean, String]
         },
@@ -64,14 +66,14 @@ export default {
             return this.isInvalid || this.error || this.regexFail;
         },
         helperMessage() {
-            let helper =this.message || null;
-            if(this.requireFail && this.isInvalid) {
-                if(typeof this.required === 'string') {
-                    helper = this.required
+            let helper = this.message || null;
+            if (this.requireFail && this.isInvalid) {
+                if (typeof this.required === 'string') {
+                    helper = this.required;
                 }
-            } else if(this.regexFail && this.isInvalid) {
+            } else if (this.regexFail && this.isInvalid) {
                 helper = this.patternError;
-            } else if(typeof this.error === 'string') {
+            } else if (typeof this.error === 'string') {
                 helper = this.error;
             }
             return helper;
@@ -80,21 +82,23 @@ export default {
             return this.isTouched && this.requireFail || this.regexFail;
         },
         requireFail() {
-            return this.required && this.value === '';
+            return this.required && (this.value || this.modelValue) === '';
         },
         regexFail() {
-            if(!this.required && this.value === '') return false;
-            return this.isTouched && this.pattern && !this.value.match(this.regexExpression);
+            if (!this.required && (this.value || this.modelValue) === '') return false;
+            return this.isTouched && this.pattern && !(this.value || this.modelValue).match(this.regexExpression);
         }
     },
     methods: {
         updateValue(value) {
             this.$emit('input', value ? value : this.$refs.input.value);
+            this.$emit('update:modelValue', value ? value : this.$refs.input.value);
         },
         invalidInput() {
             this.isTouched = true;
-            if(this.requireFail) { this.$emit('requiredError'); }
-            else this.regexFail ? this.$emit('patternError') : this.$emit('error');
+            if (this.requireFail) {
+                this.$emit('requiredError');
+            } else this.regexFail ? this.$emit('patternError') : this.$emit('error');
         },
         arrowSelection(event) {
             if (event && this.option?.length) {
