@@ -1,6 +1,6 @@
 <template lang="pug">
 #sui-app
-    nav(v-if="$slots.nav")
+    nav#sui-app-nav(v-if="$slots.nav")
         slot(name="nav")
     #sui-app-view(v-if="loaded")
         slot
@@ -22,6 +22,16 @@ export default {
             loaded: false
         };
     },
+    watch: {
+        colorScheme(n) {
+            if (window.sui_app)
+                window.sui_app.generateColorScheme(n);
+        },
+        darkMode(n) {
+            if (window.sui_app)
+                window.sui_app.generateColorScheme(undefined, n);
+        }
+    },
     created() {
         if (!window.sui_app)
             window.sui_app = {
@@ -34,6 +44,8 @@ export default {
                 breakPoint: [442, 768, 1366],
                 viewport: 'desktop',
                 touchScreen: window.matchMedia('(pointer: coarse)').matches,
+                primaryColor: '#4848db',
+                darkMode: false,
                 throttle: {
                     viewport: window.sui_throttle.set()
                 },
@@ -77,13 +89,15 @@ export default {
                     document.getElementById('sui-app').style.setProperty('--navbar-top', `${window.sui_app.navbarOffset}px`);
                 },
                 colorScheme: null,
-                generateColorScheme(colorScheme, darkMode) {
+                generateColorScheme(colorScheme = window.sui_app.primaryColor, darkMode = window.sui_app.darkMode) {
                     let cs = new ColorMangle(colorScheme || undefined).colorScheme(undefined, darkMode);
                     let body = document.getElementsByTagName('BODY')[0];
 
                     for (let c in cs)
                         body.style.setProperty(c, cs[c]);
 
+                    window.sui_app.primaryColor = colorScheme;
+                    window.sui_app.darkMode = darkMode;
                     window.sui_app.colorScheme = cs;
                 },
                 init: (option) => {
@@ -144,14 +158,14 @@ body {
     display: flex;
     justify-content: center;
 
-    & > nav {
+    & > #sui-app-nav {
         background-color: var(--navbar-background-color, var(--content, #ffffff));
         color: var(--navbar-color, var(--content-text, rgba(0, 0, 0, 0.88)));
         box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
         width: 100%;
         top: var(--navbar-top);
         position: fixed;
-        overflow: hidden;
+        //overflow: hidden;
         z-index: 9999;
 
         & + #sui-app-view {
