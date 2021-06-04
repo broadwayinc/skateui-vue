@@ -517,12 +517,12 @@ export default {
             alt: this.alt
         });
     },
-    // beforeDestroy() {
-    //     this.sui_image.disable();
-    // },
-    beforeUnmount() {
+    beforeDestroy() {
         this.sui_image.disable();
     },
+    // beforeUnmount() {
+    //     this.sui_image.disable();
+    // },
     watch: {
         src(n, o) {
             if (this.sui_image)
