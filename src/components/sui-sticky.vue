@@ -56,21 +56,15 @@ export default {
                         return;
 
                     this.stickyHeight = parseFloat(this.sticky_computedStyle.height);
-
-                    console.log({s:this.stickyHeight,doc:document.documentElement.clientHeight,b:this.sticky_computedStyle.boxSizing})
-
                     let screenOverload = this.stickyHeight - document.documentElement.clientHeight;
-
                     const currentPageScrollPosition = window.pageYOffset;
-
                     const navbarHeight = this.ignoreNavbar ? 0 : (window?.sui_app?.navbarHeight_dynamic || 0);
-                    console.log({screenOverload})
                     if (screenOverload > 0) {
                         // sticky overflowing
                         let scrollSum = this.previousScroll - currentPageScrollPosition;
                         let sum = scrollSum + this.dynamicOffset;
-                        console.log({navbarHeight})
-                        if(Math.abs(sum) > screenOverload + navbarHeight)
+
+                        if (Math.abs(sum) > screenOverload + navbarHeight)
                             this.dynamicOffset = scrollSum < 0 && sum < 0 ? -screenOverload - navbarHeight : sum < navbarHeight ? sum : navbarHeight;
                         else
                             this.dynamicOffset = sum < navbarHeight ? sum : navbarHeight;
