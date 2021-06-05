@@ -15,7 +15,10 @@ export default {
     name: 'sui-input',
     emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'error'],
     props: {
-        modelValue: String | Number,
+        modelValue: {
+            type: [String, Number],
+            default: ''
+        },
         error: {
             type: [Boolean, String]
         },
@@ -35,7 +38,7 @@ export default {
         menuStyle: Object,
         value: {
             type: [Number, String],
-            default: null
+            default: ''
         },
         option: Array,
         required: [Boolean, String],
