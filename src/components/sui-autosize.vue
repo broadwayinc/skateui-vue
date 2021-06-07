@@ -8,8 +8,8 @@ export default {
     name: "sui-autosize",
     props: {
         placeholder: String,
-        min: Number,
-        max: Number,
+        min: Number | String,
+        max: Number | String,
         value: String,
         output: Function,
         allowEnter: Boolean,
@@ -38,10 +38,15 @@ export default {
                 if (typeof el === 'string')
                     this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
                 else if (typeof el === 'object' && Object.keys(el).length) {
-                    let {element, elementId, max, min, value, allowEnter, readonly} = el;
+                    let {element, elementId, max = 72, min = 16, value, allowEnter, readonly} = el;
 
                     max = max && typeof max === 'string' ? Number(max) : max;
                     min = min && typeof min === 'string' ? Number(min) : min;
+
+                    if (isNaN(max))
+                        throw 'MAX_NOT_NUMBER';
+                    if (isNaN(min))
+                        throw 'MIN_NOT_NUMBER';
 
                     if (min > max) {
                         let big = min;
