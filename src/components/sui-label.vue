@@ -167,7 +167,7 @@ export default {
         border-top-color: transparent !important;
         border-left-color: transparent !important;
         border-right-color: transparent !important;
-        margin-bottom: calc(100vh - 2.8rem) !important;
+        //margin-bottom: calc(100vh - 2.8rem) !important;
 
         .sui-input-wrapper {
             .option {
