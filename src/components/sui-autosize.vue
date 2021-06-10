@@ -297,6 +297,7 @@ export default {
         display: inline-grid;
         min-height: 2rem;
         width: 100%;
+        word-break: break-word;
 
         &::after {
             content: attr(data-replica) " ";
