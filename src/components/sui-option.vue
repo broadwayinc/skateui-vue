@@ -16,7 +16,7 @@ export default {
     emits: ['update:modelValue', 'input'],
     props: {
         modelValue: String | Number | Boolean,
-        value: [Array, String],
+        value: [Array, String, Boolean],
         type: {type: String, default: 'checkbox'},
         label: String,
         disabled: Boolean,
@@ -28,6 +28,9 @@ export default {
         isChecked() {
             if (this.value instanceof Array) {
                 return this.value.includes(this.data)
+            }
+            if(this.type === 'checkbox') {
+                return this.value;
             }
             return this.value === this.data;
         }
@@ -45,7 +48,11 @@ export default {
                     newValue.push(this.data)
                 }
             } else {
-                newValue = this.data;
+                if(this.type === 'checkbox') {
+                    newValue = !this.value;
+                } else {
+                    newValue = this.data;
+                }
             }
 
             this.$emit('input', newValue);
