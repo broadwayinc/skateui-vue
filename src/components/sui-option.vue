@@ -1,10 +1,10 @@
 <template lang='pug'>
 label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', disabled}")
     template(v-if="type === 'checkbox'")
-        input(ref="option" type="checkbox" @input="updateValue()" :value="value || modelValue" :name="name" :disabled="disabled" :checked="checked")
+        input(ref="option" type="checkbox" @input="updateValue" :name="name" :disabled="disabled" :checked="isChecked")
         .checkbox
     template(v-if="type === 'radio'")
-        input(ref="option" type="radio" @input="updateValue()" :value="value || modelValue" :name="name" :disabled="disabled" :checked="checked")
+        input(ref="option" type="radio" @change="updateValue()" :name="name" :disabled="disabled" :checked="isChecked")
         .radio
     pre
     p {{ label }}
@@ -16,17 +16,40 @@ export default {
     emits: ['update:modelValue', 'input'],
     props: {
         modelValue: String | Number | Boolean,
+        value: [Array, String],
         type: {type: String, default: 'checkbox'},
         label: String,
         disabled: Boolean,
-        checked: Boolean,
         name: String,
-        value: String | Number | Boolean
+        data: String | Number | Boolean,
+        checked: Boolean
+    },
+    computed: {
+        isChecked() {
+            if (this.value instanceof Array) {
+                return this.value.includes(this.data)
+            }
+            return this.value === this.data;
+        }
     },
     methods: {
-        updateValue(value) {
-            this.$emit('input', JSON.parse(value ? value : this.$refs.option.checked));
-            this.$emit('update:modelValue', JSON.parse(value ? value : this.$refs.option.checked));
+        updateValue() {
+            let newValue = null;
+
+            if(this.value instanceof  Array) {
+                newValue = [...this.value];
+                let idx = newValue.indexOf(this.data);
+                if(idx >= 0) {
+                    newValue.splice(idx, 1)
+                } else {
+                    newValue.push(this.data)
+                }
+            } else {
+                newValue = this.data;
+            }
+
+            this.$emit('input', newValue);
+            this.$emit('update:modelValue', newValue);
         }
     }
 };
