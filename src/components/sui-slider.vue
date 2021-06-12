@@ -20,13 +20,11 @@ export default {
     props: {
         showPagination: {type: Boolean, default: false},
         slideArray: Array,
-        outputText: Function,
         outputCurrentIndex: Function,
         ratio: Array,
         showText: Boolean,
-        parallax: String | Boolean,
+        parallax: Boolean,
         showArrow: {type: Boolean, default: true},
-        onLoad: Function,
         errorImg: String,
         loop: {type: Boolean, default: false}
     },
