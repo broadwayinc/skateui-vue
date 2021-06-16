@@ -442,6 +442,7 @@ fieldset.sui-label {
             padding: 0 0.75rem;
             margin: 0;
             display: block;
+            line-height: initial;
         }
 
         .textarea {
