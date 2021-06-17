@@ -1,8 +1,8 @@
 <template lang="pug">
 fieldset.sui-label(
     ref='label'
-    :class="{ label: !!label, showSelector, error, disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'}")
-    legend(v-if="label") {{ label }}
+    :class="{ label: !!label && !small, showSelector, error, disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete', small: small}")
+    legend(v-if="label && !small") {{ label }}
         span(v-if="required") &nbsp;*
     .sui-input-wrapper
         .button-left(v-if="$slots['button-left']")
@@ -18,7 +18,7 @@ fieldset.sui-label(
         .button-right(v-if="$slots['button-right']")
             div
                 slot(name='button-right')
-        label(v-if="label" :for="elementId + '_input'") {{ label }}
+        label(v-if="label && !small" :for="elementId + '_input'") {{ label }}
             span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
 </template>
 
@@ -41,6 +41,7 @@ export default {
             type: String,
             default: null
         },
+        small: Boolean
     },
     data() {
         return {
@@ -52,6 +53,20 @@ export default {
         message(v) {
             if (this.msg)
                 this.msg.innerHTML = v;
+            }
+        },
+        small: {
+            handler(newVal) {
+                this.$nextTick(()=>{
+                    if(newVal) {
+                        this.msg.style.display = 'none';
+                    } else {
+                        this.msg.style.display = null;
+                    }
+                })
+
+            },
+            immediate: true
         },
         error(v) {
             if (this.msg) {
@@ -187,6 +202,11 @@ export default {
 fieldset.sui-label {
     margin: 0;
     margin-top: 1rem;
+
+    &.small {
+        margin-bottom: -1rem;
+        margin-top: 0px;
+    }
 
     &.disabled {
         opacity: 0.5;
