@@ -53,7 +53,6 @@ export default {
         message(v) {
             if (this.msg)
                 this.msg.innerHTML = v;
-            }
         },
         small: {
             handler(newVal) {
@@ -236,6 +235,7 @@ fieldset.sui-label {
         & .option {
             border-color: var(--alert, #ff6347) !important;
         }
+
         label {
             color: var(--alert, #ff6347) !important;
         }
