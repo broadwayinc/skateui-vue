@@ -167,6 +167,27 @@ body {
         position: fixed;
         //overflow: hidden;
         z-index: 9999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & > * {
+            padding:.5em;
+            display: flex;
+            align-items: center;
+
+            &:first-child + *:not(:last-child) {
+                justify-content: center;
+            }
+            &:last-child:not(:first-child) {
+                justify-content: flex-end;
+            }
+            &:only-child,
+            &:not(:first-child):not(:last-child) {
+                flex-grow: 1;
+            }
+
+        }
 
         & + #sui-app-view {
             padding-top: var(--navbar-height);
