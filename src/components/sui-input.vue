@@ -47,11 +47,6 @@ export default {
             type: String,
             default: null
         },
-        output: {
-            type: Function,
-            default: () => {
-            }
-        },
         keyOutput: {
             type: Function,
             default: () => {
@@ -130,7 +125,6 @@ export default {
                 this.currentSelection = -1;
             }
 
-            this.output(event.target.value);
             this.keyOutput(event.code);
         },
         selectChoice(x) {
