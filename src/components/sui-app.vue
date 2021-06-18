@@ -1,5 +1,5 @@
 <template lang="pug">
-#sui-app
+#sui-app(:class="darkMode ? 'dark-mode' : null")
     nav#sui-app-nav(v-if="$slots.nav")
         slot(name="nav")
     #sui-app-view(v-if="loaded")
