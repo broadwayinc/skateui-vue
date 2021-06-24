@@ -7,7 +7,7 @@ div.sui-card(:class="{disabled}")
         .title(v-else :class="{hasCloseButton: typeof close === 'function'}")
             slot(name="title")
             .close(v-if="typeof close === 'function'" @click.stop="close")
-    hr
+
     .image(v-if="hasImageSlot()")
         slot(name="image")
     .content(v-if="hasContentSlot()" :class="{center: contentCenter}")
@@ -92,6 +92,19 @@ div.sui-card {
     display: inline-block;
     vertical-align: top;
 
+    & > .title::after {
+        content: '';
+        position: absolute;
+        left: 5%;
+        right: 5%;
+        display: block;
+        height: 1px;
+        background-color: var(--content-text_soft);
+    }
+
+    & > .title:is(:last-child)::after {
+        display: none;
+    }
     & > hr {
         border-left: 0;
         border-right: 0;

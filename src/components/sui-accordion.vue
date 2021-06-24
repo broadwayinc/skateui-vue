@@ -2,7 +2,6 @@
 .sui-accordion
     .sui-accordion-head(onclick="sui_accordion.handler(event)")
         .sui-accordion-title {{title}}
-        hr
     .sui-accordion-content
         slot
 </template>
@@ -60,9 +59,7 @@ div.sui-accordion {
 
     & > .sui-accordion-head {
 
-        hr {
-            display: none;
-        }
+        border-bottom: 1px solid var(--content-text_soft);
 
         & > .sui-accordion-title:not(:empty) {
             & + hr {
