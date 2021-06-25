@@ -54,8 +54,9 @@ div.sui-steps {
         padding-right: 1em;
         padding-top: .25em;
         color: var(--content-text_placeholder, #b3b3b3);
+        color: inherit;
         margin-right: 3px;
-        border-top: 3px solid;
+        border-top: 3px solid var(--content-text_placeholder, #b3b3b3);;
         line-height: 1.2;
 
         & > .left {
