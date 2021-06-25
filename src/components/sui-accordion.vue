@@ -82,12 +82,13 @@ div.sui-accordion {
             }
 
             padding-right: 1.5em;
+            padding-left: 0.5em;
             box-sizing: border-box;
             width: 100%;
             cursor: pointer;
             position: relative;
             line-height: 2rem;
-            color: var(--content-text_soft, #808080);
+            color: inherit;
 
             &:hover {
                 text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
@@ -114,6 +115,13 @@ div.sui-accordion {
         overflow: hidden;
         max-height: 0;
         transition: max-height .5s;
+        padding-left: 0.5em;
+        color: var(--content-text_soft, #808080);
+
+        & img {
+            margin-left: -0.5em;
+            width: calc(100% + 0.5em);
+        }
     }
 }
 </style>
