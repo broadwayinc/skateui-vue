@@ -391,7 +391,7 @@ fieldset.sui-label {
             }
 
             &:focus ~ .option:not(:empty) {
-                top: calc(2rem + 2px);
+                top: calc(2.8rem - 4px);
                 margin: 0;
                 border: solid 2px var(--content-focus, #4848db);
                 border-top: none;
