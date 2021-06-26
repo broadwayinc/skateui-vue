@@ -1,6 +1,6 @@
 <template lang="pug">
 .sui-autosize(:id="elementId")
-    textarea(:placeholder='placeholder' rows="1" v-model="inputValue" :maxlength="maxlength")
+    textarea(ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()")
 </template>
 
 <script>
@@ -245,6 +245,11 @@ export default {
     },
     beforeDestroy() {
         this.autosize.destroy();
+    },
+    methods: {
+        updateValue(value) {
+            this.$emit('input', value ? value : this.$refs.textarea.value);
+        },
     },
     computed: {
         elementId() {
