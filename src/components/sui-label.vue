@@ -435,7 +435,7 @@ fieldset.sui-label {
 
         input, .textarea, select {
             width: 100%;
-            border-radius: var(--border-radius);
+            //border-radius: var(--border-radius);
 
             &::placeholder {
                 color: rgba(128, 128, 128, 0.75);
@@ -470,7 +470,7 @@ fieldset.sui-label {
             vertical-align: middle;
             display: inline-grid;
             min-height: calc(2.8em - 4px);
-            text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
+            //text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
 
             &::after {
                 content: attr(data-replica) " ";
@@ -486,7 +486,7 @@ fieldset.sui-label {
                 border: none;
 
                 &::placeholder {
-                    color: var(--content-text_placeholder, rgba(0, 0, 0, 0.33));
+                    color: rgba(128, 128, 128, 0.75);
                 }
 
                 &:read-only {
@@ -500,7 +500,7 @@ fieldset.sui-label {
                 box-sizing: border-box;
                 vertical-align: middle;
                 background-color: transparent;
-                color: var(--content-text);
+                color: inherit;
                 line-height: 1.5rem;
 
                 padding: calc(0.5rem + 1px) 0;
