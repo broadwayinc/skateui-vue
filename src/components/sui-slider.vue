@@ -2,7 +2,7 @@
 .sui-sliderWrapper(:style="{paddingBottom: showPagination ? '24px' : null}")
     .sui-slider(:id='elementId')
         .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
-            li.slide-item(v-for='(sl, idx, k) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : k' :style="{backgroundColor: sl.color}")
+            li.slide-item(v-for='(sl, idx) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : idx' :style="{backgroundColor: sl.color}")
                 .imageWrapper(:style="[style_imageWrapper(sl)]")
                     sui-image(v-if="sl.image" :error-img='errorImg' :src="sl.image" :ratio="ratio || [16,9]" :style="{display: 'block'}" :parallax="parallax")
                     .slideText(:style="{...style_slideText(sl)}")
@@ -20,13 +20,11 @@ export default {
     props: {
         showPagination: {type: Boolean, default: false},
         slideArray: Array,
-        outputText: Function,
         outputCurrentIndex: Function,
         ratio: Array,
         showText: Boolean,
-        parallax: String | Boolean,
+        parallax: Boolean,
         showArrow: {type: Boolean, default: true},
-        onLoad: Function,
         errorImg: String,
         loop: {type: Boolean, default: false}
     },

@@ -1,10 +1,10 @@
 <template lang='pug'>
-sui-label(:show-selector='!!(option && option.length)' :type="type" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :prefix="prefix" :suffix="suffix")
+sui-label(:show-selector='!!(option && option.length)' :type="type" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :prefix="prefix" :suffix="suffix" :small="small")
     template(#button-left)
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="placeholder" :type="type" :value="value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
+    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
     div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
@@ -51,7 +51,8 @@ export default {
             type: Function,
             default: () => {
             }
-        }
+        },
+        small: Boolean
     },
     data() {
         return {
@@ -123,6 +124,7 @@ export default {
             if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
                 this.currentSelection = -1;
             }
+
             this.keyOutput(event.code);
         },
         selectChoice(x) {
