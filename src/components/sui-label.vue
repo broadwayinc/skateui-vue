@@ -1,8 +1,8 @@
 <template lang="pug">
 fieldset.sui-label(
     ref='label'
-    :class="{ label: !!label, showSelector, error, disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'}")
-    legend(v-if="label") {{ label }}
+    :class="{ label: !!label && !small, showSelector, error, disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete', small: small}")
+    legend(v-if="label && !small") {{ label }}
         span(v-if="required") &nbsp;*
     .sui-input-wrapper
         .button-left(v-if="$slots['button-left']")
@@ -18,7 +18,7 @@ fieldset.sui-label(
         .button-right(v-if="$slots['button-right']")
             div
                 slot(name='button-right')
-        label(v-if="label" :for="elementId + '_input'") {{ label }}
+        label(v-if="label && !small" :for="elementId + '_input'") {{ label }}
             span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
 </template>
 
@@ -41,6 +41,7 @@ export default {
             type: String,
             default: null
         },
+        small: Boolean
     },
     data() {
         return {
@@ -52,6 +53,19 @@ export default {
         message(v) {
             if (this.msg)
                 this.msg.innerHTML = v;
+        },
+        small: {
+            handler(newVal) {
+                this.$nextTick(()=>{
+                    if(newVal) {
+                        this.msg.style.display = 'none';
+                    } else {
+                        this.msg.style.display = null;
+                    }
+                })
+
+            },
+            immediate: true
         },
         error(v) {
             if (this.msg) {
@@ -167,7 +181,7 @@ export default {
         border-top-color: transparent !important;
         border-left-color: transparent !important;
         border-right-color: transparent !important;
-        margin-bottom: calc(100vh - 2.8rem) !important;
+        //margin-bottom: calc(100vh - 2.8rem) !important;
 
         .sui-input-wrapper {
             .option {
@@ -187,6 +201,11 @@ export default {
 fieldset.sui-label {
     margin: 0;
     margin-top: 1rem;
+
+    &.small {
+        margin-bottom: -1rem;
+        margin-top: 0px;
+    }
 
     &.disabled {
         opacity: 0.5;
@@ -216,6 +235,7 @@ fieldset.sui-label {
         & .option {
             border-color: var(--alert, #ff6347) !important;
         }
+
         label {
             color: var(--alert, #ff6347) !important;
         }
@@ -371,7 +391,7 @@ fieldset.sui-label {
             }
 
             &:focus ~ .option:not(:empty) {
-                top: calc(2rem + 2px);
+                top: calc(2.8rem - 4px);
                 margin: 0;
                 border: solid 2px var(--content-focus, #4848db);
                 border-top: none;
@@ -415,7 +435,7 @@ fieldset.sui-label {
 
         input, .textarea, select {
             width: 100%;
-            border-radius: var(--border-radius);
+            //border-radius: var(--border-radius);
 
             &::placeholder {
                 color: rgba(128, 128, 128, 0.75);
@@ -442,6 +462,7 @@ fieldset.sui-label {
             padding: 0 0.75rem;
             margin: 0;
             display: block;
+            line-height: initial;
         }
 
         .textarea {
@@ -449,7 +470,7 @@ fieldset.sui-label {
             vertical-align: middle;
             display: inline-grid;
             min-height: calc(2.8em - 4px);
-            text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
+            //text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
 
             &::after {
                 content: attr(data-replica) " ";
@@ -465,7 +486,7 @@ fieldset.sui-label {
                 border: none;
 
                 &::placeholder {
-                    color: var(--content-text_placeholder, rgba(0, 0, 0, 0.33));
+                    color: rgba(128, 128, 128, 0.75);
                 }
 
                 &:read-only {
@@ -479,7 +500,7 @@ fieldset.sui-label {
                 box-sizing: border-box;
                 vertical-align: middle;
                 background-color: transparent;
-                color: var(--content-text);
+                color: inherit;
                 line-height: 1.5rem;
 
                 padding: calc(0.5rem + 1px) 0;

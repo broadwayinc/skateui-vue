@@ -1,14 +1,14 @@
 <template lang='pug'>
-sui-label(:show-selector='!!((custom || fullscreen) && option.length)' :prefix="prefix" :suffix="suffix" type="select" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null")
+sui-label(:show-selector='!!((custom || fullscreen) && option.length)' :prefix="prefix" :suffix="suffix" type="select" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :small="small")
     template(v-if="custom || fullscreen")
-        input.option-display(:placeholder="placeholder" :value="getText(value || modelValue)" :disabled="disabled")
+        input.option-display(:placeholder="small && placeholder ? label : placeholder" :value="getText(value || modelValue)" :disabled="disabled")
         input(:value="value || modelValue" type="text" :required="required" :disabled="disabled" @invalid.prevent="invalidInput" style="position: absolute; opacity: 0; left: 0;")
         .option(v-show="custom || fullscreen" :class="{fullscreen}")
             template(v-for="(x, idx) in option")
                 .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text || x.value }}
     template(v-else)
         select(ref="select" @input="updateValue()" :required="required" @invalid.prevent="invalidInput" :disabled="disabled")
-            option(v-if="placeholder" value="" disabled selected="(value || modelValue) === ''") {{ placeholder }}
+            option(v-if="placeholder" value="" disabled selected="(value || modelValue) === ''") {{ small && placeholder ? label : placeholder }}
             option(v-for="x in option" :value="x.value" :selected="x.value === (value || modelValue) ? 'selected' : null") {{ x.text ? x.text : x.value }}
     template(#button-left)
         slot(name="button-left")
@@ -27,6 +27,7 @@ export default {
             type: String,
             default: null
         },
+        small: Boolean,
         suffix: String,
         prefix: String,
         label: String,
