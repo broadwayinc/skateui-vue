@@ -15,6 +15,7 @@ export default {
         allowEnter: Boolean,
         maxlength: Number,
         readonly: Boolean,
+        autofocus: Boolean
     },
     data() {
         return {
@@ -242,6 +243,10 @@ export default {
             allowEnter: this.allowEnter,
             readonly: this.readonly
         });
+        this.$nextTick(()=>{
+            if(this.autofocus)
+                this.$refs.textarea.focus();
+        })
     },
     beforeDestroy() {
         this.autosize.destroy();

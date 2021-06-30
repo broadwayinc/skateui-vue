@@ -3,7 +3,7 @@ a.sui-button(v-if="href" @click="click" :href="disabled ? null : href" :target="
     i.material-icons(v-if="icon") {{ icon || 'link' }}
     slot(v-else-if="$slots.default")
     template(v-else) {{href}}
-button.sui-button(v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled")
+button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled" v-focus="autofocus")
     i.material-icons(v-if="icon") {{ icon || 'check' }}
     ._loader(v-else-if="showLoading")
     slot(v-else)
@@ -24,6 +24,7 @@ export default {
             type: Boolean || Function,
             default: false
         },
+        autofocus: Boolean
     },
     data() {
         return {
@@ -39,6 +40,11 @@ export default {
         let bk = this.$el.style.backgroundColor || this.$el.style.background;
         if (bk)
             this.$el.style.setProperty('--button-background-color', bk);
+
+        this.$nextTick(()=>{
+            if(this.autofocus)
+                this.$refs.button.focus();
+        })
     },
     methods: {
         async click(e) {

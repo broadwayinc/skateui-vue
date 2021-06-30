@@ -22,7 +22,14 @@ export default {
         disabled: Boolean,
         name: String,
         data: String | Number | Boolean,
-        checked: Boolean
+        checked: Boolean,
+        autofocus: Boolean
+    },
+    mounted() {
+        this.$nextTick(()=>{
+            if(this.autofocus)
+                this.$refs.option.focus();
+        })
     },
     computed: {
         isChecked() {

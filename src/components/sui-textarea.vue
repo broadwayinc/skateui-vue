@@ -26,12 +26,19 @@ export default {
             type: Function,
             default: () => {
             }
-        }
+        },
+        autofocus: Boolean
     },
     data() {
       return {
           isTouched: false
       }
+    },
+    mounted() {
+        this.$nextTick(()=>{
+            if(this.autofocus)
+                this.$refs.input.focus();
+        })
     },
     computed: {
         isError() {
