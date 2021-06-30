@@ -4,7 +4,7 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()")
+    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()" :autofocus="autofocus")
     div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
@@ -52,7 +52,8 @@ export default {
             default: () => {
             }
         },
-        small: Boolean
+        small: Boolean,
+        autofocus: Boolean
     },
     data() {
         return {
@@ -64,6 +65,12 @@ export default {
     },
     created() {
         this.regexExpression = new RegExp(this.pattern, "g");
+    },
+    mounted() {
+        this.$nextTick(()=>{
+            if(this.autofocus)
+                this.$refs.input.focus();
+        })
     },
     computed: {
         isError() {
