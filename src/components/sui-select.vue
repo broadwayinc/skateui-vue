@@ -47,7 +47,8 @@ export default {
             type: Function,
             default: () => {
             }
-        }
+        },
+        autofocus: Boolean
     },
     data() {
         return {
@@ -55,6 +56,16 @@ export default {
             currentSelection: -1,
             isTouched: false,
         };
+    },
+    mounted() {
+        this.$nextTick(()=>{
+            if(this.autofocus)
+                if(this.custom || this.fullscreen) {
+                    this.$refs.input.focus();
+                } else {
+                    this.$refs.select.focus();
+                }
+        })
     },
     computed: {
         isError() {
