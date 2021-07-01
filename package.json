@@ -1,7 +1,7 @@
 {
   "name": "skateui",
   "main": "src/plugins/skateui.js",
-  "version": "0.1.76",
+  "version": "0.1.77",
   "scripts": {
     "build-server": "cd src/components && python3 split-files.py && cd ../../ && npx grunt copy browserify pug less && npx grunt includereplace replace && cp package.json ./dist/package.json",
     "build": "cd src/components && py split-files.py && cd ../../ && grunt copy browserify pug less && grunt includereplace replace"
