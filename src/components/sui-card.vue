@@ -92,16 +92,6 @@ div.sui-card {
     display: inline-block;
     vertical-align: top;
 
-    & > .title::after {
-        content: '';
-        position: absolute;
-        left: 5%;
-        right: 5%;
-        display: block;
-        height: 1px;
-        background-color: var(--content-text_soft);
-    }
-
     & > .title:is(:last-child)::after {
         display: none;
     }
@@ -121,6 +111,17 @@ div.sui-card {
 
     & > * {
         box-sizing: border-box;
+    }
+
+    & > .title + div:not(.image)::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        display: block;
+        height: 1px;
+        background-color: var(--content-text_soft);
     }
 
     @media @tablet {
@@ -241,6 +242,7 @@ div.sui-card {
     }
 
     & > .content:not(:empty) {
+        position: relative;
         width: 100%;
         padding: 2em 0.5rem 2em;
         line-height: 1.5em;
