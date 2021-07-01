@@ -33,6 +33,7 @@ export default {
     },
     computed: {
         isChecked() {
+            if(this.checked) return true;
             if (this.value instanceof Array) {
                 return this.value.includes(this.data)
             }
