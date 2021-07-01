@@ -14,7 +14,7 @@ Beautiful and easy to use HTML elements and custom components that are semantic 
 ## Getting Started
 
 To install Skate UI in your Vue project using npm: \
-`npm install bootstrap`
+`npm install skateui`
 
 In the main.js of your project,
 
