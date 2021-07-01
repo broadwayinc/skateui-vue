@@ -2,6 +2,8 @@
 
 Beautiful and easy to use HTML elements and custom components that are semantic and customizable for VueJS.
 
+![](https://img.shields.io/npm/v/skateui?color=green&label=version)
+
 ## Table of Contents
 
 * [Getting Started](#getting-started)
