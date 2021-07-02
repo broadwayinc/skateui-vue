@@ -4,11 +4,12 @@ sui-label(type="textarea" :suffix='suffix' :prefix='prefix' :label="label" :erro
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    textarea(ref="input" @input="updateValue()" @invalid.prevent="invalidInput" :placeholder="placeholder" rows="1" @keyup="(e)=>{keyOutput(e.code)}" :disabled="disabled" :required="required")
+    textarea(ref="input" @input="updateValue()" @invalid.prevent="invalidInput" :placeholder="placeholder" rows="1" @keyup="(e)=>{keyOutput(e.code)}" :disabled="disabled" :required="required" @focus="focus")
 </template>
 <script>
 export default {
     name: 'sui-textarea',
+    emits: ['focus'],
     props: {
         error: Boolean,
         placeholder: String,
@@ -63,6 +64,9 @@ export default {
         },
     },
     methods: {
+        focus(e) {
+            this.$emit('focus', e);
+        },
         updateValue(value) {
             this.$emit('input', value ? value : this.$refs.input.value);
         },
