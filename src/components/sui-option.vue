@@ -1,10 +1,10 @@
 <template lang='pug'>
 label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', disabled}")
     template(v-if="type === 'checkbox'")
-        input(ref="option" type="checkbox" @input="updateValue" :name="name" :disabled="disabled" :checked="isChecked")
+        input(ref="option" type="checkbox" @focus="focus" @input="updateValue" :name="name" :disabled="disabled" :checked="isChecked")
         .checkbox
     template(v-if="type === 'radio'")
-        input(ref="option" type="radio" @change="updateValue()" :name="name" :disabled="disabled" :checked="isChecked")
+        input(ref="option" type="radio" @focus="focus" @change="updateValue()" :name="name" :disabled="disabled" :checked="isChecked")
         .radio
     pre
     p {{ label }}
@@ -13,7 +13,7 @@ label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type
 <script>
 export default {
     name: 'sui-option',
-    emits: ['update:modelValue', 'input'],
+    emits: ['update:modelValue', 'input', 'focus'],
     props: {
         modelValue: String | Number | Boolean,
         value: [Array, String, Boolean],
@@ -44,6 +44,9 @@ export default {
         }
     },
     methods: {
+        focus(e) {
+            this.$emit('focus', e);
+        },
         updateValue() {
             let newValue = null;
 

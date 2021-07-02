@@ -3,7 +3,7 @@ a.sui-button(v-if="href" @click="click" :href="disabled ? null : href" :target="
     i.material-icons(v-if="icon") {{ icon || 'link' }}
     slot(v-else-if="$slots.default")
     template(v-else) {{href}}
-button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled" v-focus="autofocus")
+button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled" @focus="focus")
     i.material-icons(v-if="icon") {{ icon || 'check' }}
     ._loader(v-else-if="showLoading")
     slot(v-else)
@@ -12,7 +12,7 @@ button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude,
 <script>
 export default {
     name: 'sui-button',
-    emits: ['click'],
+    emits: ['click', 'focus'],
     props: {
         type: String,
         nude: Boolean,
@@ -47,6 +47,9 @@ export default {
         })
     },
     methods: {
+        focus(e) {
+            this.$emit('focus', e);
+        },
         async click(e) {
             if (typeof this.loading === 'function') {
                 this.loading_onclick = true;
