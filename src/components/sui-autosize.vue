@@ -1,11 +1,12 @@
 <template lang="pug">
 .sui-autosize(:id="elementId")
-    textarea(ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()")
+    textarea(ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()" @focus="focus")
 </template>
 
 <script>
 export default {
     name: "sui-autosize",
+    emits: ['focus'],
     props: {
         placeholder: String,
         min: Number | String,
@@ -252,6 +253,9 @@ export default {
         this.autosize.destroy();
     },
     methods: {
+        focus(e) {
+            this.$emit('focus', e);
+        },
         updateValue(value) {
             this.$emit('input', value ? value : this.$refs.textarea.value);
         },
