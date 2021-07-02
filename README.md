@@ -7,6 +7,8 @@ Beautiful and easy to use HTML elements and custom components that are semantic 
 ## Table of Contents
 
 * [Getting Started](#getting-started)
+  * [Vue 2](#vue-2)
+  * [Vue 3](#vue-3)
 * [Documentation](#documentation)
 * [Bugs and Feature Requests](#bugs-and-feature-requests)
 * [License](#license)
@@ -16,6 +18,7 @@ Beautiful and easy to use HTML elements and custom components that are semantic 
 To install Skate UI in your Vue project using npm: \
 `npm install skateui`
 
+### Vue 2
 In the main.js of your project,
 
 ```javascript
@@ -30,6 +33,22 @@ Vue.use(SkateUI);
 new Vue({
   render: h => h(App)
 }).$mount('#app')
+```
+
+### Vue 3
+In the main.js of your project,
+
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+
+// import SkateUI and use it
+import SkateUI from 'skateui'
+
+let app = createApp(App);
+
+app.use(SkateUI);
+app.mount('#app')
 ```
 
 ## Documentation
