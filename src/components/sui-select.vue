@@ -2,7 +2,7 @@
 sui-label(:show-selector='!!((custom || fullscreen) && option.length)' :prefix="prefix" :suffix="suffix" type="select" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :small="small")
     template(v-if="custom || fullscreen")
         input.option-display(:placeholder="small && placeholder ? label : placeholder" :value="getText(value || modelValue)" :disabled="disabled" tabindex=-1)
-        input(:value="value || modelValue" type="text" :required="required" :disabled="disabled" @invalid.prevent="invalidInput" style="position: absolute; opacity: 0; left: 0;" @focus="focus")
+        input(ref="input" :value="value || modelValue" type="text" :required="required" :disabled="disabled" @invalid.prevent="invalidInput" style="position: absolute; opacity: 0; left: 0;" @focus="focus" @keydown="(e) => { arrowSelection(e); }")
         .option(v-show="custom || fullscreen" :class="{fullscreen}")
             template(v-for="(x, idx) in option")
                 .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text || x.value }}
@@ -52,7 +52,6 @@ export default {
     },
     data() {
         return {
-            searching: false,
             currentSelection: -1,
             isTouched: false,
         };
@@ -106,6 +105,20 @@ export default {
                     if (this.option[i].text) return this.option[i].text;
                     return this.option[i].value;
                     break;
+                }
+            }
+        },
+        arrowSelection(event) {
+            if (event && this.option?.length) {
+                if (event.code === 'ArrowUp' && this.currentSelection > 0) {
+                    this.currentSelection -= 1;
+                }
+                if (event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
+                    this.currentSelection += 1;
+                }
+                if (event.code === 'Enter' && this.currentSelection > -1) {
+                    this.$refs.input.blur();
+                    this.updateValue(this.option[this.currentSelection].value);
                 }
             }
         },
