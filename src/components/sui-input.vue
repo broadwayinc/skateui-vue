@@ -4,7 +4,7 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()" :autofocus="autofocus")
+    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()" :autofocus="autofocus" @focus="focus")
     div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
@@ -13,7 +13,7 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
 <script>
 export default {
     name: 'sui-input',
-    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'error'],
+    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'error', 'focus'],
     props: {
         modelValue: {
             type: [String, Number],
@@ -101,6 +101,9 @@ export default {
         }
     },
     methods: {
+        focus(e) {
+            this.$emit('focus', e);
+        },
         updateValue(value) {
             this.$emit('input', value ? value : this.$refs.input.value);
             this.$emit('update:modelValue', value ? value : this.$refs.input.value);
