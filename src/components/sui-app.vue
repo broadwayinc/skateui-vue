@@ -162,7 +162,7 @@ body {
         background-color: var(--navbar-background-color, var(--content, #ffffff));
         color: var(--navbar-color, var(--content-text, rgba(0, 0, 0, 0.88)));
         box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
-        width: 100%;
+        width: 100vw;
         top: var(--navbar-top);
         position: fixed;
         //overflow: hidden;
