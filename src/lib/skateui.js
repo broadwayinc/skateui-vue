@@ -12,16 +12,15 @@
                     // let body = document.getElementsByClassName('sui-frame')[0];
                     let body = document.getElementsByTagName('BODY')[0];
                     document.body.style.top = `-${window.scrollY}px`;
-                    document.body.style.position = 'fixed';
-
+                    if(!backgroundScroll) document.body.style.position = 'fixed';
                     if (closeOnBackgroundClick) {
                         screen.addEventListener('click', function () {
-                            window.sui_popup.handler(id);
+                            window.sui_popup.handler({id: id, backgroundScroll: backgroundScroll});
                         });
                     }
 
                     body.append(screen);
-                } else if (id) {
+                } else if (id && !backgroundScroll) {
                     const scrollY = document.body.style.top;
                     document.body.style.position = '';
                     document.body.style.top = '';
@@ -76,6 +75,7 @@
                     id,
                     pop = 'center',
                     closeOnBackgroundClick = false,
+                    backgroundScroll = false,
                     overlayColor = 'rgba(0, 0, 0, 0.33)'
                 } = typeof option === 'string' ? {id: option} : option;
 
@@ -114,7 +114,7 @@
                     // nothing to close
                     return;
 
-                let screen = window.sui_screen.handler(id, pop, closeOnBackgroundClick);
+                let screen = window.sui_screen.handler(id, pop, closeOnBackgroundClick, backgroundScroll);
 
                 if (isUp) {
                     // popup is showing
