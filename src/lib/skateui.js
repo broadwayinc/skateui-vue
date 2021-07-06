@@ -1,7 +1,7 @@
 (function () {
     if (!window.sui_screen)
         window.sui_screen = {
-            handler: (id, pop, closeOnBackgroundClick) => {
+            handler: (id, pop, closeOnBackgroundClick, backgroundScroll) => {
                 let screen = document.getElementsByClassName('sui-screen')[0];
                 if (!screen) {
                     // if there is no overlay screen, create one
