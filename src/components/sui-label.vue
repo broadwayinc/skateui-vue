@@ -308,14 +308,6 @@ fieldset.sui-label {
             }
         }
 
-        &:not(:first-child) {
-            min-height: 2rem;
-
-            & > *:not(label) {
-                margin: calc(-0.8rem + 6px) 0 0;
-            }
-        }
-
         label {
             position: absolute;
             font-size: .8rem;
@@ -588,6 +580,18 @@ fieldset.sui-label {
             }
 
         }
+        &:not(:first-child) {
+            min-height: 2rem;
+
+            & > .text-pack > input:focus ~ .option:not(:empty) {
+                top: calc(2.8rem - 4px - 0.5em);
+            }
+
+            & > *:not(label) {
+                margin: calc(-0.8rem + 6px) 0 0;
+            }
+        }
+
     }
 }
 </style>
