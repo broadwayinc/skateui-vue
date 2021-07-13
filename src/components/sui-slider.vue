@@ -1,7 +1,7 @@
 <template lang="pug">
 .sui-sliderWrapper(:style="{paddingBottom: showPagination ? '24px' : null}")
     .sui-slider(:id='elementId')
-        .slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
+        ul.slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
             li.slide-item(v-for='(sl, idx) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : idx' :style="{backgroundColor: sl.color}")
                 .imageWrapper(:style="[style_imageWrapper(sl)]")
                     sui-image(v-if="sl.image" :error-img='errorImg' :src="sl.image" :ratio="ratio || [16,9]" :style="{display: 'block'}" :parallax="parallax")
@@ -324,6 +324,8 @@ export default {
     height: 100%;
     width: 100%;
     display: flex;
+    padding: 0;
+    margin: 0;
 }
 
 .wrapper {
