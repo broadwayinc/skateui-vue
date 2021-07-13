@@ -3,7 +3,7 @@ a.sui-button(v-if="href" @click="click" :href="disabled ? null : href" :target="
     i.material-icons(v-if="icon") {{ icon || 'link' }}
     slot(v-else-if="$slots.default")
     template(v-else) {{href}}
-button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled" @focus="focus")
+button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled" @focus="focus" :aria-label="showLoading ? 'loading' : null")
     i.material-icons(v-if="icon") {{ icon || 'check' }}
     ._loader(v-else-if="showLoading")
     slot(v-else)
