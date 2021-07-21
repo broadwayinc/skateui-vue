@@ -3,10 +3,11 @@ a.sui-button(v-if="href" @click="click" :href="disabled ? null : href" :target="
     i.material-icons(v-if="icon") {{ icon || 'link' }}
     slot(v-else-if="$slots.default")
     template(v-else) {{href}}
-button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon}" :disabled="disabled" @focus="focus" :aria-label="showLoading ? 'loading' : null")
+button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon, 'loading': showLoading}" :disabled="disabled" @focus="focus" :aria-label="showLoading ? 'loading' : null")
     i.material-icons(v-if="icon") {{ icon || 'check' }}
-    ._loader(v-else-if="showLoading")
     slot(v-else)
+    ._loader(v-if="showLoading")
+
 </template>
 
 <script>
@@ -103,10 +104,16 @@ button.sui-button, a.sui-button {
     color: var(--button-color, var(--button-text, white));
     text-transform: uppercase;
 
+    &.loading {
+        color: transparent;
+    }
     ._loader {
+        position: absolute;
+        right: calc(50% - 0.5em);
         display: inline-block;
         border: .15em solid rgba(128, 128, 128, 0.5);
         border-top: .15em solid;
+        color: var(--button-color, var(--button-text, white));
         border-radius: 50%;
         vertical-align: middle;
         margin: .5em;
