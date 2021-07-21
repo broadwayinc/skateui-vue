@@ -459,6 +459,12 @@ html {
     "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
+@media only screen and (max-width: 600px) {
+    html {
+        font-size: 18px;
+    }
+}
+
 /* remove spinner on number input */
 
 /* for chrome */
