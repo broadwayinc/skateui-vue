@@ -570,6 +570,10 @@ fieldset.sui-label {
                     max-height: 100%;
                 }
 
+                & > button > ._loader {
+                    margin: 0;
+                }
+
                 img {
                     border-radius: var(--border-radius, 3px);
                 }
