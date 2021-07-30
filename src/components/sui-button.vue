@@ -104,9 +104,6 @@ button.sui-button, a.sui-button {
     color: var(--button-color, var(--button-text, white));
     text-transform: uppercase;
 
-    &.loading {
-        color: transparent;
-    }
     ._loader {
         position: absolute;
         right: calc(50% - 1em);
@@ -157,6 +154,10 @@ button.sui-button, a.sui-button {
             text-shadow: none;
             box-shadow: none;
         }
+    }
+
+    &.loading {
+        color: transparent;
     }
 
     &.icon {
