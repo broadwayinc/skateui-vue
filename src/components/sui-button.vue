@@ -104,12 +104,10 @@ button.sui-button, a.sui-button {
     color: var(--button-color, var(--button-text, white));
     text-transform: uppercase;
 
-    &.loading {
-        color: transparent;
-    }
     ._loader {
         position: absolute;
-        right: calc(50% - 0.5em);
+        right: calc(50% - 1em);
+        top: calc(50% - 1em - .15em);
         display: inline-block;
         border: .15em solid rgba(128, 128, 128, 0.5);
         border-top: .15em solid;
@@ -156,6 +154,10 @@ button.sui-button, a.sui-button {
             text-shadow: none;
             box-shadow: none;
         }
+    }
+
+    &.loading {
+        color: transparent;
     }
 
     &.icon {
