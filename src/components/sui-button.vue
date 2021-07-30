@@ -62,7 +62,7 @@ export default {
 
                 this.loading_onclick = false;
             } else
-                this.$emit('click', e);
+                if(!this.loading) this.$emit('click', e);
         },
     }
 };
