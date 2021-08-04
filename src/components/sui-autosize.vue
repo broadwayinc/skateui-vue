@@ -1,6 +1,13 @@
 <template lang="pug">
-.sui-autosize(:id="elementId")
-    textarea(ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()" @focus="focus")
+.sui-autosize(ref="wrapper")
+    textarea(v-if='typeof readonly === "boolean"' ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()" @focus="focus")
+    p(ref="textarea" v-else-if="readonly.toLowerCase() === 'p'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h1(ref="textarea" v-else-if="readonly.toLowerCase() === 'h1'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h2(ref="textarea" v-else-if="readonly.toLowerCase() === 'h2'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h3(ref="textarea" v-else-if="readonly.toLowerCase() === 'h3'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h4(ref="textarea" v-else-if="readonly.toLowerCase() === 'h4'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h5(ref="textarea" v-else-if="readonly.toLowerCase() === 'h5'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h6(ref="textarea" v-else-if="readonly.toLowerCase() === 'h6'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
 </template>
 
 <script>
@@ -15,7 +22,7 @@ export default {
         output: Function,
         allowEnter: Boolean,
         maxlength: Number,
-        readonly: Boolean,
+        readonly: [Boolean, String],
         autofocus: Boolean
     },
     data() {
@@ -36,11 +43,20 @@ export default {
                 this.allowEnter = false;
                 this.readonly = false;
                 let setValue = "";
-
-                if (typeof el === 'string')
-                    this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
-                else if (typeof el === 'object' && Object.keys(el).length) {
-                    let {element, elementId, max = 72, min = 16, value, allowEnter, readonly} = el;
+                this.id = '';
+                // this.element is the wrapper
+                if (typeof el === 'string' && el[0] === '#') {
+                    this.id = el.substring(1);
+                    this.element = document.getElementById(this.id);
+                } else if (typeof el === 'object' && Object.keys(el).length) {
+                    let {element, max = 72, min = 16, value, allowEnter, readonly} = el;
+                    if (typeof element === 'string' && element[0] === '#') {
+                        this.id = element.substring(1);
+                        this.element = document.getElementById(this.id);
+                    } else if (element instanceof Node) {
+                        this.element = element;
+                        this.id = element.id || window.sui_generateId('sui_autosize');
+                    }
 
                     max = max && typeof max === 'string' ? Number(max) : max;
                     min = min && typeof min === 'string' ? Number(min) : min;
@@ -63,25 +79,36 @@ export default {
                     if (readonly)
                         this.readonly = readonly;
 
-                    if (typeof elementId === 'string')
-                        this.element = document.getElementById(elementId[0] === '#' ? elementId.substring(1) : elementId);
-
-                    else if (element && element instanceof Node) this.element = element;
-
-                    else
-                        throw 'no element';
-
                     this.max = max || 72;
                     this.min = min || 16;
+                } else {
+                    throw 'invalid parameters';
                 }
 
-                if (!this.element)
+                if (!this.element) {
                     throw 'no element';
+                }
 
+                this.element.id = this.id;
                 this.textarea = this.element.childNodes[0];
+
+                // set textarea id
+                this.textarea.id = this.id + '_textarea';
                 this.value = setValue || this.textarea.value || "";
-                this.textarea.readOnly = this.readonly;
+
+                if (typeof this.readonly === 'boolean') {
+                    this.textarea.readOnly = this.readonly;
+                }
+
                 this.elementStyle = window.getComputedStyle(this.textarea);
+
+                // adjust for attribute for labels
+                let getLabels = document.getElementsByTagName('Label');
+                for (let l of getLabels) {
+                    if (l.getAttribute('for') === this.id)
+                        l.setAttribute('for', this.id + '_textarea');
+                }
+
                 this.init();
             }
 
@@ -116,7 +143,7 @@ export default {
 
                 el.setAttribute('rows', '1');
 
-                if (el.readOnly && !parent.classList.contains('readonly'))
+                if ((el.readOnly || this.readonly) && !parent.classList.contains('readonly'))
                     parent.classList.add('readonly');
 
                 let replica = document.createElement('div');
@@ -155,7 +182,6 @@ export default {
             }
 
             adjustSize() {
-
                 if (!this.fontsize) {
                     let width = parseFloat(this.elementStyle.width);
                     let charLength = this.textarea.value.length || 1;
@@ -237,17 +263,17 @@ export default {
     },
     mounted() {
         this.autosize = new window.sui_autosize({
-            elementId: this.elementId,
+            element: this.$refs.wrapper,
             min: this.min,
             max: this.max,
             value: this.value,
             allowEnter: this.allowEnter,
             readonly: this.readonly
         });
-        this.$nextTick(()=>{
-            if(this.autofocus)
+        this.$nextTick(() => {
+            if (this.autofocus)
                 this.$refs.textarea.focus();
-        })
+        });
     },
     beforeDestroy() {
         this.autosize.destroy();
@@ -261,9 +287,6 @@ export default {
         },
     },
     computed: {
-        elementId() {
-            return window.sui_generateId(this.$options.name);
-        },
         inputValue: {
             get: function () {
                 return this.value;
@@ -325,7 +348,7 @@ export default {
             }
         }
 
-        & > textarea {
+        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
             position: absolute;
             top: 0;
             resize: none;
@@ -348,7 +371,7 @@ export default {
             }
         }
 
-        & > textarea {
+        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
             color: inherit;
             caret-color: inherit;
         }
@@ -357,8 +380,9 @@ export default {
             color: transparent;
         }
 
-        & > textarea,
+        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
         &::after {
+            //color: inherit;
             /* Identical styling required!! */
             box-sizing: border-box;
             background-color: transparent;
