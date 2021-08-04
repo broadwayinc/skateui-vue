@@ -1,5 +1,5 @@
 <template lang="pug">
-.sui-autosize(:id="elementId")
+.sui-autosize(ref="wrapper")
     textarea(ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()" @focus="focus")
 </template>
 
@@ -36,11 +36,19 @@ export default {
                 this.allowEnter = false;
                 this.readonly = false;
                 let setValue = "";
-
-                if (typeof el === 'string')
-                    this.element = document.getElementById(el[0] === '#' ? el.substring(1) : el);
-                else if (typeof el === 'object' && Object.keys(el).length) {
-                    let {element, elementId, max = 72, min = 16, value, allowEnter, readonly} = el;
+                this.id = '';
+                if (typeof el === 'string' && el[0] === '#') {
+                    this.id = el.substring(1);
+                    this.element = document.getElementById(this.id);
+                } else if (typeof el === 'object' && Object.keys(el).length) {
+                    let {element, max = 72, min = 16, value, allowEnter, readonly} = el;
+                    if (typeof element === 'string' && element[0] === '#') {
+                        this.id = element.substring(1);
+                        this.element = document.getElementById(this.id);
+                    } else if (element instanceof Node) {
+                        this.element = element;
+                        this.id = element.id || window.sui_generateId('sui_autosize');
+                    }
 
                     max = max && typeof max === 'string' ? Number(max) : max;
                     min = min && typeof min === 'string' ? Number(min) : min;
@@ -63,25 +71,32 @@ export default {
                     if (readonly)
                         this.readonly = readonly;
 
-                    if (typeof elementId === 'string')
-                        this.element = document.getElementById(elementId[0] === '#' ? elementId.substring(1) : elementId);
-
-                    else if (element && element instanceof Node) this.element = element;
-
-                    else
-                        throw 'no element';
-
                     this.max = max || 72;
                     this.min = min || 16;
+                } else {
+                    throw 'invalid parameters';
                 }
 
-                if (!this.element)
+                if (!this.element) {
                     throw 'no element';
+                }
 
+                this.element.id = this.id;
                 this.textarea = this.element.childNodes[0];
+
+                // set textarea id
+                this.textarea.id = this.id + '_textarea';
                 this.value = setValue || this.textarea.value || "";
                 this.textarea.readOnly = this.readonly;
                 this.elementStyle = window.getComputedStyle(this.textarea);
+
+                // adjust for attribute for labels
+                let getLabels = document.getElementsByTagName('Label');
+                for (let l of getLabels) {
+                    if (l.getAttribute('for') === this.id)
+                        l.setAttribute('for', this.id + '_textarea');
+                }
+
                 this.init();
             }
 
@@ -237,17 +252,17 @@ export default {
     },
     mounted() {
         this.autosize = new window.sui_autosize({
-            elementId: this.elementId,
+            element: this.$refs.wrapper,
             min: this.min,
             max: this.max,
             value: this.value,
             allowEnter: this.allowEnter,
             readonly: this.readonly
         });
-        this.$nextTick(()=>{
-            if(this.autofocus)
+        this.$nextTick(() => {
+            if (this.autofocus)
                 this.$refs.textarea.focus();
-        })
+        });
     },
     beforeDestroy() {
         this.autosize.destroy();
@@ -261,9 +276,6 @@ export default {
         },
     },
     computed: {
-        elementId() {
-            return window.sui_generateId(this.$options.name);
-        },
         inputValue: {
             get: function () {
                 return this.value;
@@ -359,6 +371,7 @@ export default {
 
         & > textarea,
         &::after {
+            //color: inherit;
             /* Identical styling required!! */
             box-sizing: border-box;
             background-color: transparent;
