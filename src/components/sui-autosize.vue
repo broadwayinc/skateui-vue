@@ -1,6 +1,13 @@
 <template lang="pug">
 .sui-autosize(ref="wrapper")
-    textarea(ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()" @focus="focus")
+    textarea(v-if='typeof readonly === "boolean"' ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()" @focus="focus")
+    p(ref="textarea" v-else-if="readonly.toLowerCase() === 'p'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h1(ref="textarea" v-else-if="readonly.toLowerCase() === 'h1'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h2(ref="textarea" v-else-if="readonly.toLowerCase() === 'h2'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h3(ref="textarea" v-else-if="readonly.toLowerCase() === 'h3'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h4(ref="textarea" v-else-if="readonly.toLowerCase() === 'h4'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h5(ref="textarea" v-else-if="readonly.toLowerCase() === 'h5'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    h6(ref="textarea" v-else-if="readonly.toLowerCase() === 'h6'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
 </template>
 
 <script>
@@ -15,7 +22,7 @@ export default {
         output: Function,
         allowEnter: Boolean,
         maxlength: Number,
-        readonly: Boolean,
+        readonly: [Boolean, String],
         autofocus: Boolean
     },
     data() {
@@ -37,6 +44,7 @@ export default {
                 this.readonly = false;
                 let setValue = "";
                 this.id = '';
+                // this.element is the wrapper
                 if (typeof el === 'string' && el[0] === '#') {
                     this.id = el.substring(1);
                     this.element = document.getElementById(this.id);
@@ -87,7 +95,11 @@ export default {
                 // set textarea id
                 this.textarea.id = this.id + '_textarea';
                 this.value = setValue || this.textarea.value || "";
-                this.textarea.readOnly = this.readonly;
+
+                if (typeof this.readonly === 'boolean') {
+                    this.textarea.readOnly = this.readonly;
+                }
+
                 this.elementStyle = window.getComputedStyle(this.textarea);
 
                 // adjust for attribute for labels
@@ -131,7 +143,7 @@ export default {
 
                 el.setAttribute('rows', '1');
 
-                if (el.readOnly && !parent.classList.contains('readonly'))
+                if ((el.readOnly || this.readonly) && !parent.classList.contains('readonly'))
                     parent.classList.add('readonly');
 
                 let replica = document.createElement('div');
@@ -170,7 +182,6 @@ export default {
             }
 
             adjustSize() {
-
                 if (!this.fontsize) {
                     let width = parseFloat(this.elementStyle.width);
                     let charLength = this.textarea.value.length || 1;
@@ -337,7 +348,7 @@ export default {
             }
         }
 
-        & > textarea {
+        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
             position: absolute;
             top: 0;
             resize: none;
@@ -360,7 +371,7 @@ export default {
             }
         }
 
-        & > textarea {
+        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
             color: inherit;
             caret-color: inherit;
         }
@@ -369,7 +380,7 @@ export default {
             color: transparent;
         }
 
-        & > textarea,
+        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
         &::after {
             //color: inherit;
             /* Identical styling required!! */
