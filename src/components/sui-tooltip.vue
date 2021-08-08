@@ -3,7 +3,7 @@
     div(:style='{width: maxWidth}')
         small
             slot
-    i.material-icons.left help
+    i.material-icons.left(style="font-size:1.25em;vertical-align: text-bottom;") help
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
 
             this.isBottom = (e.clientY < y || this.direction?.includes('bottom')) && (!this.direction || !this.direction?.includes('top'));
             this.isLeft = (e.clientX > x || this.direction?.includes('left')) && (!this.direction || !this.direction?.includes('right'));
-            this.maxWidth = this.isLeft ? `${e.clientX}px` : `calc(${window.innerWidth - e.clientX}px)`;
+            this.maxWidth = this.isLeft ? `${e.clientX}px` : `${window.innerWidth - e.clientX}px`;
         }
     }
 };
@@ -35,7 +35,7 @@ export default {
 @import '../assets/viewport.less';
 
 div.sui-tooltip {
-    height: 1.25em;
+    //height: 1.25em;
     display: inline-block;
     position: relative;
     text-align: left;
@@ -139,7 +139,7 @@ div.sui-tooltip {
         z-index: 9999;
         position: absolute;
         bottom: calc(0px + 2em);
-        left: calc(-100% + 0.5em);
+        left: -50%;
     }
 
     &:hover > div {
