@@ -328,10 +328,6 @@ export default {
     margin: 0;
 }
 
-.wrapper {
-    width: 800px;
-}
-
 .slide-item {
     position: relative;
     display: inline-block;
