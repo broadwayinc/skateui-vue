@@ -25,8 +25,9 @@ export default {
         };
     },
     created() {
-        if (window.sui_image)
+        if (window.sui_image) {
             return;
+        }
 
         class SuiImage {
             constructor(option) {
@@ -200,10 +201,12 @@ export default {
 
                     this.parent.append(wrapper);
                     wrapper.onclick = () => {
-                        if (loader.classList.contains('_hideLoader'))
-                            loader.classList.remove('_hideLoader');
-
-                        window.sui_popup.handler({id: wrapper.id, pop: 'close'});
+                        window.sui_popup.close({
+                            id: wrapper.id, callback: () => {
+                                if (loader.classList.contains('_hideLoader'))
+                                    loader.classList.remove('_hideLoader');
+                            }
+                        });
                     };
                 }
 
@@ -310,8 +313,8 @@ export default {
                     }
 
                     const canvas = this.zoomCanvas.getElementsByTagName('CANVAS')[0].getContext('2d');
-                    let lp = (this.current_objectPosition[0] / 100) * imageWidth;
-                    let tp = (this.current_objectPosition[1] / 100) * imageHeight;
+                    // let lp = (this.current_objectPosition[0] / 100) * imageWidth;
+                    // let tp = (this.current_objectPosition[1] / 100) * imageHeight;
                     canvas.drawImage(
                         e.target,
                         mzp.left * calib + ww,
@@ -623,6 +626,7 @@ export default {
                 font-size: 2rem;
                 color: rgba(0, 0, 0, 0.5);
             }
+
             --zoomer-border-radius: .5em; /* fallback */
             --zoomer-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), 8px)";
             border-radius: var(--zoomer-border-radius);
