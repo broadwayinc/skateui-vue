@@ -1,54 +1,4 @@
 (function () {
-    if (!window.sui_screen)
-        window.sui_screen = {
-            handler: (id, pop, closeOnBackgroundClick, backgroundScroll) => {
-                let screen = document.getElementsByClassName('sui-screen')[0];
-                if (!screen) {
-                    // if there is no overlay screen, create one
-                    screen = document.createElement('div');
-                    screen.classList.add('sui-screen');
-                    screen.classList.add(pop);
-
-                    // let body = document.getElementsByClassName('sui-frame')[0];
-                    let body = document.getElementsByTagName('BODY')[0];
-                    document.body.style.top = `-${window.scrollY}px`;
-                    if(!backgroundScroll) document.body.style.position = 'fixed';
-                    if (closeOnBackgroundClick) {
-                        screen.addEventListener('click', function () {
-                            window.sui_popup.handler({id: id, backgroundScroll: backgroundScroll});
-                        });
-                    }
-
-                    body.append(screen);
-                } else if (id && !backgroundScroll) {
-                    const scrollY = document.body.style.top;
-                    document.body.style.position = '';
-                    document.body.style.top = '';
-                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
-
-                    // clean all element but the element with id given by the id argument
-                    let child = screen.children;
-
-                    let cid = child.length;
-                    while (cid--) {
-                        if (child[cid].id !== id) {
-
-                            let classList = window.sui_popup.classList.direction.concat(window.sui_popup.classList.pop);
-
-                            for (let c of classList)
-                                child[cid].classList.remove(c);
-
-                            let dummy = document.getElementById('_dummy_' + child[cid].id);
-                            if (dummy) {
-                                dummy.parentNode.insertBefore(child[cid], dummy);
-                                dummy.remove();
-                            }
-                        }
-                    }
-                }
-                return screen;
-            }
-        };
     if (!window.sui_popup)
         window.sui_popup = {
             classList: {
@@ -70,6 +20,85 @@
             },
             eventListener: {},
             timeout: null,
+            /**
+             * closes popup
+             * @param {object} option
+             * @param {string} option.id - id of popup element
+             * @param {object} [option.event] - mouse event for preventing propagation
+             * @param {function} [option.callback] - runs callback after closing popup
+             */
+            close: (option) => {
+                let {event, id, callback} = option;
+
+                id = id[0] === '#' ? id.substring(1) : id;
+                let el = document.getElementById(id);
+                if (!el)
+                    throw 'NEED_ELEMENT_ID';
+
+                let screen = el.closest('.sui-screen');
+
+                let popList = window.sui_popup.classList.pop;
+                let directionList = window.sui_popup.classList.direction;
+
+                if (event)
+                    event.stopPropagation();
+
+                // center popup closes immediately
+                let cl_idx = el.classList.length, immediate = false;
+                while (cl_idx--) {
+                    if (el.classList[cl_idx].includes('_pop-center'))
+                        immediate = true;
+                }
+
+                // close popup
+                for (let c of directionList)
+                    el.classList.remove(c);
+
+                if (screen)
+                    screen.style.backgroundColor = 'transparent';
+
+                // prevent user get thrown back to top
+                if (document.body.style.position === 'fixed') {
+                    let scrollY = document.body.style.top;
+                    document.body.style.position = '';
+                    document.body.style.top = '';
+                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+                }
+
+                // remove click propagation
+                if (window.sui_popup.eventListener[id]) {
+                    el.removeEventListener('click', window.sui_popup.eventListener[id]);
+                    delete window.sui_popup.eventListener[id];
+                }
+
+                window.sui_popup.timeout = setTimeout(() => {
+                    // cleanup
+                    for (let c of popList)
+                        el.classList.remove(c);
+
+                    el.classList.remove('sui-popup');
+
+                    let dummy = document.getElementById('_dummy_' + id);
+                    if (dummy) {
+                        dummy.parentNode.insertBefore(el, dummy);
+                        dummy.remove();
+                    }
+                    if (screen)
+                        screen.remove();
+                }, immediate ? 0 : 750);
+
+                if (typeof callback === 'function')
+                    return callback();
+            },
+            /**
+             * opens popup
+             * @param {string | object } option - id string of element to place over the overlay | parameter object
+             * @param {string} option.id - id string of element to place over the overlay
+             * @param {string} [option.pop='center'] - popup placement 'center' | 'top' | 'bottom' | 'left' | 'right'
+             * @param {boolean} [option.closeOnBackgroundClick=false] - popup closes when screen is clicked if true
+             * @param {boolean} [option.backgroundScroll=false] - allows overlay to scroll underlying html page
+             * @param {string} [option.overlayColor='rgba(0,0,0,0.33)'] - color of the overlay
+             */
             handler: (option) => {
                 let {
                     id,
@@ -78,7 +107,6 @@
                     backgroundScroll = false,
                     overlayColor = 'rgba(0, 0, 0, 0.33)'
                 } = typeof option === 'string' ? {id: option} : option;
-
 
                 let el;
                 if (id) {
@@ -93,69 +121,50 @@
 
                 let popList = window.sui_popup.classList.pop;
                 let directionList = window.sui_popup.classList.direction;
-                let direction;
 
-                if (pop !== 'close') {
-                    pop = '_pop-' + pop;
-                    direction = directionList[popList.indexOf(pop)];
-                    if (!popList.includes(pop))
-                        throw 'allowed argument for pop:' + JSON.stringify(popList);
+                pop = '_pop-' + pop;
+                let direction = directionList[popList.indexOf(pop)];
+                if (!popList.includes(pop))
+                    throw 'allowed argument for pop:' + JSON.stringify(popList);
 
-                    if (!directionList.includes(direction))
-                        throw 'allowed argument for pop:' + JSON.stringify(directionList);
+                if (!directionList.includes(direction))
+                    throw 'allowed argument for pop:' + JSON.stringify(directionList);
 
-                    if (window.sui_popup.timeout)
-                        clearTimeout(window.sui_popup.timeout);
-                    window.sui_popup.timeout = null;
-                }
+                if (window.sui_popup.timeout)
+                    clearTimeout(window.sui_popup.timeout);
+                window.sui_popup.timeout = null;
 
-                let isUp = el.closest('.sui-screen');
-                if (pop === 'close' && !isUp)
-                    // nothing to close
-                    return;
+                // get overlay element
+                let screen = document.getElementsByClassName('sui-screen')[0];
 
-                let screen = window.sui_screen.handler(id, pop, closeOnBackgroundClick, backgroundScroll);
+                if (screen)
+                    // popup is already up
+                    throw 'POPUP_IS_ALREADY_UP';
+                else {
+                    // create overlay
+                    screen = document.createElement('div');
+                    screen.classList.add('sui-screen');
+                    screen.classList.add(pop);
 
-                if (isUp) {
-                    // popup is showing
-                    for (let c of directionList)
-                        el.classList.remove(c);
-
-                    screen.style.backgroundColor = 'transparent';
-
-                    let cl_idx = el.classList.length, immediate = false;
-
-                    while (cl_idx--) {
-                        if (el.classList[cl_idx].includes('_pop-center'))
-                            immediate = true;
+                    let body = document.getElementsByTagName('BODY')[0];
+                    if (!backgroundScroll) {
+                        document.body.style.top = `-${window.scrollY}px`;
+                        document.body.style.position = 'fixed';
+                    }
+                    if (closeOnBackgroundClick) {
+                        screen.addEventListener('click', function (event) {
+                            window.sui_popup.close({event, id});
+                        });
                     }
 
-                    window.sui_popup.timeout = setTimeout(() => {
-                        // cleanup
-                        for (let c of popList)
-                            el.classList.remove(c);
-
-                        el.classList.remove('sui-popup');
-                        el.removeEventListener('click', window.sui_popup.eventListener[id]);
-                        window.sui_popup.eventListener[id] = null;
-
-                        let dummy = document.getElementById('_dummy_' + id);
-                        if (dummy) {
-                            dummy.parentNode.insertBefore(el, dummy);
-                            dummy.remove();
-                        }
-                        screen.remove();
-                    }, immediate ? 0 : 750);
-
-                } else {
-                    let bool = !el.classList.contains('sui-popup');
+                    body.append(screen);
 
                     window.sui_popup.eventListener[id] = function (e) {
                         e.stopPropagation();
                     };
 
                     el.addEventListener('click', window.sui_popup.eventListener[id]);
-                    if (bool) {
+                    if (!el.classList.contains('sui-popup')) {
                         el.classList.add('sui-popup');
                         if (!el.closest('.sui-screen')) {
                             let dummy = document.createElement('div');
@@ -167,7 +176,6 @@
                     }
 
                     el.classList.add(pop);
-
                     window.sui_popup.timeout = setTimeout(() => {
                         screen.style.backgroundColor = overlayColor;
                         el.classList.add(direction);
@@ -216,6 +224,7 @@
             return prefix + output;
         };
     if (!window.sui_throttle)
+        // prevents duplicate process
         window.sui_throttle = {
             set: () => {
                 return {data: null};
@@ -259,6 +268,7 @@
             }
         };
     if (!window.sui_on) {
+        // registers dom events
         window.sui_on = {
             scroll_callback: {},
             resize_callback: {},
