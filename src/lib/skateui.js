@@ -119,6 +119,19 @@
                 } else
                     return;
 
+                // get overlay element
+                let screen = document.getElementsByClassName('sui-screen')[0];
+
+                if (screen) {
+                    // popup is already up
+                    if (closeOnBackgroundClick) {
+                        return window.sui_popup.close({
+                            id
+                        });
+                    }
+                    return;
+                }
+
                 let popList = window.sui_popup.classList.pop;
                 let directionList = window.sui_popup.classList.direction;
 
@@ -134,55 +147,51 @@
                     clearTimeout(window.sui_popup.timeout);
                 window.sui_popup.timeout = null;
 
-                // get overlay element
-                let screen = document.getElementsByClassName('sui-screen')[0];
+                // create overlay
+                screen = document.createElement('div');
+                screen.classList.add('sui-screen');
+                screen.classList.add(pop);
 
-                if (screen)
-                    // popup is already up
-                    throw 'POPUP_IS_ALREADY_UP';
-                else {
-                    // create overlay
-                    screen = document.createElement('div');
-                    screen.classList.add('sui-screen');
-                    screen.classList.add(pop);
-
-                    let body = document.getElementsByTagName('BODY')[0];
-                    if (!backgroundScroll) {
-                        document.body.style.top = `-${window.scrollY}px`;
-                        document.body.style.position = 'fixed';
-                    }
-                    if (closeOnBackgroundClick) {
-                        screen.addEventListener('click', function (event) {
-                            window.sui_popup.close({event, id});
-                        });
-                    }
-
-                    body.append(screen);
-
-                    window.sui_popup.eventListener[id] = function (e) {
-                        e.stopPropagation();
-                    };
-
-                    el.addEventListener('click', window.sui_popup.eventListener[id]);
-                    if (!el.classList.contains('sui-popup')) {
-                        el.classList.add('sui-popup');
-                        if (!el.closest('.sui-screen')) {
-                            let dummy = document.createElement('div');
-                            dummy.classList.add('sui-dummy');
-                            dummy.id = '_dummy_' + id;
-                            el.parentNode.insertBefore(dummy, el);
-                            screen.append(el);
-                        }
-                    }
-
-                    el.classList.add(pop);
-                    window.sui_popup.timeout = setTimeout(() => {
-                        screen.style.backgroundColor = overlayColor;
-                        el.classList.add(direction);
-                    }, direction === '_center' ? 0 : 100);
-
-                    return el;
+                let body = document.getElementsByTagName('BODY')[0];
+                if (!backgroundScroll) {
+                    document.body.style.top = `-${window.scrollY}px`;
+                    document.body.style.position = 'fixed';
                 }
+                if (closeOnBackgroundClick) {
+                    screen.addEventListener('click', function (event) {
+                        let option = {event, id};
+                        if (typeof closeOnBackgroundClick === 'function') {
+                            option.callback = closeOnBackgroundClick;
+                        }
+                        window.sui_popup.close(option);
+                    });
+                }
+
+                body.append(screen);
+
+                window.sui_popup.eventListener[id] = function (e) {
+                    e.stopPropagation();
+                };
+
+                el.addEventListener('click', window.sui_popup.eventListener[id]);
+                if (!el.classList.contains('sui-popup')) {
+                    el.classList.add('sui-popup');
+                    if (!el.closest('.sui-screen')) {
+                        let dummy = document.createElement('div');
+                        dummy.classList.add('sui-dummy');
+                        dummy.id = '_dummy_' + id;
+                        el.parentNode.insertBefore(dummy, el);
+                        screen.append(el);
+                    }
+                }
+
+                el.classList.add(pop);
+                window.sui_popup.timeout = setTimeout(() => {
+                    screen.style.backgroundColor = overlayColor;
+                    el.classList.add(direction);
+                }, direction === '_center' ? 0 : 100);
+
+                return el;
             }
         };
     if (!window.sui_generateId)
@@ -295,20 +304,24 @@
                 }
             },
             init: () => {
+                let animationFrame = (event, target) => {
+                    window.requestAnimationFrame(() => {
+                        for (let c in window.sui_on[target])
+                            if (typeof window.sui_on[target][c] === 'function') {
+                                try {
+                                    window.sui_on[target][c](event);
+                                } catch (err) {
+                                    console.error(err);
+                                    delete window.sui_on[target][c];
+                                }
+                            }
+                    });
+                };
+
                 document.addEventListener(
                     'scroll',
                     (event) => {
-                        window.requestAnimationFrame(() => {
-                            for (let c in window.sui_on.scroll_callback)
-                                if (typeof window.sui_on.scroll_callback[c] === 'function') {
-                                    try {
-                                        window.sui_on.scroll_callback[c](event);
-                                    } catch (err) {
-                                        console.error(err);
-                                        delete window.sui_on.scroll_callback[c];
-                                    }
-                                }
-                        });
+                        animationFrame(event, 'scroll_callback');
                     },
                     {passive: true}
                 );
@@ -316,17 +329,7 @@
                 window.addEventListener(
                     'resize',
                     (event) => {
-                        window.requestAnimationFrame(() => {
-                            for (let c in window.sui_on.resize_callback)
-                                if (typeof window.sui_on.resize_callback[c] === 'function') {
-                                    try {
-                                        window.sui_on.resize_callback[c](event);
-                                    } catch (err) {
-                                        console.error(err);
-                                        delete window.sui_on.resize_callback[c];
-                                    }
-                                }
-                        });
+                        animationFrame(event, 'resize_callback');
                     },
                     {passive: true}
                 );
