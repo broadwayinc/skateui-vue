@@ -1,12 +1,12 @@
 <template lang='pug'>
-a.sui-button(v-if="href" @click="click" :href="disabled ? null : href" :target="target ? target : null" :class="{disabled, nude, icon}")
-    i.material-icons(v-if="icon") {{ icon || 'link' }}
-    slot(v-else-if="$slots.default")
+a.sui-button(v-if="href" @click="click" :href="disabled ? null : href" :target="target ? target : null" :class="{'sui-button-disabled': disabled, 'sui-button-nude': nude, 'sui-button-round': round}")
+    slot(v-if="$slots.default")
     template(v-else) {{href}}
-button.sui-button(ref="button" v-else :type="type" @click="click" :class="{nude, icon, 'loading': showLoading}" :disabled="disabled" @focus="focus" :aria-label="showLoading ? 'loading' : null")
-    i.material-icons(v-if="icon") {{ icon || 'check' }}
-    slot(v-else)
-    ._loader(v-if="showLoading")
+button.sui-button(ref="button" v-else :type="type" @click="click" :class="{'sui-button-nude': nude, 'sui-button-round': round, 'sui-button-loading': showLoading}" :disabled="disabled" @focus="focus" :aria-label="showLoading ? 'loading' : null")
+    .sui-button_loader(v-if="showLoading")
+    // button text length should be retained while showing loading animation
+    span(:style="{opacity: showLoading ? 0 : 1}")
+        slot
 
 </template>
 
@@ -20,7 +20,7 @@ export default {
         disabled: Boolean,
         href: String,
         target: String,
-        icon: [Boolean, String],
+        round: Boolean,
         loading: {
             type: Boolean || Function,
             default: false
@@ -42,10 +42,10 @@ export default {
         if (bk)
             this.$el.style.setProperty('--button-background-color', bk);
 
-        this.$nextTick(()=>{
-            if(this.autofocus)
+        this.$nextTick(() => {
+            if (this.autofocus)
                 this.$refs.button.focus();
-        })
+        });
     },
     methods: {
         focus(e) {
@@ -61,8 +61,7 @@ export default {
                     await p;
 
                 this.loading_onclick = false;
-            } else
-                if(!this.loading) this.$emit('click', e);
+            } else if (!this.loading) this.$emit('click', e);
         },
     }
 };
@@ -85,13 +84,22 @@ button.sui-button, a.sui-button {
     max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
     height: 2.8rem;
-    padding: .25rem 1rem;
+    padding: 0 0.9rem;
     display: inline-block;
     box-sizing: border-box;
-    text-align: center;
 
+    text-align: center;
     font-size: 0.88rem;
     vertical-align: middle;
+
+    line-height: 100%;
+
+    & > span * {
+        line-height: 100%;
+        vertical-align: bottom;
+        font-size: 1em;
+    }
+
     cursor: pointer;
     user-select: none;
     box-shadow: inset 0 0 0 3px rgba(128, 128, 128, 0.05);
@@ -104,10 +112,10 @@ button.sui-button, a.sui-button {
     color: var(--button-color, var(--button-text, white));
     text-transform: uppercase;
 
-    ._loader {
+    .sui-button_loader {
         position: absolute;
-        right: calc(50% - 1em);
-        top: calc(50% - 1em - .15em);
+        right: calc(50% - 1.15em);
+        top: calc(50% - 1.15em);
         display: inline-block;
         border: .15em solid rgba(128, 128, 128, 0.5);
         border-top: .15em solid;
@@ -136,17 +144,17 @@ button.sui-button, a.sui-button {
         box-shadow: none;
     }
 
-    &.nude {
+    &.sui-button-nude {
         background-color: unset;
         color: var(--button-nude, inherit);
         box-shadow: none;
         text-shadow: none;
 
-        ._loader {
+        .sui-button_loader {
             border-top: .15em solid;
         }
 
-        &:hover {
+        &:not(.sui-button-loading):hover {
             text-shadow: 1px 1px rgba(128, 128, 128, 0.12);
         }
 
@@ -156,26 +164,13 @@ button.sui-button, a.sui-button {
         }
     }
 
-    &.loading {
+    &.sui-button-loading {
         color: transparent;
     }
 
-    &.icon {
+    &.sui-button-round {
         min-width: 2.8rem;
         border-radius: 2.8rem;
-        width: 2.8rem;
-        height: 2.8rem;
-        padding: 0;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-
-        & > * {
-            line-height: 2rem;
-            width: 1.15rem;
-            font-size: 1.15rem;
-            vertical-align: middle;
-        }
     }
 
     &:disabled {
@@ -190,10 +185,8 @@ button.sui-button, a.sui-button {
 a.sui-button {
     text-decoration: none;
     line-height: 2.8rem;
-    padding-top: 0;
-    padding-bottom: 0;
 
-    &.disabled {
+    &.sui-button-disabled {
         opacity: 0.5;
     }
 }
