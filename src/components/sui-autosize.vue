@@ -339,7 +339,7 @@ export default {
         &::after {
             content: attr(data-replica) " ";
             white-space: pre-wrap;
-            color: transparent;
+            opacity: 0;
         }
 
         &.textarea.empty {
@@ -376,15 +376,12 @@ export default {
             caret-color: inherit;
         }
 
-        &::after {
-            color: transparent;
-        }
-
         & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
         &::after {
             //color: inherit;
             /* Identical styling required!! */
             box-sizing: border-box;
+            text-align: inherit;
             background-color: transparent;
             line-height: 1.5em;
             font-size: 1em;
