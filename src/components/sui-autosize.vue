@@ -337,7 +337,7 @@ export default {
         word-break: break-word;
 
         &::after {
-            content: attr(data-replica) + ' ';
+            content: attr(data-replica) " ";
             white-space: pre-wrap;
             opacity: 0;
         }
