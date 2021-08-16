@@ -4,16 +4,16 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(ref="input" @invalid.prevent="invalidInput" :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()" :autofocus="autofocus" @focus="focus")
+    input(ref="input" @invalid.prevent="invalidInput" :minlength='minlength' :maxlength='maxlength' :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()" :autofocus="autofocus" @focus="focus")
     div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
-            .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null") {{ x }}
+            .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : {}") {{ x }}
 </template>
 
 <script>
 export default {
     name: 'sui-input',
-    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'error', 'focus'],
+    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'lengthError', 'error', 'focus'],
     props: {
         modelValue: {
             type: [String, Number],
@@ -26,6 +26,13 @@ export default {
             type: String,
             default: null
         },
+        minlength: {
+            type: Number | String
+        },
+        maxlength: {
+            type: Number | String
+        },
+        lengthError: String,
         label: String,
         suffix: String,
         prefix: String,
@@ -67,37 +74,105 @@ export default {
         this.regexExpression = new RegExp(this.pattern, "g");
     },
     mounted() {
-        this.$nextTick(()=>{
-            if(this.autofocus)
+        this.$nextTick(() => {
+            if (this.autofocus)
                 this.$refs.input.focus();
-        })
+        });
     },
     computed: {
         isError() {
-            return this.isInvalid || this.error || this.regexFail;
+            return this.isInvalid || this.error;
         },
         helperMessage() {
             let helper = this.message || null;
-            if (this.requireFail && this.isInvalid) {
-                if (typeof this.required === 'string') {
+            if (this.isInvalid) {
+                if (this.requireFail && typeof this.required === 'string') {
                     helper = this.required;
+                } else if (this.regexFail) {
+                    helper = this.patternError;
+                } else if (this.lengthFail) {
+                    helper = this.lengthError;
                 }
-            } else if (this.regexFail && this.isInvalid) {
-                helper = this.patternError;
             } else if (typeof this.error === 'string') {
                 helper = this.error;
             }
             return helper;
         },
         isInvalid() {
-            return this.isTouched && this.requireFail || this.regexFail;
+            return this.isTouched && (this.requireFail || this.regexFail || this.lengthFail);
         },
         requireFail() {
             return this.required && (this.value || this.modelValue) === '';
         },
-        regexFail() {
+        lengthFail() {
             if (!this.required && (this.value || this.modelValue) === '') return false;
-            return this.isTouched && this.pattern && !(this.value || this.modelValue).match(this.regexExpression);
+            let value = this.value || this.modelValue;
+
+            if (this.isTouched) {
+                let min = parseInt(this.minlength || 0);
+                let max = parseInt(this.maxlength || 0);
+                if (min && value.length <= min) return true;
+                if (max && value.length > max) return true;
+            }
+
+            return false;
+        },
+        regexFail() {
+            let value = this.value || this.modelValue;
+
+            if (!value) {
+                return false;
+            }
+
+            let builtinTypes = ['url', 'email'];
+
+            return this.isTouched && (this.pattern || builtinTypes.includes(this.type)) && (() => {
+                switch (this.type) {
+                    case 'email': {
+                        value = value.trim();
+                        if (value.length > 5 && value.length < 64 && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) {
+                            let splitAt = value.split('@');
+                            let tld = splitAt[1].split('.');
+
+                            return tld.length === 1;
+                        }
+                        return true;
+                    }
+
+                    case 'url': {
+                        value = value.trim();
+                        if (value === '*') {
+                            return false;
+                        }
+
+                        let protocols = ['http', 'https', 'ftp'];
+                        let allowed = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&\'()*+,;=';
+                        let splitProtocols = value.split('://');
+
+                        // check if value has url protocol
+                        if (splitProtocols.length <= 1 || !protocols.includes(splitProtocols[0])) {
+                            return true;
+                        }
+
+                        let dotSep = splitProtocols[1].split('.');
+                        if (dotSep.length > 1) {
+                            if (!dotSep[dotSep.length - 1]) {
+                                return true;
+                            }
+
+                            for (let i = 0; i < splitProtocols[1].length; i++) {
+                                if (!allowed.includes(splitProtocols[1][i])) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        } else return true;
+                    }
+                    default:
+                        return !value.match(this.regexExpression);
+                }
+            })();
         }
     },
     methods: {
@@ -112,7 +187,11 @@ export default {
             this.isTouched = true;
             if (this.requireFail) {
                 this.$emit('requiredError');
-            } else this.regexFail ? this.$emit('patternError') : this.$emit('error');
+            } else if (this.regexFail) {
+                this.$emit('patternError');
+            } else if (this.lengthError) {
+                this.$emit('lengthError');
+            } else this.$emit('error');
         },
         arrowSelection(event) {
             if (event && this.option?.length) {
