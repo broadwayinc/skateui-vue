@@ -105,8 +105,11 @@ export default {
             return this.required && (this.value || this.modelValue) === '';
         },
         lengthFail() {
-            if (!this.required && (this.value || this.modelValue) === '') return false;
             let value = this.value || this.modelValue;
+
+            if (!this.required && value === '') {
+                return false;
+            }
 
             if (this.isTouched) {
                 let min = parseInt(this.minlength || 0);
