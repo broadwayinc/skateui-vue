@@ -260,7 +260,7 @@ fieldset.sui-label {
         border-color: var(--saturate, #4848db);
 
         label {
-            color: var(--button-nude, #4848db);
+            color: var(--content-focus-nude, #4848db);
         }
 
         .button-left, .button-right {
