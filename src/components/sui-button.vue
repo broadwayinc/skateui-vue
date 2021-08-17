@@ -1,8 +1,21 @@
 <template lang='pug'>
-a.sui-button(v-if="href" @click="click" :href="disabled ? null : href" :target="target ? target : null" :class="{'sui-button-disabled': disabled, 'sui-button-nude': nude, 'sui-button-round': round}")
+a.sui-button(
+    v-if="href"
+    @click="click"
+    :href="disabled ? null : href" :target="target ? target : null"
+    :class="{'sui-button-disabled': disabled, 'sui-button-nude': nude, 'sui-button-round': round}")
     slot(v-if="$slots.default")
     template(v-else) {{href}}
-button.sui-button(ref="button" v-else :type="type" @click="click" :class="{'sui-button-nude': nude, 'sui-button-round': round, 'sui-button-loading': showLoading}" :disabled="disabled" @focus="focus" :aria-label="showLoading ? 'loading' : null")
+button.sui-button(
+    v-else
+    ref="button"
+    :type="type"
+    :form='formId'
+    @click="click"
+    :class="{'sui-button-nude': nude, 'sui-button-round': round, 'sui-button-loading': showLoading}"
+    :disabled="disabled"
+    @focus="focus"
+    :aria-label="showLoading ? 'loading' : null")
     .sui-button_loader(v-if="showLoading")
     // button text length should be retained while showing loading animation
     span(:style="{opacity: showLoading ? 0 : 1}")
@@ -16,6 +29,7 @@ export default {
     emits: ['click', 'focus'],
     props: {
         type: String,
+        form: String,
         nude: Boolean,
         disabled: Boolean,
         href: String,
@@ -35,6 +49,13 @@ export default {
     computed: {
         showLoading() {
             return this.loading_onclick || this.loading === true;
+        },
+        formId() {
+            if (this.type === 'submit') {
+                if (this.form)
+                    return this.form;
+            }
+            return null;
         }
     },
     mounted() {
@@ -52,6 +73,9 @@ export default {
             this.$emit('focus', e);
         },
         async click(e) {
+            if (this.loading_onclick)
+                return;
+
             if (typeof this.loading === 'function') {
                 this.loading_onclick = true;
 
@@ -61,7 +85,8 @@ export default {
                     await p;
 
                 this.loading_onclick = false;
-            } else if (!this.loading) this.$emit('click', e);
+            } else
+                this.$emit('click', e);
         },
     }
 };
