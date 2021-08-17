@@ -4,7 +4,7 @@ sui-label(:show-selector='!!(option && option.length)' :type="type" :label="labe
         slot(name="button-left")
     template(#button-right)
         slot(name="button-right")
-    input(ref="input" @invalid.prevent="invalidInput" :minlength='minlength' :maxlength='maxlength' :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()" :autofocus="autofocus" @focus="focus")
+    input(ref="input" @invalid.prevent="invalidInput" :name='name' :minlength='minlength' :maxlength='maxlength' :pattern="pattern" :required="required" :disabled="disabled" :placeholder="small ? label : placeholder" :type="type" :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue" @keyup="keypress" @keydown="(e) => {arrowSelection(e); isTouched = true; }" @input="updateValue()" :autofocus="autofocus" @focus="focus")
     div(v-show="option && option.length" class="option")
         template(v-for="(x, idx) in option")
             .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : {}") {{ x }}
@@ -15,6 +15,7 @@ export default {
     name: 'sui-input',
     emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'lengthError', 'error', 'focus'],
     props: {
+        name: String,
         modelValue: {
             type: [String, Number],
             default: ''
@@ -127,9 +128,17 @@ export default {
                 return false;
             }
 
+            if (!this.isTouched) {
+                return false;
+            }
+
+            if (this.pattern) {
+                return !value.match(this.regexExpression);
+            }
+
             let builtinTypes = ['url', 'email'];
 
-            return this.isTouched && (this.pattern || builtinTypes.includes(this.type)) && (() => {
+            return builtinTypes.includes(this.type) && (() => {
                 switch (this.type) {
                     case 'email': {
                         value = value.trim();
@@ -173,7 +182,7 @@ export default {
                         } else return true;
                     }
                     default:
-                        return !value.match(this.regexExpression);
+                        return false;
                 }
             })();
         }
