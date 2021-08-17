@@ -50,21 +50,18 @@ div.sui-tooltip {
     --tooltip-border-radius: ~"clamp(3px, calc(var(--border-radius, 3px) / 2), 1em)";
 
     .sui-tooltip-icon-builtin {
-        display: block;
+        display: flex;
         width: 1em;
         height: 1em;
         border-radius: 1em;
         background-color: var(--content-text, black);
         color: var(--content, white);
         box-shadow: 0 0 0 1px var(--content, black);
+        justify-content: center;
+        align-items: center;
 
         &:after {
             content: '\FF1F';
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-style: normal;
             font-size: .8em;
         }
