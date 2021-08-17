@@ -1,6 +1,6 @@
 <template lang='pug'>
 .sui-tooltip(:class="{left:isLeft, bottom: isBottom}" @mouseenter="setPosition")
-    div(:style='{width: maxWidth}')
+    .sui-tooltip-dialog(:style='{width: maxWidth}')
         small
             slot
     slot(name="hover" v-if="$slots.hover")
@@ -42,7 +42,7 @@ div.sui-tooltip {
     display: inline-flex;
     position: relative;
     text-align: left;
-    vertical-align: middle;
+    vertical-align: inherit;
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -51,15 +51,12 @@ div.sui-tooltip {
 
     .sui-tooltip-icon-builtin {
         display: block;
-        // total = 1.5 ; .8 +
-        font-size: 1em;
         width: 1em;
         height: 1em;
-        padding: .15em;
         border-radius: 1em;
         background-color: var(--content-text, black);
         color: var(--content, white);
-        box-shadow: 0 0 0 .1em var(--content, black);
+        box-shadow: 0 0 0 1px var(--content, black);
 
         &:after {
             content: '\FF1F';
@@ -69,7 +66,7 @@ div.sui-tooltip {
             justify-content: center;
             align-items: center;
             font-style: normal;
-            font-size: 1em;
+            font-size: .8em;
         }
     }
 
@@ -101,7 +98,7 @@ div.sui-tooltip {
     &.left {
         & > div {
             left: unset;
-            right: calc(-100% + 0.5em + 3px);
+            right: calc(-50% - .25em);
             text-align: right;
 
             &::after {
@@ -118,7 +115,7 @@ div.sui-tooltip {
         }
     }
 
-    & > div {
+    & > .sui-tooltip-dialog {
         &::after {
             content: '';
             position: absolute;
@@ -160,6 +157,7 @@ div.sui-tooltip {
             border-radius: var(--tooltip-border-radius);
         }
 
+        // right
         width: 50vw;
         @media @tablet {
             width: 240px;
@@ -168,8 +166,8 @@ div.sui-tooltip {
         display: none;
         z-index: 9999;
         position: absolute;
-        bottom: calc(0px + 2em);
-        left: -50%;
+        bottom: 2em;
+        left: calc(50% - 1.25em);
     }
 
     &:hover > div {
