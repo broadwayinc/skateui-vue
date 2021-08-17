@@ -3,7 +3,9 @@
     div(:style='{width: maxWidth}')
         small
             slot
-    i.material-icons.left(style="font-size:1.25em;vertical-align: text-bottom;") help
+    slot(name="hover" v-if="$slots.hover")
+    template(v-else)
+        i.sui-tooltip-icon-builtin.left
 </template>
 
 <script>
@@ -36,13 +38,40 @@ export default {
 
 div.sui-tooltip {
     //height: 1.25em;
-    display: inline-block;
+    //display: inline-block;
+    display: inline-flex;
     position: relative;
     text-align: left;
     vertical-align: middle;
     cursor: pointer;
+    justify-content: center;
+    align-items: center;
     --tooltip-border-radius: 3px; /* fallback */
     --tooltip-border-radius: ~"clamp(3px, calc(var(--border-radius, 3px) / 2), 1em)";
+
+    .sui-tooltip-icon-builtin {
+        display: block;
+        // total = 1.5 ; .8 +
+        font-size: 1em;
+        width: 1em;
+        height: 1em;
+        padding: .15em;
+        border-radius: 1em;
+        background-color: var(--content-text, black);
+        color: var(--content, white);
+        box-shadow: 0 0 0 .1em var(--content, black);
+
+        &:after {
+            content: '\FF1F';
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-style: normal;
+            font-size: 1em;
+        }
+    }
 
     &.bottom {
         & > div {
@@ -72,7 +101,7 @@ div.sui-tooltip {
     &.left {
         & > div {
             left: unset;
-            right: calc(-100% + 0.5em);
+            right: calc(-100% + 0.5em + 3px);
             text-align: right;
 
             &::after {
@@ -121,6 +150,7 @@ div.sui-tooltip {
         }
 
         small {
+            font-weight: normal;
             line-height: 1.25;
             text-align: left;
             background-color: var(--content-text, black);
