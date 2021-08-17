@@ -5,7 +5,7 @@
             slot
     slot(name="hover" v-if="$slots.hover")
     template(v-else)
-        i.sui-tooltip-icon-builtin.left
+        i.sui-tooltip-icon-builtin
 </template>
 
 <script>
