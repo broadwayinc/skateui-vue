@@ -53,8 +53,8 @@ div.sui-steps {
         cursor: default;
         padding-right: 1em;
         padding-top: .25em;
+        padding-left: .15em;
         color: var(--content-text_placeholder, #b3b3b3);
-        color: inherit;
         margin-right: 3px;
         border-top: 3px solid var(--content-text_placeholder, #b3b3b3);;
         line-height: 1.2;
@@ -74,6 +74,7 @@ div.sui-steps {
         }
 
         &.current {
+            font-weight: normal;
             border-top: 3px solid var(--saturate, #4848db);
             color: var(--button-nude, inherit);
         }
@@ -96,6 +97,8 @@ div.sui-steps {
             text-align: center;
             justify-content: center;
             align-items: center;
+            font-weight: normal;
+            color: var(--button-nude, inherit);
         }
 
         padding-bottom: 0;
