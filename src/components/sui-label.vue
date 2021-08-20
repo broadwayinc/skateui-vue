@@ -18,7 +18,8 @@ fieldset.sui-label(
         .button-right(v-if="$slots['button-right']")
             div
                 slot(name='button-right')
-        label(v-if="label && !small" :for="elementId + '_input'") {{ label }}
+        label(v-if="label && !small" :for="elementId + '_input'")
+            span {{ label }}
             span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
 </template>
 
@@ -180,15 +181,15 @@ export default {
         border-top-color: transparent !important;
         border-left-color: transparent !important;
         border-right-color: transparent !important;
-        //margin-bottom: calc(100vh - 2.8rem) !important;
+        //margin-bottom: calc(100vh - 2.8em) !important;
 
         .sui-input-wrapper {
             .option {
                 border-color: transparent !important;
-                top: calc(2.8rem - 2px) !important;
+                top: calc(2.8em - 2px) !important;
 
                 & > .menu {
-                    font-size: 1rem !important;
+                    font-size: 1em !important;
                     padding: .75em 0.5em !important;
                     box-shadow: 0 calc(.5em + 1px) 0 -.5em rgba(128, 128, 128, 0.25);
                 }
@@ -198,12 +199,10 @@ export default {
 }
 
 fieldset.sui-label {
-    margin: 0;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1em 0;
 
     &.small {
-        margin-bottom: -1rem;
+        margin-bottom: -1em;
         margin-top: 0;
     }
 
@@ -213,14 +212,14 @@ fieldset.sui-label {
     }
 
     &.label {
-        margin-top: 0.5rem;
+        margin-top: 0.5em;
     }
 
     & + .sui-input-message {
-        font-size: .8rem;
+        font-size: .8em;
         text-align: right;
-        line-height: 1rem;
-        min-height: 1rem;
+        line-height: 1em;
+        min-height: 1em;
         position: absolute;
         right: 2px;
         bottom: 0;
@@ -246,9 +245,8 @@ fieldset.sui-label {
     border: 2px solid var(--border-color, rgba(128, 128, 128, 0.5));
 
     padding: 0 .5em;
-    //min-width: calc(2.8rem * 3);
     border-radius: var(--border-radius, 3px); /* fallback */
-    border-radius: ~"clamp(0px, var(--border-radius, 3px), 1.4rem)";
+    border-radius: ~"clamp(0px, var(--border-radius, 3px), 1.4em)";
     vertical-align: middle;
 
     &.showSelector:focus-within {
@@ -260,24 +258,24 @@ fieldset.sui-label {
         border-color: var(--saturate, #4848db);
 
         label {
-            color: var(--content-focus-nude, #4848db);
+            color: var(--button-nude, inherit);
         }
 
         .button-left, .button-right {
-            color: var(--button-nude, #4848db);
+            color: var(--button-nude, inherit);
         }
     }
 
     legend {
         position: relative;
         text-align: left;
-        font-size: 0.8rem;
+        font-size: 0.8em;
         font-weight: normal;
-        padding: 0 .25rem;
+        padding: 0 .25em;
         top: 0;
+        line-height: calc(1.3em + 2px);
         word-break: keep-all;
         display: inline;
-        line-height: 1rem;
         user-select: none;
         color: var(--content-text_soft, #808080);
         visibility: hidden;
@@ -293,7 +291,7 @@ fieldset.sui-label {
         }
 
         .dropdown {
-            width: 1.5rem;
+            width: 1.5em;
             align-items: center;
             justify-content: center;
             display: none;
@@ -301,21 +299,24 @@ fieldset.sui-label {
 
             &::before {
                 content: "";
-                border-top: .3rem solid var(--content-text, inherit);
-                border-left: .25rem solid transparent;
-                border-right: .25rem solid transparent;
+                border-top: .3em solid var(--content-text, inherit);
+                border-left: .25em solid transparent;
+                border-right: .25em solid transparent;
             }
         }
 
         label {
             position: absolute;
-            font-size: .8rem;
-            padding: 0 .25rem;
+
+            padding: 0 .25em;
             font-weight: normal;
-            top: calc(-1rem - 2px);
-            left: .5rem;
-            height: .8rem;
-            line-height: .8rem;
+            top: calc(-1.5em - 4px);
+            left: .5em;
+            height: .8em;
+            span {
+                font-size: .8em;
+                line-height: 1;
+            }
         }
 
         .text-pack {
@@ -338,7 +339,7 @@ fieldset.sui-label {
             & > .suffix {
                 flex-shrink: 0;
                 display: flex;
-                line-height: calc(2.8rem - 4px);
+                line-height: calc(2.8em - 4px);
             }
 
             & > .prefix {
@@ -346,7 +347,7 @@ fieldset.sui-label {
                 flex-shrink: 0;
 
                 &:not(:empty) {
-                    padding-left: 0.75rem;
+                    padding-left: 0.75em;
 
                     & ~ .textarea, & ~ input, & ~ select {
                         padding-left: 0;
@@ -360,7 +361,7 @@ fieldset.sui-label {
                 align-items: flex-end;
 
                 &:not(:empty) {
-                    padding-right: 0.75rem;
+                    padding-right: 0.75em;
                     flex-grow: 1;
 
                     & + input, & + .textarea {
@@ -382,7 +383,7 @@ fieldset.sui-label {
             }
 
             &:focus ~ .option:not(:empty) {
-                top: calc(2.8rem - 4px);
+                top: calc(2.8em - 4px);
                 margin: 0;
                 border: solid 2px var(--content-focus, #4848db);
                 border-top: none;
@@ -416,7 +417,7 @@ fieldset.sui-label {
                     max-height: 100vh;
 
                     & > .menu {
-                        font-size: 1rem;
+                        font-size: 1em;
                         padding: .75em 0.5em;
                         box-shadow: 0 calc(.5em + 1px) 0 -.5em rgba(128, 128, 128, 0.25);
                     }
@@ -434,23 +435,22 @@ fieldset.sui-label {
 
             &:not(select):not(.textarea):read-only {
                 text-overflow: ellipsis;
-                padding-right: 0.15rem;
+                padding-right: 0.15em;
             }
 
             color: inherit;
             position: relative;
             flex-grow: 1;
-            min-height: calc(2.8rem - 4px);
-            //min-width: 2em;
+            min-height: calc(2.8em - 4px);
             min-width: 1em;
             box-sizing: border-box;
             vertical-align: middle;
             background-color: transparent;
             font: inherit;
-            font-size: 1rem;
+            font-size: 1em;
             border: none;
             outline: none;
-            padding: 0 0.75rem;
+            padding: 0 0.75em;
             margin: 0;
             display: block;
             line-height: initial;
@@ -461,8 +461,7 @@ fieldset.sui-label {
             vertical-align: middle;
             display: inline-grid;
             min-height: calc(2.8em - 4px);
-            //text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
-            line-height: 1.5rem;
+            line-height: 1.5em;
             &::after {
                 content: attr(data-replica) " ";
                 white-space: pre-wrap;
@@ -493,10 +492,8 @@ fieldset.sui-label {
                 background-color: transparent;
                 color: inherit;
                 line-height: inherit;
-                //line-height: inherit;
                 font-weight: inherit;
-                padding: calc(0.5rem + 1px) 0;
-                //font-size: 1rem;
+                padding: calc(0.5em + 1px) 0;
                 font-size: inherit;
                 outline: none;
                 border-top: none;
@@ -510,8 +507,8 @@ fieldset.sui-label {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            padding-right: 1.5rem;
-            margin-right: -1.5rem !important;
+            padding-right: 1.5em;
+            margin-right: -1.5em !important;
 
             & ~ .dropdown {
                 display: flex;
@@ -564,8 +561,8 @@ fieldset.sui-label {
                 justify-content: center;
                 align-items: center;
                 position: relative;
-                height: calc(2.8rem - .6rem - 4px);
-                padding: 0.3rem;
+                height: calc(2.8em - .6em - 4px);
+                padding: 0.3em;
 
                 & > * {
                     max-height: 100%;
@@ -576,20 +573,20 @@ fieldset.sui-label {
                 }
 
                 &:not(:empty) {
-                    min-width: calc(2.8rem - .6rem - 4px);
+                    min-width: calc(2.8em - .6em - 4px);
                 }
             }
 
         }
         &:not(:first-child) {
-            min-height: 2rem;
+            min-height: 2em;
 
             & > .text-pack > input:focus ~ .option:not(:empty) {
-                top: calc(2.8rem - 4px - 0.5em);
+                top: calc(2.8em - 4px - 0.5em);
             }
 
             & > *:not(label) {
-                margin: calc(-0.8rem + 6px) 0 0;
+                margin: calc(-0.8em + 6px) 0 0;
             }
         }
 
