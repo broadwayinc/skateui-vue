@@ -4,7 +4,7 @@ label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type
         input(ref="option" type="checkbox" @focus="focus" @input="updateValue" :name="name" :disabled="disabled" :checked="isChecked")
         .checkbox
     template(v-if="type === 'radio'")
-        input(ref="option" type="radio" @focus="focus" @change="updateValue()" :name="name" :disabled="disabled" :checked="isChecked")
+        input(ref="option" type="radio" @focus="focus" @change="updateValue" :name="name" :disabled="disabled" :checked="isChecked")
         .radio
     pre
     p {{ label }}
@@ -123,9 +123,9 @@ label.sui-option.sui-checkbox {
         &:checked + .checkbox {
             &:after {
                 content: '✔';
+                //content: '✓';
                 font-size: calc(1em - 8px);
-                font-weight: bold;
-                font-family: sans-serif;
+                font-weight: normal;
             }
         }
     }
@@ -137,14 +137,14 @@ label.sui-option.sui-checkbox {
         align-items: center;
         justify-content: center;
         position: relative;
-        background-color: var(--content, white);
-        color: var(--button-nude, black);
+        background-color: var(--content, inherit);
+        color: var(--button-nude, inherit);
         width: calc(1em - 4px);
         height: calc(1em - 4px);
         box-sizing: border-box;
         left: 2px;
         border: 0.2em solid transparent;
-        box-shadow: 0 0 0 2px var(--button-nude, black);
+        box-shadow: 0 0 0 2px var(--button-nude, var(--content-text, black));
         border-radius: var(--border-radius);
         vertical-align: middle;
     }
@@ -175,7 +175,7 @@ label.sui-option.sui-radio {
 
         &:checked + .radio {
             border: .2em solid var(--content, white);
-            background-color: var(--button-nude, black);
+            background-color: var(--button-nude, var(--content-text, black));
         }
 
         & + .radio {
@@ -187,7 +187,7 @@ label.sui-option.sui-radio {
             box-sizing: border-box;
             left: 2px;
             border: 0.2em solid transparent;
-            box-shadow: 0 0 0 2px var(--button-nude, black);
+            box-shadow: 0 0 0 2px var(--button-nude, var(--content-text, black));
             border-radius: 1em;
             vertical-align: middle;
         }
