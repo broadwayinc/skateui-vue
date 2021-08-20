@@ -168,7 +168,6 @@ export default {
     display: inline-block;
     vertical-align: middle;
     position: relative;
-    margin-bottom: 1rem;
 }
 
 .sui-screen {
@@ -201,10 +200,11 @@ export default {
 fieldset.sui-label {
     margin: 0;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 
     &.small {
         margin-bottom: -1rem;
-        margin-top: 0px;
+        margin-top: 0;
     }
 
     &.disabled {
@@ -213,17 +213,17 @@ fieldset.sui-label {
     }
 
     &.label {
-        margin-top: 0.6rem;
+        margin-top: 0.5rem;
     }
 
     & + .sui-input-message {
-        font-size: .8em;
+        font-size: .8rem;
         text-align: right;
         line-height: 1rem;
         min-height: 1rem;
         position: absolute;
-        right: 0;
-
+        right: 2px;
+        bottom: 0;
         &.error {
             color: var(--alert, #ff6347);
         }
@@ -272,10 +272,9 @@ fieldset.sui-label {
         position: relative;
         text-align: left;
         font-size: 0.8rem;
-        height: 1rem;
-        font-weight: 500;
+        font-weight: normal;
         padding: 0 .25rem;
-        top: -.25rem;
+        top: 0;
         word-break: keep-all;
         display: inline;
         line-height: 1rem;
@@ -312,11 +311,11 @@ fieldset.sui-label {
             position: absolute;
             font-size: .8rem;
             padding: 0 .25rem;
-            font-weight: 500;
-            top: -1.25rem;
+            font-weight: normal;
+            top: calc(-1rem - 2px);
             left: .5rem;
-            height: 1rem;
-            line-height: 1rem;
+            height: .8rem;
+            line-height: .8rem;
         }
 
         .text-pack {
@@ -463,7 +462,7 @@ fieldset.sui-label {
             display: inline-grid;
             min-height: calc(2.8em - 4px);
             //text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
-
+            line-height: 1.5rem;
             &::after {
                 content: attr(data-replica) " ";
                 white-space: pre-wrap;
@@ -493,10 +492,12 @@ fieldset.sui-label {
                 vertical-align: middle;
                 background-color: transparent;
                 color: inherit;
-                line-height: 1.5rem;
-
+                line-height: inherit;
+                //line-height: inherit;
+                font-weight: inherit;
                 padding: calc(0.5rem + 1px) 0;
-                font-size: 1rem;
+                //font-size: 1rem;
+                font-size: inherit;
                 outline: none;
                 border-top: none;
                 /* Place on top of each other */
