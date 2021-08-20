@@ -79,7 +79,7 @@ div.sui-card {
     --card-indent: ~"clamp(.65rem, 2vw, 1.3rem)";
     --card-border-radius: .5em; /* fallback */
     --card-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
-    --padding-title: 0.5em var(--card-indent) 0.15em;
+    --padding-title: 0.5em var(--card-indent) 1px;
 
     border-radius: var(--card-border-radius);
     box-sizing: border-box;
@@ -116,9 +116,11 @@ div.sui-card {
     & > .title + div:not(.image)::before {
         content: '';
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
+        //left: 0;
+        //right: 0;
+        left: -.25em;
+        right: -.25em;
+        top: -1px;
         display: block;
         height: 1px;
         background-color: var(--content-text_soft);
