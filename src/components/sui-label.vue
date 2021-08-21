@@ -575,6 +575,15 @@ fieldset.sui-label {
                 &:not(:empty) {
                     min-width: calc(2.8em - .6em - 4px);
                 }
+
+                & > .sui-input {
+                    margin: calc(-.3em - 2px);
+                    top: calc(-.3em - 2px);
+                    fieldset.sui-label {
+                        margin: 0;
+                        border-color: transparent;
+                    }
+                }
             }
 
         }
