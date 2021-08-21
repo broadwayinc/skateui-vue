@@ -363,11 +363,11 @@ export default {
                         let zoomer = document.createElement('div');
                         zoomer.classList.add('_zoomer');
 
-                        let zoomerIcon = document.createElement('i');
-                        zoomerIcon.classList.add('material-icons');
-                        zoomerIcon.innerHTML = 'search';
+                        // let zoomerIcon = document.createElement('i');
+                        // zoomerIcon.classList.add('material-icons');
+                        // zoomerIcon.innerHTML = 'search';
 
-                        zoomer.append(zoomerIcon);
+                        // zoomer.append(zoomerIcon);
 
                         zoomer.style.display = 'none';
 
@@ -622,14 +622,14 @@ export default {
         }
 
         & > ._zoomer {
-            i {
-                font-size: 2rem;
-                color: rgba(0, 0, 0, 0.5);
-            }
+            //i {
+            //    font-size: 2rem;
+            //    color: rgba(0, 0, 0, 0.5);
+            //}
 
-            --zoomer-border-radius: .5em; /* fallback */
-            --zoomer-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), 8px)";
-            border-radius: var(--zoomer-border-radius);
+            //--zoomer-border-radius: .5em; /* fallback */
+            //--zoomer-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), 8px)";
+            //border-radius: var(--zoomer-border-radius);
             background-color: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(0, 0, 0, 0.25);
             position: absolute;
