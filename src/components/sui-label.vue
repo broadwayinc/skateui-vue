@@ -1,26 +1,28 @@
 <template lang="pug">
-fieldset.sui-label(
-    ref='label'
-    :class="{ label: !!label && !small, showSelector, error, disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete', small: small}")
-    legend(v-if="label && !small") {{ label }}
-        span(v-if="required") &nbsp;*
-    .sui-input-wrapper
-        .button-left(v-if="$slots['button-left']")
-            div
-                slot(name='button-left')
-        .text-pack
-            .prefix(v-if="prefix" @click="()=>{focusInput(false)}")
-                div {{ prefix }}
-            .suffix(v-if="suffix" @click="focusInput")
-                div {{ suffix }}
-            slot
-            .dropdown(@click="focusInput")
-        .button-right(v-if="$slots['button-right']")
-            div
-                slot(name='button-right')
-        label(v-if="label && !small" :for="elementId + '_input'")
-            span {{ label }}
-            span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
+.sui-input(:id="elementId" :class="{small}")
+    fieldset.sui-label(
+        ref='label'
+        :class="{ label: !!label && !small, showSelector, error, disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'}")
+        legend(v-if="label && !small") {{ label }}
+            span(v-if="required") &nbsp;*
+        .sui-input-wrapper
+            .button-left(v-if="$slots['button-left']")
+                div
+                    slot(name='button-left')
+            .text-pack
+                .prefix(v-if="prefix" @click="()=>{focusInput(false)}")
+                    div {{ prefix }}
+                .suffix(v-if="suffix" @click="focusInput")
+                    div {{ suffix }}
+                slot
+                .dropdown(@click="focusInput")
+            .button-right(v-if="$slots['button-right']")
+                div
+                    slot(name='button-right')
+            label(v-if="label && !small" :for="elementId + '_input'")
+                span {{ label }}
+                span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
+    .sui-input-message(:class="{error: error}" v-if="!small") {{message}}
 </template>
 
 <script>
@@ -51,23 +53,6 @@ export default {
         };
     },
     watch: {
-        message(v) {
-            if (this.msg)
-                this.msg.innerHTML = v;
-        },
-        small: {
-            handler(newVal) {
-                this.$nextTick(()=>{
-                    if(newVal) {
-                        this.msg.style.display = 'none';
-                    } else {
-                        this.msg.style.display = null;
-                    }
-                })
-
-            },
-            immediate: true
-        },
         error(v) {
             if (this.msg) {
                 if (v)
@@ -75,6 +60,11 @@ export default {
                 else if (this.msg.classList.contains('error'))
                     this.msg.classList.remove('error');
             }
+        }
+    },
+    computed:{
+        elementId(){
+            return window.sui_generateId(this.$options.name);
         }
     },
     methods: {
@@ -90,40 +80,14 @@ export default {
         }
     },
     mounted() {
-        this.elementId = this.$refs.label.id || window.sui_generateId(this.$options.name);
-        this.$refs.label.id = this.elementId;
-
-        let el = document.getElementById(this.elementId);
-        if (!el)
-            return;
-
+        let el = this.$refs.label;
         let input = [el.querySelector('textarea'), el.querySelector('input'), el.querySelector('select')];
-        for (let i of input)
+        for (let i of input) {
             if (i) {
-                if (i.id)
-                    this.elementId = i.id;
-
                 i.id = this.elementId + '_input';
                 break;
             }
-
-        let block = document.createElement('div');
-        block.classList.add('sui-input');
-
-        let msg = document.createElement('div');
-        msg.classList.add('sui-input-message');
-        if (this.error)
-            msg.classList.add('error');
-
-        msg.innerHTML = this.message;
-
-        el.parentNode.insertBefore(block, el.nextSibling);
-        block.append(el);
-        block.append(msg);
-        el.removeAttribute('id');
-        block.id = this.elementId;
-
-        this.msg = msg;
+        }
 
         let sui_textarea = {
             init: (el) => {
@@ -157,8 +121,9 @@ export default {
             }
         };
 
-        if (this.type === 'textarea')
+        if (this.type === 'textarea') {
             sui_textarea.init(document.getElementById(this.elementId + '_input'));
+        }
     }
 };
 </script>
@@ -169,6 +134,10 @@ export default {
     display: inline-block;
     vertical-align: middle;
     position: relative;
+    &.small {
+        margin-bottom: -1em;
+        margin-top: -1em;
+    }
 }
 
 .sui-screen {
@@ -201,11 +170,6 @@ export default {
 fieldset.sui-label {
     margin: 1em 0;
 
-    &.small {
-        margin-bottom: -1em;
-        margin-top: 0;
-    }
-
     &.disabled {
         opacity: 0.5;
         pointer-events: none;
@@ -223,6 +187,7 @@ fieldset.sui-label {
         position: absolute;
         right: 2px;
         bottom: 0;
+
         &.error {
             color: var(--alert, #ff6347);
         }
@@ -231,6 +196,7 @@ fieldset.sui-label {
     &.error {
         border-color: var(--alert, #ff6347) !important;
         background-color: var(--alert_shadow, rgba(255, 99, 71, 0.066));
+
         & .option {
             border-color: var(--alert, #ff6347) !important;
         }
@@ -313,6 +279,7 @@ fieldset.sui-label {
             top: calc(-1.5em - 4px);
             left: .5em;
             height: .8em;
+
             span {
                 font-size: .8em;
                 line-height: 1;
@@ -462,6 +429,7 @@ fieldset.sui-label {
             display: inline-grid;
             min-height: calc(2.8em - 4px);
             line-height: 1.5em;
+
             &::after {
                 content: attr(data-replica) " ";
                 white-space: pre-wrap;
@@ -579,6 +547,7 @@ fieldset.sui-label {
                 & > .sui-input {
                     margin: calc(-.3em - 2px);
                     top: calc(-.3em - 2px);
+
                     fieldset.sui-label {
                         margin: 0;
                         border-color: transparent;
@@ -587,6 +556,7 @@ fieldset.sui-label {
             }
 
         }
+
         &:not(:first-child) {
             min-height: 2em;
 
