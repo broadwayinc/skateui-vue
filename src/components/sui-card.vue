@@ -79,7 +79,7 @@ div.sui-card {
     --card-indent: ~"clamp(.65rem, 2vw, 1.3rem)";
     --card-border-radius: .5em; /* fallback */
     --card-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
-    --padding-title: 0.5em var(--card-indent) 0.15em;
+    --padding-title: 0.5em var(--card-indent);
 
     border-radius: var(--card-border-radius);
     box-sizing: border-box;
@@ -95,6 +95,7 @@ div.sui-card {
     & > .title:is(:last-child)::after {
         display: none;
     }
+
     & > hr {
         border-left: 0;
         border-right: 0;
@@ -116,12 +117,12 @@ div.sui-card {
     & > .title + div:not(.image)::before {
         content: '';
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
+        left: -.25em;
+        right: -.25em;
+        top: -.5em;
         display: block;
         height: 1px;
-        background-color: var(--content-text_soft);
+        background-color: var(--content-text_placeholder);
     }
 
     @media @tablet {
@@ -138,8 +139,11 @@ div.sui-card {
         box-shadow: 0 1px rgba(128, 128, 128, 0.5);
     }
 
-    .title, & > .image:nth-child(2) {
+    & > .title {
         overflow: hidden;
+    }
+
+    & > .title, & > .image:nth-child(1) {
         border-top-left-radius: var(--card-border-radius);
         border-top-right-radius: var(--card-border-radius);
     }
@@ -244,7 +248,7 @@ div.sui-card {
     & > .content:not(:empty) {
         position: relative;
         width: 100%;
-        padding: 2em 0.5rem 2em;
+        padding: 1.5em 0.5rem;
         line-height: 1.5em;
 
         & > * {
