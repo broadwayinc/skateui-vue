@@ -13,7 +13,7 @@
 <script>
 export default {
     name: "sui-autosize",
-    emits: ['focus'],
+    emits: ['update:modelValue', 'input', 'focus'],
     props: {
         placeholder: String,
         min: Number | String,
@@ -163,7 +163,7 @@ export default {
                 });
 
                 el.addEventListener('input', (e) => {
-                    this.updateValue();
+                    this.updateValue(e.target.value);
                 });
 
                 el.addEventListener('focus', (e) => {
