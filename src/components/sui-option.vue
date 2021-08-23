@@ -1,11 +1,28 @@
 <template lang='pug'>
 label.sui-option(:class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', disabled}")
     template(v-if="type === 'checkbox'")
-        input(ref="option" type="checkbox" @focus="focus" @input="updateValue" :name="name" :disabled="disabled" :checked="isChecked")
-        .checkbox
+        input(
+            ref="option"
+            type="checkbox"
+            @focus="focus"
+            @change="updateValue"
+            :value="modelValue || value"
+            :name="name"
+            :disabled="disabled"
+            :checked="isChecked")
+        .sui-option-checkbox-div
     template(v-if="type === 'radio'")
-        input(ref="option" type="radio" @focus="focus" @change="updateValue" :name="name" :disabled="disabled" :checked="isChecked")
-        .radio
+        input.sui-option-radio(
+            ref="option"
+            type="radio"
+            @focus="focus"
+            @change="updateValue"
+            @trigger="updateValue_trigger"
+            :value="modelValue || value"
+            :name="name"
+            :disabled="disabled"
+            :checked="isChecked")
+        .sui-option-radio-div
     pre
     p {{ label }}
 </template>
@@ -15,59 +32,68 @@ export default {
     name: 'sui-option',
     emits: ['update:modelValue', 'input', 'focus'],
     props: {
-        modelValue: String | Number | Boolean,
-        value: [Array, String, Boolean],
+        modelValue: [String, Number, Boolean, Number],
+        value: [Array, String, Boolean, Number],
         type: {type: String, default: 'checkbox'},
         label: String,
         disabled: Boolean,
         name: String,
-        data: String | Number | Boolean,
         checked: Boolean,
         autofocus: Boolean
     },
+    data() {
+        return {
+            initValue: null
+        };
+    },
+    created() {
+        this.initValue = this.modelValue || this.value;
+    },
     mounted() {
-        this.$nextTick(()=>{
-            if(this.autofocus)
+        this.toggleCheck(this.checked);
+        this.$nextTick(() => {
+            if (this.autofocus) {
                 this.$refs.option.focus();
-        })
+            }
+        });
     },
     computed: {
         isChecked() {
-            if(this.checked) return true;
-            if (this.value instanceof Array) {
-                return this.value.includes(this.data)
+            if (this.$refs.option && this.$refs.option.checked !== this.checked) {
+                this.toggleCheck(this.checked);
             }
-            if(this.type === 'checkbox') {
-                return this.value;
-            }
-            return this.value === this.data;
+            return this.checked;
         }
     },
     methods: {
+        toggleCheck(checked) {
+            if (checked) {
+                this.$emit('input', this.initValue);
+                this.$emit('update:modelValue', this.initValue);
+            } else {
+                this.$emit('input', null);
+                this.$emit('update:modelValue', null);
+            }
+        },
         focus(e) {
             this.$emit('focus', e);
         },
-        updateValue() {
-            let newValue = null;
-
-            if(this.value instanceof  Array) {
-                newValue = [...this.value];
-                let idx = newValue.indexOf(this.data);
-                if(idx >= 0) {
-                    newValue.splice(idx, 1)
-                } else {
-                    newValue.push(this.data)
-                }
-            } else {
-                if(this.type === 'checkbox') {
-                    newValue = !this.value;
-                } else {
-                    newValue = this.data;
+        updateValue_trigger(e) {
+            this.toggleCheck(e.target.checked);
+        },
+        updateValue(e) {
+            this.toggleCheck(e.target.checked);
+            if (this.type === 'radio') {
+                let trigger = new Event("trigger");
+                let optionEl = document.getElementsByClassName('sui-option-radio');
+                for (let i = 0; optionEl.length > i; i++) {
+                    if (optionEl[i].name && optionEl[i].name === this.name) {
+                        if (!optionEl[i].isEqualNode(e.target) && !optionEl[i].checked && e.target.value !== optionEl[i].value) {
+                            optionEl[i].dispatchEvent(trigger);
+                        }
+                    }
                 }
             }
-
-            this.$emit('input', newValue);
-            this.$emit('update:modelValue', newValue);
         }
     }
 };
@@ -76,7 +102,7 @@ export default {
 label.sui-option {
     --border-radius: 1px;
 
-    div.checkbox, div.radio {
+    .sui-option-checkbox-div, .sui-option-radio-div {
         color: var(--button-nude, inherit);
     }
 }
@@ -86,12 +112,12 @@ label.sui-option.disabled {
     user-select: none;
     cursor: default;
 
-    div.checkbox, div.radio {
+    .sui-option-checkbox-div, .sui-option-radio-div {
         box-shadow: 0 0 0 2px var(--content-text, black) !important;
         color: var(--content-text, black);
     }
 
-    & > input:checked + .radio {
+    & > input:checked + .sui-option-radio-div {
         background-color: var(--content-text, black) !important;
     }
 
@@ -120,7 +146,7 @@ label.sui-option.sui-checkbox {
         height: 0;
         width: 0;
 
-        &:checked + .checkbox {
+        &:checked + .sui-option-checkbox-div {
             &:after {
                 content: '✔';
                 //content: '✓';
@@ -130,7 +156,7 @@ label.sui-option.sui-checkbox {
         }
     }
 
-    .checkbox {
+    .sui-option-checkbox-div {
         font-size: 1.25em;
         line-height: 1;
         display: inline-flex;
@@ -173,12 +199,12 @@ label.sui-option.sui-radio {
         height: 0;
         width: 0;
 
-        &:checked + .radio {
+        &:checked + .sui-option-radio-div {
             border: .2em solid var(--content, white);
             background-color: var(--button-nude, var(--content-text, black));
         }
 
-        & + .radio {
+        & + .sui-option-radio-div {
             font-size: 1.25em;
             display: inline-block;
             position: relative;
