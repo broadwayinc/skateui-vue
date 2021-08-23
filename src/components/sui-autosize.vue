@@ -1,6 +1,15 @@
 <template lang="pug">
-.sui-autosize(ref="wrapper")
-    textarea(v-if='typeof readonly === "boolean"' ref="textarea" :placeholder='placeholder' rows="1" :value="inputValue" :maxlength="maxlength" @input="updateValue()" @focus="focus")
+.sui-autosize(ref="wrapper" :class="{readonly}")
+    textarea(
+        v-if='typeof readonly === "boolean"'
+        :readonly='!!readonly'
+        ref="textarea"
+        :placeholder='placeholder'
+        rows="1"
+        :value="inputValue"
+        :maxlength="maxlength"
+        @input="updateValue()"
+        @focus="focus")
     p(ref="textarea" v-else-if="readonly.toLowerCase() === 'p'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
     h1(ref="textarea" v-else-if="readonly.toLowerCase() === 'h1'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
     h2(ref="textarea" v-else-if="readonly.toLowerCase() === 'h2'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
@@ -143,8 +152,8 @@ export default {
 
                 el.setAttribute('rows', '1');
 
-                if ((el.readOnly || this.readonly) && !parent.classList.contains('readonly'))
-                    parent.classList.add('readonly');
+                // if ((el.readOnly || this.readonly) && !parent.classList.contains('readonly'))
+                //     parent.classList.add('readonly');
 
                 let replica = document.createElement('div');
                 replica.classList.add('textarea');
