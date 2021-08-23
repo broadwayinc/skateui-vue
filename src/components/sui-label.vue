@@ -48,8 +48,7 @@ export default {
     },
     data() {
         return {
-            msg: null,
-            elementId: null
+            msg: null
         };
     },
     watch: {
