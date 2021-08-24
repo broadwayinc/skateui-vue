@@ -102,8 +102,9 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            if (this.autofocus)
+            if (this.autofocus) {
                 this.$refs.input.focus();
+            }
         });
     },
     computed: {
