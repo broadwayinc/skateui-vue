@@ -84,12 +84,15 @@ export default {
         updateValue(e) {
             this.toggleCheck(e.target.checked);
             if (this.type === 'radio') {
+                let hasForm = e.target.closest('form');
                 let trigger = new Event("trigger");
                 let optionEl = document.getElementsByClassName('sui-option-radio');
                 for (let i = 0; optionEl.length > i; i++) {
-                    if (optionEl[i].name && optionEl[i].name === this.name) {
-                        if (!optionEl[i].isEqualNode(e.target) && !optionEl[i].checked && e.target.value !== optionEl[i].value) {
-                            optionEl[i].dispatchEvent(trigger);
+                    if (!hasForm || hasForm && optionEl[i].closest('form').isEqualNode(hasForm)) {
+                        if (optionEl[i].name && optionEl[i].name === this.name) {
+                            if (!optionEl[i].isEqualNode(e.target) && !optionEl[i].checked && e.target.value !== optionEl[i].value) {
+                                optionEl[i].dispatchEvent(trigger);
+                            }
                         }
                     }
                 }
