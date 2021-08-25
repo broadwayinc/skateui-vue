@@ -1,22 +1,23 @@
 <template lang="pug">
 .sui-autosize(ref="wrapper" :class="{readonly}")
-    textarea(
-        v-if='typeof readonly === "boolean"'
-        :readonly='!!readonly'
-        ref="textarea"
-        :placeholder='placeholder'
-        rows="1"
-        :value="inputValue"
-        :maxlength="maxlength"
-        @input="updateValue()"
-        @focus="focus")
-    p(ref="textarea" v-else-if="readonly.toLowerCase() === 'p'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
-    h1(ref="textarea" v-else-if="readonly.toLowerCase() === 'h1'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
-    h2(ref="textarea" v-else-if="readonly.toLowerCase() === 'h2'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
-    h3(ref="textarea" v-else-if="readonly.toLowerCase() === 'h3'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
-    h4(ref="textarea" v-else-if="readonly.toLowerCase() === 'h4'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
-    h5(ref="textarea" v-else-if="readonly.toLowerCase() === 'h5'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
-    h6(ref="textarea" v-else-if="readonly.toLowerCase() === 'h6'") {{inputValue.substring(0, typeof maxlength === 'number' ? maxlength : inputValue.length)}}
+    .data-replica
+        textarea(
+            v-if='typeof readonly === "boolean"'
+            :readonly='readonly'
+            ref="textarea"
+            :placeholder="placeholder"
+            rows="1"
+            :value="value_normalized"
+            :maxlength="maxlength"
+            @input="updateValue()"
+            @focus="focus")
+        p(ref="textarea" v-else-if="readonly.toLowerCase() === 'p'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
+        h1(ref="textarea" v-else-if="readonly.toLowerCase() === 'h1'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
+        h2(ref="textarea" v-else-if="readonly.toLowerCase() === 'h2'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
+        h3(ref="textarea" v-else-if="readonly.toLowerCase() === 'h3'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
+        h4(ref="textarea" v-else-if="readonly.toLowerCase() === 'h4'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
+        h5(ref="textarea" v-else-if="readonly.toLowerCase() === 'h5'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
+        h6(ref="textarea" v-else-if="readonly.toLowerCase() === 'h6'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
 </template>
 
 <script>
@@ -25,10 +26,10 @@ export default {
     emits: ['update:modelValue', 'input', 'focus'],
     props: {
         placeholder: String,
-        min: Number | String,
-        max: Number | String,
+        minFontSize: Number | String,
+        maxFontSize: Number | String,
         value: String,
-        output: Function,
+        modelValue: String,
         allowEnter: Boolean,
         maxlength: Number,
         readonly: [Boolean, String],
@@ -42,83 +43,8 @@ export default {
     created() {
         class SuiAutosize {
             constructor(el) {
-                if (!el)
-                    throw 'no argument';
-
-                this.eventId = null;
-                this.max = 72;
-                this.min = 16;
-                this.value = '';
-                this.allowEnter = false;
-                this.readonly = false;
-                let setValue = "";
-                this.id = '';
-                // this.element is the wrapper
-                if (typeof el === 'string' && el[0] === '#') {
-                    this.id = el.substring(1);
-                    this.element = document.getElementById(this.id);
-                } else if (typeof el === 'object' && Object.keys(el).length) {
-                    let {element, max = 72, min = 16, value, allowEnter, readonly} = el;
-                    if (typeof element === 'string' && element[0] === '#') {
-                        this.id = element.substring(1);
-                        this.element = document.getElementById(this.id);
-                    } else if (element instanceof Node) {
-                        this.element = element;
-                        this.id = element.id || window.sui_generateId('sui_autosize');
-                    }
-
-                    max = max && typeof max === 'string' ? Number(max) : max;
-                    min = min && typeof min === 'string' ? Number(min) : min;
-
-                    if (isNaN(max))
-                        throw 'MAX_NOT_NUMBER';
-                    if (isNaN(min))
-                        throw 'MIN_NOT_NUMBER';
-
-                    if (min > max) {
-                        let big = min;
-                        min = max;
-                        max = big;
-                    }
-
-                    setValue = value;
-                    if (allowEnter)
-                        this.allowEnter = allowEnter;
-
-                    if (readonly)
-                        this.readonly = readonly;
-
-                    this.max = max || 72;
-                    this.min = min || 16;
-                } else {
-                    throw 'invalid parameters';
-                }
-
-                if (!this.element) {
-                    throw 'no element';
-                }
-
-                this.element.id = this.id;
-                this.textarea = this.element.childNodes[0];
-
-                // set textarea id
-                this.textarea.id = this.id + '_textarea';
-                this.value = setValue || this.textarea.value || "";
-
-                if (typeof this.readonly === 'boolean') {
-                    this.textarea.readOnly = this.readonly;
-                }
-
-                this.elementStyle = window.getComputedStyle(this.textarea);
-
-                // adjust for attribute for labels
-                let getLabels = document.getElementsByTagName('Label');
-                for (let l of getLabels) {
-                    if (l.getAttribute('for') === this.id)
-                        l.setAttribute('for', this.id + '_textarea');
-                }
-
-                this.init();
+                console.log({el});
+                this.init(el);
             }
 
             updateValue(v) {
@@ -141,71 +67,159 @@ export default {
                     this.placeholdersize = this.fontsize;
                     this.element.style.setProperty('--placeholder-size', `${this.placeholdersize}px`);
                     this.element.style.setProperty('--placeholder-height', this.elementStyle.height);
-                } else this.placeholdersize = this.max;
+                } else this.placeholdersize = this.maxFontSize;
 
                 await this.updateValue(setValue);
             }
 
-            init() {
-                let el = this.textarea;
-                let parent = this.element;
+            init(el) {
+                if (!el) {
+                    throw 'no argument';
+                }
 
-                el.setAttribute('rows', '1');
+                // remove event
+                if (this.catchWindowResizeEvent) {
+                    this.destroy();
+                }
+                this.catchWindowResizeEvent = null;
 
+                this.allowEnter = false;
+                this.readonly = false;
+
+                this.maxFontSize = 72;
+                this.minFontSize = 16;
+
+                this.value = '';
+                let setValue = '';
+
+                this.id = '';
+
+                // this.element is the wrapper
+                if (typeof el === 'string' && el[0] === '#') {
+                    this.id = el.substring(1);
+                    this.element = document.getElementById(this.id);
+                } else if (typeof el === 'object' && Object.keys(el).length) {
+                    let {element, maxFontSize = 72, minFontSize = 16, value, allowEnter, readonly} = el;
+                    if (typeof element === 'string' && element[0] === '#') {
+                        this.id = element.substring(1);
+                        this.element = document.getElementById(this.id);
+                    } else if (element instanceof Node) {
+                        this.element = element;
+                        this.id = element.id || window.sui_generateId('sui_autosize');
+                    }
+
+                    maxFontSize = maxFontSize && typeof maxFontSize === 'string' ? Number(maxFontSize) : maxFontSize;
+                    minFontSize = minFontSize && typeof minFontSize === 'string' ? Number(minFontSize) : minFontSize;
+
+                    if (isNaN(maxFontSize))
+                        throw 'MAX_NOT_NUMBER';
+                    if (isNaN(minFontSize))
+                        throw 'MIN_NOT_NUMBER';
+
+                    if (minFontSize > maxFontSize) {
+                        let big = minFontSize;
+                        minFontSize = maxFontSize;
+                        maxFontSize = big;
+                    }
+
+                    setValue = value;
+                    if (allowEnter)
+                        this.allowEnter = allowEnter;
+
+                    if (readonly)
+                        this.readonly = readonly;
+
+                    this.maxFontSize = maxFontSize || 72;
+                    this.minFontSize = minFontSize || 16;
+                } else {
+                    throw 'invalid parameters';
+                }
+
+                if (!this.element) {
+                    throw 'no element';
+                }
+
+                this.element.id = this.id;
+                this.textarea = this.element.childNodes[0];
+                if (this.textarea.classList.contains('data-replica')) {
+                    console.log({l: this.textarea.childNodes[0]});
+                    this.textarea = this.textarea.childNodes[0];
+                }
+
+                // set textarea id
+                this.textarea.id = this.id + '_textarea';
+                this.value = setValue || this.textarea.value || "";
+
+                // if (typeof this.readonly === 'boolean') {
+                //     this.textarea.readOnly = this.readonly;
+                // }
+
+                this.elementStyle = window.getComputedStyle(this.textarea);
+
+                // adjust for attribute for labels
+                let getLabels = document.getElementsByTagName('Label');
+                for (let l of getLabels) {
+                    if (l.getAttribute('for') === this.id)
+                        l.setAttribute('for', this.id + '_textarea');
+                }
+
+                let textarea = this.textarea;
+                textarea.setAttribute('rows', '1');
+
+                // let parent = this.element;
                 // if ((el.readOnly || this.readonly) && !parent.classList.contains('readonly'))
                 //     parent.classList.add('readonly');
 
-                let replica = document.createElement('div');
-                replica.classList.add('textarea');
-                parent.insertBefore(replica, el);
-                replica.append(el);
-
-                this.placeholder = el.getAttribute('placeholder');
+                // let replica = document.createElement('div');
+                // replica.classList.add('textarea');
+                // parent.insertBefore(replica, textarea);
+                // replica.append(textarea);
 
                 this.initTextareaSize();
 
-                this.eventId = window.sui_on.registerEvent.resize(this.initTextareaSize.bind(this));
+                this.catchWindowResizeEvent = window.sui_on.registerEvent.resize(this.initTextareaSize.bind(this));
 
-                el.addEventListener('keydown', (e) => {
-                    if (!this.allowEnter && e.key === 'Enter')
-                        e.preventDefault();
-                });
+                if (!this.readonly) {
+                    this.placeholder = textarea.getAttribute('placeholder');
 
-                el.addEventListener('input', (e) => {
-                    this.updateValue(e.target.value);
-                });
+                    textarea.addEventListener('keydown', (e) => {
+                        if (!this.allowEnter && e.key === 'Enter')
+                            e.preventDefault();
+                    });
 
-                el.addEventListener('focus', (e) => {
-                    let target = e.target;
-                    let par = target.parentNode.parentNode;
-                    if (!target.readOnly && par.classList.contains('sui-autosize') && !par.classList.contains('focus'))
-                        par.classList.add('focus');
-                });
+                    textarea.addEventListener('input', (e) => {
+                        this.updateValue(e.target.value);
+                    });
 
-                el.addEventListener('blur', (e) => {
-                    let target = e.target;
-                    let par = target.parentNode.parentNode;
-                    if (!target.readOnly && par.classList.contains('sui-autosize') && par.classList.contains('focus'))
-                        par.classList.remove('focus');
-                });
+                    textarea.addEventListener('focus', (e) => {
+                        let target = e.target;
+                        let parent = target.parentNode.parentNode;
+                        if (parent.classList.contains('sui-autosize') && !parent.classList.contains('focus'))
+                            parent.classList.add('focus');
+                    });
+
+                    textarea.addEventListener('blur', (e) => {
+                        let target = e.target;
+                        let parent = target.parentNode.parentNode;
+                        if (parent.classList.contains('sui-autosize') && parent.classList.contains('focus'))
+                            parent.classList.remove('focus');
+                    });
+                }
             }
 
             adjustSize() {
                 if (!this.fontsize) {
                     let width = parseFloat(this.elementStyle.width);
                     let charLength = this.textarea.value.length || 1;
-                    let div = width / charLength;
-                    div = Math.floor(div * 1.33);
+                    let division = Math.floor(width / charLength * 1.33);
 
-                    if (this.max < div)
-                        this.fontsize = this.max;
-
-                    else if (this.min > div)
-                        this.fontsize = this.min;
-
-                    else
-                        this.fontsize = div;
-
+                    if (this.maxFontSize < division) {
+                        this.fontsize = this.maxFontSize;
+                    } else if (this.minFontSize > division) {
+                        this.fontsize = this.minFontSize;
+                    } else {
+                        this.fontsize = division;
+                    }
                 }
 
                 let runDown = () => {
@@ -213,9 +227,9 @@ export default {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
                         let howmanylines = height / (this.fontsize * 1.5);
-                        if (howmanylines > 2 && this.fontsize > this.min) {
+                        if (howmanylines > 2 && this.fontsize > this.minFontSize) {
                             let minus = this.fontsize - 1;
-                            this.fontsize = minus > this.min ? minus : this.min;
+                            this.fontsize = minus > this.minFontSize ? minus : this.minFontSize;
                             doIt();
                         }
                     };
@@ -227,14 +241,13 @@ export default {
                 };
 
                 let runUp = () => {
-
                     let doIt = () => {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
                         let howmanylines = height / (this.fontsize * 1.5);
-                        if (howmanylines < 2 && this.fontsize < this.max) {
+                        if (howmanylines < 2 && this.fontsize < this.maxFontSize) {
                             let plus = this.fontsize + 1;
-                            this.fontsize = plus < this.max ? plus : this.max;
+                            this.fontsize = plus < this.maxFontSize ? plus : this.maxFontSize;
                             doIt();
                         } else {
                             return runDown();
@@ -247,63 +260,90 @@ export default {
                     });
                 };
 
-                if (!this.value) {
-                    this.fontsize = this.placeholdersize;
-                    if (!this.textarea.parentNode.classList.contains('empty'))
-                        this.textarea.parentNode.classList.add('empty');
+                if (this.value) {
+                    if (this.textarea.parentNode.classList.contains('empty')) {
+                        this.textarea.parentNode.classList.remove('empty');
+                    }
 
-                    this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
-                    return;
+                    return runUp();
                 }
 
-                if (this.textarea.parentNode.classList.contains('empty'))
-                    this.textarea.parentNode.classList.remove('empty');
-
-                return runUp();
+                this.fontsize = this.placeholdersize;
+                if (!this.textarea.parentNode.classList.contains('empty')) {
+                    this.textarea.parentNode.classList.add('empty');
+                }
+                this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
             }
 
             destroy() {
-                window.sui_on.removeEvent.resize(this.eventId);
+                window.sui_on.removeEvent.resize(this.catchWindowResizeEvent);
             }
         }
 
-        if (!window.sui_autosize)
+        if (!window.sui_autosize) {
             window.sui_autosize = SuiAutosize;
+        }
     },
     mounted() {
-        this.autosize = new window.sui_autosize({
-            element: this.$refs.wrapper,
-            min: this.min,
-            max: this.max,
-            value: this.value,
-            allowEnter: this.allowEnter,
-            readonly: this.readonly
-        });
+        this.init();
         this.$nextTick(() => {
-            if (this.autofocus)
+            if (!this.readonly && this.autofocus) {
                 this.$refs.textarea.focus();
+            }
         });
     },
     beforeDestroy() {
         this.autosize.destroy();
     },
+    computed: {
+        value_normalized() {
+            let value = this.modelValue || this.value;
+            return typeof value === 'string' ? value : "";
+        }
+    },
+    watch: {
+        readonly(n) {
+            this.$nextTick(() => {
+                this.autosize.init({
+                    element: this.$refs.wrapper,
+                    minFontSize: this.minFontSize,
+                    maxFontSize: this.maxFontSize,
+                    value: this.value,
+                    allowEnter: this.allowEnter,
+                    readonly: n
+                });
+            });
+        },
+        allowEnter(n) {
+            this.$nextTick(() => {
+                this.autosize.init({
+                    element: this.$refs.wrapper,
+                    minFontSize: this.minFontSize,
+                    maxFontSize: this.maxFontSize,
+                    value: this.value,
+                    allowEnter: n,
+                    readonly: this.readonly
+                });
+            });
+        }
+    },
     methods: {
+        init() {
+            this.autosize = new window.sui_autosize({
+                element: this.$refs.wrapper,
+                minFontSize: this.minFontSize,
+                maxFontSize: this.maxFontSize,
+                value: this.value,
+                allowEnter: this.allowEnter,
+                readonly: this.readonly
+            });
+        },
         focus(e) {
             this.$emit('focus', e);
         },
         updateValue(value) {
             this.$emit('input', value ? value : this.$refs.textarea.value);
-        },
-    },
-    computed: {
-        inputValue: {
-            get: function () {
-                return this.value;
-            },
-            set: function (v) {
-                if (typeof this.output === 'function')
-                    this.output(v);
-            }
+            this.$emit('update:modelValue', value ? value : this.$refs.textarea.value);
         }
     }
 };
@@ -312,14 +352,14 @@ export default {
 <style lang="less">
 .sui-autosize {
     position: relative;
-    border: 2px dashed transparent;
+    border: .05em dashed transparent;
     font-size: var(--auto-size);
     display: inline-block;
     box-sizing: border-box;
     max-width: 100%;
-    //max-width: calc(100% - 4px);
     border-radius: 3px /* fallback */;
     border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
+    line-height: 1;
 
     &.readonly {
         cursor: default;
@@ -330,18 +370,18 @@ export default {
     }
 
     &:not(.readonly) {
-        border-color: rgba(128, 128, 128, 0.5);
+        border-color: rgba(153, 153, 153, 0.5);
 
         &:hover {
-            border-color: rgba(128, 128, 128, 1);
+            border-color: #999999;
         }
     }
 
-    & > .textarea {
+    & > .data-replica {
         position: relative;
         vertical-align: middle;
         display: inline-grid;
-        min-height: 2rem;
+        min-height: 1.5em;
         width: 100%;
         word-break: break-word;
 
@@ -349,9 +389,10 @@ export default {
             content: attr(data-replica) " ";
             white-space: pre-wrap;
             opacity: 0;
+            line-height: 1.5em;
         }
 
-        &.textarea.empty {
+        &.data-replica.empty {
             & > textarea:placeholder-shown, &::after {
                 height: var(--placeholder-height);
             }
@@ -371,7 +412,7 @@ export default {
             &::placeholder {
                 font-size: var(--placeholder-size);
                 white-space: nowrap;
-                color: rgba(128, 128, 128, 0.75);
+                color: #999999;
                 font-weight: inherit !important;
             }
 
@@ -383,6 +424,8 @@ export default {
         & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
             color: inherit;
             caret-color: inherit;
+            margin: 0;
+            white-space: pre-wrap;
         }
 
         & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
@@ -394,8 +437,8 @@ export default {
             background-color: transparent;
             line-height: 1.5em;
             font-size: 1em;
-            padding: .5rem 0.75rem; /* fallback */
-            padding: .5rem ~"clamp(4px, 0.5em, 1rem)";
+            padding: 1px 0.75rem; /* fallback */
+            padding: 1px ~"clamp(8px, 0.25em, 0.75rem)";
             font-weight: inherit !important;
             outline: none;
             border: none;

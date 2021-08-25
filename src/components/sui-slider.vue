@@ -306,7 +306,7 @@ export default {
             height: 8px;
             display: inline-block;
             border-radius: 50px;
-            background: var(--slide-pagination, rgba(128, 128, 128, 0.75));
+            background: var(--slide-pagination, #999999);
             margin: auto 4px;
             cursor: pointer;
             transition: width 0.5s;
