@@ -564,7 +564,7 @@ export default {
             display: none;
         }
 
-        border: .15em solid rgba(128, 128, 128, 0.5);
+        border: .15em solid rgba(153, 153, 153, 0.5);
         border-top: .15em solid white;
 
         border-radius: 50%;
