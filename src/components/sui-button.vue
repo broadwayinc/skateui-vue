@@ -106,8 +106,8 @@ export default {
 
 button.sui-button, a.sui-button {
     border-radius: var(--button-border-radius);
-    max-width: calc(100vw - 3.6rem);
     min-width: 8rem;
+    max-width: 100%;
     height: 2.8rem;
     padding: 0 0.9rem;
     display: inline-block;
@@ -133,8 +133,8 @@ button.sui-button, a.sui-button {
     overflow: hidden;
 
     font-weight: 500;
-    background-color: var(--button-background-color, var(--button, #4848db));
-    color: var(--button-color, var(--button-text, white));
+    background-color: var(--button, #4848db);
+    color: var(--button-text, white);
     text-transform: uppercase;
 
     .sui-button_loader {
@@ -142,9 +142,10 @@ button.sui-button, a.sui-button {
         right: calc(50% - 1.15em);
         top: calc(50% - 1.15em);
         display: inline-block;
-        border: .15em solid rgba(153, 153, 153, 0.5);
+        border-bottom: .15em solid rgba(153, 153, 153, 0.5);
+        border-right: .15em solid rgba(153, 153, 153, 0.5);
+        border-left: .15em solid rgba(153, 153, 153, 0.5);
         border-top: .15em solid;
-        color: var(--button-color, var(--button-text, white));
         border-radius: 50%;
         vertical-align: middle;
         margin: .5em;
@@ -170,7 +171,7 @@ button.sui-button, a.sui-button {
     }
 
     &.sui-button-nude {
-        background-color: unset;
+        background-color: transparent;
         color: var(--button-nude, inherit);
         box-shadow: none;
         text-shadow: none;
@@ -187,10 +188,6 @@ button.sui-button, a.sui-button {
             text-shadow: none;
             box-shadow: none;
         }
-    }
-
-    &.sui-button-loading {
-        color: transparent;
     }
 
     &.sui-button-round {
