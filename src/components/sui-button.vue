@@ -200,6 +200,7 @@ button.sui-button, a.sui-button {
 
     &:disabled {
         opacity: 0.5;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
         &:hover {
             box-shadow: none;
