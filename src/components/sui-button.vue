@@ -142,7 +142,7 @@ button.sui-button, a.sui-button {
         right: calc(50% - 1.15em);
         top: calc(50% - 1.15em);
         display: inline-block;
-        border: .15em solid rgba(128, 128, 128, 0.5);
+        border: .15em solid rgba(153, 153, 153, 0.5);
         border-top: .15em solid;
         color: var(--button-color, var(--button-text, white));
         border-radius: 50%;

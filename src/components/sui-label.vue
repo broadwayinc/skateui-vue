@@ -211,7 +211,7 @@ fieldset.sui-label {
 
     position: relative;
     text-align: inherit;
-    border: var(--border-weight) solid rgba(128, 128, 128, 0.5);
+    border: var(--border-weight) solid rgba(153, 153, 153, 0.5);
 
     padding: 0 .5em;
     border-radius: var(--border-radius, 3px); /* fallback */
@@ -327,7 +327,7 @@ fieldset.sui-label {
 
             & > .suffix {
                 order: 1;
-                color: var(--content-text_placeholder, rgba(128, 128, 128, 0.75));
+                color: var(--content-text_placeholder, #999999);
                 align-items: flex-end;
 
                 &:not(:empty) {
@@ -399,7 +399,7 @@ fieldset.sui-label {
             width: 100%;
 
             &::placeholder {
-                color: rgba(128, 128, 128, 0.75);
+                color: #999999;
             }
 
             &:not(select):not(.textarea):read-only {
@@ -446,7 +446,7 @@ fieldset.sui-label {
                 border: none;
 
                 &::placeholder {
-                    color: rgba(128, 128, 128, 0.75);
+                    color: #999999;
                 }
 
                 &:read-only {
@@ -507,7 +507,7 @@ fieldset.sui-label {
                     width: 1px;
                     height: 50%;
                     background-color: rgba(128, 128, 128, 0.25);
-                    box-shadow: -1px 0 rgba(128, 128, 128, 0.5);
+                    box-shadow: -1px 0 rgba(153, 153, 153, 0.5);
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
