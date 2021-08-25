@@ -129,14 +129,14 @@ div.sui-card {
         display: block;
     }
 
-    * {
-        //white-space: pre-wrap;
-        //word-break: break-word;
-    }
+    //* {
+    //    white-space: pre-wrap;
+    //    word-break: break-word;
+    //}
 
     & > .sui-sticky {
         background-color: var(--content, #ffffff);
-        box-shadow: 0 1px rgba(128, 128, 128, 0.5);
+        box-shadow: 0 1px rgba(153, 153, 153, 0.5);
     }
 
     & > .title {
@@ -380,7 +380,7 @@ div.sui-card {
             z-index: 9999;
             background-color: var(--content, #ffffff);
             padding: 8px;
-            border-top: 1px solid rgba(128, 128, 128, 0.5);
+            border-top: 1px solid rgba(153, 153, 153, 0.5);
         }
     }
 
