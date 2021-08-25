@@ -1,11 +1,11 @@
 <template lang="pug">
-.sui-input(:id="elementId" :class="{small}")
+.sui-fieldset(:id="elementId" :class="{small}")
     fieldset.sui-label(
         ref='label'
         :class="{ label: !!label && !small, showSelector, error, disabled, select: type === 'select' || type === 'fullscreen-select' || type === 'autocomplete'}")
         legend(v-if="label && !small") {{ label }}
             span(v-if="required") &nbsp;*
-        .sui-input-wrapper
+        .sui-fieldset-wrapper
             .button-left(v-if="$slots['button-left']")
                 div
                     slot(name='button-left')
@@ -22,7 +22,7 @@
             label(v-if="label && !small" :for="elementId + '_input'")
                 span {{ label }}
                 span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
-    .sui-input-message(:class="{error: error}" v-if="!small") {{message}}
+    .sui-fieldset-message(:class="{error: error}" v-if="!small") {{message}}
 </template>
 
 <script>
@@ -130,38 +130,40 @@ export default {
 <style lang="less">
 @import '../assets/viewport.less';
 
-.sui-input {
+.sui-fieldset {
     display: inline-block;
     vertical-align: middle;
     position: relative;
+    max-width: 100%;
 
     &.small {
         margin-bottom: -1em;
         margin-top: -1em;
     }
+
     --border-weight: 2px;
 }
 
 .sui-screen {
-    .sui-input {
+    & > .sui-fieldset {
         width: 100%;
-    }
 
-    fieldset.sui-label {
-        margin: 0;
-        border-top-color: transparent !important;
-        border-left-color: transparent !important;
-        border-right-color: transparent !important;
+        fieldset.sui-label {
+            margin: 0;
+            border-top-color: transparent !important;
+            border-left-color: transparent !important;
+            border-right-color: transparent !important;
 
-        .sui-input-wrapper {
-            .option {
-                border-color: transparent !important;
-                top: calc(2.8em - var(--border-weight)) !important;
+            .sui-fieldset-wrapper {
+                .option {
+                    border-color: transparent !important;
+                    top: calc(2.8em - var(--border-weight)) !important;
 
-                & > .menu {
-                    font-size: 1em !important;
-                    padding: .75em 0.5em !important;
-                    box-shadow: 0 calc(.5em + 1px) 0 -.5em rgba(128, 128, 128, 0.25);
+                    & > .menu {
+                        font-size: 1em !important;
+                        padding: .75em 0.5em !important;
+                        box-shadow: 0 calc(.5em + 1px) 0 -.5em rgba(128, 128, 128, 0.25);
+                    }
                 }
             }
         }
@@ -182,7 +184,7 @@ fieldset.sui-label {
         margin-top: 0.5em;
     }
 
-    & + .sui-input-message {
+    & + .sui-fieldset-message {
         font-size: .8em;
         text-align: right;
         line-height: 1em;
@@ -250,7 +252,7 @@ fieldset.sui-label {
         visibility: hidden;
     }
 
-    .sui-input-wrapper {
+    .sui-fieldset-wrapper {
         margin: 0 -.5em;
         display: flex;
         position: relative;
@@ -546,7 +548,8 @@ fieldset.sui-label {
                     min-width: calc(2.8em - .6em - calc(var(--border-weight) * 2));
                 }
 
-                & > .sui-input {
+                // nested fieldset
+                & > .sui-fieldset {
                     margin: calc(-.3em - var(--border-weight));
                     top: calc(-.3em - var(--border-weight));
 
