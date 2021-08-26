@@ -308,7 +308,7 @@ export default {
                     element: this.$refs.wrapper,
                     minFontSize: this.minFontSize,
                     maxFontSize: this.maxFontSize,
-                    value: this.value,
+                    value: this.value_normalized,
                     allowEnter: this.allowEnter,
                     readonly: n
                 });
@@ -320,7 +320,7 @@ export default {
                     element: this.$refs.wrapper,
                     minFontSize: this.minFontSize,
                     maxFontSize: this.maxFontSize,
-                    value: this.value,
+                    value: this.value_normalized,
                     allowEnter: n,
                     readonly: this.readonly
                 });
@@ -333,7 +333,7 @@ export default {
                 element: this.$refs.wrapper,
                 minFontSize: this.minFontSize,
                 maxFontSize: this.maxFontSize,
-                value: this.value,
+                value: this.value_normalized,
                 allowEnter: this.allowEnter,
                 readonly: this.readonly
             });
