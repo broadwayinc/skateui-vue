@@ -1,9 +1,8 @@
 <template lang="pug">
-.sui-autosize(ref="wrapper" :class="{readonly}")
+.sui-autosize(ref="wrapper" :class="{'sui-autosize-readonly':!contenteditable}")
     .data-replica
         textarea(
-            v-if='typeof readonly === "boolean"'
-            :readonly='readonly'
+            v-if='contenteditable'
             ref="textarea"
             :placeholder="placeholder"
             rows="1"
@@ -11,13 +10,14 @@
             :maxlength="maxlength"
             @input="updateValue()"
             @focus="focus")
-        p(ref="textarea" v-else-if="readonly.toLowerCase() === 'p'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
-        h1(ref="textarea" v-else-if="readonly.toLowerCase() === 'h1'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
-        h2(ref="textarea" v-else-if="readonly.toLowerCase() === 'h2'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
-        h3(ref="textarea" v-else-if="readonly.toLowerCase() === 'h3'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
-        h4(ref="textarea" v-else-if="readonly.toLowerCase() === 'h4'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
-        h5(ref="textarea" v-else-if="readonly.toLowerCase() === 'h5'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
-        h6(ref="textarea" v-else-if="readonly.toLowerCase() === 'h6'") {{value_normalized.substring(0, maxlength && typeof maxlength === 'number' ? maxlength : value_normalized.length)}}
+        p(ref="textarea" v-else-if="tag.toLowerCase() === 'p'") {{value_concat}}
+        h1(ref="textarea" v-else-if="tag.toLowerCase() === 'h1'") {{value_concat}}
+        h2(ref="textarea" v-else-if="tag.toLowerCase() === 'h2'") {{value_concat}}
+        h3(ref="textarea" v-else-if="tag.toLowerCase() === 'h3'") {{value_concat}}
+        h4(ref="textarea" v-else-if="tag.toLowerCase() === 'h4'") {{value_concat}}
+        h5(ref="textarea" v-else-if="tag.toLowerCase() === 'h5'") {{value_concat}}
+        h6(ref="textarea" v-else-if="tag.toLowerCase() === 'h6'") {{value_concat}}
+        span(ref="textarea" v-else) {{value_concat}}
 </template>
 
 <script>
@@ -30,9 +30,12 @@ export default {
         maxFontSize: Number | String,
         value: String,
         modelValue: String,
-        allowEnter: Boolean,
         maxlength: Number,
-        readonly: [Boolean, String],
+        contenteditable: Boolean,
+        tag: {
+            type: String,
+            default: ''
+        },
         autofocus: Boolean
     },
     data() {
@@ -43,7 +46,6 @@ export default {
     created() {
         class SuiAutosize {
             constructor(el) {
-                console.log({el});
                 this.init(el);
             }
 
@@ -82,8 +84,6 @@ export default {
                     this.destroy();
                 }
                 this.catchWindowResizeEvent = null;
-
-                this.allowEnter = false;
                 this.readonly = false;
 
                 this.maxFontSize = 72;
@@ -99,7 +99,7 @@ export default {
                     this.id = el.substring(1);
                     this.element = document.getElementById(this.id);
                 } else if (typeof el === 'object' && Object.keys(el).length) {
-                    let {element, maxFontSize = 72, minFontSize = 16, value, allowEnter, readonly} = el;
+                    let {element, maxFontSize = 72, minFontSize = 16, value, readonly} = el;
                     if (typeof element === 'string' && element[0] === '#') {
                         this.id = element.substring(1);
                         this.element = document.getElementById(this.id);
@@ -123,8 +123,6 @@ export default {
                     }
 
                     setValue = value;
-                    if (allowEnter)
-                        this.allowEnter = allowEnter;
 
                     if (readonly)
                         this.readonly = readonly;
@@ -142,7 +140,6 @@ export default {
                 this.element.id = this.id;
                 this.textarea = this.element.childNodes[0];
                 if (this.textarea.classList.contains('data-replica')) {
-                    console.log({l: this.textarea.childNodes[0]});
                     this.textarea = this.textarea.childNodes[0];
                 }
 
@@ -183,8 +180,9 @@ export default {
                     this.placeholder = textarea.getAttribute('placeholder');
 
                     textarea.addEventListener('keydown', (e) => {
-                        if (!this.allowEnter && e.key === 'Enter')
+                        if (e.key === 'Enter') {
                             e.preventDefault();
+                        }
                     });
 
                     textarea.addEventListener('input', (e) => {
@@ -287,7 +285,7 @@ export default {
     mounted() {
         this.init();
         this.$nextTick(() => {
-            if (!this.readonly && this.autofocus) {
+            if (!this.contenteditable && this.autofocus) {
                 this.$refs.textarea.focus();
             }
         });
@@ -299,30 +297,20 @@ export default {
         value_normalized() {
             let value = this.modelValue || this.value;
             return typeof value === 'string' ? value : "";
+        },
+        value_concat() {
+            return typeof this.maxlength === 'number' && this.maxlength > 0 ? this.value_normalized.substring(0, this.maxlength) : this.value_normalized;
         }
     },
     watch: {
-        readonly(n) {
+        contenteditable(n) {
             this.$nextTick(() => {
                 this.autosize.init({
                     element: this.$refs.wrapper,
                     minFontSize: this.minFontSize,
                     maxFontSize: this.maxFontSize,
                     value: this.value_normalized,
-                    allowEnter: this.allowEnter,
-                    readonly: n
-                });
-            });
-        },
-        allowEnter(n) {
-            this.$nextTick(() => {
-                this.autosize.init({
-                    element: this.$refs.wrapper,
-                    minFontSize: this.minFontSize,
-                    maxFontSize: this.maxFontSize,
-                    value: this.value_normalized,
-                    allowEnter: n,
-                    readonly: this.readonly
+                    readonly: !n
                 });
             });
         }
@@ -334,8 +322,7 @@ export default {
                 minFontSize: this.minFontSize,
                 maxFontSize: this.maxFontSize,
                 value: this.value_normalized,
-                allowEnter: this.allowEnter,
-                readonly: this.readonly
+                readonly: !this.contenteditable
             });
         },
         focus(e) {
@@ -361,7 +348,7 @@ export default {
     border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
     line-height: 1;
 
-    &.readonly {
+    &.sui-autosize-readonly {
         cursor: default;
 
         * {
@@ -369,7 +356,7 @@ export default {
         }
     }
 
-    &:not(.readonly) {
+    &:not(.sui-autosize-readonly) {
         border-color: rgba(153, 153, 153, 0.5);
 
         &:hover {
@@ -398,7 +385,12 @@ export default {
             }
         }
 
-        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
+        & > * {
+            color: inherit;
+            caret-color: inherit;
+            margin: 0;
+            white-space: pre-wrap;
+
             position: absolute;
             top: 0;
             resize: none;
@@ -421,14 +413,7 @@ export default {
             }
         }
 
-        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
-            color: inherit;
-            caret-color: inherit;
-            margin: 0;
-            white-space: pre-wrap;
-        }
-
-        & > textarea, & > p, & > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
+        & > *,
         &::after {
             //color: inherit;
             /* Identical styling required!! */

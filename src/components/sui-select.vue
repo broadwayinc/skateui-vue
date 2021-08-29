@@ -1,25 +1,47 @@
 <template lang='pug'>
-sui-label(:show-selector='!!((custom || fullscreen) && option.length)' :prefix="prefix" :suffix="suffix" type="select" :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled || null" :small="small")
+sui-fieldset(
+    :custom-autocomplete='!!((custom || fullscreen) && option.length)'
+    :prefix="prefix"
+    :suffix="suffix"
+    type="select"
+    :label="label"
+    :error="isError"
+    :required="required"
+    :message="helperMessage"
+    :disabled="disabled || null"
+    :mini="mini")
     template(v-if="custom || fullscreen")
-        input.option-display(:placeholder="small && placeholder ? label : placeholder" :value="getText(value || modelValue)" :disabled="disabled" tabindex=-1)
-        input(ref="input" :value="value || modelValue" type="text" :required="required" :disabled="disabled" @invalid.prevent="invalidInput" style="position: absolute; opacity: 0; left: 0;" @focus="focus" @keydown="(e) => { arrowSelection(e); }")
-        .option(v-show="custom || fullscreen" :class="{fullscreen}")
+        input(
+            :placeholder="mini && placeholder ? label : placeholder"
+            ref="input"
+            :value="getText(value || modelValue)"
+            type="text"
+            :required="required"
+            :disabled="disabled"
+            readonly
+            @invalid.prevent="invalidInput"
+            @focus="focus"
+            @blur="blur"
+            @keydown="(e) => { arrowSelection(e); }")
+        .sui-dropdown(v-show="custom || fullscreen" :class="{fullscreen}")
             template(v-for="(x, idx) in option")
-                .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : null" :data-value="x.value") {{ typeof x === 'string' ? x : x.text || x.value }}
+                .sui-dropdown-list(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :data-value="x.value") {{ typeof x === 'string' ? x : x.text || x.value }}
+        .sui-dropdown-button
     template(v-else)
         select(ref="select" @input="updateValue()" :required="required" @invalid.prevent="invalidInput" :disabled="disabled" @focus="focus")
-            option(v-if="placeholder" value="" disabled selected="(value || modelValue) === ''") {{ small && placeholder ? label : placeholder }}
+            option(v-if="placeholder" value="" disabled selected="(value || modelValue) === ''") {{ mini && placeholder ? placeholder || label : placeholder }}
             option(v-for="x in option" :value="x.value" :selected="x.value === (value || modelValue) ? 'selected' : null") {{ x.text ? x.text : x.value }}
-    template(#button-left)
-        slot(name="button-left")
-    template(#button-right)
-        slot(name="button-right")
+        .sui-dropdown-button
+    template(#slot-left)
+        slot(name="slot-left")
+    template(#slot-right)
+        slot(name="slot-right")
 </template>
 
 <script>
 export default {
     name: 'sui-select',
-    emits: ['update:modelValue', 'input'],
+    emits: ['update:modelValue', 'input', 'focus', 'blur'],
     props: {
         modelValue: String,
         error: Boolean,
@@ -27,14 +49,13 @@ export default {
             type: String,
             default: null
         },
-        small: Boolean,
+        mini: Boolean,
         suffix: String,
         prefix: String,
         label: String,
         type: String,
         fullscreen: Boolean,
         custom: Boolean,
-        menuStyle: Object,
         value: String,
         option: Array,
         required: [Boolean, String],
@@ -54,17 +75,28 @@ export default {
         return {
             currentSelection: -1,
             isTouched: false,
+            parent: null,
+            blockFocus: null
         };
     },
     mounted() {
-        this.$nextTick(()=>{
-            if(this.autofocus)
-                if(this.custom || this.fullscreen) {
+        let el = this.$refs.input || this.$refs.select;
+        let field = el.closest('fieldset.sui-fieldset');
+        el.id = field.id + '_interface';
+
+        this.parent = field.parentNode.closest('fieldset.sui-fieldset');
+        if (this.parent) {
+            this.blockFocus = field.parentNode.parentNode.classList.contains('slot-left') ? 'sui-fieldset-nesting-block-right' : 'sui-fieldset-nesting-block-left';
+        }
+
+        this.$nextTick(() => {
+            if (this.autofocus)
+                if (this.custom || this.fullscreen) {
                     this.$refs.input.focus();
                 } else {
                     this.$refs.select.focus();
                 }
-        })
+        });
     },
     computed: {
         isError() {
@@ -93,9 +125,25 @@ export default {
             this.isTouched = true;
         },
         focus(e) {
+            if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
+                this.parent.classList.add(this.blockFocus);
+            }
+            if (this.parent && !this.parent.classList.contains('sui-fieldset-nesting-focused')) {
+                this.parent.classList.add('sui-fieldset-nesting-focused');
+            }
             this.$emit('focus', e);
         },
+        blur(e) {
+            if (this.blockFocus && this.parent.classList.contains(this.blockFocus)) {
+                this.parent.classList.remove(this.blockFocus);
+            }
+            if (this.parent && this.parent.classList.contains('sui-fieldset-nesting-focused')) {
+                this.parent.classList.remove('sui-fieldset-nesting-focused');
+            }
+            this.$emit('blur', e);
+        },
         updateValue(value) {
+            this.$refs.input.value = value;
             this.$emit('input', value ? value : this.$refs.select.value);
             this.$emit('update:modelValue', value ? value : this.$refs.select.value);
         },
@@ -129,3 +177,45 @@ export default {
     }
 };
 </script>
+<style lang="less" scoped>
+input {
+    cursor: default;
+}
+
+select {
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 1.5em !important;
+}
+
+input, select {
+    &:focus {
+        & ~ .sui-dropdown-button {
+            opacity: 1;
+        }
+    }
+}
+
+.sui-dropdown-button {
+    width: 1.5em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.5;
+
+    &::before {
+        content: "";
+        border-top: .3em solid var(--content-text_soft);
+        border-left: .25em solid transparent;
+        border-right: .25em solid transparent;
+    }
+}
+</style>
