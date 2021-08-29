@@ -143,7 +143,7 @@ export default {
 @import '../assets/viewport.less';
 
 body {
-    --border-radius: 3px;
+    --border-radius: 2px;
 }
 
 #sui-app {
