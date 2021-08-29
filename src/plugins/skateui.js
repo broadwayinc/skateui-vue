@@ -1,8 +1,7 @@
 import SuiCard from '../components/sui-card';
 import SuiSlider from '../components/sui-slider';
 import SuiButton from '../components/sui-button';
-import SuiLabel from '../components/sui-label';
-import SuiOption from '../components/sui-option';
+import SuiFieldset from '../components/_sui-fieldset';
 import SuiInput from '../components/sui-input';
 import SuiSelect from '../components/sui-select';
 import SuiTextarea from '../components/sui-textarea';
@@ -24,8 +23,7 @@ export default {
         Vue.component('sui-list', SuiList);
         Vue.component('sui-slider', SuiSlider);
         Vue.component('sui-button', SuiButton);
-        Vue.component('sui-label', SuiLabel);
-        Vue.component('sui-option', SuiOption);
+        Vue.component('sui-fieldset', SuiFieldset);
         Vue.component('sui-input', SuiInput);
         Vue.component('sui-select', SuiSelect);
         Vue.component('sui-textarea', SuiTextarea);

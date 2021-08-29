@@ -1,6 +1,38 @@
 <template lang='pug'>
-sui-label(
-    :show-selector='!!(option && option.length)'
+label.sui-option(
+    v-if="type === 'radio' || type === 'checkbox'"
+    :class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', 'sui-option-disabled': disabled}")
+    template(v-if="type === 'checkbox'")
+        input(
+            ref="option"
+            type="checkbox"
+            @focus="focus"
+            @change="updateValue"
+            :value="modelValue || value"
+            :name="name"
+            :readonly="readonly"
+            :disabled="disabled"
+            :checked="isChecked")
+        .sui-checkbox-div
+    template(v-else-if="type === 'radio'")
+        input.sui-option-radio(
+            ref="option"
+            type="radio"
+            @focus="focus"
+            @change="updateValue"
+            @trigger="updateValue_trigger"
+            :value="modelValue || value"
+            :name="name"
+            :readonly='readonly'
+            :disabled="disabled"
+            :checked="isChecked")
+        .sui-radio-div
+    template(v-if="label")
+        pre
+        label(:for="inputId") {{ label }}
+sui-fieldset(
+    v-else
+    :custom-autocomplete="!!(autocomplete_list && autocomplete_list.length)"
     :type="type"
     :label="label"
     :error="isError"
@@ -9,12 +41,12 @@ sui-label(
     :disabled="disabled || null"
     :prefix="prefix"
     :suffix="suffix"
-    :small="small")
-    template(#button-left)
-        slot(name="button-left")
-    template(#button-right)
-        slot(name="button-right")
-    input(
+    :mini="mini")
+    template(#slot-left)
+        slot(name="slot-left")
+    template(#slot-right)
+        slot(name="slot-right")
+    input.sui-input(
         ref="input"
         @invalid.prevent="invalidInput"
         :name='name'
@@ -23,27 +55,30 @@ sui-label(
         :pattern="pattern"
         :required="required"
         :disabled="disabled"
-        :placeholder="small ? label : placeholder"
+        :placeholder="mini ? label : placeholder"
         :type="type"
+        :readonly='readonly'
         :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue"
         @keyup="keypress"
         @keydown="(e) => {arrowSelection(e); isTouched = true; }"
         @input="updateValue()"
+        :autocomplete="setAutoComplete"
         :autofocus="autofocus"
-        @focus="focus")
-    div(v-show="option && option.length" class="option")
-        template(v-for="(x, idx) in option")
-            .menu(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : {}") {{ x }}
+        @focus="focus"
+        @blur="blur")
+    .sui-dropdown(v-show="autocomplete_list && autocomplete_list.length")
+        template(v-for="(x, idx) in autocomplete_list")
+            .sui-dropdown-list(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : {}") {{ x }}
 </template>
 
 <script>
 export default {
     name: 'sui-input',
-    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'lengthError', 'error', 'focus'],
+    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'lengthError', 'error', 'focus', 'blur'],
     props: {
         name: String,
         modelValue: {
-            type: [String, Number],
+            type: [Array, String, Boolean, Number, Object],
             default: ''
         },
         error: {
@@ -71,12 +106,12 @@ export default {
         },
         menuStyle: Object,
         value: {
-            type: [Number, String],
+            type: [Array, String, Boolean, Number, Object],
             default: ''
         },
-        option: Array,
         required: [Boolean, String],
         disabled: Boolean,
+        readonly: Boolean,
         message: {
             type: String,
             default: null
@@ -86,21 +121,48 @@ export default {
             default: () => {
             }
         },
-        small: Boolean,
-        autofocus: Boolean
+        autocomplete: {
+            type: [String, Boolean, Array, Object],
+            default: null
+        },
+        mini: Boolean,
+        autofocus: Boolean,
+        checked: Boolean
     },
     data() {
         return {
             isTouched: false,
             regexExpression: Object,
             searching: false,
-            currentSelection: -1
+            currentSelection: -1,
+            // option
+            initValue: null,
+            inputId: '',
+            parent: null,
+            blockFocus: null
         };
     },
     created() {
+        if (this.type === 'radio' || this.type === 'checkbox') {
+            this.initValue = this.modelValue || this.value;
+        }
         this.regexExpression = new RegExp(this.pattern, "g");
     },
     mounted() {
+        if (this.type === 'radio' || this.type === 'checkbox') {
+            this.toggleCheck(this.checked);
+        }
+
+        let el = this.$refs.input || this.$refs.option;
+        let field = el.closest('fieldset.sui-fieldset');
+        this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
+        el.id = this.inputId;
+
+        this.parent = field.parentNode.closest('fieldset.sui-fieldset');
+        if (this.parent) {
+            this.blockFocus = field.parentNode.parentNode.classList.contains('slot-left') ? 'sui-fieldset-nesting-block-right' : 'sui-fieldset-nesting-block-left';
+        }
+
         this.$nextTick(() => {
             if (this.autofocus) {
                 this.$refs.input.focus();
@@ -108,6 +170,37 @@ export default {
         });
     },
     computed: {
+        isNestedAutocomplete() {
+            return !(this.type === 'radio' || this.type === 'checkbox') && this.autocomplete_list && this.mini;
+        },
+        autocomplete_list() {
+            return Array.isArray(this.autocomplete) ? this.autocomplete : null;
+        },
+        setAutoComplete() {
+            let autocomplete = this.autocomplete;
+            let type = this.type;
+
+            switch (type) {
+                case "email":
+                    return autocomplete || "email";
+                case "password":
+                    return autocomplete || "current-password";
+                default:
+                    if (autocomplete === null) {
+                        return null;
+                    } else if (typeof autocomplete === 'boolean') {
+                        return autocomplete ? 'on' : 'off';
+                    } else if (typeof autocomplete === 'string') {
+                        return autocomplete;
+                    } else return 'off';
+            }
+        },
+        isChecked() {
+            if (this.$refs.option && this.$refs.option.checked !== this.checked) {
+                this.toggleCheck(this.checked);
+            }
+            return this.checked;
+        },
         isError() {
             return this.isInvalid || this.error;
         },
@@ -215,12 +308,51 @@ export default {
         }
     },
     methods: {
+        updateValue(v) {
+            // for option
+            if (this.type === 'radio' || this.type === 'checkbox') {
+
+                this.toggleCheck(v.target.checked);
+
+                if (this.type === 'radio') {
+                    let hasForm = v.target.closest('form');
+                    let trigger = new Event("trigger");
+                    let optionEl = document.getElementsByClassName('sui-option-radio');
+                    for (let i = 0; optionEl.length > i; i++) {
+                        if (!hasForm || hasForm && optionEl[i].closest('form').isEqualNode(hasForm)) {
+                            if (optionEl[i].name && optionEl[i].name === this.name) {
+                                if (!optionEl[i].isEqualNode(v.target) && !optionEl[i].checked && v.target.value !== optionEl[i].value) {
+                                    optionEl[i].dispatchEvent(trigger);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return;
+            }
+
+            // for regular inputs
+            this.$emit('input', v ? v : this.$refs.input.value);
+            this.$emit('update:modelValue', v ? v : this.$refs.input.value);
+        },
         focus(e) {
+            if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
+                this.parent.classList.add(this.blockFocus);
+            }
+            if (this.parent && this.isNestedAutocomplete && !this.parent.classList.contains('sui-fieldset-nesting-focused')) {
+                this.parent.classList.add('sui-fieldset-nesting-focused');
+            }
             this.$emit('focus', e);
         },
-        updateValue(value) {
-            this.$emit('input', value ? value : this.$refs.input.value);
-            this.$emit('update:modelValue', value ? value : this.$refs.input.value);
+        blur(e) {
+            if (this.blockFocus && this.parent.classList.contains(this.blockFocus)) {
+                this.parent.classList.remove(this.blockFocus);
+            }
+            if (this.parent && this.isNestedAutocomplete && this.parent.classList.contains('sui-fieldset-nesting-focused')) {
+                this.parent.classList.remove('sui-fieldset-nesting-focused');
+            }
+            this.$emit('blur', e);
         },
         invalidInput() {
             this.isTouched = true;
@@ -233,17 +365,17 @@ export default {
             } else this.$emit('error');
         },
         arrowSelection(event) {
-            if (event && this.option?.length) {
+            if (event && this.autocomplete_list?.length) {
                 if (event.code === 'ArrowUp' && this.currentSelection > -1) {
                     this.currentSelection -= 1;
                 }
-                if (event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
+                if (event.code === 'ArrowDown' && this.currentSelection < this.autocomplete_list.length - 1) {
                     this.currentSelection += 1;
                 }
                 if (event.code === 'Enter' && this.currentSelection > -1) {
                     this.searching = false;
                     this.$refs.input.blur();
-                    this.updateValue(this.option[this.currentSelection]);
+                    this.updateValue(this.autocomplete_list[this.currentSelection]);
                 }
             }
         },
@@ -260,6 +392,117 @@ export default {
             // enter always means option has been selected
             this.keyOutput('Enter');
         },
+        // for option
+        toggleCheck(checked) {
+            if (checked) {
+                this.$emit('input', this.initValue);
+                this.$emit('update:modelValue', this.initValue);
+            } else {
+                this.$emit('input', null);
+                this.$emit('update:modelValue', null);
+            }
+        },
+        updateValue_trigger(e) {
+            this.toggleCheck(e.target.checked);
+        }
     }
 };
 </script>
+<style scoped lang="less">
+// option styles
+label.sui-option {
+    cursor: pointer;
+
+    &.sui-option-disabled {
+        opacity: 0.25;
+        user-select: none;
+        cursor: default;
+    }
+
+    &.sui-checkbox, &.sui-radio {
+        display: inline-block;
+        position: relative;
+
+        *:not(pre) {
+            font-size: 1em;
+            display: inline-block;
+        }
+
+        * {
+            line-height: 2em;
+            vertical-align: middle;
+        }
+
+        label {
+            cursor: inherit;
+        }
+
+        .sui-checkbox-div, .sui-radio-div {
+            color: var(--button-nude, inherit);
+            font-size: 1.25em;
+            line-height: 1;
+            position: relative;
+            width: 1em;
+            height: 1em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            border: 1px solid;
+            vertical-align: middle;
+        }
+    }
+
+    &.sui-checkbox {
+        & > input {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+
+            &:checked + .sui-checkbox-div {
+                &:after {
+                    content: '';
+                    width: 15%;
+                    height: 60%;
+                    display: block;
+                    border-right: ~"clamp(1px, 0.02em, 8px)" solid;
+                    border-bottom: ~"clamp(1px, 0.02em, 8px)" solid;
+                    top: -4%;
+                    transform: rotate(45deg);
+                    position: relative;
+                }
+            }
+        }
+
+        .sui-checkbox-div {
+            border-radius: 2px;
+        }
+    }
+
+    &.sui-radio {
+        & > input {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+
+            &:checked + .sui-radio-div {
+                &:after {
+                    content: '';
+                    width: 50%;
+                    height: 50%;
+                    display: block;
+                    border-radius: 50%;
+                    box-shadow: inset 0 0 .25em .25em;
+                }
+            }
+
+            & + .sui-radio-div {
+                border-radius: 1em;
+            }
+        }
+    }
+}
+
+</style>
