@@ -453,16 +453,10 @@ button, input[type="submit"], input[type="reset"] {
 html {
     width: 100%;
     font-size: 18px; /* fallback */
-    font-size: clamp(18px, 1.8vw, 21px);
+    font-size: clamp(16px, 2.6vw, 21px);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
-}
-
-@media only screen and (max-width: 600px) {
-    html {
-        font-size: 18px;
-    }
 }
 
 /* remove spinner on number input */
