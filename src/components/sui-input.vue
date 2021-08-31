@@ -158,9 +158,11 @@ export default {
         this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
         el.id = this.inputId;
 
-        this.parent = field.parentNode.closest('fieldset.sui-fieldset');
-        if (this.parent) {
-            this.blockFocus = field.parentNode.parentNode.classList.contains('slot-left') ? 'sui-fieldset-nesting-block-right' : 'sui-fieldset-nesting-block-left';
+        if (field) {
+            this.parent = field.parentNode.closest('fieldset.sui-fieldset');
+            if (this.parent) {
+                this.blockFocus = field.parentNode.parentNode.classList.contains('slot-left') ? 'sui-fieldset-nesting-block-right' : 'sui-fieldset-nesting-block-left';
+            }
         }
 
         this.$nextTick(() => {
