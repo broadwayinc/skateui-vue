@@ -89,10 +89,10 @@ export default {
             default: null
         },
         minlength: {
-            type: Number | String
+            type: [Number, String]
         },
         maxlength: {
-            type: Number | String
+            type: [Number, String]
         },
         lengthError: String,
         label: String,
@@ -228,6 +228,7 @@ export default {
             return this.required && (this.value || this.modelValue) === '';
         },
         lengthFail() {
+            console.log(this.minlength);
             let value = this.value || this.modelValue;
 
             if (!this.required && value === '') {
