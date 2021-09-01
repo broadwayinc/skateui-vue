@@ -124,28 +124,28 @@ export default {
 <style lang="less">
 @import '../assets/viewport.less';
 
-.sui-screen {
-    .sui-fieldset {
-        width: 100%;
-        margin: 0;
-        border-top-color: transparent !important;
-        border-left-color: transparent !important;
-        border-right-color: transparent !important;
-
-        .sui-fieldset-wrapper {
-            .sui-dropdown {
-                border-color: transparent !important;
-                top: calc(2.8em - var(--borderWidth)) !important;
-
-                & > .sui-dropdown-list {
-                    font-size: 1em !important;
-                    padding: .75em 0.5em !important;
-                    box-shadow: 0 calc(.5em + 1px) 0 -.5em rgba(128, 128, 128, 0.25);
-                }
-            }
-        }
-    }
-}
+//.sui-screen {
+//    .sui-fieldset {
+//        width: 100%;
+//        margin: 0;
+//        border-top-color: transparent !important;
+//        border-left-color: transparent !important;
+//        border-right-color: transparent !important;
+//
+//        .sui-fieldset-wrapper {
+//            .sui-dropdown {
+//                border-color: transparent !important;
+//                top: calc(2.8em - var(--borderWidth)) !important;
+//
+//                & > .sui-dropdown-list {
+//                    font-size: 1em !important;
+//                    padding: .75em 0.5em !important;
+//                    box-shadow: 0 calc(.5em + 1px) 0 -.5em rgba(128, 128, 128, 0.25);
+//                }
+//            }
+//        }
+//    }
+//}
 
 .sui-fieldset {
     --borderWidth: 2px;
