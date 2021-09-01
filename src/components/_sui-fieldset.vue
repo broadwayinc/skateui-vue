@@ -125,7 +125,7 @@ export default {
 @import '../assets/viewport.less';
 
 .sui-screen {
-    fieldset.sui-fieldset {
+    .sui-fieldset {
         width: 100%;
         margin: 0;
         border-top-color: transparent !important;
@@ -147,7 +147,7 @@ export default {
     }
 }
 
-fieldset.sui-fieldset {
+.sui-fieldset {
     --borderWidth: 2px;
     --borderFocusColor: var(--saturate, #4848db);
     --borderRadius: var(--border-radius, 3px); /* fallback */
@@ -161,6 +161,7 @@ fieldset.sui-fieldset {
     position: relative;
     max-width: 100%;
     text-align: inherit;
+    box-sizing: border-box;
     border-width: 2px;
     border-style: solid;
     border-color: rgba(153, 153, 153, 0.5);

@@ -1,5 +1,5 @@
 <template lang='pug'>
-sui-fieldset(
+sui-fieldset.sui-select(
     :custom-autocomplete='!!((custom || fullscreen) && option.length)'
     :prefix="prefix"
     :suffix="suffix"
@@ -13,7 +13,7 @@ sui-fieldset(
     template(v-if="custom || fullscreen")
         input(
             :placeholder="mini && placeholder ? label : placeholder"
-            ref="input"
+            ref="select"
             :value="getText(value || modelValue)"
             type="text"
             :required="required"
@@ -25,10 +25,10 @@ sui-fieldset(
             @keydown="(e) => { arrowSelection(e); }")
         .sui-dropdown(v-show="custom || fullscreen" :class="{fullscreen}")
             template(v-for="(x, idx) in option")
-                .sui-dropdown-list(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :data-value="x.value") {{ typeof x === 'string' ? x : x.text || x.value }}
+                .sui-dropdown-list(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :data-value="x.value || x") {{ typeof x === 'string' ? x : x.text || x.value }}
         .sui-dropdown-button
     template(v-else)
-        select(ref="select" @input="updateValue()" :required="required" @invalid.prevent="invalidInput" :disabled="disabled" @focus="focus")
+        select(ref="select" @input="e=>{updateValue(e.target.value)}" :required="required" @invalid.prevent="invalidInput" :disabled="disabled" @focus="focus")
             option(v-if="placeholder" value="" disabled selected="(value || modelValue) === ''") {{ mini && placeholder ? placeholder || label : placeholder }}
             option(v-for="x in option" :value="x.value" :selected="x.value === (value || modelValue) ? 'selected' : null") {{ x.text ? x.text : x.value }}
         .sui-dropdown-button
@@ -80,7 +80,7 @@ export default {
         };
     },
     mounted() {
-        let el = this.$refs.input || this.$refs.select;
+        let el = this.$refs.select;
         let field = el.closest('fieldset.sui-fieldset');
         el.id = field.id + '_interface';
 
@@ -90,12 +90,9 @@ export default {
         }
 
         this.$nextTick(() => {
-            if (this.autofocus)
-                if (this.custom || this.fullscreen) {
-                    this.$refs.input.focus();
-                } else {
-                    this.$refs.select.focus();
-                }
+            if (this.autofocus) {
+                this.$refs.select.focus();
+            }
         });
     },
     computed: {
@@ -143,7 +140,7 @@ export default {
             this.$emit('blur', e);
         },
         updateValue(value) {
-            this.$refs.input.value = value;
+            this.$refs.select.value = value;
             this.$emit('input', value ? value : this.$refs.select.value);
             this.$emit('update:modelValue', value ? value : this.$refs.select.value);
         },
@@ -165,13 +162,13 @@ export default {
                     this.currentSelection += 1;
                 }
                 if (event.code === 'Enter' && this.currentSelection > -1) {
-                    this.$refs.input.blur();
+                    this.$refs.select.blur();
                     this.updateValue(this.option[this.currentSelection].value);
                 }
             }
         },
         selectChoice(x) {
-            this.updateValue(x.value);
+            this.updateValue(x.value || x);
             this.output(x);
         },
     }
