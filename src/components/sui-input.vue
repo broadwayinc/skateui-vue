@@ -228,7 +228,6 @@ export default {
             return this.required && (this.value || this.modelValue) === '';
         },
         lengthFail() {
-            console.log(this.minlength);
             let value = this.value || this.modelValue;
 
             if (!this.required && value === '') {
@@ -238,7 +237,7 @@ export default {
             if (this.isTouched) {
                 let min = parseInt(this.minlength || 0);
                 let max = parseInt(this.maxlength || 0);
-                if (min && value.length <= min) return true;
+                if (min && value.length < min) return true;
                 if (max && value.length > max) return true;
             }
 
