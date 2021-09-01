@@ -13,7 +13,7 @@
             :readonly="readonly"
             :disabled="disabled"
             :checked="isChecked")
-        .sui-checkbox-div
+        .sui-checkbox-div(@click="()=>{$refs.option.click()}")
     template(v-else-if="type === 'radio'")
         input(
             ref="option"
@@ -26,7 +26,7 @@
             :readonly='readonly'
             :disabled="disabled"
             :checked="isChecked")
-        .sui-radio-div
+        .sui-radio-div(@click="()=>{$refs.option.click()}")
     template(v-if="label")
         pre
         label(:for="inputId") {{ label }}
