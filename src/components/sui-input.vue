@@ -1,5 +1,5 @@
 <template lang='pug'>
-label.sui-option(
+.sui-input(
     v-if="type === 'radio' || type === 'checkbox'"
     :class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', 'sui-option-disabled': disabled}")
     template(v-if="type === 'checkbox'")
@@ -15,7 +15,7 @@ label.sui-option(
             :checked="isChecked")
         .sui-checkbox-div
     template(v-else-if="type === 'radio'")
-        input.sui-option-radio(
+        input(
             ref="option"
             type="radio"
             @focus="focus"
@@ -30,7 +30,7 @@ label.sui-option(
     template(v-if="label")
         pre
         label(:for="inputId") {{ label }}
-sui-fieldset(
+sui-fieldset.sui-input(
     v-else
     :custom-autocomplete="!!(autocomplete_list && autocomplete_list.length)"
     :type="type"
@@ -46,7 +46,7 @@ sui-fieldset(
         slot(name="slot-left")
     template(#slot-right)
         slot(name="slot-right")
-    input.sui-input(
+    input(
         ref="input"
         @invalid.prevent="invalidInput"
         :name='name'
@@ -412,7 +412,7 @@ export default {
 </script>
 <style scoped lang="less">
 // option styles
-label.sui-option {
+.sui-input {
     cursor: pointer;
 
     &.sui-option-disabled {

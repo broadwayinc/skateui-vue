@@ -1,5 +1,5 @@
 <template lang='pug'>
-sui-fieldset(type="textarea" :suffix='suffix' :prefix='prefix' :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled")
+sui-fieldset.sui-textarea(type="textarea" :suffix='suffix' :prefix='prefix' :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled")
     template(#slot-left)
         slot(name="slot-left")
     template(#slot-right)
