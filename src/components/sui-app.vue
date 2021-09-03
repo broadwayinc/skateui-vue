@@ -6,6 +6,8 @@
         slot
     #sui-app-notification
         slot(name="notification")
+    #sui-app-footer(v-if="$slots.footer")
+        slot(name="footer")
 </template>
 <script>
 import {ColorMangle} from 'colormangle';
@@ -33,7 +35,7 @@ export default {
         }
     },
     created() {
-        if (!window.sui_app)
+        if (!window.sui_app) {
             window.sui_app = {
                 scrollOffset: 0,
                 navbarStyle: null,
@@ -105,11 +107,13 @@ export default {
 
                     window.sui_app.generateColorScheme(colorScheme, darkMode);
 
-                    let navBar = document.getElementsByTagName('nav')[0];
-                    if (navBar)
+                    let navBar = document.getElementById('sui-app-nav');
+
+                    if (navBar) {
                         window.sui_app.navbarStyle = window.getComputedStyle(navBar);
-                    else
+                    } else {
                         hideNavbar = false;
+                    }
 
                     window.sui_app.hideNavbar = hideNavbar;
                     if (hideNavbar) {
@@ -124,8 +128,7 @@ export default {
                     return true;
                 }
             };
-        else
-            throw 'only one sui-app allowed';
+        }
     },
     mounted() {
         // only one sui-app is allowed
@@ -156,7 +159,9 @@ body {
     position: relative;
 
     display: flex;
-    justify-content: center;
+    //justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
     & > #sui-app-nav {
         background-color: var(--navbar-background-color, var(--content, #ffffff));
@@ -172,16 +177,18 @@ body {
         align-items: center;
 
         & > * {
-            padding:.5em;
+            padding: .5em;
             display: flex;
             align-items: center;
 
             &:first-child + *:not(:last-child) {
                 justify-content: center;
             }
+
             &:last-child:not(:first-child) {
                 justify-content: flex-end;
             }
+
             &:only-child,
             &:not(:first-child):not(:last-child) {
                 flex-grow: 1;
@@ -201,6 +208,7 @@ body {
     #sui-app-view {
         width: 100%;
         position: relative;
+        flex-grow: 1;
 
         & > * {
             max-width: 100%;
