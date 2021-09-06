@@ -153,6 +153,7 @@ body {
     width: 100vw;
     max-width: 100%;
     min-height: 100vh;
+    height: 100vh;
 
     background-color: var(--background);
     color: var(--background-text);
@@ -209,6 +210,7 @@ body {
         width: 100%;
         position: relative;
         flex-grow: 1;
+        background: var(--background);
 
         & > * {
             max-width: 100%;
@@ -235,6 +237,10 @@ body {
         text-align: center;
         max-width: 100%;
         z-index: 1;
+    }
+
+    #sui-app-footer {
+        width: 100%;
     }
 
     .hideonphone {
