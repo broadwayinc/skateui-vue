@@ -1,4 +1,6 @@
 import SuiCard from '../components/sui-card';
+import SuiTitle from '../components/sui-title';
+import SuiRating from '../components/sui-ratings';
 import SuiSlider from '../components/sui-slider';
 import SuiButton from '../components/sui-button';
 import SuiFieldset from '../components/_sui-fieldset';
@@ -17,9 +19,11 @@ import SuiApp from '../components/sui-app';
 import SuiSticky from '../components/sui-sticky';
 import '../lib/skateui.js';
 
-export default {
+const SkateUI = {
     install(Vue, options) {
         Vue.component('sui-card', SuiCard);
+        Vue.component('sui-title', SuiTitle);
+        Vue.component('sui-rating', SuiRating);
         Vue.component('sui-list', SuiList);
         Vue.component('sui-slider', SuiSlider);
         Vue.component('sui-button', SuiButton);
@@ -38,3 +42,9 @@ export default {
         Vue.component('sui-sticky', SuiSticky);
     }
 }
+
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(SkateUI);
+}
+
+export default SkateUI;
