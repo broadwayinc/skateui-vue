@@ -4,22 +4,24 @@ a.sui-button(
     @click="click"
     :href="disabled ? null : href" :target="target ? target : null"
     :class="{'sui-button-disabled': disabled, 'sui-button-nude': nude, 'sui-button-round': round}")
-    slot(v-if="$slots.default")
-    template(v-else) {{href}}
+    span
+        slot(v-if="$slots.default")
+        template(v-else) {{href}}
 button.sui-button(
     v-else
     ref="button"
     :type="type"
     :form='formId'
     @click="click"
-    :class="{'sui-button-nude': nude, 'sui-button-round': round, 'sui-button-loading': showLoading}"
+    :class="{'sui-button-nude': nude, 'sui-button-round': round, 'sui-button-loading': showLoading, 'icon': icon}"
     :disabled="disabled"
     @focus="focus"
     :aria-label="showLoading ? 'loading' : null")
     .sui-button_loader(v-if="showLoading")
     // button text length should be retained while showing loading animation
-    span(:style="{opacity: showLoading ? 0 : 1}")
+    span(:style="{opacity: showLoading ? 0 : 1}" v-if="!icon")
         slot
+    i.material-icons(v-else) {{ icon }}
 
 </template>
 
@@ -39,7 +41,8 @@ export default {
             type: Boolean || Function,
             default: false
         },
-        autofocus: Boolean
+        autofocus: Boolean,
+        icon: String
     },
     data() {
         return {
@@ -92,6 +95,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
+@import '../assets/viewport.less';
 .sui-button {
     margin: 0;
     flex-shrink: 0;
@@ -99,16 +103,34 @@ export default {
     word-break: break-word;
     --button-border-radius: var(--border-radius, 3px);
 
-    & + .sui-button {
-        margin-left: 0.25rem;
+    @media @notphone {
+        & + .sui-button {
+            margin-left: calc(var(--padding) / 4);
+        }
+    }
+
+    &.icon {
+        min-width: 2.2rem;
+        border-radius: 2.2rem;
+        width: 2.2rem;
+        height: 2.2rem;
+        padding: 0;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        & i.material-icons {
+            font-size: 1rem;
+        }
     }
 }
 
 button.sui-button, a.sui-button {
     border-radius: var(--button-border-radius);
-    min-width: 8rem;
+    min-width: 5rem;
     max-width: 100%;
-    height: 2.8rem;
+    height: 2.2rem;
+    min-height: 44px;
     padding: 0 0.9rem;
     display: inline-block;
     box-sizing: border-box;
@@ -207,10 +229,16 @@ button.sui-button, a.sui-button {
 
 a.sui-button {
     text-decoration: none;
-    line-height: 2.8rem;
 
     &.sui-button-disabled {
         opacity: 0.5;
+    }
+
+    & > span {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        white-space: nowrap;
     }
 }
 </style>
