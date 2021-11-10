@@ -1,5 +1,5 @@
 <template lang='pug'>
-.sui-card(:class="{disabled}")
+.sui-card(ref="card" :class="{disabled}" :style="{'--padding':padding}")
     .close(v-if="typeof close === 'function'" @click.stop="close")
     slot
 </template>
@@ -15,8 +15,16 @@ export default {
     data() {
         return {
             resizeEventId: null,
-            stickyContent: Object
+            stickyContent: Object,
+            padding: null
         };
+    },
+    mounted() {
+        console.log({'padding': window.getComputedStyle(this.$refs.card).padding})
+        if(window.getComputedStyle(this.$refs.card).padding !== '0px') {
+            this.padding = window.getComputedStyle(this.$refs.card).padding;
+            this.$refs.card.style.padding = 0;
+        }
     },
     destroyed() {
         window.sui_on.removeEvent.resize(this.resizeEventId);
@@ -47,8 +55,7 @@ export default {
     display: inline-block;
     vertical-align: top;
 
-    & > div:not(.full-width):not(.sui-title):not(.actions):not(.close),
-    & .content {
+    & > *:not(.full-width):not(.sui-title):not(.actions):not(.close):not(hr) {
         margin: var(--padding);
     }
 
@@ -93,20 +100,16 @@ export default {
             margin-left: var(--padding);
 
             &.sui-button-nude {
-                height: auto;
-                min-height: auto;
                 padding: calc(var(--padding) / 2);
 
                 &:first-child {
                     margin-left: 0;
                 }
             }
-            &:first-child:not(.sui-button-nude) {
-                margin-left: calc(var(--padding) / 2);
-            }
-
-            &:last-child:not(.sui-button-nude) {
-                margin-right: calc(var(--padding) / 2);
+            @media @notphone {
+                &:first-child:not(.sui-button-nude) {
+                    margin-left: calc(var(--padding) / 2);
+                }
             }
         }
     }
@@ -157,6 +160,13 @@ export default {
         & .actions {
             display: flex;
             flex-direction: column-reverse;
+
+            & > .sui-button {
+                margin-left: 0;
+                &:not(:last-child) {
+                    margin-top: calc(var(--padding) / 2);
+                }
+            }
         }
     }
 
