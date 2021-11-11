@@ -94,7 +94,7 @@ export default {
     }
 
     & .actions {
-        margin: calc(var(--padding) / 2);
+        margin: var(--padding);
 
         & > .sui-button {
             margin-left: var(--padding);

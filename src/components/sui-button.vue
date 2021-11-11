@@ -127,7 +127,7 @@ export default {
 
 button.sui-button, a.sui-button {
     border-radius: var(--button-border-radius);
-    min-width: 5rem;
+    min-width: 4rem;
     max-width: 100%;
     height: 2.2rem;
     min-height: 44px;
@@ -197,6 +197,7 @@ button.sui-button, a.sui-button {
         color: var(--button-nude, inherit);
         box-shadow: none;
         text-shadow: none;
+        font-weight: bold;
 
         .sui-button_loader {
             border-top: .15em solid;
