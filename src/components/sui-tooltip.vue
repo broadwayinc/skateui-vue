@@ -155,7 +155,7 @@ export default {
                 text-align: left;
                 background-color: var(--content-text, black);
                 color: var(--content, white);
-                padding: 0.5em .75em;
+                padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
                 box-shadow: 0 0 0 2px var(--content, white);
                 border-radius: var(--tooltip-border-radius);
             }
