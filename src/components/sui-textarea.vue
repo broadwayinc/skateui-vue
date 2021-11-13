@@ -63,6 +63,10 @@ export default {
         parent.insertBefore(replica, el);
         replica.append(el);
 
+        let field = el.closest('fieldset.sui-fieldset');
+        this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
+        el.id = this.inputId;
+
         el.addEventListener('input', (e) => {
             let target = e.target;
             target.parentNode.dataset.replica = target.value;
