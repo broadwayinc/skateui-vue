@@ -4,7 +4,7 @@ div.sui-steps(:class="{ line: type === 'line', ring: type === 'ring' }" :style="
         circle.step(r="1.5em" cx="50%" cy="50%")
     svg
         circle.step(r="1.5em" cx="50%" cy="50%")
-    sui-step(v-for="(step,idx) in steps" :step-size="steps.length - 1" :step="step" :idx="idx" :complete="complete")
+    sui-step(v-for="(step,idx) in steps" :step-size="steps.length - 1" :type="type" :steps="steps" :idx="idx" :complete="complete")
 </template>
 
 <script>
@@ -51,11 +51,10 @@ div.sui-steps {
         display: none;
         width: 100%;
         cursor: default;
-        padding-right: 1em;
-        padding-top: .25em;
-        padding-left: .15em;
+        padding-right: var(--padding);
+        padding-top: calc(var(--padding) / 4);
         color: var(--content-text_placeholder, #b3b3b3);
-        margin-right: 3px;
+        margin-right: calc(var(--padding) / 4);
         border-top: 3px solid var(--content-text_placeholder, #b3b3b3);;
         line-height: 1.2;
 
@@ -84,8 +83,11 @@ div.sui-steps {
         counter-reset: --ring-status var(--ring-status);
         position: relative;
 
-        & .step {
+        & div.step.current {
             flex-grow: 1;
+            border-top: none;
+            padding-top: 0;
+            font-size: 1.333rem;
         }
 
         &::before {
@@ -109,7 +111,7 @@ div.sui-steps {
             --PI: 3.14159265358979;
             --circum: calc(3 * var(--PI));
 
-            margin-right: 1em;
+            margin-right: var(--padding);
             height: calc(3em + .5em);
             width: calc(3em + .5em);
             --offset: calc(var(--circum) - ((100 / var(--ring-count)) * var(--ring-status)) / 100 * var(--circum));
