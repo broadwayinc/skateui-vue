@@ -33,14 +33,15 @@ div.sui-accordion {
 
     & > .sui-accordion-head {
         display: flex;
+        justify-content: flex-end;
         align-items: center;
         border-bottom: 1px solid var(--content-text_shade);
         padding: 0 var(--padding);
+        cursor: pointer;
 
         & > .sui-accordion-title:not(:empty) {
             box-sizing: border-box;
             width: 100%;
-            cursor: pointer;
             position: relative;
             line-height: 2rem;
             color: inherit;
