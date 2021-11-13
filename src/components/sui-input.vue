@@ -28,7 +28,6 @@
             :checked="isChecked")
         .sui-radio-div(@click="()=>{$refs.option.click()}")
     template(v-if="label")
-        pre
         label(:for="inputId") {{ label }}
 sui-fieldset.sui-input(
     v-else
@@ -452,6 +451,7 @@ export default {
             box-sizing: border-box;
             border: 1px solid;
             vertical-align: middle;
+            margin-right: calc(var(--padding) / 2);
         }
     }
 

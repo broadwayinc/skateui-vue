@@ -223,7 +223,7 @@ export default {
                     overflow-y: auto;
 
                     & > .sui-dropdown-list {
-                        padding: .5em .75em;
+                        padding: calc(var(--padding) / 2);
                         text-align: left;
                         cursor: pointer;
                         font-size: .8em;
