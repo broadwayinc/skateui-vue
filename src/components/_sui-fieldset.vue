@@ -20,6 +20,7 @@ fieldset.sui-fieldset(
             div
                 slot(name='slot-right')
         label(v-if="label && !setMini" :for="elementId + '_interface'") {{ label }}
+            span(v-if="required" style="color:var(--alert, 'tomato')" aria-hidden="true") &nbsp;*
     .sui-fieldset-message(:class="{'sui-fieldset-error': error}" v-if="!setMini") {{message}}
 </template>
 
@@ -182,6 +183,7 @@ export default {
         user-select: none;
         color: var(--content-text_soft, #808080);
         line-height: 0;
+        opacity: 0;
     }
 
     & > .sui-fieldset-wrapper {
@@ -306,14 +308,14 @@ export default {
         }
 
         & > label {
+            color: var(--content-text_soft, #808080);
             bottom: calc(100% - var(--borderWidth));
             position: absolute;
             padding: 0 calc(var(--padding) / 4);
             font-size: 0.8em;
             font-weight: normal;
-            left: 0;
+            left: calc(var(--padding) / 4);
             right: 0;
-            opacity: 0;
         }
 
 
@@ -556,7 +558,7 @@ export default {
     &:focus-within {
         border-color: var(--borderFocusColor);
 
-        legend {
+        label, legend {
             color: var(--button-nude, inherit);
         }
 
