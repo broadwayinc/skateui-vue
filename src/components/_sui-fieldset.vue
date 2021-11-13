@@ -155,17 +155,17 @@ export default {
     --backgroundColor: var(--content, inherit);
     --color: var(--content-text, inherit);
     --borderStyle: solid;
-    margin: 1em 0;
+    margin: var(--padding) 0;
     display: inline-block;
     vertical-align: middle;
     position: relative;
     max-width: 100%;
-    text-align: inherit;
+    text-align: left;
     box-sizing: border-box;
     border-width: 2px;
     border-style: solid;
     border-color: rgba(153, 153, 153, 0.5);
-    padding: 0 .5em;
+    padding: 0 calc(var(--padding) / 2);
     border-radius: var(--border-radius, 3px); /* fallback */
     border-radius: ~"clamp(0px, var(--border-radius, 3px), 1.4em)";
 
@@ -174,7 +174,8 @@ export default {
         text-align: left;
         font-size: 0.8em;
         font-weight: normal;
-        padding: 0 .25em;
+        padding: 0 calc(var(--padding) / 4);
+        margin: 0 calc(var(--padding) / 4 * -1);
         top: calc(-0.5em + var(--borderWidth));
         word-break: keep-all;
         display: inline;
@@ -190,6 +191,8 @@ export default {
 
         button.sui-button {
             min-width: 0;
+            height: calc(2.2rem - 4px - var(--padding) / 4);
+            min-height: calc(44px - 4px - var(--padding) / 4);
         }
 
         & > .sui-fieldset-interface {
@@ -270,7 +273,7 @@ export default {
                 flex-shrink: 0;
                 display: flex;
                 //line-height: calc(2.8em - calc(var(--borderWidth) * 2));
-                line-height: calc(2.8em - 4px);
+                line-height: calc(2.2em - 4px);
             }
 
             & > .sui-fieldset-prefix {
@@ -278,7 +281,7 @@ export default {
                 flex-shrink: 0;
 
                 &:not(:empty) {
-                    padding-left: 0.75em;
+                    padding-left: calc(var(--padding) / 2);
 
                     & ~ .sui-textarea-replica, & ~ input, & ~ select {
                         padding-left: 0;
@@ -292,7 +295,7 @@ export default {
                 align-items: flex-end;
 
                 &:not(:empty) {
-                    padding-right: 0.75em;
+                    padding-right: calc(var(--padding) / 2);
                     flex-grow: 1;
 
                     & + input, & + .sui-textarea-replica {
@@ -305,7 +308,7 @@ export default {
         & > label {
             bottom: calc(100% - var(--borderWidth));
             position: absolute;
-            padding: 0 .25em;
+            padding: 0 calc(var(--padding) / 4);
             font-size: 0.8em;
             font-weight: normal;
             left: 0;
@@ -330,7 +333,8 @@ export default {
             position: relative;
             flex-grow: 1;
             //min-height: calc(2.8em - calc(var(--borderWidth) * 2));
-            min-height: calc(2.8em - 4px);
+            height: calc(2.2rem - 4px);
+            min-height: 42px;
             min-width: 1em;
             box-sizing: border-box;
             vertical-align: middle;
@@ -339,19 +343,27 @@ export default {
             font-size: 1em;
             border: none;
             outline: none;
-            padding: 0 0.5em 0 0.75em;
+            padding: 0 calc(var(--padding) / 2);
             margin: 0;
             display: block;
             line-height: initial;
+
+            @media @nottablet {
+                min-height: auto;
+            }
         }
 
         .sui-textarea-replica {
             position: relative;
             vertical-align: middle;
             display: inline-grid;
-            //min-height: calc(2.8em - calc(var(--borderWidth) * 2));
-            min-height: calc(2.8em - 4px);
-            line-height: 1.5em;
+            min-height: 44px;
+            padding: calc(var(--padding) / 4);
+            height: auto;
+
+            @media @nottablet {
+                min-height: calc(2.2rem - 4px);
+            }
 
             &::after {
                 content: attr(data-replica) " ";
@@ -384,7 +396,6 @@ export default {
                 color: inherit;
                 line-height: inherit;
                 font-weight: inherit;
-                padding: calc(0.5em + 1px) 0;
                 font-size: inherit;
                 outline: none;
                 border-top: none;
@@ -393,8 +404,8 @@ export default {
             }
         }
 
-        & > .slot-left + .sui-fieldset-interface {
-            margin-left: -0.25em;
+        & > .slot-left {
+            margin-right: calc(var(--padding) / 4);
         }
 
         & > .slot-right {
@@ -441,13 +452,13 @@ export default {
 
             &.slot-left > div:not(:empty) {
                 &:after {
-                    right: 0;
+                    right: calc(var(--padding) / 4 * -1);
                 }
             }
 
             &.slot-right > div:not(:empty) {
                 &:after {
-                    left: 0;
+                    left: calc(var(--padding) / 4 * -1);
                 }
             }
 
@@ -457,9 +468,14 @@ export default {
                 align-items: center;
                 position: relative;
                 //height: calc(2.8em - calc(var(--borderWidth) * 2));
-                height: calc(2.8em - 4px);
+                height: 2.2rem;
+                min-height: 44px;
                 box-sizing: border-box;
-                padding: 0.25em;
+                padding: calc(var(--padding) / 4);
+
+                @media @nottablet {
+                    min-height: auto;
+                }
 
                 & > * {
                     max-height: 100%;
@@ -495,7 +511,6 @@ export default {
                     min-width: calc(2.8em - .6em - calc(var(--borderWidth) * 2));
                 }
             }
-
         }
     }
 
@@ -517,7 +532,7 @@ export default {
         min-height: 1em;
         position: absolute;
         right: var(--borderWidth);
-        top: calc(100% + var(--borderWidth) * 2 + 0.2em);
+        top: calc(100% + var(--padding) / 4);
         font-weight: normal;
 
         &.sui-fieldset-error {

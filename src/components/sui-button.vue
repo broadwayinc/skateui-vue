@@ -141,6 +141,10 @@ button.sui-button, a.sui-button {
 
     line-height: 100%;
 
+    @media @nottablet {
+        min-height: auto;
+    }
+
     & > span * {
         line-height: 100%;
         vertical-align: bottom;
