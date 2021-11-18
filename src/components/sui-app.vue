@@ -163,7 +163,6 @@ body {
     width: 100vw;
     max-width: 100%;
     min-height: 100vh;
-    height: 100vh;
 
     background-color: var(--background);
     color: var(--background-text);
@@ -175,6 +174,7 @@ body {
     flex-direction: column;
 
     & > #sui-app-nav {
+        height: calc(var(--space-7) * 2);
         background-color: var(--navbar-background-color, var(--content, #ffffff));
         color: var(--navbar-color, var(--content-text, rgba(0, 0, 0, 0.88)));
         box-shadow: 0 0 1px rgba(153, 153, 153, 0.5);
@@ -188,7 +188,7 @@ body {
         align-items: center;
 
         & > * {
-            padding: .5em;
+            padding: auto var(--padding);
             display: flex;
             align-items: center;
 
@@ -221,10 +221,6 @@ body {
         position: relative;
         flex-grow: 1;
         background: var(--background);
-
-        & > * {
-            max-width: 100%;
-        }
     }
 
     & > #sui-app-notification {
