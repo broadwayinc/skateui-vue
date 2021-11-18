@@ -44,7 +44,6 @@ export default {
     }
 
     & > .sui-tooltip {
-        display: flex;
         position: relative;
         text-align: left;
         vertical-align: inherit;
@@ -58,6 +57,8 @@ export default {
             display: flex;
             width: 1em;
             height: 1em;
+            min-width: 21px;
+            min-height: 21px;
             border-radius: 1em;
             background-color: var(--content-text, black);
             color: var(--content, white);
