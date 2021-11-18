@@ -110,7 +110,7 @@ export default {
     }
 
     &.icon {
-        min-width: 2.2rem;
+        min-width: 44px;
         border-radius: 2.2rem;
         width: 2.2rem;
         height: 2.2rem;
