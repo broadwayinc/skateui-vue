@@ -197,6 +197,13 @@ input, select {
     }
 }
 
+.sui-dropdown {
+    & .sui-dropdown-list {
+        line-height: calc(2.2rem - 4px);
+        padding: 0 calc(var(--padding) / 2);
+    }
+}
+
 .sui-dropdown-button {
     width: 1.5em;
     align-items: center;
