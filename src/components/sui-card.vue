@@ -20,7 +20,6 @@ export default {
         };
     },
     mounted() {
-        console.log({'padding': window.getComputedStyle(this.$refs.card).padding})
         if(window.getComputedStyle(this.$refs.card).padding !== '0px') {
             this.padding = window.getComputedStyle(this.$refs.card).padding;
             this.$refs.card.style.padding = 0;
@@ -97,18 +96,23 @@ export default {
         margin: var(--padding);
 
         & > .sui-button {
-            margin-left: var(--padding);
+            &:not(:first-child) {
+                @media @notphone {
+                    margin-left: var(--padding);
+                }
+            }
 
             &.sui-button-nude {
                 padding: calc(var(--padding) / 2);
 
                 &:first-child {
-                    margin-left: 0;
+                    @media @notphone {
+                        margin-left: calc(var(--padding) / 2 * -1);
+                    }
                 }
-            }
-            @media @notphone {
-                &:first-child:not(.sui-button-nude) {
-                    margin-left: calc(var(--padding) / 2);
+
+                &:last-child {
+                    margin-right: calc(var(--padding) / 2 * -1);
                 }
             }
         }
@@ -134,8 +138,8 @@ export default {
             line-height: 1;
             opacity: 1; // can't hover pseudo element
             position: absolute;
-            right: calc(var(--padding) / 1.5);
-            top: calc(var(--padding) / 1.5);
+            right: var(--padding);
+            top: var(--padding);
             display: block;
             z-index: 1;
         }
@@ -145,6 +149,12 @@ export default {
             border-top-left-radius: var(--card-border-radius);
             border-top-right-radius: var(--card-border-radius);
             overflow: hidden;
+        }
+
+        & + .content,
+        & + .sui-title {
+            margin-right: var(--padding);
+            padding-right: calc(var(--padding) * 2);
         }
     }
 
