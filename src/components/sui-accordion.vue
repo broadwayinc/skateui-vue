@@ -5,7 +5,7 @@
         .sui-accordion-action
             i.material-icons(v-if="isOpen") expand_less
             i.material-icons(v-else) expand_more
-    .sui-accordion-content-wrapper(:class="{open: isOpen}" :style="{'--max-height': maxHeight + 'px'}")
+    .sui-accordion-content-wrapper(:class="{open: isOpen}")
         .sui-accordion-content(ref="content")
             slot
 </template>
@@ -86,7 +86,7 @@ div.sui-accordion {
         transition: max-height .5s;
 
         &.open {
-            max-height: var(--max-height);
+            max-height: 100%;
             transition: max-height .5s;
         }
         & .sui-accordion-content {
