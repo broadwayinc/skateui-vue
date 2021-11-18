@@ -38,6 +38,7 @@ div.sui-accordion {
         border-bottom: 1px solid var(--content-text_shade);
         padding: 0 var(--padding);
         cursor: pointer;
+        height: 2rem;
 
         & > .sui-accordion-title:not(:empty) {
             box-sizing: border-box;
