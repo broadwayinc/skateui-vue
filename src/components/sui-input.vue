@@ -410,10 +410,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-// option styles
 .sui-input {
-    cursor: pointer;
-
     &.sui-option-disabled {
         opacity: 0.25;
         user-select: none;
