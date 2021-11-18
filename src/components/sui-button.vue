@@ -103,12 +103,6 @@ export default {
     word-break: break-word;
     --button-border-radius: var(--border-radius, 3px);
 
-    @media @notphone {
-        & + .sui-button {
-            margin-left: calc(var(--padding) / 4);
-        }
-    }
-
     &.icon {
         min-width: 44px;
         border-radius: 2.2rem;

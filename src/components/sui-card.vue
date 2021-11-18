@@ -162,7 +162,7 @@ export default {
         box-sizing: border-box;
     }
 
-    & > .sui-button + .sui-button {
+    & .actions .sui-button + .sui-button {
         margin-left: var(--padding);
     }
 
@@ -172,7 +172,9 @@ export default {
             flex-direction: column-reverse;
 
             & > .sui-button {
-                margin-left: 0;
+                & + .sui-button {
+                    margin-left: 0;
+                }
                 &:not(:last-child) {
                     margin-top: calc(var(--padding) / 2);
                 }
