@@ -336,7 +336,7 @@ export default {
             flex-grow: 1;
             //min-height: calc(2.8em - calc(var(--borderWidth) * 2));
             height: calc(2.2rem - 4px);
-            min-height: 42px;
+            min-height: 40px;
             min-width: 1em;
             box-sizing: border-box;
             vertical-align: middle;
