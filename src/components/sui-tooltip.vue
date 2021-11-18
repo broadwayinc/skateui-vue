@@ -47,7 +47,6 @@ export default {
         position: relative;
         text-align: left;
         vertical-align: inherit;
-        cursor: pointer;
         justify-content: center;
         align-items: center;
         --tooltip-border-radius: 3px; /* fallback */
@@ -66,6 +65,7 @@ export default {
             justify-content: center;
             align-items: center;
             font-weight: normal;
+            cursor: pointer;
             &:after {
                 content: '\FF1F';
                 font-style: normal;
