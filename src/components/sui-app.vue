@@ -145,18 +145,28 @@ export default {
 @import '../assets/normalize.css';
 @import '../assets/viewport.less';
 
-body {
+html {
+    --space-1: calc(1em / 16 * 4);
+    --space-2: calc(1em / 16 * 8);
+    --space-3: calc(1em / 16 * 12);
+    --space-4: calc(1em / 16 * 16);
+    --space-5: calc(1em / 16 * 20);
+    --space-6: calc(1em / 16 * 24);
+    --space-7: calc(1em / 16 * 28);
+    --space-8: calc(1em / 16 * 32);
+    --space-9: calc(1em / 16 * 36);
+    --space-10: calc(1em / 16 * 40);
+
     --border-radius: 2px;
-    --space-1: calc(1rem / 16 * 4);
-    --space-2: calc(1rem / 16 * 8);
-    --space-3: calc(1rem / 16 * 12);
-    --space-4: calc(1rem / 16 * 16);
-    --space-5: calc(1rem / 16 * 20);
-    --space-6: calc(1rem / 16 * 24);
-    --space-7: calc(1rem / 16 * 28);
-    --space-8: calc(1rem / 16 * 32);
-    --space-9: calc(1rem / 16 * 36);
-    --space-10: calc(1rem / 16 * 40);
+    --line-height: 1.5;
+    --min-body-font: 16px;
+    --max-body-font: 18px;
+    --input-height: calc(48 / 21 * 1em);
+    --min-input-height: 48px;
+    --padding: var(--space-4);
+
+    font-size: clamp(var(--min-body-font), 2.6vw, var(--max-body-font));
+    line-height: var(--line-height);
 }
 
 #sui-app {
@@ -169,7 +179,6 @@ body {
     position: relative;
 
     display: flex;
-    //justify-content: center;
     align-items: center;
     flex-direction: column;
 

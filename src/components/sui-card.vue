@@ -38,7 +38,6 @@ export default {
     --card-border-radius: .5em; /* fallback */
     --card-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
     --padding-title: 0.5em var(--card-indent);
-    --padding: var(--space-4);
 
     background-color: var(--content, #ffffff);
     color: var(--content-text, rgba(0, 0, 0, 0.88));
