@@ -495,7 +495,7 @@ export default {
                 }
 
                 & * {
-                    align-self: normal;
+                    align-self: center;
                 }
             }
         }
