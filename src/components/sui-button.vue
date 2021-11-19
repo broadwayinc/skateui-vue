@@ -17,8 +17,9 @@ button.sui-button(
     :disabled="disabled"
     @focus="focus"
     :aria-label="showLoading ? 'loading' : null")
-    .sui-button_loader(v-if="showLoading")
-    // button text length should be retained while showing loading animation
+    .sui-button_loader-wrapper(v-if="showLoading")
+        .sui-button_loader
+        // button text length should be retained while showing loading animation
     span(:style="{opacity: showLoading ? 0 : 1}" v-if="!icon")
         slot
     i.material-icons(v-else) {{ icon }}
@@ -104,46 +105,40 @@ export default {
     --button-border-radius: var(--border-radius, 3px);
 
     &.icon {
-        min-width: 44px;
-        border-radius: 2.2rem;
-        width: 2.2rem;
-        height: 2.2rem;
+        font-size: 1rem;
+        min-width: var(--min-input-height);
+        min-height: var(--min-input-height);
+        border-radius: 50%;
+        width: var(--input-height);
+        height: var(--input-height);
         padding: 0;
         display: inline-flex;
         justify-content: center;
         align-items: center;
 
         & i.material-icons {
-            font-size: 1rem;
+            font-size: inherit;
         }
+    }
+
+    & span {
+        font-size: 1em;
     }
 }
 
 button.sui-button, a.sui-button {
     border-radius: var(--button-border-radius);
-    min-width: 4rem;
+    min-width: 5.5em;
     max-width: 100%;
-    height: 2.2rem;
-    min-height: 44px;
-    padding: 0 0.9rem;
+    height: var(--input-height);
+    min-height:  var(--min-input-height);
+    padding: 0 var(--padding);
     display: inline-block;
     box-sizing: border-box;
-
+    font-size: 1rem;
     text-align: center;
-    font-size: 0.88rem;
     vertical-align: middle;
-
     line-height: 100%;
-
-    @media @nottablet {
-        min-height: auto;
-    }
-
-    & > span * {
-        line-height: 100%;
-        vertical-align: bottom;
-        font-size: 1em;
-    }
 
     cursor: pointer;
     user-select: none;
@@ -152,23 +147,23 @@ button.sui-button, a.sui-button {
     position: relative;
     overflow: hidden;
 
-    font-weight: 500;
     background-color: var(--button, #4848db);
     color: var(--button-text, white);
     text-transform: uppercase;
 
+    & .sui-button_loader-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
     .sui-button_loader {
-        position: absolute;
-        right: calc(50% - 1.15em);
-        top: calc(50% - 1.15em);
-        display: inline-block;
         border-bottom: .15em solid rgba(153, 153, 153, 0.5);
         border-right: .15em solid rgba(153, 153, 153, 0.5);
         border-left: .15em solid rgba(153, 153, 153, 0.5);
         border-top: .15em solid;
         border-radius: 50%;
-        vertical-align: middle;
-        margin: .5em;
+        font-size: inherit;
         width: 1em;
         height: 1em;
         animation: spin 2s linear infinite;
@@ -209,11 +204,6 @@ button.sui-button, a.sui-button {
             text-shadow: none;
             box-shadow: none;
         }
-    }
-
-    &.sui-button-round {
-        min-width: 2.8rem;
-        border-radius: 2.8rem;
     }
 
     &:disabled {
