@@ -38,13 +38,13 @@ div.sui-accordion {
         border-bottom: 1px solid var(--content-text_shade);
         padding: 0 var(--padding);
         cursor: pointer;
-        height: 2rem;
+        height: 2em;
 
         & > .sui-accordion-title:not(:empty) {
             box-sizing: border-box;
             width: 100%;
             position: relative;
-            line-height: 2rem;
+            line-height: 2em;
             color: inherit;
 
             & + hr {
@@ -74,9 +74,9 @@ div.sui-accordion {
 
             &,
             & i {
-                font-size: 1rem;
+                font-size: 1em;
                 line-height: 1;
-                height: 1rem;
+                height: 1em;
             }
         }
     }
