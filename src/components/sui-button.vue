@@ -103,9 +103,10 @@ export default {
     white-space: pre-wrap;
     word-break: break-word;
     --button-border-radius: var(--border-radius, 3px);
+    font-size: inherit;
 
     &.icon {
-        font-size: 1rem;
+        font-size: 1em;
         min-width: var(--min-input-height);
         min-height: var(--min-input-height);
         border-radius: 50%;
@@ -135,7 +136,7 @@ button.sui-button, a.sui-button {
     padding: 0 var(--padding);
     display: inline-block;
     box-sizing: border-box;
-    font-size: 1rem;
+    font-size: 1em;
     text-align: center;
     vertical-align: middle;
     line-height: 100%;
