@@ -132,8 +132,8 @@ export default {
     --backgroundColor: var(--content, inherit);
     --color: var(--content-text, inherit);
     --borderStyle: solid;
-    font-size: 1rem;
-    margin: var(--padding) 0;
+    font-size: inherit;
+    margin: var(--padding) 0 calc(var(--subtitle-font) + var(--padding) / 2);
     display: inline-block;
     vertical-align: middle;
     position: relative;
@@ -152,7 +152,7 @@ export default {
     & > legend {
         position: relative;
         text-align: left;
-        font-size: 0.8em;
+        font-size: var(--subtitle-font);
         font-weight: normal;
         padding: 0 calc(var(--padding) / 4);
         margin: 0 calc(var(--padding) / 4 * -1);
@@ -193,6 +193,7 @@ export default {
                 word-break: keep-all;
                 white-space: nowrap;
                 text-align: inherit;
+                height: 100%;
 
                 &:focus + .sui-dropdown:not(:empty) {
                     top: 100%;
@@ -291,8 +292,8 @@ export default {
             color: var(--content-text_soft, #808080);
             bottom: calc(100% - var(--borderWidth));
             position: absolute;
-            padding: 0 calc(var(--padding) / 4);
-            font-size: 0.8em;
+            padding: 0 calc(2px + var(--padding) / 4);
+            font-size: var(--subtitle-font);
             font-weight: normal;
             left: calc(var(--padding) / 4);
             right: 0;
@@ -337,7 +338,11 @@ export default {
             vertical-align: middle;
             display: inline-grid;
             min-height: 44px;
-            padding: calc(var(--padding) / 4);
+            //padding: max(calc(calc(calc(1rem / 16 * 44) - 1rem) / 4), calc(var(--padding) / 4));
+            //padding: clamp(calc(var(--padding) / 4), 2.6vw, calc(12px - 0.1rem));
+            //padding: minmax(calc(calc(calc(1rem / 16 * calc(44 - 1rem)) - 1rem) / 4), calc(var(--padding) / 4));
+            //padding-top: calc(calc(min(44px, calc(2.2rem - 4px)) / 2) - 0.5rem - 2px);
+            padding-top: calc(min(44px, calc(2.2rem - 4px)) / 2);
             height: auto;
 
             @media @nottablet {
@@ -356,6 +361,7 @@ export default {
                 min-height: 1em;
                 z-index: 1;
                 border: none;
+                padding: 0;
 
                 &::placeholder {
                     color: #999999;
@@ -392,15 +398,12 @@ export default {
         // shift nested dropbox
         & > .slot-left > div > fieldset.sui-fieldset.sui-fieldset-mini {
             .sui-dropdown {
-                //left: calc(-0.25em - var(--borderWidth) * 2);
                 left: calc(-.25em - var(--borderWidth) - 2px);
             }
         }
 
         & > .slot-right > div > fieldset.sui-fieldset.sui-fieldset-mini {
             .sui-dropdown {
-                //right: calc(-0.25em - var(--borderWidth) * 2);
-                //left: calc(-0.25em + 2px);
                 left: calc(0px - var(--borderWidth) + 0.25em + 2px);
             }
         }
@@ -427,13 +430,13 @@ export default {
 
             &.slot-left > .slot-wrapper:not(:empty) {
                 &:after {
-                    right: calc(calc(var(--padding) / 6 * -1) - 1px);
+                    right: -1px;
                 }
             }
 
             &.slot-right > .slot-wrapper:not(:empty) {
                 &:after {
-                    left: calc(var(--padding) / 4 * -1);
+                    left: -1px;
                 }
             }
 
@@ -442,9 +445,8 @@ export default {
                 justify-content: center;
                 align-items: center;
                 position: relative;
-                //height: calc(2.8em - calc(var(--borderWidth) * 2));
-                height: 2.2rem;
-                min-height: var(--input-height);
+                height: var(--input-height);
+                min-height: var(--min-input-height);
                 box-sizing: border-box;
                 padding: calc(var(--padding) / 4 + 2px) calc(var(--padding) / 4);
 
@@ -489,7 +491,11 @@ export default {
                 }
 
                 &:not(:empty) {
-                    min-width: calc(2.8em - .6em - calc(var(--borderWidth) * 2));
+                    min-width: calc(2em);
+                }
+
+                & * {
+                    align-self: normal;
                 }
             }
         }
@@ -507,13 +513,11 @@ export default {
     }
 
     & > .sui-fieldset-message {
-        font-size: .8em;
-        text-align: right;
-        line-height: 1em;
-        min-height: 1em;
         position: absolute;
+        font-size: var(--subtitle-font);
+        text-align: right;
+        line-height: 1.5;
         right: var(--borderWidth);
-        top: calc(100% + var(--padding) / 4);
         font-weight: normal;
 
         &.sui-fieldset-error {
