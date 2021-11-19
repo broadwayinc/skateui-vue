@@ -8,7 +8,7 @@ fieldset.sui-fieldset(
         span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
     .sui-fieldset-wrapper
         .slot-left(v-if="$slots['slot-left']")
-            div
+            .slot-left-wrapper.slot-wrapper
                 slot(name='slot-left')
         .sui-fieldset-interface
             .sui-fieldset-prefix(v-if="prefix" @click="()=>{focusInput(false)}")
@@ -17,7 +17,7 @@ fieldset.sui-fieldset(
                 div {{ suffix }}
             slot
         .slot-right(v-if="$slots['slot-right']")
-            div
+            .slot-right-wrapper.slot-wrapper
                 slot(name='slot-right')
         label(v-if="label && !setMini" :for="elementId + '_interface'") {{ label }}
             span(v-if="required" style="color:var(--alert, 'tomato')" aria-hidden="true") &nbsp;*
@@ -124,30 +124,6 @@ export default {
 </script>
 <style lang="less">
 @import '../assets/viewport.less';
-
-//.sui-screen {
-//    .sui-fieldset {
-//        width: 100%;
-//        margin: 0;
-//        border-top-color: transparent !important;
-//        border-left-color: transparent !important;
-//        border-right-color: transparent !important;
-//
-//        .sui-fieldset-wrapper {
-//            .sui-dropdown {
-//                border-color: transparent !important;
-//                top: calc(2.8em - var(--borderWidth)) !important;
-//
-//                & > .sui-dropdown-list {
-//                    font-size: 1em !important;
-//                    padding: .75em 0.5em !important;
-//                    box-shadow: 0 calc(.5em + 1px) 0 -.5em rgba(128, 128, 128, 0.25);
-//                }
-//            }
-//        }
-//    }
-//}
-
 .sui-fieldset {
     --borderWidth: 2px;
     --borderFocusColor: var(--saturate, #4848db);
@@ -156,11 +132,11 @@ export default {
     --backgroundColor: var(--content, inherit);
     --color: var(--content-text, inherit);
     --borderStyle: solid;
+    font-size: 1rem;
     margin: var(--padding) 0;
     display: inline-block;
     vertical-align: middle;
     position: relative;
-    max-width: 100%;
     text-align: left;
     box-sizing: border-box;
     border-width: 2px;
@@ -169,6 +145,9 @@ export default {
     padding: 0 calc(var(--padding) / 2);
     border-radius: var(--border-radius, 3px); /* fallback */
     border-radius: ~"clamp(0px, var(--border-radius, 3px), 1.4em)";
+    max-width: 100%;
+    height: var(--input-height);
+    min-height: var(--min-input-height);;
 
     & > legend {
         position: relative;
@@ -190,6 +169,8 @@ export default {
         margin: 0 -.5em;
         display: flex;
         border-color: inherit;
+        height: calc(100% + 4px);
+        margin-top: -2px;
 
         button.sui-button {
             min-width: 0;
@@ -202,6 +183,7 @@ export default {
             flex-grow: 1;
             position: relative;
             border-color: inherit;
+            align-items: center;
 
             //& > * {
             //    min-height: calc(2.8em - 4px);
@@ -274,7 +256,7 @@ export default {
             & > .sui-fieldset-suffix {
                 flex-shrink: 0;
                 display: flex;
-                //line-height: calc(2.8em - calc(var(--borderWidth) * 2));
+                align-items: center;
                 line-height: calc(2.2em - 4px);
             }
 
@@ -293,8 +275,6 @@ export default {
 
             & > .sui-fieldset-suffix {
                 order: 1;
-                color: var(--content-text_placeholder, #999999);
-                align-items: flex-end;
 
                 &:not(:empty) {
                     padding-right: calc(var(--padding) / 2);
@@ -334,9 +314,6 @@ export default {
             color: inherit;
             position: relative;
             flex-grow: 1;
-            //min-height: calc(2.8em - calc(var(--borderWidth) * 2));
-            height: calc(2.2rem - 4px);
-            min-height: 40px;
             min-width: 1em;
             box-sizing: border-box;
             vertical-align: middle;
@@ -406,10 +383,6 @@ export default {
             }
         }
 
-        & > .slot-left {
-            margin-right: calc(var(--padding) / 4);
-        }
-
         & > .slot-right {
             order: 1;
             display: flex;
@@ -437,7 +410,7 @@ export default {
             flex-shrink: 0;
             max-width: 40%;
 
-            & > div:not(:empty) {
+            & > .slot-wrapper:not(:empty) {
                 &:after {
                     // icon separator
                     content: "";
@@ -452,36 +425,42 @@ export default {
                 }
             }
 
-            &.slot-left > div:not(:empty) {
+            &.slot-left > .slot-wrapper:not(:empty) {
                 &:after {
-                    right: calc(var(--padding) / 4 * -1);
+                    right: calc(calc(var(--padding) / 6 * -1) - 1px);
                 }
             }
 
-            &.slot-right > div:not(:empty) {
+            &.slot-right > .slot-wrapper:not(:empty) {
                 &:after {
                     left: calc(var(--padding) / 4 * -1);
                 }
             }
 
-            & > div {
+            & > .slot-wrapper {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 position: relative;
                 //height: calc(2.8em - calc(var(--borderWidth) * 2));
                 height: 2.2rem;
-                min-height: 44px;
+                min-height: var(--input-height);
                 box-sizing: border-box;
-                padding: calc(var(--padding) / 4);
+                padding: calc(var(--padding) / 4 + 2px) calc(var(--padding) / 4);
 
                 @media @nottablet {
                     min-height: auto;
+                    height: 100%;
                 }
 
                 & > * {
                     max-height: 100%;
                     display: block;
+                }
+
+                .sui-button {
+                    height: 100%;
+                    min-height: 0;
                 }
 
                 // nested fieldset
