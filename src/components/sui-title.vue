@@ -31,6 +31,7 @@ export default {
     padding-bottom: 0;
     margin-top: var(--padding);
     margin-bottom: var(--padding);
+    font-size: inherit;
 
     &.sui-sticky {
         background-color: var(--content, #ffffff);
@@ -63,15 +64,16 @@ export default {
 
     & > .title {
         grid-area: title;
+        font-size: var(--title-font);
         font-weight: bold;
-        line-height: 1rem;
+        line-height: 1em;
     }
 
     & > .subtitle {
         grid-area: subtitle;
-        font-size: 0.8rem;
+        font-size: var(--subtitle-font);
         margin-top: var(--space-1);
-        line-height: 1.1rem;
+        line-height: 1rem;
         display: flex;
         align-items: center;
 

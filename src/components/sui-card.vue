@@ -37,16 +37,13 @@ export default {
     --card-indent: ~"clamp(.65rem, 2vw, 1.3rem)";
     --card-border-radius: .5em; /* fallback */
     --card-border-radius: ~"clamp(0px, calc(var(--border-radius, 3px) * 2), .5em)";
-    --padding-title: 0.5em var(--card-indent);
 
     background-color: var(--content, #ffffff);
     color: var(--content-text, rgba(0, 0, 0, 0.88));
     position: relative;
-    tab-size: 1em;
     border-radius: var(--card-border-radius);
     box-sizing: border-box;
 
-    margin: 1px;
     box-shadow: 0 0 1px #808080;
     text-align: left;
     max-width: 100%;
@@ -186,7 +183,7 @@ export default {
     }
 
     & .footer {
-        font-size: 0.8rem;
+        font-size: var(--subtitle-font);
         text-align: right;
         margin: var(--padding);
     }

@@ -161,6 +161,8 @@ html {
     --line-height: 1.5;
     --min-body-font: 16px;
     --max-body-font: 18px;
+    --title-font: calc(1em + 4px);
+    --subtitle-font: calc(1em - 2px);
     --input-height: calc(48 / 21 * 1em);
     --min-input-height: 48px;
     --padding: var(--space-4);
