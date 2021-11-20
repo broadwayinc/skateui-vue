@@ -206,6 +206,7 @@ export default {
                     overflow-y: auto;
 
                     & > .sui-dropdown-list {
+                        height: var(--input-height);
                         min-height: calc(var(--min-input-height) - 4px);
                         display: flex;
                         align-items: center;
