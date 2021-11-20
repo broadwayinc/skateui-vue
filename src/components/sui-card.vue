@@ -68,7 +68,6 @@ export default {
         &:last-child {
             border-bottom-left-radius: var(--card-border-radius);
             border-bottom-right-radius: var(--card-border-radius);
-            overflow: hidden;
         }
     }
 

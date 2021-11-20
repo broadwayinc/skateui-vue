@@ -24,11 +24,14 @@ export default {
     },
     methods: {
         setPosition(e) {
-            let y = window.innerHeight / 2 - 24;
-            let x = window.innerWidth / 2 + 24;
+            console.log(e);
+            let y = window.innerHeight / 2 - 21;
+            let x = window.innerWidth / 2 + 21;
 
             this.isBottom = (e.clientY < y || this.direction?.includes('bottom')) && (!this.direction || !this.direction?.includes('top'));
             this.isLeft = (e.clientX > x || this.direction?.includes('left')) && (!this.direction || !this.direction?.includes('right'));
+            console.log({isBottom: this.isBottom});
+            console.log({isLeft: this.isLeft});
             this.maxWidth = this.isLeft ? `${e.clientX}px` : `${window.innerWidth - e.clientX}px`;
         }
     }
@@ -84,7 +87,7 @@ export default {
                     border-bottom: solid .5em var(--content-text, black);
                     border-top: 0;
                     bottom: unset;
-                    top: 0;
+                    top: 1px;
                 }
 
                 &::before {
@@ -94,6 +97,7 @@ export default {
                     border-top: 0;
                     bottom: unset;
                     top: 0;
+                    left: calc(1em - 2px);
                 }
             }
         }
@@ -111,16 +115,29 @@ export default {
                 }
 
                 &::before {
-                    left: calc(100% - 1em);
-                    border-right: calc(.5em + 2px) solid transparent;
+                    left: calc(100% - 1em + -1px);
+                    border-right: calc(.5em + 6px) solid transparent;
                     border-left: 0;
+                    top: 100%;
+
+                }
+            }
+            &.bottom {
+                & > .sui-tooltip-dialog {
+                    &::before {
+                        top: 1px;
+                    }
+                    &::after {
+                        top: 2px;
+                    }
                 }
             }
         }
 
         & > .sui-tooltip-dialog {
-            font-size: 1rem;
+            font-size: 1em;
             font-weight: normal;
+            line-height: 1;
             &::after {
                 content: '';
                 position: absolute;
@@ -143,12 +160,14 @@ export default {
                 left: 1em;
                 width: 0;
                 height: 0;
-                border: calc(0.5em + 2px) solid transparent;
+                border: calc(0.5em + 5px) solid transparent;
                 border-top-color: var(--content, white);
                 border-bottom: 0;
                 border-right: 0;
                 margin-left: calc(-0.25em - 1px);
                 margin-bottom: calc(-0.5em - 3px);
+                top: calc(100% + 1px);
+                left: calc(1em + -2px);
             }
 
             small {
@@ -159,6 +178,7 @@ export default {
                 padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
                 box-shadow: 0 0 0 2px var(--content, white);
                 border-radius: var(--tooltip-border-radius);
+                font-size: var(--subtitle-font);
             }
 
             // right
