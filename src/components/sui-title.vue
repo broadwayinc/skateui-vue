@@ -22,7 +22,7 @@ export default {
     },
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import '../assets/viewport.less';
 
 .sui-title {

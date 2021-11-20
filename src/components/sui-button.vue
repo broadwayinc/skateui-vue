@@ -104,6 +104,7 @@ export default {
     word-break: break-word;
     --button-border-radius: var(--border-radius, 3px);
     font-size: inherit;
+    height: var(--input-height);
 
     &.icon {
         font-size: 1em;
@@ -111,7 +112,6 @@ export default {
         min-height: var(--min-input-height);
         border-radius: 50%;
         width: var(--input-height);
-        height: var(--input-height);
         padding: 0;
         display: inline-flex;
         justify-content: center;
@@ -129,17 +129,14 @@ export default {
 
 button.sui-button, a.sui-button {
     border-radius: var(--button-border-radius);
-    min-width: 5.5em;
+    min-width: var(--min-input-width);
     max-width: 100%;
-    height: var(--input-height);
     min-height:  var(--min-input-height);
-    padding: 0 var(--padding);
+    padding: calc(var(--padding) / 2) var(--padding);
     display: inline-block;
     box-sizing: border-box;
     font-size: 1em;
     text-align: center;
-    vertical-align: middle;
-    line-height: 100%;
 
     cursor: pointer;
     user-select: none;
