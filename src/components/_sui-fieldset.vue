@@ -301,6 +301,7 @@ export default {
             font-weight: normal;
             left: calc(var(--padding) / 4);
             right: 0;
+            line-height: 1;
         }
 
 
@@ -521,7 +522,7 @@ export default {
         position: absolute;
         font-size: var(--subtitle-font);
         text-align: right;
-        line-height: 1.5;
+        line-height: 1;
         right: var(--borderWidth);
         font-weight: normal;
 
