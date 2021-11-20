@@ -146,28 +146,31 @@ export default {
 @import '../assets/viewport.less';
 
 html {
-    --space-1: calc(1em / 16 * 4);
-    --space-2: calc(1em / 16 * 8);
-    --space-3: calc(1em / 16 * 12);
-    --space-4: calc(1em / 16 * 16);
-    --space-5: calc(1em / 16 * 20);
-    --space-6: calc(1em / 16 * 24);
-    --space-7: calc(1em / 16 * 28);
-    --space-8: calc(1em / 16 * 32);
-    --space-9: calc(1em / 16 * 36);
-    --space-10: calc(1em / 16 * 40);
-
     --border-radius: 2px;
     --line-height: 1.5;
     --min-body-font: 16px;
-    --max-body-font: 18px;
+    --max-body-font: 21px;
+    --font-size: clamp(var(--min-body-font), 2.6vw, var(--max-body-font));
+
+    --space-1: calc(var(--font-size) / 16 * 4);
+    --space-2: calc(var(--font-size) / 16 * 8);
+    --space-3: calc(var(--font-size) / 16 * 12);
+    --space-4: calc(var(--font-size) / 16 * 16);
+    --space-5: calc(var(--font-size) / 16 * 20);
+    --space-6: calc(var(--font-size) / 16 * 24);
+    --space-7: calc(var(--font-size) / 16 * 28);
+    --space-8: calc(var(--font-size) / 16 * 32);
+    --space-9: calc(var(--font-size) / 16 * 36);
+    --space-10: calc(var(--font-size) / 16 * 40);
+
     --title-font: calc(1em + 4px);
-    --subtitle-font: calc(1em - 2px);
+    --subtitle-font: 0.8em;
     --input-height: calc(48 / 21 * 1em);
     --min-input-height: 48px;
+    --min-input-width: calc(var(--max-body-font) * 5.5);
     --padding: var(--space-4);
 
-    font-size: clamp(var(--min-body-font), 2.6vw, var(--max-body-font));
+    font-size: var(--font-size);
     line-height: var(--line-height);
 }
 
