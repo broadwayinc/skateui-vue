@@ -420,6 +420,9 @@ export default {
     &.sui-checkbox, &.sui-radio {
         display: inline-block;
         position: relative;
+        cursor: pointer;
+        padding: 0 calc(var(--padding) / 2);
+        margin: 0 calc(var(--padding) / 2 * -1);
 
         *:not(pre) {
             font-size: 1em;
