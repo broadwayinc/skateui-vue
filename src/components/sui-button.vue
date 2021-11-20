@@ -20,10 +20,9 @@ button.sui-button(
     .sui-button_loader-wrapper(v-if="loading")
         .sui-button_loader
         // button text length should be retained while showing loading animation
-    div(v-else)
-        span(:style="{display: showLoading ? 'none' : 'inline-block'}" v-if="!icon")
-            slot
-        i.material-icons(v-else) {{ icon }}
+    span(:style="{display: showLoading ? 'none' : 'inline-block'}" v-else-if="!icon")
+        slot
+    i.material-icons(v-else) {{ icon }}
 
 </template>
 
