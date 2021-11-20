@@ -104,13 +104,13 @@ export default {
     word-break: break-word;
     --button-border-radius: var(--border-radius, 3px);
     font-size: inherit;
-    height: var(--input-height);
 
     &.icon {
         font-size: 1em;
         min-width: var(--min-input-height);
         min-height: var(--min-input-height);
         border-radius: 50%;
+        height: var(--input-height);
         width: var(--input-height);
         padding: 0;
         display: inline-flex;

@@ -100,6 +100,7 @@ export default {
 
             &.sui-button-nude {
                 padding: calc(var(--padding) / 2);
+                min-width: 0;
 
                 &:first-child {
                     @media @notphone {
