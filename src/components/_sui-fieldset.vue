@@ -166,7 +166,7 @@ export default {
     }
 
     & > .sui-fieldset-wrapper {
-        margin: 0 -.5em;
+        margin: 0 calc(var(--padding) / 2 * -1);
         display: flex;
         border-color: inherit;
         height: calc(100% + 4px);
@@ -466,6 +466,7 @@ export default {
                 .sui-button {
                     height: 100%;
                     min-height: 0;
+                    padding: 0 var(--padding);
                 }
 
                 // nested fieldset
