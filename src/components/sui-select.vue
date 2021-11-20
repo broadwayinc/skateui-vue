@@ -197,13 +197,6 @@ input, select {
     }
 }
 
-.sui-dropdown {
-    & .sui-dropdown-list {
-        line-height: calc(2.2rem - 4px);
-        padding: 0 calc(var(--padding) / 2);
-    }
-}
-
 .sui-dropdown-button {
     width: 1.5em;
     align-items: center;
@@ -216,6 +209,10 @@ input, select {
     height: 100%;
     pointer-events: none;
     opacity: 0.5;
+
+    & i {
+        font-size: 1em;
+    }
 
     //&::before {
     //    content: "";
