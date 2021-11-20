@@ -16,13 +16,14 @@ button.sui-button(
     :class="{'sui-button-nude': nude, 'sui-button-round': round, 'sui-button-loading': showLoading, 'icon': icon}"
     :disabled="disabled"
     @focus="focus"
-    :aria-label="showLoading ? 'loading' : null")
-    .sui-button_loader-wrapper(v-if="showLoading")
+    :aria-label="loading ? 'loading' : null")
+    .sui-button_loader-wrapper(v-if="loading")
         .sui-button_loader
         // button text length should be retained while showing loading animation
-    span(:style="{opacity: showLoading ? 0 : 1}" v-if="!icon")
-        slot
-    i.material-icons(v-else) {{ icon }}
+    div(v-else)
+        span(:style="{display: showLoading ? 'none' : 'inline-block'}" v-if="!icon")
+            slot
+        i.material-icons(v-else) {{ icon }}
 
 </template>
 
