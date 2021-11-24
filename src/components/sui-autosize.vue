@@ -339,7 +339,7 @@ export default {
 <style lang="less">
 .sui-autosize {
     position: relative;
-    border: .05em dashed transparent;
+    border: 2px dashed transparent;
     font-size: var(--auto-size);
     display: inline-block;
     box-sizing: border-box;
@@ -422,8 +422,8 @@ export default {
             background-color: transparent;
             line-height: 1.5em;
             font-size: 1em;
-            padding: 1px 0.75rem; /* fallback */
-            padding: 1px ~"clamp(8px, 0.25em, 0.75rem)";
+            padding: 0 calc(var(--padding) / 2); /* fallback */
+            //padding: 0 ~"clamp(8px, 0.25em, 0.75rem)";
             font-weight: inherit !important;
             outline: none;
             border: none;
