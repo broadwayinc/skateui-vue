@@ -40,13 +40,14 @@ export default {
     },
     data() {
         return {
-            autosize: null
+            autosize: null,
         };
     },
     created() {
         class SuiAutosize {
             constructor(el) {
                 this.init(el);
+                let lineHeight = 0;
             }
 
             updateValue(v) {
@@ -205,6 +206,10 @@ export default {
                 }
             }
 
+            getLineHeight() {
+                return parseInt(document.defaultView.getComputedStyle(this.element.querySelector('textarea'), null).getPropertyValue('line-height'));
+            }
+
             adjustSize() {
                 if (!this.fontsize) {
                     let width = parseFloat(this.elementStyle.width);
@@ -224,7 +229,7 @@ export default {
                     let doIt = () => {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
-                        let lineHeight = parseInt(document.defaultView.getComputedStyle(this.element.querySelector('textarea'), null).getPropertyValue('line-height'));
+                        let lineHeight = this.getLineHeight();
                         let howmanylines = height / lineHeight;
                         if (howmanylines >= 2 && this.fontsize > this.minFontSize) {
                             let minus = this.fontsize - 1;
@@ -243,7 +248,7 @@ export default {
                     let doIt = () => {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
-                        let lineHeight = parseInt(document.defaultView.getComputedStyle(this.element.querySelector('textarea'), null).getPropertyValue('line-height'));
+                        let lineHeight = this.getLineHeight();
                         let howmanylines = height / lineHeight;
                         if (howmanylines < 2 && this.fontsize < this.maxFontSize) {
                             let plus = this.fontsize + 1;
