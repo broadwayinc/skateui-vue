@@ -224,8 +224,9 @@ export default {
                     let doIt = () => {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
-                        let howmanylines = height / (this.fontsize * 1.5);
-                        if (howmanylines > 2 && this.fontsize > this.minFontSize) {
+                        let lineHeight = parseInt(document.defaultView.getComputedStyle(this.element.querySelector('textarea'), null).getPropertyValue('line-height'));
+                        let howmanylines = height / lineHeight;
+                        if (howmanylines >= 2 && this.fontsize > this.minFontSize) {
                             let minus = this.fontsize - 1;
                             this.fontsize = minus > this.minFontSize ? minus : this.minFontSize;
                             doIt();
@@ -242,7 +243,8 @@ export default {
                     let doIt = () => {
                         this.element.style.setProperty('--auto-size', `${this.fontsize}px`);
                         let height = parseFloat(this.elementStyle.height);
-                        let howmanylines = height / (this.fontsize * 1.5);
+                        let lineHeight = parseInt(document.defaultView.getComputedStyle(this.element.querySelector('textarea'), null).getPropertyValue('line-height'));
+                        let howmanylines = height / lineHeight;
                         if (howmanylines < 2 && this.fontsize < this.maxFontSize) {
                             let plus = this.fontsize + 1;
                             this.fontsize = plus < this.maxFontSize ? plus : this.maxFontSize;
