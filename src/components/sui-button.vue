@@ -132,7 +132,7 @@ button.sui-button, a.sui-button {
     min-width: var(--min-input-width);
     max-width: 100%;
     min-height:  var(--min-input-height);
-    padding: calc(var(--padding) / 2) var(--padding);
+    padding: 0 var(--padding);
     display: inline-block;
     box-sizing: border-box;
     font-size: 1em;
@@ -215,6 +215,8 @@ button.sui-button, a.sui-button {
 }
 
 a.sui-button {
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
 
     &.sui-button-disabled {

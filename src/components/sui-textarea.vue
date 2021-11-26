@@ -57,11 +57,16 @@ export default {
     mounted() {
         // setup textbox replica
         let el = this.$refs.textarea;
+        let lineHeight = parseInt(document.defaultView.getComputedStyle(el, null).getPropertyValue('line-height'));
         let parent = el.parentElement;
         let replica = document.createElement('div');
         replica.classList.add('sui-textarea-replica');
         parent.insertBefore(replica, el);
         replica.append(el);
+
+        let marginSpace = ((el.parentNode.parentNode.offsetHeight - lineHeight) / 2) - 4 + 'px';
+        el.parentNode.style.marginTop = marginSpace;
+        el.parentNode.style.marginBottom = marginSpace;
 
         let field = el.closest('fieldset.sui-fieldset');
         this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');

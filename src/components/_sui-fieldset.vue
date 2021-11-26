@@ -169,8 +169,9 @@ export default {
         margin: 0 calc(var(--padding) / 2 * -1);
         display: flex;
         border-color: inherit;
-        height: calc(100% + 4px);
-        margin-top: -2px;
+        height: 100%;
+        //height: calc(100% + 4px);
+        //margin-top: -2px;
 
         button.sui-button {
             min-width: 0;
@@ -342,16 +343,12 @@ export default {
             position: relative;
             vertical-align: middle;
             display: inline-grid;
-            min-height: 44px;
-            //padding: max(calc(calc(calc(1rem / 16 * 44) - 1rem) / 4), calc(var(--padding) / 4));
-            //padding: clamp(calc(var(--padding) / 4), 2.6vw, calc(12px - 0.1rem));
-            //padding: minmax(calc(calc(calc(1rem / 16 * calc(44 - 1rem)) - 1rem) / 4), calc(var(--padding) / 4));
-            //padding-top: calc(calc(min(44px, calc(2.2rem - 4px)) / 2) - 0.5rem - 2px);
-            padding-top: calc(min(44px, calc(2.2rem - 4px)) / 2);
+            //min-height: 44px;
+            //padding-top: calc(min(44px, calc(2.2rem - 4px)) / 2);
             height: auto;
 
             @media @nottablet {
-                min-height: calc(2.2rem - 4px);
+                //min-height: calc(2.2rem - 4px);
             }
 
             &::after {
@@ -503,6 +500,23 @@ export default {
                 & * {
                     align-self: center;
                 }
+            }
+        }
+    }
+
+    &.sui-textarea {
+        height: auto;
+
+        & > .sui-fieldset-wrapper {
+            height: calc(100% - 4px);
+            min-height: calc(var(--min-input-height) - 4px);
+
+            &.sui-fieldset-interface {
+                display: inline-block;
+            }
+
+            & > .slot-left, & > .slot-right {
+                max-height: 44px;
             }
         }
     }
