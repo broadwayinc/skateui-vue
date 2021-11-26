@@ -7,8 +7,7 @@
                     .imageWrapper(:style="[style_imageWrapper(sl)]")
                         sui-image(v-if="sl.image" :error-img='errorImg' :src="sl.image" :ratio="ratio || [16,9]" :style="{display: 'block'}" :parallax="parallax")
                         .slideText(:style="{...style_slideText(sl)}")
-                            div testsize: {{ sl.textSize }}
-                            sui-autosize(:value="sl.text" :max="sl.textSize" readonly)
+                            sui-autosize(:value="sl.text" :maxFontSize="sl.fontSize" readonly)
             .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
                 .swiper-pagination-bullet(v-for="(slide, i) in slideArray" :class="{'swiper-pagination-bullet-active': currentSlideIndex === i}" @click="goToSlide(i)")
             .swiper-controls(v-if="showArrow")
