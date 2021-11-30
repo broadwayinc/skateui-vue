@@ -180,11 +180,8 @@ export default {
         }
 
         & > .sui-fieldset-interface {
-            display: flex;
-            flex-grow: 1;
             position: relative;
             border-color: inherit;
-            align-items: center;
 
             //& > * {
             //    min-height: calc(2.8em - 4px);
@@ -306,7 +303,7 @@ export default {
         }
 
 
-        input, .sui-textarea-replica, select {
+        input, select {
             width: 100%;
 
             &::placeholder {
@@ -336,58 +333,6 @@ export default {
 
             @media @nottablet {
                 min-height: auto;
-            }
-        }
-
-        .sui-textarea-replica {
-            position: relative;
-            vertical-align: middle;
-            display: inline-grid;
-            //min-height: 44px;
-            //padding-top: calc(min(44px, calc(2.2rem - 4px)) / 2);
-            height: auto;
-
-            @media @nottablet {
-                //min-height: calc(2.2rem - 4px);
-            }
-
-            &::after {
-                content: attr(data-replica) " ";
-                white-space: pre-wrap;
-                visibility: hidden;
-            }
-
-            & > textarea {
-                resize: none;
-                overflow: hidden;
-                min-height: 1em;
-                z-index: 1;
-                border: none;
-                padding: 0;
-
-                &::placeholder {
-                    color: #999999;
-                }
-
-                &:read-only {
-                    text-overflow: ellipsis;
-                }
-            }
-
-            & > textarea,
-            &::after {
-                /* Identical styling required!! */
-                box-sizing: border-box;
-                vertical-align: middle;
-                background-color: transparent;
-                color: inherit;
-                line-height: inherit;
-                font-weight: inherit;
-                font-size: inherit;
-                outline: none;
-                border-top: none;
-                /* Place on top of each other */
-                grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
             }
         }
 
@@ -450,7 +395,7 @@ export default {
                 height: var(--input-height);
                 min-height: var(--min-input-height);
                 box-sizing: border-box;
-                padding: calc(var(--padding) / 4 + 2px) calc(var(--padding) / 4);
+                padding: calc(var(--padding) / 4) calc(var(--padding) / 4);
 
                 @media @nottablet {
                     min-height: auto;
@@ -511,8 +456,45 @@ export default {
             height: calc(100% - 4px);
             min-height: calc(var(--min-input-height) - 4px);
 
-            &.sui-fieldset-interface {
-                display: inline-block;
+            & .sui-fieldset-interface {
+                display: flex;
+                align-items: center;
+                padding: calc((var(--padding) / 4 ) + 1px) 0 calc((var(--padding) / 4 ) + .5px)  calc(var(--padding) / 2);
+                width: 100%;
+
+                & textarea {
+                    resize: none;
+                    overflow: hidden;
+                    min-height: 1em;
+                    z-index: 1;
+                    border: none;
+                    padding: 0;
+                    padding-right: calc(var(--padding) / 2);
+                    width: 100%;
+
+                    &::placeholder {
+                        color: #999999;
+                    }
+
+                    &:read-only {
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                & textarea {
+                    /* Identical styling required!! */
+                    box-sizing: border-box;
+                    vertical-align: middle;
+                    background-color: transparent;
+                    color: inherit;
+                    line-height: inherit;
+                    font-weight: inherit;
+                    font-size: inherit;
+                    outline: none;
+                    border-top: none;
+                    /* Place on top of each other */
+                    grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
+                }
             }
 
             & > .slot-left, & > .slot-right {
