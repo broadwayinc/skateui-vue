@@ -484,7 +484,7 @@ export default {
                 & textarea {
                     /* Identical styling required!! */
                     box-sizing: border-box;
-                    vertical-align: middle;
+                    vertical-align: bottom;
                     background-color: transparent;
                     color: inherit;
                     line-height: inherit;
