@@ -156,13 +156,11 @@ export default {
             let trueMaxHeight = parseInt(maxHeight) - parseInt(window.getComputedStyle(el.parentNode.parentNode, null).getPropertyValue('padding-top')) - parseInt(window.getComputedStyle(el.parentNode.parentNode, null).getPropertyValue('padding-bottom'));
             el.style.height = 'auto';
             if(maxHeight && el.scrollHeight > trueMaxHeight) {
-                el.style.height = el.scrollHeight + 'px';
-                el.parentNode.style.height = trueMaxHeight + 'px';
-                el.parentNode.style.overflowY = 'scroll';
+                el.style.height = trueMaxHeight + 'px';
+                el.style.overflowY = 'scroll';
             } else {
                 el.style.height = el.scrollHeight + 'px';
-                el.parentNode.style.height = el.scrollHeight + 'px';
-                el.parentNode.style.overflowY = '';
+                el.style.overflowY = '';
             }
             this.$emit('input', v ? v : this.$refs.textarea.value);
             this.$emit('update:modelValue', v ? v : this.$refs.textarea.value);
