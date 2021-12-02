@@ -1,7 +1,9 @@
 <template lang="pug">
 #sui-app(:class="darkMode ? 'dark-mode' : null")
-    nav#sui-app-nav(v-if="$slots.nav")
-        slot(name="nav")
+    #sui-app-nav(v-if="$slots.nav")
+        header
+            nav
+                slot(name="nav")
     #sui-app-view(v-if="loaded")
         slot
     #sui-app-notification
