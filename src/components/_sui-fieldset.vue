@@ -180,6 +180,7 @@ export default {
         }
 
         & > .sui-fieldset-interface {
+            display: flex;
             position: relative;
             border-color: inherit;
             width: 100%;
@@ -457,7 +458,6 @@ export default {
             min-height: calc(var(--min-input-height) - 4px);
 
             & .sui-fieldset-interface {
-                display: flex;
                 align-items: center;
                 padding: calc((var(--padding) / 4 ) + 1px) 0 calc((var(--padding) / 4 ) + .5px)  calc(var(--padding) / 2);
                 width: 100%;
