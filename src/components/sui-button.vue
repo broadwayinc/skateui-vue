@@ -217,6 +217,7 @@ button.sui-button, a.sui-button {
 a.sui-button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
 
     &.sui-button-disabled {
