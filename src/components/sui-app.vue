@@ -1,9 +1,7 @@
 <template lang="pug">
 #sui-app(:class="darkMode ? 'dark-mode' : null")
     #sui-app-nav(v-if="$slots.nav")
-        header
-            nav
-                slot(name="nav")
+        slot(name="nav")
     #sui-app-view(v-if="loaded")
         slot
     #sui-app-notification
@@ -174,6 +172,7 @@ html {
 
     font-size: var(--font-size);
     line-height: var(--line-height);
+    scroll-behavior: smooth;
 }
 
 #sui-app {
