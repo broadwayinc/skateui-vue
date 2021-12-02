@@ -4,7 +4,7 @@ sui-fieldset.sui-textarea(type="textarea" :suffix='suffix' :prefix='prefix' :lab
         slot(name="slot-left")
     template(#slot-right)
         slot(name="slot-right")
-    div.wrapper
+    .wrapper
         textarea(
             ref="textarea"
             @input="updateValue()"
