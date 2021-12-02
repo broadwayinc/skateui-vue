@@ -133,7 +133,7 @@ export default {
     --color: var(--content-text, inherit);
     --borderStyle: solid;
     font-size: inherit;
-    margin: var(--padding) 0 calc(var(--subtitle-font) + var(--padding) / 2);
+    margin: var(--padding) 0 calc(var(--subtitle-font) + var(--padding) / 4);
     display: inline-block;
     vertical-align: middle;
     position: relative;
@@ -167,9 +167,9 @@ export default {
 
     & > .sui-fieldset-wrapper {
         margin: 0 calc(var(--padding) / 2 * -1);
-        display: flex;
         border-color: inherit;
         height: 100%;
+        display: flex;
         //height: calc(100% + 4px);
         //margin-top: -2px;
 
@@ -182,7 +182,7 @@ export default {
         & > .sui-fieldset-interface {
             position: relative;
             border-color: inherit;
-
+            width: 100%;
             //& > * {
             //    min-height: calc(2.8em - 4px);
             //}
@@ -462,38 +462,42 @@ export default {
                 padding: calc((var(--padding) / 4 ) + 1px) 0 calc((var(--padding) / 4 ) + .5px)  calc(var(--padding) / 2);
                 width: 100%;
 
-                & textarea {
-                    resize: none;
-                    overflow: hidden;
-                    min-height: 1em;
-                    z-index: 1;
-                    border: none;
-                    padding: 0;
-                    padding-right: calc(var(--padding) / 2);
+                & .wrapper {
                     width: 100%;
 
-                    &::placeholder {
-                        color: #999999;
+                    & textarea {
+                        resize: none;
+                        overflow: hidden;
+                        min-height: 1em;
+                        z-index: 1;
+                        border: none;
+                        padding: 0;
+                        padding-right: calc(var(--padding) / 2);
+                        width: 100%;
+
+                        &::placeholder {
+                            color: #999999;
+                        }
+
+                        &:read-only {
+                            text-overflow: ellipsis;
+                        }
                     }
 
-                    &:read-only {
-                        text-overflow: ellipsis;
+                    & textarea {
+                        /* Identical styling required!! */
+                        box-sizing: border-box;
+                        vertical-align: bottom;
+                        background-color: transparent;
+                        color: inherit;
+                        line-height: inherit;
+                        font-weight: inherit;
+                        font-size: inherit;
+                        outline: none;
+                        border-top: none;
+                        /* Place on top of each other */
+                        grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
                     }
-                }
-
-                & textarea {
-                    /* Identical styling required!! */
-                    box-sizing: border-box;
-                    vertical-align: bottom;
-                    background-color: transparent;
-                    color: inherit;
-                    line-height: inherit;
-                    font-weight: inherit;
-                    font-size: inherit;
-                    outline: none;
-                    border-top: none;
-                    /* Place on top of each other */
-                    grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
                 }
             }
 
@@ -520,6 +524,7 @@ export default {
         text-align: right;
         line-height: 1;
         right: var(--borderWidth);
+        bottom: calc(-1em - (var(--padding) / 4));
         font-weight: normal;
 
         &.sui-fieldset-error {
