@@ -235,6 +235,105 @@ html {
         position: relative;
         flex-grow: 1;
         background: var(--background);
+
+        & .sui-grid {
+            display: grid;
+            grid-template-columns: repeat(12, calc((100% - (11 * var(--padding))) / 12));
+            grid-gap: var(--padding);
+
+            & .sui-col {
+                word-wrap: break-word;
+
+                .generate-cols(@n, @i: 1) when (@i =< @n) {
+                    &.sm-@{i} {
+                        grid-column: span @i;
+                    }
+                    .generate-cols(@n, (@i + 1));
+                }
+
+                .generate-cols(12);
+
+                @media @md {
+                    .generate-cols(@n, @i: 1) when (@i =< @n) {
+                        &.md-@{i} {
+                            grid-column: span @i;
+                        }
+                        .generate-cols(@n, (@i + 1));
+                    }
+
+                    .generate-cols(12);
+                }
+
+                @media @lg {
+                    .generate-cols(@n, @i: 1) when (@i =< @n) {
+                        &.lg-@{i} {
+                            grid-column: span @i;
+                        }
+                        .generate-cols(@n, (@i + 1));
+                    }
+
+                    .generate-cols(12);
+                }
+
+                @media @xl {
+                    .generate-cols(@n, @i: 1) when (@i =< @n) {
+                        &.xl-@{i} {
+                            grid-column: span @i;
+                        }
+                        .generate-cols(@n, (@i + 1));
+                    }
+
+                    .generate-cols(12);
+                }
+            }
+        }
+
+        & .sm-show,
+        & .md-show,
+        & .lg-show,
+        & .xl-show {
+            display: none;
+        }
+        @media @sm {
+            .sm-show {
+                display: block;
+            }
+        }
+        @media @smonly {
+            .sm-hide {
+                display: none;
+            }
+        }
+        @media @md {
+            .md-show {
+                display: block;
+            }
+        }
+        @media @mdonly {
+            .md-hide {
+                display: none;
+            }
+        }
+        @media @lg {
+            .lg-show {
+                display: block !important;
+            }
+        }
+        @media @lgonly {
+            .lg-hide {
+                display: none;
+            }
+        }
+        @media @xl {
+            .xl-show {
+                display: block;
+            }
+        }
+        @media @xlonly {
+            .xl-hide {
+                display: none;
+            }
+        }
     }
 
     & > #sui-app-notification {
