@@ -74,8 +74,6 @@ export default {
         font-size: var(--subtitle-font);
         margin-top: var(--space-1);
         line-height: 1rem;
-        display: flex;
-        align-items: center;
 
         & > * {
             margin-right: calc(var(--padding) / 2);
