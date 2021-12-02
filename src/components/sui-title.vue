@@ -1,14 +1,14 @@
-<template functional lang='pug'>
-    sui-sticky.sui-title(:class="{grid: props.src}" v-if="props.sticky")
-        div.image(v-if="src" :style="{backgroundImage: `url(${props.src})`}")
-        div.title(v-if="props.title") {{ props.title }}
-        div.subtitle {{ props.subtitle }}
-            slot
-    .sui-title(:class="{grid: props.src}" v-else)
-        div.image(v-if="props.src" :style="{backgroundImage: `url(${props.src})`}")
-        div.title(v-if="props.title") {{ props.title }}
-        div.subtitle {{ props.subtitle }}
-            slot
+<template lang='pug'>
+sui-sticky.sui-title(:class="{grid: props.src}" v-if="props.sticky")
+    div.image(v-if="src" :style="{backgroundImage: `url(${props.src})`}")
+    div.title(v-if="props.title") {{ props.title }}
+    div.subtitle {{ props.subtitle }}
+        slot
+.sui-title(:class="{grid: props.src}" v-else)
+    div.image(v-if="props.src" :style="{backgroundImage: `url(${props.src})`}")
+    div.title(v-if="props.title") {{ props.title }}
+    div.subtitle {{ props.subtitle }}
+        slot
 </template>
 
 <script>
