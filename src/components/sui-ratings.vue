@@ -1,7 +1,7 @@
 <template lang='pug'>
 div
-    i.rating.material-icons(v-for="i in parseInt(props.rating)") star
-    i.rating.material-icons(v-if="props.rating % 1 >= 0.5") star_half
+    i.rating.material-icons(v-for="i in parseInt(rating)") star
+    i.rating.material-icons(v-if="rating % 1 >= 0.5") star_half
 </template>
 
 <script>
