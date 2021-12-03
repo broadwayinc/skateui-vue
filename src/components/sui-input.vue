@@ -28,7 +28,6 @@
             :checked="isChecked")
         .sui-radio-div(@click="()=>{$refs.option.click()}")
     template(v-if="label")
-        pre
         label(:for="inputId") {{ label }}
 sui-fieldset.sui-input(
     v-else
@@ -411,10 +410,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-// option styles
 .sui-input {
-    cursor: pointer;
-
     &.sui-option-disabled {
         opacity: 0.25;
         user-select: none;
@@ -424,6 +420,9 @@ export default {
     &.sui-checkbox, &.sui-radio {
         display: inline-block;
         position: relative;
+        cursor: pointer;
+        padding: 0 calc(var(--padding) / 2);
+        margin: 0 calc(var(--padding) / 2 * -1);
 
         *:not(pre) {
             font-size: 1em;
@@ -452,6 +451,7 @@ export default {
             box-sizing: border-box;
             border: 1px solid;
             vertical-align: middle;
+            margin-right: calc(var(--padding) / 2);
         }
     }
 

@@ -1,67 +1,52 @@
 <template lang='pug'>
 .sui-accordion
-    .sui-accordion-head(onclick="sui_accordion.handler(event)")
+    .sui-accordion-head(@click="() => {isOpen = !isOpen}")
         .sui-accordion-title {{title}}
-    .sui-accordion-content
-        slot
+        .sui-accordion-action
+            i.material-icons(v-if="isOpen") expand_less
+            i.material-icons(v-else) expand_more
+    .sui-accordion-content-wrapper(:class="{open: isOpen}")
+        .sui-accordion-content(ref="content")
+            slot
 </template>
 <script>
 export default {
     name: 'sui-accordion',
+    data() {
+        return {
+            isOpen: false,
+            maxHeight: 0
+        }
+    },
     props: {
-        title: String
+        title: String,
     },
     mounted() {
-        if (!window.sui_accordion) {
-            window.sui_accordion = {
-                timeout: null,
-                handler: (ev) => {
-                    let el = ev.target.closest('.sui-accordion');
-
-                    if (!el)
-                        return;
-
-                    let bool = !el.classList.contains('minus');
-
-                    if (bool)
-                        el.classList.add('minus');
-                    else
-                        el.classList.remove('minus');
-
-                    if (el)
-                        el = el.lastChild;
-
-                    if (window.sui_accordion.timeout)
-                        clearTimeout(window.sui_accordion.timeout);
-                    window.sui_accordion.timeout = null;
-
-                    if (bool) {
-                        el.style.maxHeight = '100vh';
-                        window.sui_accordion.timeout = setTimeout(() => {
-                            // use this.$nextTick() for vue
-                            el.style.maxHeight = 'unset';
-                        }, 750);
-                    } else {
-                        el.style.maxHeight = '100vh';
-                        window.sui_accordion.timeout = setTimeout(() => {
-                            el.style.maxHeight = '0';
-                        }, 100);
-                    }
-                }
-            };
-        }
+        this.maxHeight = this.$refs.content.offsetHeight;
     }
 };
 </script>
 <style lang="less">
 div.sui-accordion {
     position: relative;
+    margin: var(--padding) 0;
 
     & > .sui-accordion-head {
-
-        border-bottom: 1px solid var(--content-text_soft);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        border-bottom: 1px solid var(--content-text_shade);
+        padding: 0 var(--padding);
+        cursor: pointer;
+        height: 2em;
 
         & > .sui-accordion-title:not(:empty) {
+            box-sizing: border-box;
+            width: 100%;
+            position: relative;
+            line-height: 2em;
+            color: inherit;
+
             & + hr {
                 display: block;
                 margin-top: 0;
@@ -69,26 +54,6 @@ div.sui-accordion {
                 border-right: 0;
                 max-width: unset;
             }
-
-            &::after {
-                content: "+";
-                font-size: 1.5em;
-                line-height: 2rem;
-                position: absolute;
-                right: 0;
-                font-weight: 300;
-                width: 1em;
-                text-align: center;
-            }
-
-            padding-right: 1.5em;
-            padding-left: 0.5em;
-            box-sizing: border-box;
-            width: 100%;
-            cursor: pointer;
-            position: relative;
-            line-height: 2rem;
-            color: inherit;
 
             &:hover {
                 text-shadow: 1px 1px var(--content-text_shadow, rgba(0, 0, 0, 0.033));
@@ -103,24 +68,36 @@ div.sui-accordion {
                 }
             }
         }
-    }
+        
+        & .sui-accordion-action {
+            cursor: pointer;
 
-    &.minus > .sui-accordion-head > .sui-accordion-title {
-        &::after {
-            content: "-";
+            &,
+            & i {
+                font-size: 1em;
+                line-height: 1;
+                height: 1em;
+            }
         }
     }
 
-    & > .sui-accordion-content {
+    & > .sui-accordion-content-wrapper {
         overflow: hidden;
         max-height: 0;
         transition: max-height .5s;
-        padding-left: 0.5em;
-        color: var(--content-text_soft, #808080);
 
-        & img {
-            margin-left: -0.5em;
-            width: calc(100% + 0.5em);
+        &.open {
+            max-height: 100%;
+            transition: max-height .5s;
+        }
+        & .sui-accordion-content {
+            padding: calc(var(--padding) / 2) var(--padding);
+            color: var(--content-text_soft, #808080);
+
+            & img {
+                margin-left: -0.5em;
+                width: calc(100% + 0.5em);
+            }
         }
     }
 }

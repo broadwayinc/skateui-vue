@@ -1,6 +1,6 @@
 <template lang="pug">
 #sui-app(:class="darkMode ? 'dark-mode' : null")
-    nav#sui-app-nav(v-if="$slots.nav")
+    #sui-app-nav(v-if="$slots.nav")
         slot(name="nav")
     #sui-app-view(v-if="loaded")
         slot
@@ -145,26 +145,52 @@ export default {
 @import '../assets/normalize.css';
 @import '../assets/viewport.less';
 
-body {
+html {
     --border-radius: 2px;
+    --line-height: 1.5;
+    --min-body-font: 16px;
+    --max-body-font: 21px;
+    --font-size: clamp(var(--min-body-font), 2.6vw, var(--max-body-font));
+
+    --space-1: calc(var(--font-size) / 16 * 4);
+    --space-2: calc(var(--font-size) / 16 * 8);
+    --space-3: calc(var(--font-size) / 16 * 12);
+    --space-4: calc(var(--font-size) / 16 * 16);
+    --space-5: calc(var(--font-size) / 16 * 20);
+    --space-6: calc(var(--font-size) / 16 * 24);
+    --space-7: calc(var(--font-size) / 16 * 28);
+    --space-8: calc(var(--font-size) / 16 * 32);
+    --space-9: calc(var(--font-size) / 16 * 36);
+    --space-10: calc(var(--font-size) / 16 * 40);
+
+    --title-font: calc(1em + 4px);
+    --subtitle-font: 0.8em;
+    --input-height: calc(48 / 21 * 1em);
+    --min-input-height: 48px;
+    --min-input-width: calc(var(--max-body-font) * 5.5);
+    --padding: var(--space-4);
+
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    scroll-behavior: smooth;
 }
 
 #sui-app {
     width: 100vw;
     max-width: 100%;
     min-height: 100vh;
-    height: 100vh;
+    height: 1px; /* forces height on grandchildren */
 
     background-color: var(--background);
     color: var(--background-text);
     position: relative;
 
     display: flex;
-    //justify-content: center;
     align-items: center;
     flex-direction: column;
 
     & > #sui-app-nav {
+        height: calc(var(--space-7) * 2);
         background-color: var(--navbar-background-color, var(--content, #ffffff));
         color: var(--navbar-color, var(--content-text, rgba(0, 0, 0, 0.88)));
         box-shadow: 0 0 1px rgba(153, 153, 153, 0.5);
@@ -178,7 +204,7 @@ body {
         align-items: center;
 
         & > * {
-            padding: .5em;
+            padding: auto var(--padding);
             display: flex;
             align-items: center;
 
@@ -212,8 +238,103 @@ body {
         flex-grow: 1;
         background: var(--background);
 
-        & > * {
-            max-width: 100%;
+        & .sui-grid {
+            display: grid;
+            grid-template-columns: repeat(12, calc((100% - (11 * var(--padding))) / 12));
+            grid-gap: var(--padding);
+
+            & .sui-col {
+                word-wrap: break-word;
+
+                .generate-cols(@n, @i: 1) when (@i =< @n) {
+                    &.sm-@{i} {
+                        grid-column: span @i;
+                    }
+                    .generate-cols(@n, (@i + 1));
+                }
+
+                .generate-cols(12);
+
+                @media @md {
+                    .generate-cols(@n, @i: 1) when (@i =< @n) {
+                        &.md-@{i} {
+                            grid-column: span @i;
+                        }
+                        .generate-cols(@n, (@i + 1));
+                    }
+
+                    .generate-cols(12);
+                }
+
+                @media @lg {
+                    .generate-cols(@n, @i: 1) when (@i =< @n) {
+                        &.lg-@{i} {
+                            grid-column: span @i;
+                        }
+                        .generate-cols(@n, (@i + 1));
+                    }
+
+                    .generate-cols(12);
+                }
+
+                @media @xl {
+                    .generate-cols(@n, @i: 1) when (@i =< @n) {
+                        &.xl-@{i} {
+                            grid-column: span @i;
+                        }
+                        .generate-cols(@n, (@i + 1));
+                    }
+
+                    .generate-cols(12);
+                }
+            }
+        }
+
+        & .sm-show,
+        & .md-show,
+        & .lg-show,
+        & .xl-show {
+            display: none;
+        }
+        @media @sm {
+            .sm-show {
+                display: block;
+            }
+        }
+        @media @smonly {
+            .sm-hide {
+                display: none;
+            }
+        }
+        @media @md {
+            .md-show {
+                display: block;
+            }
+        }
+        @media @mdonly {
+            .md-hide {
+                display: none;
+            }
+        }
+        @media @lg {
+            .lg-show {
+                display: block !important;
+            }
+        }
+        @media @lgonly {
+            .lg-hide {
+                display: none;
+            }
+        }
+        @media @xl {
+            .xl-show {
+                display: block;
+            }
+        }
+        @media @xlonly {
+            .xl-hide {
+                display: none;
+            }
         }
     }
 

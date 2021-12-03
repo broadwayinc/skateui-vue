@@ -1,9 +1,9 @@
 <template lang='pug'>
-.step(v-bind:class="[positionClass, {'complete': idx < complete, 'current': idx === complete}]") {{ step.text ? step.text : step }}
-    //template(v-else-if="typeof step !== 'string'")
-    //    .left
-    //        i.material-icons {{ step.icon }}
-    //    | {{ step.text }}
+.step(v-bind:class="[positionClass, {'complete': idx < complete, 'current': idx === complete}]")
+    div.step-name
+        i.material-icons(v-if="steps[idx].icon") {{ steps[idx].icon }}
+        span {{ typeof steps[idx] !== 'string' ? steps[idx].text : steps[idx] }}
+    div.next-step(v-if="type === 'ring' && steps[idx + 1]") NEXT: {{ typeof steps[idx + 1] !== 'string' ? steps[idx + 1].text : steps[idx + 1] }}
 </template>
 
 <script>
@@ -11,9 +11,10 @@ export default {
     name: 'sui-steps',
     props: {
         idx: Number,
-        step: [String, Object],
+        steps: Array,
         stepSize: Number,
         complete: Number,
+        type: String
     },
     data() {
         return {
@@ -54,3 +55,30 @@ export default {
     }
 };
 </script>
+<style lang="less">
+.ring .step {
+    flex-direction: column;
+    justify-content: center;
+
+    & .step-name {
+        margin-top: -0.5em;
+    }
+    & .next-step {
+        position: absolute;
+        font-size: 0.8rem;
+        top: calc(1.333rem + 1em);
+    }
+}
+.step {
+    & .step-name {
+        display: flex;
+        align-items: center;
+
+        & i {
+            margin-right: calc(var(--padding) / 4);
+        }
+    }
+}
+
+
+</style>
