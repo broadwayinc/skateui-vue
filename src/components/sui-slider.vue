@@ -1,17 +1,18 @@
 <template lang="pug">
-.sui-sliderWrapper(:style="{paddingBottom: showPagination ? '24px' : null}")
-    .sui-slider(:id='elementId')
-        ul.slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
-            li.slide-item(v-for='(sl, idx) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : idx' :style="{backgroundColor: sl.color}")
-                .imageWrapper(:style="[style_imageWrapper(sl)]")
-                    sui-image(v-if="sl.image" :error-img='errorImg' :src="sl.image" :ratio="ratio || [16,9]" :style="{display: 'block'}" :parallax="parallax")
-                    .slideText(:style="{...style_slideText(sl)}")
-                        sui-autosize(:value="sl.text" readonly)
-        .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
-            .swiper-pagination-bullet(v-for="(slide, i) in slideArray" :class="{'swiper-pagination-bullet-active': currentSlideIndex === i}" @click="goToSlide(i)")
-        .swiper-controls(v-if="showArrow")
-            .controls.prev(v-if="loop || currentSlideIndex !== 0" @click="prev()" :style='{backgroundImage:`url("${swiper_arrows.prev}")`}')
-            .controls.next(v-if="loop || currentSlideIndex !== slideArray.length - 1" @click="next()" :style='{backgroundImage:`url("${swiper_arrows.next}")`}')
+.sui-sliderContainer(:style="{'padding-bottom': navigationPadding}")
+    .sui-sliderWrapper
+        .sui-slider(:id='elementId')
+            ul.slide-wrapper(:style="{transform: 'translateX(' + sliderPosition + 'px)'}" :class="{animating: isAnimate}")
+                li.slide-item(v-for='(sl, idx) in slideArray_computed' :key='sl.uniqueId ? sl.uniqueId + idx : idx' :style="{backgroundColor: sl.color}")
+                    .imageWrapper(:style="[style_imageWrapper(sl)]")
+                        sui-image(v-if="sl.image" :error-img='errorImg' :src="sl.image" :ratio="ratio || [16,9]" :style="{display: 'block'}" :parallax="parallax")
+                        .slideText(:style="{...style_slideText(sl)}")
+                            sui-autosize(:value="sl.text" :maxFontSize="sl.fontSize" readonly)
+            .swiper-pagination(v-if='showPagination && slideArray.length > 1' :id='`pagination_${elementId}`' slot="pagination")
+                .swiper-pagination-bullet(v-for="(slide, i) in slideArray" :class="{'swiper-pagination-bullet-active': currentSlideIndex === i}" @click="goToSlide(i)")
+            .swiper-controls(v-if="showArrow")
+                .controls.prev(v-if="loop || currentSlideIndex !== 0" @click="prev()" :style='{backgroundImage:`url("${swiper_arrows.prev}")`}')
+                .controls.next(v-if="loop || currentSlideIndex !== slideArray.length - 1" @click="next()" :style='{backgroundImage:`url("${swiper_arrows.next}")`}')
 </template>
 
 <script>
@@ -26,7 +27,8 @@ export default {
         parallax: Boolean,
         showArrow: {type: Boolean, default: true},
         errorImg: String,
-        loop: {type: Boolean, default: false}
+        loop: {type: Boolean, default: false},
+        draggable: {type: Boolean, default: true}
     },
     data() {
         return {
@@ -45,24 +47,28 @@ export default {
             buffer: false,
             slideTextSize: null,
             slideHeight_calculated: '100%',
-            thumbnailHeight: null
+            thumbnailHeight: null,
+            navigationPadding: null,
         };
     },
     mounted() {
         this.setWidth();
-
+        this.navigationPadding = `${document.getElementById(`pagination_${this.elementId}`).offsetHeight}px`;
         if (window.sui_on)
             this.eventId = window.sui_on.registerEvent.resize(this.setWidth);
-
         this.slider = document.getElementById(this.elementId);
         this.slider.addEventListener('touchstart', (e) => {
-            this.registerTouchEvent(e, 'touch');
+            if(e.target.classList.value !== 'swiper-pagination-bullet') {
+                this.registerTouchEvent(e, 'touch');
+            }
         });
         this.slider.addEventListener('mousedown', e => {
             this.registerTouchEvent(e);
         });
         this.slider.addEventListener('touchend', e => {
-            this.unregisterTouchEvent(e);
+            if(e.target.classList.value !== 'swiper-pagination-bullet') {
+                this.unregisterTouchEvent(e);
+            }
         });
         this.slider.addEventListener('mouseup', e => {
             this.unregisterTouchEvent(e);
@@ -78,6 +84,13 @@ export default {
         window.sui_on.removeEvent.resize(this.eventId);
     },
     computed: {
+        paddingBottom() {
+            if(this.showPagination) {
+                this.navigationPadding = `${document.getElementById(`pagination_${this.elementId}`).offsetHeight}px`;
+            } else {
+                this.navigationPadding = 0;
+            }
+        },
         dragDirection() {
             let direction = 'left';
             if (this.clickStart - this.dragDuration < 0) {
@@ -97,6 +110,7 @@ export default {
                         const obj = {
                             image: s.src || '',
                             text: s.text || '',
+                            textSize: s.textSize || '',
                             textAlign: s.textAlign || ['center', 'center'],
                             uniqueId: s.uniqueId
                         };
@@ -144,20 +158,43 @@ export default {
                     e.preventDefault();
                 }
                 this.isAnimate = false;
-                this.clickStart = e.clientX;
+                if(this.draggable) this.clickStart = e.clientX;
                 if (type === 'touch') this.clickStart = e.changedTouches[0].clientX;
-                this.isClick = true;
+                if(this.draggable) this.isClick = true;
             }
         },
         unregisterTouchEvent(e) {
             e.preventDefault();
             this.isClick = false;
             let slideable = true;
-            if (!this.loop && this.currentSlideIndex === 0 && this.dragDirection === 'right' || !this.loop && this.currentSlideIndex === this.slideArray.length - 1 && this.dragDirection === 'left') {
+            let clickDirection = null;
+            if(e.target.classList.value === 'controls next') {
+                clickDirection = 'left';
+            } else if(e.target.classList.value === 'controls prev') {
+                clickDirection = 'right';
+            } else {
+                clickDirection = this.dragDirection;
+            }
+
+            if (
+                !this.loop && this.currentSlideIndex === 0 &&
+                clickDirection === 'right' || !this.loop &&
+                this.currentSlideIndex === this.slideArray.length - 1 &&
+                clickDirection === 'left' ||
+                !this.draggable
+            ) {
                 slideable = false;
             }
-            if (slideable && Math.abs(this.dragDuration - this.clickStart) > this.pageWidth / 2) {
-                if (this.dragDirection === 'left') {
+            if(e.target.classList.value === 'controls prev' || e.target.classList.value === 'controls next') {
+                if(e.target.classList.value === 'controls prev') {
+                    this.isAnimate = true;
+                    this.prev();
+                } else {
+                    this.isAnimate = true;
+                    this.next();
+                }
+            } else if (slideable && Math.abs(this.dragDuration - this.clickStart) > this.pageWidth / 2) {
+                if (clickDirection === 'left') {
                     this.isAnimate = true;
                     this.next();
                 } else {
@@ -296,9 +333,10 @@ export default {
 
         .swiper-pagination {
             position: absolute;
-            bottom: -3px; // something is taking up space
+            bottom: 0;
             text-align: center;
             width: 100%;
+            transform: translateY(100%);
         }
 
         .swiper-pagination-bullet {
@@ -307,7 +345,7 @@ export default {
             display: inline-block;
             border-radius: 50px;
             background: var(--slide-pagination, #999999);
-            margin: auto 4px;
+            margin: auto calc(var(--padding) / 4);
             cursor: pointer;
             transition: width 0.5s;
 
@@ -349,24 +387,24 @@ export default {
         transform: translateY(-50%);
         display: inline-block;
         cursor: pointer;
-        padding: 32px;
+        padding: var(--padding);
         border-radius: 8px;
-        opacity: 0.2;
+        opacity: 0.5;
         background-color: #000;
-        background-size: 26px 44px;
+        background-size: 1em 1em;
         background-position: center;
         background-repeat: no-repeat;
 
         &:hover {
-            opacity: 0.4;
+            opacity: 0.6;
         }
 
         &.prev {
-            left: 10px;
+            left: var(--padding);
         }
 
         &.next {
-            right: 10px;
+            right: var(--padding);
         }
     }
 }

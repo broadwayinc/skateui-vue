@@ -27,11 +27,13 @@ sui-fieldset.sui-select(
             template(v-for="(x, idx) in option")
                 .sui-dropdown-list(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :data-value="x.value || x") {{ typeof x === 'string' ? x : x.text || x.value }}
         .sui-dropdown-button
+            i.material-icons expand_more
     template(v-else)
         select(ref="select" @input="e=>{updateValue(e.target.value)}" :required="required" @invalid.prevent="invalidInput" :disabled="disabled" @focus="focus")
             option(v-if="placeholder" value="" disabled selected="(value || modelValue) === ''") {{ mini && placeholder ? placeholder || label : placeholder }}
             option(v-for="x in option" :value="x.value" :selected="x.value === (value || modelValue) ? 'selected' : null") {{ x.text ? x.text : x.value }}
         .sui-dropdown-button
+            i.material-icons expand_more
     template(#slot-left)
         slot(name="slot-left")
     template(#slot-right)
@@ -208,11 +210,15 @@ input, select {
     pointer-events: none;
     opacity: 0.5;
 
-    &::before {
-        content: "";
-        border-top: .3em solid var(--content-text_soft);
-        border-left: .25em solid transparent;
-        border-right: .25em solid transparent;
+    & i {
+        font-size: 1em;
     }
+
+    //&::before {
+    //    content: "";
+    //    border-top: .3em solid var(--content-text_soft);
+    //    border-left: .25em solid transparent;
+    //    border-right: .25em solid transparent;
+    //}
 }
 </style>

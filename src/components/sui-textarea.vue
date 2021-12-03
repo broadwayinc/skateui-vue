@@ -4,17 +4,19 @@ sui-fieldset.sui-textarea(type="textarea" :suffix='suffix' :prefix='prefix' :lab
         slot(name="slot-left")
     template(#slot-right)
         slot(name="slot-right")
-    textarea(
-        ref="textarea"
-        @input="updateValue()"
-        @invalid.prevent="invalidInput"
-        :placeholder="placeholder"
-        rows="1"
-        @keyup="(e)=>{keyOutput(e.code)}"
-        :disabled="disabled"
-        :required="required"
-        :readonly='readonly'
-        @focus="focus")
+    .wrapper
+        textarea(
+            ref="textarea"
+            @input="updateValue()"
+            @invalid.prevent="invalidInput"
+            :placeholder="placeholder"
+            rows="1"
+            @keyup="(e)=>{keyOutput(e.code)}"
+            :disabled="disabled"
+            :required="required"
+            :readonly='readonly'
+            :value="value"
+            @focus="focus")
 </template>
 <script>
 export default {
@@ -57,35 +59,54 @@ export default {
     mounted() {
         // setup textbox replica
         let el = this.$refs.textarea;
-        let parent = el.parentElement;
-        let replica = document.createElement('div');
-        replica.classList.add('sui-textarea-replica');
-        parent.insertBefore(replica, el);
-        replica.append(el);
+        // let lineHeight = parseInt(document.defaultView.getComputedStyle(el, null).getPropertyValue('line-height'));
+        let maxHeight = el.parentNode.parentNode.parentNode.style.maxHeight;
+        if(maxHeight && el.scrollHeight >= parseInt(maxHeight)) {
+            console.log("Restrict my height");
+            el.style.height = maxHeight;
+        } else {
+            el.style.height = el.scrollHeight + 'px';
+        }
+        // let parent = el.parentElement;
+        // let replica = document.createElement('div');
+        //
+        // let marginSpace = ((el.parentNode.parentNode.offsetHeight - lineHeight) / 2) - 4 + 'px';
+        // el.parentNode.style.marginTop = marginSpace;
+        // el.parentNode.style.marginBottom = marginSpace;
+        //
+        // replica.classList.add('sui-textarea-replica');
+        // replica.dataset.replica = el.value;
+        // parent.insertBefore(replica, el);
+        // replica.append(el);
 
-        el.addEventListener('input', (e) => {
-            let target = e.target;
-            target.parentNode.dataset.replica = target.value;
-        });
-        el.addEventListener('focus', (e) => {
-            let target = e.target;
-            let par = target.parentNode.parentNode.parentNode;
-            if (par.classList.contains('sui-textarea') && !par.classList.contains('focus')) {
-                par.classList.add('focus');
-            }
-        });
-        el.addEventListener('blur', (e) => {
-            let target = e.target;
-            let par = target.parentNode.parentNode.parentNode;
-            if (par.classList.contains('sui-textarea') && par.classList.contains('focus')) {
-                par.classList.remove('focus');
-            }
-        });
 
-        this.$nextTick(() => {
-            if (this.autofocus)
-                this.$refs.textarea.focus();
-        });
+        // let field = el.closest('fieldset.sui-fieldset');
+        // this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
+        // el.id = this.inputId;
+        //
+        // el.addEventListener('input', (e) => {
+        //     let target = e.target;
+        //     target.parentNode.dataset.replica = target.value;
+        // });
+        // el.addEventListener('focus', (e) => {
+        //     let target = e.target;
+        //     let par = target.parentNode.parentNode.parentNode;
+        //     if (par.classList.contains('sui-textarea') && !par.classList.contains('focus')) {
+        //         par.classList.add('focus');
+        //     }
+        // });
+        // el.addEventListener('blur', (e) => {
+        //     let target = e.target;
+        //     let par = target.parentNode.parentNode.parentNode;
+        //     if (par.classList.contains('sui-textarea') && par.classList.contains('focus')) {
+        //         par.classList.remove('focus');
+        //     }
+        // });
+        //
+        // this.$nextTick(() => {
+        //     if (this.autofocus)
+        //         this.$refs.textarea.focus();
+        // });
     },
     computed: {
         lengthFail() {
@@ -130,6 +151,17 @@ export default {
             this.$emit('focus', e);
         },
         updateValue(v) {
+            let el = this.$refs.textarea;
+            let maxHeight = el.parentNode.parentNode.parentNode.parentNode.style.maxHeight;
+            let trueMaxHeight = parseInt(maxHeight) - parseInt(window.getComputedStyle(el.parentNode.parentNode, null).getPropertyValue('padding-top')) - parseInt(window.getComputedStyle(el.parentNode.parentNode, null).getPropertyValue('padding-bottom'));
+            el.style.height = 'auto';
+            if(maxHeight && el.scrollHeight > trueMaxHeight) {
+                el.style.height = trueMaxHeight + 'px';
+                el.style.overflowY = 'scroll';
+            } else {
+                el.style.height = el.scrollHeight + 'px';
+                el.style.overflowY = '';
+            }
             this.$emit('input', v ? v : this.$refs.textarea.value);
             this.$emit('update:modelValue', v ? v : this.$refs.textarea.value);
         },
