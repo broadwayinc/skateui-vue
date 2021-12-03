@@ -179,6 +179,7 @@ html {
     width: 100vw;
     max-width: 100%;
     min-height: 100vh;
+    height: 1px; /* forces height on grandchildren */
 
     background-color: var(--background);
     color: var(--background-text);
