@@ -1,13 +1,13 @@
 <template lang='pug'>
-sui-sticky.sui-title(:class="{grid: props.src}" v-if="props.sticky")
-    div.image(v-if="src" :style="{backgroundImage: `url(${props.src})`}")
-    div.title(v-if="props.title") {{ props.title }}
-    div.subtitle {{ props.subtitle }}
+sui-sticky.sui-title(:class="{grid: src}" v-if="sticky")
+    div.image(v-if="src" :style="{backgroundImage: `url(${src})`}")
+    div.title(v-if="title") {{ title }}
+    div.subtitle {{ subtitle }}
         slot
-.sui-title(:class="{grid: props.src}" v-else)
-    div.image(v-if="props.src" :style="{backgroundImage: `url(${props.src})`}")
-    div.title(v-if="props.title") {{ props.title }}
-    div.subtitle {{ props.subtitle }}
+.sui-title(:class="{grid: src}" v-else)
+    div.image(v-if="src" :style="{backgroundImage: `url(${src})`}")
+    div.title(v-if="title") {{ title }}
+    div.subtitle {{ subtitle }}
         slot
 </template>
 
