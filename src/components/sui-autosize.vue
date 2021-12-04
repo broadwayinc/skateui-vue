@@ -100,7 +100,7 @@ export default {
                     this.id = el.substring(1);
                     this.element = document.getElementById(this.id);
                 } else if (typeof el === 'object' && Object.keys(el).length) {
-                    let {element, maxFontSize = 72, minFontSize = 16, value, readonly} = el;
+                    let {element, maxFontSize = 72, minFontSize = 16, value, readonly, tag} = el;
                     if (typeof element === 'string' && element[0] === '#') {
                         this.id = element.substring(1);
                         this.element = document.getElementById(this.id);
@@ -130,6 +130,7 @@ export default {
 
                     this.maxFontSize = maxFontSize || 72;
                     this.minFontSize = minFontSize || 16;
+                    this.tag = tag || 'textarea';
                 } else {
                     throw 'invalid parameters';
                 }
@@ -207,7 +208,7 @@ export default {
             }
 
             getLineHeight() {
-                return parseInt(document.defaultView.getComputedStyle(this.element.querySelector('textarea'), null).getPropertyValue('line-height'));
+                return parseInt(document.defaultView.getComputedStyle(this.element.querySelector(this.tag), null).getPropertyValue('line-height'));
             }
 
             adjustSize() {
@@ -329,7 +330,8 @@ export default {
                 minFontSize: this.minFontSize,
                 maxFontSize: this.maxFontSize,
                 value: this.value_normalized,
-                readonly: !this.contenteditable
+                readonly: !this.contenteditable,
+                tag: this.tag,
             });
         },
         focus(e) {
