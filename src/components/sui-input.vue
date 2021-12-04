@@ -1,7 +1,8 @@
 <template lang='pug'>
 input(
-    v-if="type === 'hidden'"
+    v-if="type === 'hidden' || type ==='image'"
     ref="input"
+    :src="src"
     @invalid.prevent="invalidInput"
     :name='name'
     :minlength='minlength'
@@ -51,6 +52,7 @@ input(
         label(:for="inputId") {{ label }}
 sui-fieldset.sui-input(
     v-else
+    :class="{'range-type': this.type === 'range'}"
     :custom-autocomplete="!!(autocomplete_list && autocomplete_list.length)"
     :type="type"
     :label="label"
@@ -119,6 +121,7 @@ export default {
         prefix: String,
         pattern: String,
         patternError: String,
+        src: String,
         type: {
             type: String,
             default: 'text'
