@@ -7,7 +7,7 @@ fieldset.sui-fieldset(
     legend(v-if="label && !setMini") {{ label }}
         span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
     .sui-fieldset-wrapper
-        .slot-left(v-if="$slots['slot-left']")
+        .slot-left(v-if="hasSlotLeft()")
             .slot-left-wrapper.slot-wrapper
                 slot(name='slot-left')
         .sui-fieldset-interface
@@ -16,7 +16,7 @@ fieldset.sui-fieldset(
             .sui-fieldset-suffix(v-if="suffix" @click="focusInput")
                 div {{ suffix }}
             slot
-        .slot-right(v-if="$slots['slot-right']")
+        .slot-right(v-if="hasSlotRight()")
             .slot-right-wrapper.slot-wrapper
                 slot(name='slot-right')
         label(v-if="label && !setMini" :for="elementId + '_interface'") {{ label }}
@@ -117,6 +117,24 @@ export default {
                 elem.setSelectionRange(0, 0);
             } else {
                 elem.setSelectionRange(elem.value.length, elem.value.length);
+            }
+        },
+        hasSlotLeft() {
+            if(typeof this.$slots['slot-left'] === 'function') {
+                return this.$slots['slot-left']()[0].children.length ? true : false;
+            } else {
+                if(this.$slots['slot-left']) {
+                    return this.$slots['slot-left'] ? true : false;
+                }
+            }
+        },
+        hasSlotRight() {
+            if(typeof this.$slots['slot-right'] === 'function') {
+               return this.$slots['slot-right']()[0].children.length ? true : false;
+            } else {
+                if(this.$slots['slot-right']) {
+                    return this.$slots['slot-right'] ? true : false;
+                }
             }
         }
     }
