@@ -1,7 +1,8 @@
 <template lang='pug'>
 input(
-    v-if="type === 'hidden'"
+    v-if="type === 'hidden' || type ==='image'"
     ref="input"
+    :src="src"
     @invalid.prevent="invalidInput"
     :name='name'
     :minlength='minlength'
@@ -120,6 +121,7 @@ export default {
         prefix: String,
         pattern: String,
         patternError: String,
+        src: String,
         type: {
             type: String,
             default: 'text'
