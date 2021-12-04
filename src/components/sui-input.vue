@@ -1,6 +1,26 @@
 <template lang='pug'>
+input(
+    v-if="type === 'hidden'"
+    ref="input"
+    @invalid.prevent="invalidInput"
+    :name='name'
+    :minlength='minlength'
+    :maxlength='maxlength'
+    :pattern="pattern"
+    :required="required"
+    :disabled="disabled"
+    :type="type"
+    :readonly='readonly'
+    :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue"
+    @keyup="keypress"
+    @keydown="(e) => {arrowSelection(e); isTouched = true; }"
+    @input="updateValue()"
+    :autocomplete="setAutoComplete"
+    :autofocus="autofocus"
+    @focus="focus"
+    @blur="blur")
 .sui-input(
-    v-if="type === 'radio' || type === 'checkbox'"
+    v-else-if="type === 'radio' || type === 'checkbox'"
     :class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', 'sui-option-disabled': disabled}")
     template(v-if="type === 'checkbox'")
         input(
@@ -126,7 +146,7 @@ export default {
         },
         mini: Boolean,
         autofocus: Boolean,
-        checked: Boolean
+        checked: Boolean,
     },
     data() {
         return {

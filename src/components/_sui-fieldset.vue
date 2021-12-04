@@ -6,7 +6,7 @@ fieldset.sui-fieldset(
     :class="{'sui-fieldset-mini': setMini, 'sui-custom-autocomplete' :customAutocomplete, 'sui-fieldset-error': error, 'sui-fieldset-disabled': disabled}")
     legend(v-if="label && !setMini") {{ label }}
         span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
-    .sui-fieldset-wrapper
+    .sui-fieldset-wrapper(:style="{alignItems: type === 'file' ? 'center' : null}")
         .slot-left(v-if="hasSlotLeft()")
             .slot-left-wrapper.slot-wrapper
                 slot(name='slot-left')
@@ -331,7 +331,12 @@ export default {
 
             &:not(select):not(.sui-textarea-replica):read-only {
                 text-overflow: ellipsis;
-                padding-right: 0.15em;
+            }
+
+            &[type='file'],
+            &[type='color'] {
+                padding-left: calc(var(--padding) / 4);
+                padding-right: calc(var(--padding) / 4);
             }
 
             color: inherit;
