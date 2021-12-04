@@ -51,6 +51,7 @@ input(
         label(:for="inputId") {{ label }}
 sui-fieldset.sui-input(
     v-else
+    :class="{'range-type': this.type === 'range'}"
     :custom-autocomplete="!!(autocomplete_list && autocomplete_list.length)"
     :type="type"
     :label="label"
