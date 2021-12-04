@@ -367,6 +367,19 @@ export default {
             &[type='range'] {
                 padding: 0;
             }
+
+            &[type="search"] {
+                &::-webkit-calendar-picker-indicator {
+                    display: none !important;
+                }
+                &::-webkit-search-cancel-button {
+                    -webkit-appearance: none;
+                    height: 1.05em;
+                    width: 1.05em;
+                    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='%23000000'%3E%3Cpath d='M0 0h24v24H0V0z' fill='none' opacity='.87'/%3E%3Cpath d='M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z'/%3E%3C/svg%3E") no-repeat 50% 50%;
+                    background-size: contain;
+                }
+            }
         }
 
         & > .slot-right {
