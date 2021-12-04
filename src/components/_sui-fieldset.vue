@@ -167,6 +167,11 @@ export default {
     height: var(--input-height);
     min-height: var(--min-input-height);;
 
+    &.range-type,
+    &.range-type:focus-within {
+        border-color: transparent;
+    }
+
     & > legend {
         position: relative;
         text-align: left;
@@ -333,12 +338,6 @@ export default {
                 text-overflow: ellipsis;
             }
 
-            &[type='file'],
-            &[type='color'] {
-                padding-left: calc(var(--padding) / 4);
-                padding-right: calc(var(--padding) / 4);
-            }
-
             color: inherit;
             position: relative;
             flex-grow: 1;
@@ -357,6 +356,16 @@ export default {
 
             @media @nottablet {
                 min-height: auto;
+            }
+
+            &[type='file'],
+            &[type='color'] {
+                padding-left: calc(var(--padding) / 4);
+                padding-right: calc(var(--padding) / 4);
+            }
+
+            &[type='range'] {
+                padding: 0;
             }
         }
 
