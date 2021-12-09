@@ -83,13 +83,19 @@ export default {
                         break;
                     case 38:
                         e.preventDefault();
-                        if(this.selection > 0) this.selection -= 1;
-                        this.updateValue(this.options[this.selection].value);
+                        if(this.selection > 0) {
+                            this.selection -= 1;
+                            this.updateValue(this.options[this.selection].value);
+                        }
                         break;
                     case 40:
                         e.preventDefault();
-                        if(this.selection === null) this.selection = 0;
-                        if(this.selection < this.options.length - 1) this.selection += 1;
+                        if(this.selection === null) {
+                            this.selection = 0;
+                        }
+                        else if(this.selection < this.options.length - 1) {
+                            this.selection += 1;
+                        }
                         this.updateValue(this.options[this.selection].value);
                         break;
                 }
