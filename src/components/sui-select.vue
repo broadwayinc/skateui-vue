@@ -10,30 +10,20 @@ sui-fieldset.sui-select(
     :message="helperMessage"
     :disabled="disabled || null"
     :mini="mini")
-    template(v-if="custom || fullscreen")
-        input(
-            :placeholder="mini && placeholder ? label : placeholder"
-            ref="select"
-            :value="getText(value || modelValue)"
-            type="text"
-            :required="required"
-            :disabled="disabled"
-            readonly
-            @invalid.prevent="invalidInput"
-            @focus="focus"
-            @blur="blur"
-            @keydown="(e) => { arrowSelection(e); }")
-        .sui-dropdown(v-show="custom || fullscreen" :class="{fullscreen}")
-            template(v-for="(x, idx) in option")
-                .sui-dropdown-list(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :data-value="x.value || x") {{ typeof x === 'string' ? x : x.text || x.value }}
-        .sui-dropdown-button
-            i.material-icons expand_more
-    template(v-else)
-        select(ref="select" @input="e=>{updateValue(e.target.value)}" :required="required" @invalid.prevent="invalidInput" :disabled="disabled" @focus="focus")
-            option(v-if="placeholder" value="" disabled selected="(value || modelValue) === ''") {{ mini && placeholder ? placeholder || label : placeholder }}
-            option(v-for="x in option" :value="x.value" :selected="x.value === (value || modelValue) ? 'selected' : null") {{ x.text ? x.text : x.value }}
-        .sui-dropdown-button
-            i.material-icons expand_more
+    div.sui-select.sui-select-wrapper
+        div.sui-select-display(v-html="selection ? getHtml(selection) : getHtml()")
+        select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" :disabled="disabled")
+            option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.text }}
+        div.non-mobile-select(ref="input" tabindex="-1")
+            input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly :disabled="disabled")
+            div.options(tabindex="-1")
+                div(v-for="(option, idx) in options" :value="option.value" v-html="option.html" @mousedown="updateValue(option.value)"
+                    :class="{active: idx === selection}" @mouseover="selection = idx")
+        div.sui-dropdown-button(tabindex="-1")
+            i.material-icons.more expand_more
+            i.material-icons.less expand_less
+    div(style="display: none")
+        slot
     template(#slot-left)
         slot(name="slot-left")
     template(#slot-right)
@@ -55,11 +45,9 @@ export default {
         suffix: String,
         prefix: String,
         label: String,
-        type: String,
         fullscreen: Boolean,
         custom: Boolean,
         value: String,
-        option: Array,
         required: [Boolean, String],
         disabled: Boolean,
         message: {
@@ -78,24 +66,39 @@ export default {
             currentSelection: -1,
             isTouched: false,
             parent: null,
-            blockFocus: null
+            blockFocus: null,
+            options: [],
+            selection: 0,
         };
     },
     mounted() {
-        let el = this.$refs.select;
-        let field = el.closest('fieldset.sui-fieldset');
-        el.id = field.id + '_interface';
-
-        this.parent = field.parentNode.closest('fieldset.sui-fieldset');
-        if (this.parent) {
-            this.blockFocus = field.parentNode.parentNode.classList.contains('slot-left') ? 'sui-fieldset-nesting-block-right' : 'sui-fieldset-nesting-block-left';
+        if(this.$slots.default) {
+            this.$slots.default.forEach(vnode => {
+                this.options.push({value: vnode.componentInstance.$options.propsData.value, text: vnode.componentInstance.$el.textContent, html: vnode.elm.innerHTML});
+            });
         }
-
-        this.$nextTick(() => {
-            if (this.autofocus) {
-                this.$refs.select.focus();
-            }
-        });
+        if(window.getComputedStyle(this.$refs.input).display !== 'none') {
+            // insert some listener to handle the the movement by arrows
+            this.$refs.input.querySelector('input').addEventListener('keydown', (e) => {
+                switch (e.keyCode) {
+                    case 13:
+                        e.preventDefault();
+                        this.makeSelection();
+                        break;
+                    case 38:
+                        e.preventDefault();
+                        if(this.selection > 0) this.selection -= 1;
+                        this.updateValue(this.options[this.selection].value);
+                        break;
+                    case 40:
+                        e.preventDefault();
+                        if(this.selection < this.options.length - 1) this.selection += 1;
+                        this.updateValue(this.options[this.selection].value);
+                        break;
+                }
+                // if(this.searchResult[this.selection]) e.target.value = this.searchResult[this.selection].getAttribute('value');
+            });
+        }
     },
     computed: {
         isError() {
@@ -117,71 +120,85 @@ export default {
         },
         requireFail() {
             return this.required && (this.value || this.modelValue) === '';
-        },
+        }
     },
     methods: {
-        invalidInput() {
-            this.isTouched = true;
-        },
-        focus(e) {
-            if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
-                this.parent.classList.add(this.blockFocus);
-            }
-            if (this.parent && !this.parent.classList.contains('sui-fieldset-nesting-focused')) {
-                this.parent.classList.add('sui-fieldset-nesting-focused');
-            }
-            this.$emit('focus', e);
-        },
-        blur(e) {
-            if (this.blockFocus && this.parent.classList.contains(this.blockFocus)) {
-                this.parent.classList.remove(this.blockFocus);
-            }
-            if (this.parent && this.parent.classList.contains('sui-fieldset-nesting-focused')) {
-                this.parent.classList.remove('sui-fieldset-nesting-focused');
-            }
-            this.$emit('blur', e);
-        },
+        // invalidInput() {
+        //     this.isTouched = true;
+        // },
+        // focus(e) {
+        //     if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
+        //         this.parent.classList.add(this.blockFocus);
+        //     }
+        //     if (this.parent && !this.parent.classList.contains('sui-fieldset-nesting-focused')) {
+        //         this.parent.classList.add('sui-fieldset-nesting-focused');
+        //     }
+        //     this.$emit('focus', e);
+        // },
+        // blur(e) {
+        //     if (this.blockFocus && this.parent.classList.contains(this.blockFocus)) {
+        //         this.parent.classList.remove(this.blockFocus);
+        //     }
+        //     if (this.parent && this.parent.classList.contains('sui-fieldset-nesting-focused')) {
+        //         this.parent.classList.remove('sui-fieldset-nesting-focused');
+        //     }
+        //     this.$emit('blur', e);
+        // },
         updateValue(value) {
-            this.$refs.select.value = value;
-            this.$emit('input', value ? value : this.$refs.select.value);
-            this.$emit('update:modelValue', value ? value : this.$refs.select.value);
+            this.$emit('input', value);
+            this.$emit('update:modelValue', value);
         },
-        getText(value) {
-            for (let i = 0; i < this.option.length; i++) {
-                if (this.option[i].value === value || this.option[i].text === value) {
-                    if (this.option[i].text) return this.option[i].text;
-                    return this.option[i].value;
-                    break;
+        getHtml(selection) {
+            if(this.options) {
+                let html;
+                if(selection) {
+                    html = this.options[selection];
+                } else {
+                    html = this.options.find(option => option.value === this.value);
                 }
+                return html?.html;
             }
         },
-        arrowSelection(event) {
-            if (event && this.option?.length) {
-                if (event.code === 'ArrowUp' && this.currentSelection > 0) {
-                    this.currentSelection -= 1;
-                }
-                if (event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
-                    this.currentSelection += 1;
-                }
-                if (event.code === 'Enter' && this.currentSelection > -1) {
-                    this.$refs.select.blur();
-                    this.updateValue(this.option[this.currentSelection].value);
-                }
-            }
-        },
-        selectChoice(x) {
-            this.updateValue(x.value || x);
-            this.output(x);
-        },
+        makeSelection() {
+            this.updateValue(this.options[this.selection].value);
+        }
+        // getText(value) {
+        //     for (let i = 0; i < this.option.length; i++) {
+        //         if (this.option[i].value === value || this.option[i].text === value) {
+        //             if (this.option[i].text) return this.option[i].text;
+        //             return this.option[i].value;
+        //             break;
+        //         }
+        //     }
+        // },
+        // arrowSelection(event) {
+        //     if (event && this.option?.length) {
+        //         if (event.code === 'ArrowUp' && this.currentSelection > 0) {
+        //             this.currentSelection -= 1;
+        //         }
+        //         if (event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
+        //             this.currentSelection += 1;
+        //         }
+        //         if (event.code === 'Enter' && this.currentSelection > -1) {
+        //             this.$refs.select.blur();
+        //             this.updateValue(this.option[this.currentSelection].value);
+        //         }
+        //     }
+        // },
+        // selectChoice(x) {
+        //     this.updateValue(x.value || x);
+        //     this.output(x);
+        // },
     }
 };
 </script>
 <style lang="less" scoped>
 input {
-    cursor: default;
+    cursor: pointer;
 }
 
 select {
+    display: block;
     border: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -190,13 +207,90 @@ select {
 }
 
 input, select {
+    height: 100%;
     &:focus {
         & ~ .sui-dropdown-button {
             opacity: 1;
         }
     }
 }
+select {
+    display: none;
+}
+.sui-select-wrapper {
+    display: flex;
 
+    & .sui-select-display {
+        position: absolute;
+        padding: calc(var(--padding) / 2);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+    }
+
+    & .sui-dropdown-button {
+        .less {
+            display: none;
+        }
+    }
+
+    @media (pointer:fine) {
+
+
+        &:focus-within {
+            & .sui-dropdown-button {
+                .more {
+                    display: none;
+                }
+
+                .less {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+.non-mobile-select {
+    height: 100%;
+    cursor: pointer;
+    & .options {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        background-color: var(--content, #fff);
+        width: 100%;
+        box-sizing: border-box;
+
+        & .active {
+            background-color: var(--content-focus_shade, rgba(0, 0, 0, 0.066));
+        }
+
+        & > * {
+            padding: calc(var(--padding) / 2);
+
+            &:hover {
+                background-color: var(--content-focus_shade, rgba(0, 0, 0, 0.066));
+            }
+        }
+    }
+
+    &:focus-within {
+        & .options {
+            display: block;
+        }
+    }
+
+}
+@media (pointer:coarse) {
+    .non-mobile-select {
+        display: none;
+    }
+    select {
+        display: block;
+    }
+}
 .sui-dropdown-button {
     width: 1.5em;
     align-items: center;
