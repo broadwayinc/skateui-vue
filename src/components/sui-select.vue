@@ -64,6 +64,7 @@ export default {
             blockFocus: null,
             options: [],
             selection: null,
+            searchIdx: -1
         };
     },
     mounted() {
@@ -98,6 +99,24 @@ export default {
                         }
                         this.updateValue(this.options[this.selection].value);
                         break;
+                    default:
+                        if(e.returnValue) {
+                            e.preventDefault();
+                            if(e.key !== undefined) {
+                                this.searchIdx = this.options.findIndex((option, index) => {
+                                    if(this.searchIdx) {
+                                        return option.text[0].toLowerCase() === e.key && index > this.searchIdx
+                                    } else {
+                                        return option.text[0].toLowerCase() === e.key
+                                    }
+                                });
+                                if(this.searchIdx > -1) {
+                                    this.selection = this.searchIdx;
+                                    this.updateValue(this.options[this.selection].value);
+                                }
+                                else this.searchIdx = null;
+                            }
+                        }
                 }
             });
         }
@@ -127,6 +146,7 @@ export default {
     methods: {
         blur() {
             this.selection = null;
+            this.searchIdx = null;
         },
         updateValue(value) {
             this.$emit('input', value);
