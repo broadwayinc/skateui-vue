@@ -3,10 +3,11 @@ fieldset.sui-fieldset(
     ref='fieldset'
     :id="elementId"
     @click='focus'
+    tabindex="-1"
     :class="{'sui-fieldset-mini': setMini, 'sui-custom-autocomplete' :customAutocomplete, 'sui-fieldset-error': error, 'sui-fieldset-disabled': disabled}")
     legend(v-if="label && !setMini") {{ label }}
         span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
-    .sui-fieldset-wrapper(:style="{alignItems: type === 'file' ? 'center' : null}")
+    .sui-fieldset-wrapper(:style="{alignItems: type === 'file' ? 'center' : null}" tabindex="-1")
         .slot-left(v-if="hasSlotLeft()")
             .slot-left-wrapper.slot-wrapper
                 slot(name='slot-left')
@@ -239,7 +240,7 @@ export default {
 
                         &.selected,
                         &:hover {
-                            background-color: var(--content-focus_shadow, rgba(255, 255, 255, 0.066));
+                            background-color: var(--content-focus_sshade, rgba(255, 255, 255, 0.066));
                         }
                     }
 
@@ -351,7 +352,6 @@ export default {
             outline: none;
             padding: 0 calc(var(--padding) / 2);
             margin: 0;
-            display: block;
             line-height: initial;
 
             @media @nottablet {
@@ -404,7 +404,7 @@ export default {
         & > .slot-left, & > .slot-right {
             position: relative;
             flex-shrink: 0;
-            max-width: 40%;
+            //max-width: 40%;
 
             & > .slot-wrapper:not(:empty) {
                 &:after {
@@ -438,8 +438,8 @@ export default {
                 justify-content: center;
                 align-items: center;
                 position: relative;
-                height: var(--input-height);
-                min-height: var(--min-input-height);
+                height: 100%;
+                //min-height: var(--min-input-height);
                 box-sizing: border-box;
                 padding: calc(var(--padding) / 4) calc(var(--padding) / 4);
 
