@@ -1,6 +1,5 @@
 <template lang='pug'>
 sui-fieldset.sui-select(
-    :custom-autocomplete='!!((custom || fullscreen) && option.length)'
     :prefix="prefix"
     :suffix="suffix"
     type="select"
@@ -8,8 +7,7 @@ sui-fieldset.sui-select(
     :error="isError"
     :required="required"
     :message="helperMessage"
-    :disabled="disabled || null"
-    :mini="mini")
+    :disabled="disabled || null")
     div.sui-select.sui-select-wrapper
         div.sui-select-display(v-html="selection ? getTextContent(selection) : getTextContent()")
         select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" :disabled="disabled")
@@ -41,12 +39,9 @@ export default {
             type: String,
             default: null
         },
-        mini: Boolean,
         suffix: String,
         prefix: String,
         label: String,
-        fullscreen: Boolean,
-        custom: Boolean,
         value: String,
         required: [Boolean, String],
         disabled: Boolean,
