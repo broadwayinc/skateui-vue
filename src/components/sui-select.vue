@@ -11,7 +11,7 @@ sui-fieldset.sui-select(
     :disabled="disabled || null"
     :mini="mini")
     div.sui-select.sui-select-wrapper
-        div.sui-select-display(v-html="selection ? getHtml(selection) : getHtml()")
+        div.sui-select-display(v-html="selection ? getTextContent(selection) : getTextContent()")
         select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" :disabled="disabled")
             option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.text }}
         div.non-mobile-select(ref="input" tabindex="-1")
@@ -131,7 +131,7 @@ export default {
             this.$emit('input', value);
             this.$emit('update:modelValue', value);
         },
-        getHtml(selection) {
+        getTextContent(selection) {
             if(this.options) {
                 let html;
                 if(selection) {
@@ -139,7 +139,7 @@ export default {
                 } else {
                     html = this.options.find(option => option.value === this.value);
                 }
-                return html?.html;
+                return html?.text;
             }
         },
         makeSelection() {
