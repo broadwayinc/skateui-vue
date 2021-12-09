@@ -15,7 +15,7 @@ sui-fieldset.sui-select(
         select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" :disabled="disabled")
             option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.text }}
         div.non-mobile-select(ref="input" tabindex="-1")
-            input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly :disabled="disabled")
+            input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly :disabled="disabled" @blur="blur")
             div.options(tabindex="-1")
                 div(v-for="(option, idx) in options" :value="option.value" v-html="option.html" @mousedown="updateValue(option.value)"
                     :class="{active: idx === selection}" @mouseover="selection = idx")
@@ -68,7 +68,7 @@ export default {
             parent: null,
             blockFocus: null,
             options: [],
-            selection: 0,
+            selection: null,
         };
     },
     mounted() {
@@ -84,6 +84,7 @@ export default {
                     case 13:
                         e.preventDefault();
                         this.makeSelection();
+                        this.$refs.input.querySelector('input').blur();
                         break;
                     case 38:
                         e.preventDefault();
@@ -92,11 +93,11 @@ export default {
                         break;
                     case 40:
                         e.preventDefault();
+                        if(this.selection === null) this.selection = 0;
                         if(this.selection < this.options.length - 1) this.selection += 1;
                         this.updateValue(this.options[this.selection].value);
                         break;
                 }
-                // if(this.searchResult[this.selection]) e.target.value = this.searchResult[this.selection].getAttribute('value');
             });
         }
     },
@@ -123,27 +124,9 @@ export default {
         }
     },
     methods: {
-        // invalidInput() {
-        //     this.isTouched = true;
-        // },
-        // focus(e) {
-        //     if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
-        //         this.parent.classList.add(this.blockFocus);
-        //     }
-        //     if (this.parent && !this.parent.classList.contains('sui-fieldset-nesting-focused')) {
-        //         this.parent.classList.add('sui-fieldset-nesting-focused');
-        //     }
-        //     this.$emit('focus', e);
-        // },
-        // blur(e) {
-        //     if (this.blockFocus && this.parent.classList.contains(this.blockFocus)) {
-        //         this.parent.classList.remove(this.blockFocus);
-        //     }
-        //     if (this.parent && this.parent.classList.contains('sui-fieldset-nesting-focused')) {
-        //         this.parent.classList.remove('sui-fieldset-nesting-focused');
-        //     }
-        //     this.$emit('blur', e);
-        // },
+        blur() {
+            this.selection = null;
+        },
         updateValue(value) {
             this.$emit('input', value);
             this.$emit('update:modelValue', value);
@@ -162,33 +145,6 @@ export default {
         makeSelection() {
             this.updateValue(this.options[this.selection].value);
         }
-        // getText(value) {
-        //     for (let i = 0; i < this.option.length; i++) {
-        //         if (this.option[i].value === value || this.option[i].text === value) {
-        //             if (this.option[i].text) return this.option[i].text;
-        //             return this.option[i].value;
-        //             break;
-        //         }
-        //     }
-        // },
-        // arrowSelection(event) {
-        //     if (event && this.option?.length) {
-        //         if (event.code === 'ArrowUp' && this.currentSelection > 0) {
-        //             this.currentSelection -= 1;
-        //         }
-        //         if (event.code === 'ArrowDown' && this.currentSelection < this.option.length - 1) {
-        //             this.currentSelection += 1;
-        //         }
-        //         if (event.code === 'Enter' && this.currentSelection > -1) {
-        //             this.$refs.select.blur();
-        //             this.updateValue(this.option[this.currentSelection].value);
-        //         }
-        //     }
-        // },
-        // selectChoice(x) {
-        //     this.updateValue(x.value || x);
-        //     this.output(x);
-        // },
     }
 };
 </script>
@@ -211,6 +167,10 @@ input, select {
     &:focus {
         & ~ .sui-dropdown-button {
             opacity: 1;
+        }
+
+        & ~ .options {
+            display: block;
         }
     }
 }
@@ -237,8 +197,6 @@ select {
     }
 
     @media (pointer:fine) {
-
-
         &:focus-within {
             & .sui-dropdown-button {
                 .more {
@@ -276,11 +234,11 @@ select {
         }
     }
 
-    &:focus-within {
-        & .options {
-            display: block;
-        }
-    }
+    //&:focus-within {
+    //    & .options {
+    //        display: block;
+    //    }
+    //}
 
 }
 @media (pointer:coarse) {
