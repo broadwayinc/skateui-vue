@@ -14,9 +14,8 @@ input(
     :readonly='readonly'
     :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue"
     @keyup="keypress"
-    @keydown="(e) => {arrowSelection(e); isTouched = true; }"
+    @keydown="(e) => {isTouched = true; }"
     @input="updateValue()"
-    :autocomplete="setAutoComplete"
     :autofocus="autofocus"
     @focus="focus"
     @blur="blur")
@@ -53,7 +52,6 @@ input(
 sui-fieldset.sui-input(
     v-else
     :class="{'range-type': this.type === 'range'}"
-    :custom-autocomplete="!!(autocomplete_list && autocomplete_list.length)"
     :type="type"
     :label="label"
     :error="isError"
@@ -62,7 +60,8 @@ sui-fieldset.sui-input(
     :disabled="disabled || null"
     :prefix="prefix"
     :suffix="suffix"
-    :mini="mini")
+    :mini="mini"
+    :data-list="list")
     template(#slot-left)
         slot(name="slot-left")
     template(#slot-right)
@@ -81,15 +80,13 @@ sui-fieldset.sui-input(
         :readonly='readonly'
         :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue"
         @keyup="keypress"
-        @keydown="(e) => {arrowSelection(e); isTouched = true; }"
+        @keydown="(e) => {isTouched = true; }"
         @input="updateValue()"
-        :autocomplete="setAutoComplete"
+        :autocomplete="autocomplete"
         :autofocus="autofocus"
         @focus="focus"
-        @blur="blur")
-    .sui-dropdown(v-show="autocomplete_list && autocomplete_list.length")
-        template(v-for="(x, idx) in autocomplete_list")
-            .sui-dropdown-list(:class="currentSelection === idx ? 'selected' : null" @mousedown="selectChoice(x)" :style="menuStyle ? menuStyle : {}") {{ x }}
+        @blur="blur"
+        :list="list")
 </template>
 
 <script>
@@ -109,6 +106,7 @@ export default {
             type: String,
             default: null
         },
+        list: String,
         minlength: {
             type: [Number, String]
         },
@@ -144,8 +142,8 @@ export default {
             }
         },
         autocomplete: {
-            type: [String, Boolean, Array, Object],
-            default: null
+            type: Boolean,
+            default: false
         },
         mini: Boolean,
         autofocus: Boolean,
@@ -180,13 +178,6 @@ export default {
         this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
         el.id = this.inputId;
 
-        if (field) {
-            this.parent = field.parentNode.closest('fieldset.sui-fieldset');
-            if (this.parent) {
-                this.blockFocus = field.parentNode.parentNode.classList.contains('slot-left') ? 'sui-fieldset-nesting-block-right' : 'sui-fieldset-nesting-block-left';
-            }
-        }
-
         this.$nextTick(() => {
             if (this.autofocus) {
                 this.$refs.input.focus();
@@ -194,31 +185,6 @@ export default {
         });
     },
     computed: {
-        isNestedAutocomplete() {
-            return !(this.type === 'radio' || this.type === 'checkbox') && this.autocomplete_list && this.mini;
-        },
-        autocomplete_list() {
-            return Array.isArray(this.autocomplete) ? this.autocomplete : null;
-        },
-        setAutoComplete() {
-            let autocomplete = this.autocomplete;
-            let type = this.type;
-
-            switch (type) {
-                case "email":
-                    return autocomplete || "email";
-                case "password":
-                    return autocomplete || "current-password";
-                default:
-                    if (autocomplete === null) {
-                        return null;
-                    } else if (typeof autocomplete === 'boolean') {
-                        return autocomplete ? 'on' : 'off';
-                    } else if (typeof autocomplete === 'string') {
-                        return autocomplete;
-                    } else return 'off';
-            }
-        },
         isChecked() {
             if (this.$refs.option && this.$refs.option.checked !== this.checked) {
                 this.toggleCheck(this.checked);
@@ -364,17 +330,11 @@ export default {
             if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
                 this.parent.classList.add(this.blockFocus);
             }
-            if (this.parent && this.isNestedAutocomplete && !this.parent.classList.contains('sui-fieldset-nesting-focused')) {
-                this.parent.classList.add('sui-fieldset-nesting-focused');
-            }
             this.$emit('focus', e);
         },
         blur(e) {
             if (this.blockFocus && this.parent.classList.contains(this.blockFocus)) {
                 this.parent.classList.remove(this.blockFocus);
-            }
-            if (this.parent && this.isNestedAutocomplete && this.parent.classList.contains('sui-fieldset-nesting-focused')) {
-                this.parent.classList.remove('sui-fieldset-nesting-focused');
             }
             this.$emit('blur', e);
         },
@@ -388,21 +348,6 @@ export default {
                 this.$emit('lengthError');
             } else this.$emit('error');
         },
-        arrowSelection(event) {
-            if (event && this.autocomplete_list?.length) {
-                if (event.code === 'ArrowUp' && this.currentSelection > -1) {
-                    this.currentSelection -= 1;
-                }
-                if (event.code === 'ArrowDown' && this.currentSelection < this.autocomplete_list.length - 1) {
-                    this.currentSelection += 1;
-                }
-                if (event.code === 'Enter' && this.currentSelection > -1) {
-                    this.searching = false;
-                    this.$refs.input.blur();
-                    this.updateValue(this.autocomplete_list[this.currentSelection]);
-                }
-            }
-        },
         keypress(event) {
             this.isTouched = true;
             if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
@@ -410,11 +355,6 @@ export default {
             }
 
             this.keyOutput(event.code);
-        },
-        selectChoice(x) {
-            this.updateValue(typeof x === 'string' ? x : x.text ? x.text : x.value);
-            // enter always means option has been selected
-            this.keyOutput('Enter');
         },
         // for option
         toggleCheck(checked) {
