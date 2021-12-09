@@ -142,8 +142,8 @@ export default {
             }
         },
         autocomplete: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: 'off'
         },
         mini: Boolean,
         autofocus: Boolean,
