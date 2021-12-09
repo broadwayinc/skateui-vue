@@ -6,6 +6,8 @@ import SuiButton from '../components/sui-button';
 import SuiFieldset from '../components/_sui-fieldset';
 import SuiInput from '../components/sui-input';
 import SuiSelect from '../components/sui-select';
+import SuiDatalist from '../components/sui-datalist';
+import SuiOption from '../components/sui-option';
 import SuiTextarea from '../components/sui-textarea';
 import SuiAccordion from '../components/sui-accordion';
 import SuiTooltip from '../components/sui-tooltip';
@@ -30,6 +32,8 @@ const SkateUI = {
         Vue.component('sui-fieldset', SuiFieldset);
         Vue.component('sui-input', SuiInput);
         Vue.component('sui-select', SuiSelect);
+        Vue.component('sui-datalist', SuiDatalist);
+        Vue.component('sui-option', SuiOption);
         Vue.component('sui-textarea', SuiTextarea);
         Vue.component('sui-accordion', SuiAccordion);
         Vue.component('sui-tooltip', SuiTooltip);
