@@ -40,7 +40,6 @@ input(
             type="radio"
             @focus="focus"
             @change="updateValue"
-            @trigger="updateValue_trigger"
             :value="modelValue || value"
             :name="name"
             :readonly='readonly'
@@ -93,6 +92,10 @@ sui-fieldset.sui-input(
 export default {
     name: 'sui-input',
     emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'lengthError', 'error', 'focus', 'blur'],
+    model: {
+        prop: 'modelValue',
+        event: 'input'
+    },
     props: {
         name: String,
         modelValue: {
@@ -156,23 +159,15 @@ export default {
             searching: false,
             currentSelection: -1,
             // option
-            initValue: null,
             inputId: '',
             parent: null,
             blockFocus: null
         };
     },
     created() {
-        if (this.type === 'radio' || this.type === 'checkbox') {
-            this.initValue = this.modelValue || this.value;
-        }
         this.regexExpression = new RegExp(this.pattern, "g");
     },
     mounted() {
-        if (this.type === 'radio' || this.type === 'checkbox') {
-            this.toggleCheck(this.checked);
-        }
-
         let el = this.$refs.input || this.$refs.option;
         let field = el.closest('fieldset.sui-fieldset');
         this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
@@ -186,10 +181,14 @@ export default {
     },
     computed: {
         isChecked() {
-            if (this.$refs.option && this.$refs.option.checked !== this.checked) {
-                this.toggleCheck(this.checked);
+            if(this.type === 'radio' && this.value === this.modelValue) {
+                return true;
+            } else if(this.type === 'checkbox') {
+                if(Array.isArray(this.modelValue) && this.modelValue.indexOf(this.value) && this.checked) {
+                    return true;
+                }
             }
-            return this.checked;
+            return false;
         },
         isError() {
             return this.isInvalid || this.error;
@@ -298,33 +297,25 @@ export default {
         }
     },
     methods: {
-        updateValue(v) {
+        updateValue(event) {
             // for option
             if (this.type === 'radio' || this.type === 'checkbox') {
-
-                this.toggleCheck(v.target.checked);
-
-                if (this.type === 'radio') {
-                    let hasForm = v.target.closest('form');
-                    let trigger = new Event("trigger");
-                    let optionEl = document.getElementsByClassName('sui-option-radio');
-                    for (let i = 0; optionEl.length > i; i++) {
-                        if (!hasForm || hasForm && optionEl[i].closest('form').isEqualNode(hasForm)) {
-                            if (optionEl[i].name && optionEl[i].name === this.name) {
-                                if (!optionEl[i].isEqualNode(v.target) && !optionEl[i].checked && v.target.value !== optionEl[i].value) {
-                                    optionEl[i].dispatchEvent(trigger);
-                                }
-                            }
-                        }
+                if(this.type === 'checkbox') {
+                    if(this.$refs.option?.checked && this.modelValue.indexOf(this.value)) {
+                        this.modelValue.push(this.value);
+                    } else {
+                        this.modelValue.splice(this.modelValue.indexOf(this.value), 1);
                     }
+                    this.$emit('input', this.modelValue);
+                } else {
+                    this.$emit('input', this.value);
                 }
-
                 return;
             }
 
             // for regular inputs
-            this.$emit('input', v ? v : this.$refs.input.value);
-            this.$emit('update:modelValue', v ? v : this.$refs.input.value);
+            this.$emit('input', event ? event : this.$refs.input.value);
+            this.$emit('update:modelValue', event ? event : this.$refs.input.value);
         },
         focus(e) {
             if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
@@ -355,19 +346,6 @@ export default {
             }
 
             this.keyOutput(event.code);
-        },
-        // for option
-        toggleCheck(checked) {
-            if (checked) {
-                this.$emit('input', this.initValue);
-                this.$emit('update:modelValue', this.initValue);
-            } else {
-                this.$emit('input', null);
-                this.$emit('update:modelValue', null);
-            }
-        },
-        updateValue_trigger(e) {
-            this.toggleCheck(e.target.checked);
         }
     }
 };
