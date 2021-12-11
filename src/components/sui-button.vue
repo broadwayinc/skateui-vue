@@ -65,11 +65,6 @@ export default {
         let bk = this.$el.style.backgroundColor || this.$el.style.background;
         if (bk)
             this.$el.style.setProperty('--button-background-color', bk);
-
-        this.$nextTick(() => {
-            if (this.autofocus)
-                this.$refs.button.focus();
-        });
     },
     methods: {
         focus(e) {
