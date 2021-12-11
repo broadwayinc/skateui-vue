@@ -172,6 +172,9 @@ export default {
         this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
         el.id = this.inputId;
 
+        if(Array.isArray(this.modelValue) && this.modelValue.indexOf(this.value) && this.checked) {
+            this.modelValue.push(this.value);
+        };
         this.$nextTick(() => {
             if (this.autofocus) {
                 this.$refs.input.focus();
@@ -180,6 +183,7 @@ export default {
     },
     computed: {
         isChecked() {
+            if(this.checked) return true;
             if(this.type === 'radio' && this.value === this.modelValue) {
                 return true;
             } else if(this.type === 'checkbox') {
