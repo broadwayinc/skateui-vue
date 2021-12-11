@@ -42,7 +42,6 @@ export default {
             type: Boolean || Function,
             default: false
         },
-        autofocus: Boolean,
         icon: String
     },
     data() {
