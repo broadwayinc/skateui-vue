@@ -389,7 +389,10 @@ export default {
             box-sizing: border-box;
             border: 1px solid;
             vertical-align: middle;
-            margin-right: calc(var(--padding) / 2);
+
+            & + label {
+                margin-left: calc(var(--padding) / 2);
+            }
         }
     }
 
