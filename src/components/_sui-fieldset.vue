@@ -450,7 +450,7 @@ export default {
 
                 & > * {
                     max-height: 100%;
-                    display: block;
+                    display: flex;
                 }
 
                 .sui-button {
