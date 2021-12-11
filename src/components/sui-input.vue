@@ -160,8 +160,7 @@ export default {
             currentSelection: -1,
             // option
             inputId: '',
-            parent: null,
-            blockFocus: null
+            parent: null
         };
     },
     created() {
@@ -318,15 +317,9 @@ export default {
             this.$emit('update:modelValue', event ? event : this.$refs.input.value);
         },
         focus(e) {
-            if (this.blockFocus && !this.parent.classList.contains(this.blockFocus)) {
-                this.parent.classList.add(this.blockFocus);
-            }
             this.$emit('focus', e);
         },
         blur(e) {
-            if (this.blockFocus && this.parent.classList.contains(this.blockFocus)) {
-                this.parent.classList.remove(this.blockFocus);
-            }
             this.$emit('blur', e);
         },
         invalidInput() {
