@@ -464,6 +464,7 @@ export default {
                     margin: 0;
                     border-color: transparent !important;
                     height: 100%;
+                    padding: 0;
 
                     & > .sui-fieldset-wrapper {
                         height: 100%;
