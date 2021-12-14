@@ -11,7 +11,7 @@ sui-fieldset.sui-select(
     div.sui-select.sui-select-wrapper
         div.sui-select-display(v-html="selection ? getTextContent(selection) : getTextContent()")
         select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" :disabled="disabled")
-            option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.text }}
+            option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.selected ? 'true' : 'false' }} {{ option.text }}
         div.non-mobile-select(ref="input" tabindex="-1")
             input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly :disabled="disabled" @blur="blur")
             div.options(tabindex="-1")
@@ -54,7 +54,8 @@ export default {
             default: () => {
             }
         },
-        autofocus: Boolean
+        autofocus: Boolean,
+        selected: Boolean
     },
     data() {
         return {
@@ -70,7 +71,8 @@ export default {
     mounted() {
         if(this.$slots.default) {
             this.$slots.default.forEach(vnode => {
-                this.options.push({value: vnode.componentInstance.$options.propsData.value, text: vnode.componentInstance.$el.textContent, html: vnode.elm.innerHTML});
+                this.options.push({value: vnode.componentInstance.$options.propsData.value, text: vnode.componentInstance.$el.textContent, html: vnode.elm.innerHTML, selected: vnode.data.attrs.selected === undefined ? false : true});
+                if(vnode.data.attrs.selected !== undefined) this.updateValue(vnode.componentInstance.$options.propsData.value);
             });
         }
         if(window.getComputedStyle(this.$refs.input).display !== 'none') {
