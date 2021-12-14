@@ -16,7 +16,6 @@ input(
     @keyup="keypress"
     @keydown="(e) => {isTouched = true; }"
     @input="updateValue()"
-    :autofocus="autofocus"
     @focus="focus"
     @blur="blur"
     v-bind="$attrs")
@@ -85,7 +84,6 @@ sui-fieldset.sui-input(
         @keydown="(e) => {isTouched = true; }"
         @input="updateValue()"
         :autocomplete="autocomplete"
-        :autofocus="autofocus"
         @focus="focus"
         @blur="blur"
         :list="list"
@@ -154,7 +152,6 @@ export default {
             default: 'off'
         },
         mini: Boolean,
-        autofocus: Boolean,
         checked: Boolean,
     },
     data() {
