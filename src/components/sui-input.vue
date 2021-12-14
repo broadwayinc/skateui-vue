@@ -236,7 +236,7 @@ export default {
             return false;
         },
         regexFail() {
-            let value = this.value || this.modelValue;
+            let value = this.modelValue;
 
             if (!value) {
                 return false;
