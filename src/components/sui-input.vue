@@ -18,7 +18,8 @@ input(
     @input="updateValue()"
     :autofocus="autofocus"
     @focus="focus"
-    @blur="blur")
+    @blur="blur"
+    v-bind="$attrs")
 .sui-input(
     v-else-if="type === 'radio' || type === 'checkbox'"
     :class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', 'sui-option-disabled': disabled}")
@@ -32,7 +33,8 @@ input(
             :name="name"
             :readonly="readonly"
             :disabled="disabled"
-            :checked="isChecked")
+            :checked="isChecked"
+            v-bind="$attrs")
         .sui-checkbox-div(@click="()=>{$refs.option.click()}")
     template(v-else-if="type === 'radio'")
         input(
@@ -44,7 +46,8 @@ input(
             :name="name"
             :readonly='readonly'
             :disabled="disabled"
-            :checked="isChecked")
+            :checked="isChecked"
+            v-bind="$attrs")
         .sui-radio-div(@click="()=>{$refs.option.click()}")
     template(v-if="label")
         label(:for="inputId") {{ label }}
@@ -85,12 +88,14 @@ sui-fieldset.sui-input(
         :autofocus="autofocus"
         @focus="focus"
         @blur="blur"
-        :list="list")
+        :list="list"
+        v-bind="$attrs")
 </template>
 
 <script>
 export default {
     name: 'sui-input',
+    inheritAttrs: false,
     emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'lengthError', 'error', 'focus', 'blur'],
     model: {
         prop: 'modelValue',
