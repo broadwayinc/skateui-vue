@@ -21,10 +21,10 @@ input(
     v-bind="$attrs")
 .sui-input(
     v-else-if="type === 'radio' || type === 'checkbox'"
-    :class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', 'sui-option-disabled': disabled}")
+    :class="{'sui-checkbox': type === 'checkbox', 'sui-radio': type === 'radio', 'sui-option-disabled': $attrs['disabled'] === '' || !!$attrs['disabled']}")
     template(v-if="type === 'checkbox'")
         input(
-            ref="option"
+            ref="input"
             type="checkbox"
             @focus="focus"
             @change="updateValue"
@@ -34,20 +34,19 @@ input(
             :disabled="disabled"
             :checked="isChecked"
             v-bind="$attrs")
-        .sui-checkbox-div(@click="()=>{$refs.option.click()}")
+        .sui-checkbox-div(@click="()=>{$refs.input.click(); $refs.input.focus()}")
     template(v-else-if="type === 'radio'")
         input(
-            ref="option"
+            ref="input"
+            :class="{'validation-error': isError}"
             type="radio"
+            required
             @focus="focus"
             @change="updateValue"
             :value="modelValue || value"
-            :name="name"
-            :readonly='readonly'
-            :disabled="disabled"
             :checked="isChecked"
             v-bind="$attrs")
-        .sui-radio-div(@click="()=>{$refs.option.click(); $refs.option.focus()}")
+        .sui-radio-div(@click="()=>{$refs.input.click(); $refs.input.focus()}")
     template(v-if="label")
         label(:for="inputId") {{ label }}
 sui-fieldset.sui-input(
@@ -100,7 +99,6 @@ export default {
         event: 'input'
     },
     props: {
-        name: String,
         modelValue: {
             type: [Array, String, Boolean, Number, Object],
             default: ''
@@ -306,13 +304,18 @@ export default {
             // for option
             if (this.type === 'radio' || this.type === 'checkbox') {
                 if(this.type === 'checkbox') {
-                    if(this.$refs.option?.checked && this.modelValue.indexOf(this.value)) {
+                    if(this.$refs.input?.checked && this.modelValue.indexOf(this.value)) {
                         this.modelValue.push(this.value);
                     } else {
                         this.modelValue.splice(this.modelValue.indexOf(this.value), 1);
                     }
                     this.$emit('input', this.modelValue);
                 } else {
+                    if(this.$refs.input.classList.contains('validation-error')) {
+                        document.querySelectorAll(`input[type="radio"][name="${this.$attrs['name']}"]`).forEach(element => {
+                            element.classList.remove("validation-error");
+                        })
+                    }
                     this.$emit('input', this.value);
                 }
                 return;
@@ -445,6 +448,11 @@ export default {
 
             & + .sui-radio-div {
                 border-radius: 1em;
+            }
+
+            &.validation-error + .sui-radio-div {
+                border-color: var(--alert, #ff6347);
+                outline-color: var(--alert, #ff6347);
             }
         }
     }
