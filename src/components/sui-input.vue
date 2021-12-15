@@ -47,7 +47,7 @@ input(
             :disabled="disabled"
             :checked="isChecked"
             v-bind="$attrs")
-        .sui-radio-div(@click="()=>{$refs.option.click()}")
+        .sui-radio-div(@click="()=>{$refs.option.click(); $refs.option.focus()}")
     template(v-if="label")
         label(:for="inputId") {{ label }}
 sui-fieldset.sui-input(
