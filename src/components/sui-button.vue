@@ -119,6 +119,9 @@ export default {
     & span {
         font-size: 1em;
     }
+    &:focus {
+        outline: 2px var(--button_soft) solid;
+    }
 }
 
 button.sui-button, a.sui-button {
