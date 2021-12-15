@@ -1,5 +1,13 @@
 <template lang='pug'>
-sui-fieldset.sui-textarea(type="textarea" :suffix='suffix' :prefix='prefix' :label="label" :error="isError" :required="required" :message="helperMessage" :disabled="disabled")
+sui-fieldset.sui-textarea(
+    type="textarea"
+    :class="{'sui-fieldset-disabled': $attrs['disabled']}"
+    :suffix='suffix'
+    :prefix='prefix'
+    :label="label"
+    :error="isError"
+    :required="required"
+    :message="helperMessage")
     template(#slot-left)
         slot(name="slot-left")
     template(#slot-right)
@@ -9,14 +17,11 @@ sui-fieldset.sui-textarea(type="textarea" :suffix='suffix' :prefix='prefix' :lab
             ref="textarea"
             @input="updateValue()"
             @invalid.prevent="invalidInput"
-            :placeholder="placeholder"
             rows="1"
             @keyup="(e)=>{keyOutput(e.code)}"
-            :disabled="disabled"
-            :required="required"
-            :readonly='readonly'
             :value="value"
-            @focus="focus")
+            @focus="focus"
+            v-bind="$attrs")
 </template>
 <script>
 export default {
@@ -30,7 +35,6 @@ export default {
         lengthError: String,
         label: String,
         required: [String, Boolean],
-        disabled: Boolean,
         message: String,
         readonly: Boolean,
         maxlength: {
