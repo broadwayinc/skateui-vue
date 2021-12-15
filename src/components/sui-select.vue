@@ -1,19 +1,19 @@
 <template lang='pug'>
 sui-fieldset.sui-select(
+    :class="{'sui-fieldset-disabled': $attrs['disabled']}"
     :prefix="prefix"
     :suffix="suffix"
     type="select"
     :label="label"
     :error="isError"
     :required="required"
-    :message="helperMessage"
-    :disabled="disabled || null")
+    :message="helperMessage")
     div.sui-select.sui-select-wrapper
         div.sui-select-display(v-html="selection ? getTextContent(selection) : getTextContent()")
-        select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" :disabled="disabled")
+        select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" v-bind="$attrs")
             option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.selected ? 'true' : 'false' }} {{ option.text }}
         div.non-mobile-select(ref="input" tabindex="-1")
-            input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly :disabled="disabled" @blur="blur")
+            input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly v-bind="$attrs" @blur="blur")
             div.options(tabindex="-1")
                 div(v-for="(option, idx) in options" :value="option.value" v-html="option.html" @mousedown="updateValue(option.value)"
                     :class="{active: idx === selection}" @mouseover="selection = idx")
@@ -44,7 +44,6 @@ export default {
         label: String,
         value: String,
         required: [Boolean, String],
-        disabled: Boolean,
         message: {
             type: String,
             default: null
@@ -101,6 +100,8 @@ export default {
                         }
                         this.updateValue(this.options[this.selection].value);
                         break;
+                        case 9:
+                            break;
                     default:
                         if(e.returnValue) {
                             e.preventDefault();
