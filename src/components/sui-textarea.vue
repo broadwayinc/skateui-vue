@@ -62,7 +62,6 @@ export default {
         // let lineHeight = parseInt(document.defaultView.getComputedStyle(el, null).getPropertyValue('line-height'));
         let maxHeight = el.parentNode.parentNode.parentNode.style.maxHeight;
         if(maxHeight && el.scrollHeight >= parseInt(maxHeight)) {
-            console.log("Restrict my height");
             el.style.height = maxHeight;
         } else {
             el.style.height = el.scrollHeight + 'px';

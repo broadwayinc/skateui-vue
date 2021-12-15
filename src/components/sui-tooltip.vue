@@ -24,14 +24,11 @@ export default {
     },
     methods: {
         setPosition(e) {
-            console.log(e);
             let y = window.innerHeight / 2 - 21;
             let x = window.innerWidth / 2 + 21;
 
             this.isBottom = (e.clientY < y || this.direction?.includes('bottom')) && (!this.direction || !this.direction?.includes('top'));
             this.isLeft = (e.clientX > x || this.direction?.includes('left')) && (!this.direction || !this.direction?.includes('right'));
-            console.log({isBottom: this.isBottom});
-            console.log({isLeft: this.isLeft});
             this.maxWidth = this.isLeft ? `${e.clientX}px` : `${window.innerWidth - e.clientX}px`;
         }
     }

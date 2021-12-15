@@ -6,7 +6,6 @@ module.exports = function(grunt) {
                     process: function(content, srcpath) {
                         let componentName = srcpath.replace(/src\/components\/.*\//gm, '');
                         componentName = componentName.replace('.vue', '');
-                        console.log(srcpath);
                         content = content.replace(/src=".*"/gm, '');
                         content = content.replace(/lang=".*"/gm, '');
                         content = content.replace(/ /gm, '');
