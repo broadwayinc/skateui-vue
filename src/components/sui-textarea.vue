@@ -1,12 +1,11 @@
 <template lang='pug'>
 sui-fieldset.sui-textarea(
     type="textarea"
-    :class="{'sui-fieldset-disabled': $attrs['disabled']}"
+    :class="{'sui-fieldset-disabled': $attrs['disabled'], 'required': $attrs['required']}"
     :suffix='suffix'
     :prefix='prefix'
     :label="label"
     :error="isError"
-    :required="required"
     :message="helperMessage")
     template(#slot-left)
         slot(name="slot-left")
@@ -26,15 +25,13 @@ sui-fieldset.sui-textarea(
 <script>
 export default {
     name: 'sui-textarea',
-    emits: ['update:modelValue', 'input', 'focus', 'requiredError', 'lengthError', 'error'],
+    emits: ['update:modelValue', 'input', 'focus', 'lengthError', 'error'],
     props: {
         error: Boolean,
-        placeholder: String,
         prefix: String,
         suffix: String,
         lengthError: String,
         label: String,
-        required: [String, Boolean],
         message: String,
         readonly: Boolean,
         maxlength: {
@@ -52,12 +49,12 @@ export default {
             type: Function,
             default: () => {
             }
-        },
-        autofocus: Boolean
+        }
     },
     data() {
         return {
-            isTouched: false
+            isTouched: false,
+            isError: false
         };
     },
     mounted() {
@@ -106,18 +103,35 @@ export default {
         //     }
         // });
         //
-        // this.$nextTick(() => {
-        //     if (this.autofocus)
-        //         this.$refs.textarea.focus();
-        // });
+        this.$nextTick(() => {
+            if(this.$refs.textarea) {
+                this.$refs.textarea.addEventListener('input', (event) => {
+                    if(this.$refs.textarea.checkValidity()) {
+                        this.isError = false;
+                    }
+
+
+                });
+                this.$refs.textarea.addEventListener('invalid', (event) => {
+                    event.preventDefault();
+                    this.isError = true;
+                    let state = this.$refs.textarea.validity;
+                    for(let key in state){
+                        if(state[key]) {
+                            switch(key) {
+                                case 'valueMissing':
+                                    this.errorMessage = this.requiredErrorMessage;
+                            }
+                            break;
+                        }
+                    }
+                });
+            }
+        });
     },
     computed: {
         lengthFail() {
             let value = this.value || this.modelValue;
-
-            if (!this.required && value === '') {
-                return false;
-            }
 
             if (this.isTouched) {
                 let max = parseInt(this.maxlength || 0);
@@ -126,28 +140,10 @@ export default {
 
             return false;
         },
-        isError() {
-            return this.isInvalid || this.error;
-        },
         helperMessage() {
             let helper = this.message || null;
-            if (this.isInvalid) {
-                if (this.requireFail && typeof this.required === 'string') {
-                    helper = this.required;
-                } else if (this.lengthFail) {
-                    helper = this.lengthError;
-                }
-            } else if (typeof this.error === 'string') {
-                helper = this.error;
-            }
             return helper;
         },
-        isInvalid() {
-            return this.isTouched && this.requireFail;
-        },
-        requireFail() {
-            return this.required && this.value === '';
-        }
     },
     methods: {
         focus(e) {
@@ -170,9 +166,7 @@ export default {
         },
         invalidInput() {
             this.isTouched = true;
-            if (this.requireFail) {
-                this.$emit('requiredError');
-            } else if (this.lengthError) {
+            if (this.lengthError) {
                 this.$emit('lengthError');
             } else {
                 this.$emit('error');
