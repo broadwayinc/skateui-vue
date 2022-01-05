@@ -91,7 +91,6 @@ export default {
             type: String,
             default: 'text'
         },
-        menuStyle: Object,
         value: {
             type: [Array, String, Boolean, Number, Object],
             default: ''
