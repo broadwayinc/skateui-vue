@@ -2,19 +2,9 @@
 input(
     v-if="type === 'hidden' || type ==='image'"
     ref="input"
-    :src="src"
-    @invalid.prevent="invalidInput"
-    :name='name'
-    :minlength='minlength'
-    :maxlength='maxlength'
-    :pattern="pattern"
-    :required="required"
-    :disabled="disabled"
     :type="type"
-    :readonly='readonly'
     :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue"
     @keyup="keypress"
-    @keydown="(e) => {isTouched = true; }"
     @input="updateValue()"
     @focus="focus"
     @blur="blur"
@@ -29,9 +19,6 @@ input(
             @focus="focus"
             @change="updateValue"
             :value="modelValue || value"
-            :name="name"
-            :readonly="readonly"
-            :disabled="disabled"
             :checked="isChecked"
             v-bind="$attrs")
         .sui-checkbox-div(@click="()=>{$refs.input.click(); $refs.input.focus()}")
@@ -51,38 +38,25 @@ input(
         label(:for="inputId") {{ label }}
 sui-fieldset.sui-input(
     v-else
-    :class="{'range-type': this.type === 'range'}"
+    :class="{'range-type': this.type === 'range', 'validate' : isTouched, 'validation-error': isError, 'required': $attrs['required'], 'sui-fieldset-disabled': $attrs['disabled']}"
     :type="type"
     :label="label"
     :error="isError"
-    :required="required"
-    :message="helperMessage"
-    :disabled="disabled || null"
     :prefix="prefix"
     :suffix="suffix"
-    :mini="mini"
-    :data-list="list")
+    :data-list="list"
+    :message="errorMessage || message")
     template(#slot-left)
         slot(name="slot-left")
     template(#slot-right)
         slot(name="slot-right")
     input(
         ref="input"
-        @invalid.prevent="invalidInput"
-        :name='name'
-        :minlength='minlength'
-        :maxlength='maxlength'
-        :pattern="pattern"
-        :required="required"
-        :disabled="disabled"
-        :placeholder="mini ? label : placeholder"
         :type="type"
-        :readonly='readonly'
         :value="(value === 0 || modelValue === 0) ? 0 : value || modelValue"
         @keyup="keypress"
         @keydown="(e) => {isTouched = true; }"
         @input="updateValue()"
-        :autocomplete="autocomplete"
         @focus="focus"
         @blur="blur"
         :list="list"
@@ -93,7 +67,7 @@ sui-fieldset.sui-input(
 export default {
     name: 'sui-input',
     inheritAttrs: false,
-    emits: ['update:modelValue', 'input', 'requiredError', 'patternError', 'lengthError', 'error', 'focus', 'blur'],
+    emits: ['update:modelValue', 'input', 'error', 'focus', 'blur'],
     model: {
         prop: 'modelValue',
         event: 'input'
@@ -106,24 +80,13 @@ export default {
         error: {
             type: [Boolean, String]
         },
-        placeholder: {
-            type: String,
-            default: null
+        requiredErrorMessage: {
+            type: String
         },
         list: String,
-        minlength: {
-            type: [Number, String]
-        },
-        maxlength: {
-            type: [Number, String]
-        },
-        lengthError: String,
         label: String,
         suffix: String,
         prefix: String,
-        pattern: String,
-        patternError: String,
-        src: String,
         type: {
             type: String,
             default: 'text'
@@ -133,9 +96,6 @@ export default {
             type: [Array, String, Boolean, Number, Object],
             default: ''
         },
-        required: [Boolean, String],
-        disabled: Boolean,
-        readonly: Boolean,
         message: {
             type: String,
             default: null
@@ -145,12 +105,7 @@ export default {
             default: () => {
             }
         },
-        autocomplete: {
-            type: String,
-            default: 'off'
-        },
-        mini: Boolean,
-        checked: Boolean,
+        patternErrorMessage: String
     },
     data() {
         return {
@@ -160,11 +115,10 @@ export default {
             currentSelection: -1,
             // option
             inputId: '',
-            parent: null
+            parent: null,
+            isError: false,
+            errorMessage: '',
         };
-    },
-    created() {
-        this.regexExpression = new RegExp(this.pattern, "g");
     },
     mounted() {
         let el = this.$refs.input || this.$refs.option;
@@ -172,14 +126,45 @@ export default {
         this.inputId = field ? field.id + '_interface' : window.sui_generateId('option');
         el.id = this.inputId;
 
-        if(Array.isArray(this.modelValue) && this.modelValue.indexOf(this.value) && this.checked) {
+        if(Array.isArray(this.modelValue) && this.modelValue.indexOf(this.value) && this.$attrs['checked'] === '' || !!this.$attrs['checked']) {
             this.modelValue.push(this.value);
         };
         this.$nextTick(() => {
-            if (this.autofocus) {
-                this.$refs.input.focus();
+            if(this.$refs.input) {
+                this.$refs.input.addEventListener('input', (event) => {
+                    if(this.$refs.input.checkValidity()) {
+                        this.isError = false;
+                    }
+
+
+                });
+                this.$refs.input.addEventListener('invalid', (event) => {
+                    event.preventDefault();
+                    this.isError = true;
+                    let state = this.$refs.input.validity;
+                    for(let key in state){
+                        console.log(key)
+                        if(state[key]) {
+                            switch(key) {
+                                case 'valueMissing':
+                                    this.errorMessage = this.requiredErrorMessage;
+                                    break;
+                                case 'patternMismatch':
+                                    this.errorMessage = this.patternErrorMessage;
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                });
             }
         });
+    },
+    destroyed() {
+        if(this.$refs.input) {
+            this.$refs.input.removeEventListener('input');
+            this.$refs.input.removeEventListener('invalid');
+        }
     },
     computed: {
         isChecked() {
@@ -193,111 +178,6 @@ export default {
             }
             return false;
         },
-        isError() {
-            return this.isInvalid || this.error;
-        },
-        helperMessage() {
-            let helper = this.message || null;
-            if (this.isInvalid) {
-                if (this.requireFail && typeof this.required === 'string') {
-                    helper = this.required;
-                } else if (this.regexFail) {
-                    helper = this.patternError;
-                } else if (this.lengthFail) {
-                    helper = this.lengthError;
-                }
-            } else if (typeof this.error === 'string') {
-                helper = this.error;
-            }
-            return helper;
-        },
-        isInvalid() {
-            return this.isTouched && (this.requireFail || this.regexFail || this.lengthFail);
-        },
-        requireFail() {
-            return this.required && (this.value || this.modelValue) === '';
-        },
-        lengthFail() {
-            let value = this.value || this.modelValue;
-
-            if (!this.required && value === '') {
-                return false;
-            }
-
-            if (this.isTouched) {
-                let min = parseInt(this.minlength || 0);
-                let max = parseInt(this.maxlength || 0);
-                if (min && value.length < min) return true;
-                if (max && value.length > max) return true;
-            }
-
-            return false;
-        },
-        regexFail() {
-            let value = this.modelValue;
-
-            if (!value) {
-                return false;
-            }
-
-            if (!this.isTouched) {
-                return false;
-            }
-
-            if (this.pattern) {
-                return !value.match(this.regexExpression);
-            }
-
-            let builtinTypes = ['url', 'email'];
-
-            return builtinTypes.includes(this.type) && (() => {
-                switch (this.type) {
-                    case 'email': {
-                        value = value.trim();
-                        if (value.length > 5 && value.length < 64 && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) {
-                            let splitAt = value.split('@');
-                            let tld = splitAt[1].split('.');
-
-                            return tld.length === 1;
-                        }
-                        return true;
-                    }
-
-                    case 'url': {
-                        value = value.trim();
-                        if (value === '*') {
-                            return false;
-                        }
-
-                        let protocols = ['http', 'https', 'ftp'];
-                        let allowed = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&\'()*+,;=';
-                        let splitProtocols = value.split('://');
-
-                        // check if value has url protocol
-                        if (splitProtocols.length <= 1 || !protocols.includes(splitProtocols[0])) {
-                            return true;
-                        }
-
-                        let dotSep = splitProtocols[1].split('.');
-                        if (dotSep.length > 1) {
-                            if (!dotSep[dotSep.length - 1]) {
-                                return true;
-                            }
-
-                            for (let i = 0; i < splitProtocols[1].length; i++) {
-                                if (!allowed.includes(splitProtocols[1][i])) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-                        } else return true;
-                    }
-                    default:
-                        return false;
-                }
-            })();
-        }
     },
     methods: {
         updateValue(event) {
@@ -329,20 +209,10 @@ export default {
             this.$emit('focus', e);
         },
         blur(e) {
+            this.isTouched = true;
             this.$emit('blur', e);
         },
-        invalidInput() {
-            this.isTouched = true;
-            if (this.requireFail) {
-                this.$emit('requiredError');
-            } else if (this.regexFail) {
-                this.$emit('patternError');
-            } else if (this.lengthError) {
-                this.$emit('lengthError');
-            } else this.$emit('error');
-        },
         keypress(event) {
-            this.isTouched = true;
             if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
                 this.currentSelection = -1;
             }

@@ -3,8 +3,7 @@ fieldset.sui-fieldset(
     ref='fieldset'
     :id="elementId"
     @click='focus'
-    tabindex="-1"
-    :class="{'sui-fieldset-mini': setMini, 'sui-custom-autocomplete' :customAutocomplete, 'sui-fieldset-error': error, 'sui-fieldset-disabled': disabled}")
+    :class="{'sui-fieldset-mini': setMini, 'sui-custom-autocomplete' :customAutocomplete, 'sui-fieldset-error': error}")
     legend(v-if="label && !setMini") {{ label }}
         span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
     .sui-fieldset-wrapper(:style="{alignItems: type === 'file' ? 'center' : null}" tabindex="-1")
@@ -22,7 +21,7 @@ fieldset.sui-fieldset(
                 slot(name='slot-right')
         label(v-if="label && !setMini" :for="elementId + '_interface'") {{ label }}
             span(v-if="required" style="color:var(--alert, 'tomato')" aria-hidden="true") &nbsp;*
-    .sui-fieldset-message(:class="{'sui-fieldset-error': error}" v-if="!setMini") {{message}}
+    .sui-fieldset-message(:class="{'sui-fieldset-error': error}" v-if="message") {{message}}
 </template>
 
 <script>
@@ -38,8 +37,6 @@ export default {
         },
         prefix: String,
         suffix: String,
-        required: [Boolean, String],
-        disabled: Boolean,
         message: {
             type: String,
             default: null
@@ -49,7 +46,9 @@ export default {
     data() {
         return {
             setMini: this.mini,
-            parent: null
+            parent: null,
+            required: false,
+            disabled: false,
         };
     },
     mounted() {
@@ -70,6 +69,14 @@ export default {
         this.parent = parent;
         this.inheritCss();
     },
+    updated() {
+        this.required = this.$refs.fieldset.classList.contains('required');
+        this.disabled = this.$refs.fieldset.classList.contains('sui-fieldset-disabled');
+        /**
+         * [Next Steps]
+         * Failed to disable slot contents when sui-input is disabled. If slot contents are not disabled, they will be accessible by tabbing.
+         **/
+    },
     computed: {
         elementId() {
             return window.sui_generateId(this.$options.name);
@@ -78,8 +85,8 @@ export default {
     methods: {
         focus(el) {
             let f = el.target.contains(document.activeElement);
-            if (f)
-                this.inheritCss(true);
+            // if (f)
+                // this.inheritCss(true);
         },
         inheritCss(skipRadius) {
             let getComputedStyle = window.getComputedStyle(this.$refs.fieldset);
@@ -551,6 +558,16 @@ export default {
                 max-height: 44px;
             }
         }
+
+        &.sui-fieldset-error {
+            border-color: var(--alert, #ff6347);
+            background-color: var(--alert_shadow, rgba(255, 99, 71, 0.066));
+            color: var(--alert, #ff6347);
+
+            & label {
+                color: var(--alert, #ff6347);
+            }
+        }
     }
 
     &.sui-fieldset-mini {
@@ -578,7 +595,20 @@ export default {
         }
     }
 
-    &.sui-fieldset-error {
+    //&.sui-fieldset-error {
+    //    border-color: var(--alert, #ff6347) !important;
+    //    background-color: var(--alert_shadow, rgba(255, 99, 71, 0.066));
+    //
+    //    & .sui-dropdown {
+    //        border-color: var(--alert, #ff6347) !important;
+    //    }
+    //
+    //    label {
+    //        color: var(--alert, #ff6347) !important;
+    //    }
+    //}
+
+    &.validation-error {
         border-color: var(--alert, #ff6347) !important;
         background-color: var(--alert_shadow, rgba(255, 99, 71, 0.066));
 
@@ -610,6 +640,37 @@ export default {
 
             &.sui-fieldset-nesting-focused.sui-fieldset-nesting-right:not(.sui-fieldset-nesting-block-right) {
                 border-bottom-right-radius: 0 !important;
+            }
+        }
+    }
+}
+
+.sui-input {
+    &.sui-radio {
+        &:focus-within {
+            & .sui-radio-div {
+                outline: 2px solid;
+            }
+        }
+        & input:focus {
+            & + .sui-radio-div {
+                outline: 2px solid;
+            }
+        }
+        & .sui-radio-div:focus {
+            outline: 2px solid;
+        }
+    }
+    &.sui-checkbox {
+        &:focus-within {
+            & .sui-checkbox-div {
+                outline: 2px solid;
+            }
+        }
+        & input:focus {
+            & + .sui-checkbox-div,
+            & + .sui-checkbox-div:focus {
+                outline: 2px solid;
             }
         }
     }
