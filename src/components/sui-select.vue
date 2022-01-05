@@ -1,13 +1,12 @@
 <template lang='pug'>
 sui-fieldset.sui-select(
-    :class="{'sui-fieldset-disabled': $attrs['disabled']}"
+    :class="{'sui-fieldset-disabled': $attrs['disabled'], 'required': $attrs['required'], 'validation-error': isError}"
     :prefix="prefix"
     :suffix="suffix"
     type="select"
     :label="label"
     :error="isError"
-    :required="required"
-    :message="helperMessage")
+    :message="requiredErrorMessage || message")
     div.sui-select.sui-select-wrapper
         div.sui-select-display(v-html="selection ? getTextContent(selection) : getTextContent()")
         select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" v-bind="$attrs")
@@ -35,6 +34,7 @@ export default {
     props: {
         modelValue: String,
         error: Boolean,
+        requiredErrorMessage: String,
         placeholder: {
             type: String,
             default: null
@@ -43,7 +43,6 @@ export default {
         prefix: String,
         label: String,
         value: String,
-        required: [Boolean, String],
         message: {
             type: String,
             default: null
@@ -64,7 +63,9 @@ export default {
             blockFocus: null,
             options: [],
             selection: null,
-            searchIdx: -1
+            searchIdx: -1,
+            errorMessage: '',
+            isError: false
         };
     },
     mounted() {
@@ -123,28 +124,16 @@ export default {
                 }
             });
         }
+        this.$refs.select.addEventListener('invalid', (event) => {
+            event.preventDefault();
+            this.isError = true;
+        });
     },
     computed: {
-        isError() {
-            return this.isInvalid || this.error;
-        },
         helperMessage() {
             let helper = this.message || null;
-            if (this.requireFail && this.isInvalid) {
-                if (typeof this.required === 'string') {
-                    helper = this.required;
-                }
-            } else if (typeof this.error === 'string') {
-                helper = this.error;
-            }
             return helper;
         },
-        isInvalid() {
-            return this.isTouched && this.requireFail;
-        },
-        requireFail() {
-            return this.required && (this.value || this.modelValue) === '';
-        }
     },
     methods: {
         blur() {
@@ -152,11 +141,12 @@ export default {
             this.searchIdx = null;
         },
         updateValue(value) {
+            this.isError = false;
             this.$emit('input', value);
             this.$emit('update:modelValue', value);
         },
         getTextContent(selection) {
-            if(this.options) {
+            if(this.options.length !== 0) {
                 let html;
                 if(selection) {
                     html = this.options[selection];
