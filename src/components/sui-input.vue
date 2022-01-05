@@ -167,11 +167,11 @@ export default {
     },
     computed: {
         isChecked() {
-            if(this.checked) return true;
+            if(this.$attrs['checked'] === '' || !!this.$attrs['checked']) return true;
             if(this.type === 'radio' && this.value === this.modelValue) {
                 return true;
             } else if(this.type === 'checkbox') {
-                if(Array.isArray(this.modelValue) && this.modelValue.indexOf(this.value) && this.checked) {
+                if(Array.isArray(this.modelValue) && this.modelValue.indexOf(this.value) && this.$attrs['checked'] === '' || !!this.$attrs['checked']) {
                     return true;
                 }
             }
