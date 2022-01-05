@@ -6,7 +6,7 @@ sui-fieldset.sui-textarea(
     :prefix='prefix'
     :label="label"
     :error="isError"
-    :message="helperMessage")
+    :message="errorMessage || message")
     template(#slot-left)
         slot(name="slot-left")
     template(#slot-right)
@@ -49,10 +49,12 @@ export default {
             type: Function,
             default: () => {
             }
-        }
+        },
+        minLengthErrorMessage: String
     },
     data() {
         return {
+            errorMessage: '',
             isTouched: false,
             isError: false
         };
@@ -108,6 +110,7 @@ export default {
                 this.$refs.textarea.addEventListener('input', (event) => {
                     if(this.$refs.textarea.checkValidity()) {
                         this.isError = false;
+                        this.errorMessage = '';
                     }
 
 
