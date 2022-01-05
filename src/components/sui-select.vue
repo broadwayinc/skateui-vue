@@ -9,12 +9,12 @@ sui-fieldset.sui-select(
     :message="requiredErrorMessage || message")
     div.sui-select.sui-select-wrapper
         div.sui-select-display(v-html="selection ? getTextContent(selection) : getTextContent()")
-        select(ref="select" style="opacity: 0;" @input="e=>{updateValue(e.target.value)}" v-bind="$attrs")
+        select(ref="select" style="opacity: 0;" @input="e=>{updatevalue(e.target.value)}" v-bind="$attrs" :value="value")
             option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.selected ? 'true' : 'false' }} {{ option.text }}
         div.non-mobile-select(ref="input" tabindex="-1")
             input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly v-bind="$attrs" @blur="blur")
             div.options(tabindex="-1")
-                div(v-for="(option, idx) in options" :value="option.value" v-html="option.html" @mousedown="updateValue(option.value)"
+                div(v-for="(option, idx) in options" :value="option.value" v-html="option.html" @mousedown="makeSelection"
                     :class="{active: idx === selection}" @mouseover="selection = idx")
         div.sui-dropdown-button(tabindex="-1")
             i.material-icons.more expand_more
@@ -80,11 +80,13 @@ export default {
             this.$refs.input.querySelector('input').addEventListener('keydown', (e) => {
                 switch (e.keyCode) {
                     case 13:
+                        // enter key
                         e.preventDefault();
                         this.makeSelection();
                         this.$refs.input.querySelector('input').blur();
                         break;
                     case 38:
+                        // up arrow
                         e.preventDefault();
                         if(this.selection > 0) {
                             this.selection -= 1;
@@ -92,6 +94,7 @@ export default {
                         }
                         break;
                     case 40:
+                        // down arrow
                         e.preventDefault();
                         if(this.selection === null) {
                             this.selection = 0;
@@ -158,7 +161,7 @@ export default {
         },
         makeSelection() {
             this.updateValue(this.options[this.selection].value);
-        }
+        },
     }
 };
 </script>
