@@ -6,7 +6,7 @@ fieldset.sui-fieldset(
     :class="{'sui-fieldset-mini': setMini, 'sui-custom-autocomplete' :customAutocomplete, 'sui-fieldset-error': error}")
     legend(v-if="label && !setMini") {{ label }}
         span(v-if="required" style="color:var(--alert, 'tomato')") &nbsp;*
-    .sui-fieldset-wrapper(:style="{alignItems: type === 'file' ? 'center' : null}" tabindex="-1")
+    .sui-fieldset-wrapper(:style="{alignItems: type === 'file' ? 'center' : null}")
         .slot-left(v-if="hasSlotLeft()")
             .slot-left-wrapper.slot-wrapper
                 slot(name='slot-left')
