@@ -104,7 +104,8 @@ export default {
             default: () => {
             }
         },
-        patternErrorMessage: String
+        patternErrorMessage: String,
+        minLengthErrorMessage: String
     },
     data() {
         return {
@@ -151,6 +152,9 @@ export default {
                                     break;
                                 case 'patternMismatch':
                                     this.errorMessage = this.patternErrorMessage;
+                                    break;
+                                case 'tooShort':
+                                    this.errorMessage = this.minLengthErrorMessage;
                                     break;
                             }
                             break;

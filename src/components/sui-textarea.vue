@@ -124,6 +124,10 @@ export default {
                             switch(key) {
                                 case 'valueMissing':
                                     this.errorMessage = this.requiredErrorMessage;
+                                    break;
+                                case 'tooShort':
+                                    this.errorMessage = this.minLengthErrorMessage;
+                                    break;
                             }
                             break;
                         }
