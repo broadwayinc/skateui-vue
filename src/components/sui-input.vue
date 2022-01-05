@@ -133,6 +133,7 @@ export default {
                 this.$refs.input.addEventListener('input', (event) => {
                     if(this.$refs.input.checkValidity()) {
                         this.isError = false;
+                        this.errorMessage = '';
                     }
 
 
