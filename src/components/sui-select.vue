@@ -9,7 +9,7 @@ sui-fieldset.sui-select(
     :message="requiredErrorMessage || message")
     div.sui-select.sui-select-wrapper
         div.sui-select-display(v-html="selection ? getTextContent(selection) : getTextContent()")
-        select(ref="select" style="opacity: 0;" @input="e=>{updatevalue(e.target.value)}" v-bind="$attrs" :value="value")
+        select(ref="select" style="opacity: 0; position: absolute; width: 100%; z-index: 2" @input="e=>{updatevalue(e.target.value)}" v-bind="$attrs" :value="value")
             option(v-for="option in options" :value="option.value" data-content="option.html" :selected="value === option.value") {{ option.selected ? 'true' : 'false' }} {{ option.text }}
         div.non-mobile-select(ref="input" tabindex="-1")
             input(style="opacity: 0;" :value="value" @input="e=>{updateValue(e.target.value)}" readonly v-bind="$attrs" @blur="blur")
@@ -260,7 +260,7 @@ select {
 }
 @media (pointer:coarse) {
     .non-mobile-select {
-        display: none;
+        opacity: 0;
     }
     select {
         display: block;
