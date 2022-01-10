@@ -334,9 +334,22 @@ export default {
             line-height: 1;
         }
 
-
-        input, select {
+        input:not(input[type=date]):not(input[type=month]):not(input[type=week]):not(input[type=datetime-local]):not(input[type=time]),
+        select {
             width: 100%;
+        }
+
+        @media (pointer:coarse) {
+            & input[type=date],
+            & input[type=month],
+            & input[type=week],
+            & input[type=datetime-local],
+            & input[type=time] {
+                margin-right: calc(var(--padding) / 2);
+            }
+        }
+        input,
+        select {
 
             &::placeholder {
                 color: #999999;
