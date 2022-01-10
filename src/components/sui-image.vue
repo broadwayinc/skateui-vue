@@ -600,7 +600,7 @@ export default {
         flex-grow: 1;
 
         &.error {
-            &:after {
+            &::after {
                 content: attr(data-alt);
                 position: absolute;
                 top: 0;
