@@ -283,7 +283,7 @@ export default {
             width: 0;
 
             &:checked + .sui-checkbox-div {
-                &:after {
+                &::after {
                     content: '';
                     width: 15%;
                     height: 60%;
@@ -310,7 +310,7 @@ export default {
             width: 0;
 
             &:checked + .sui-radio-div {
-                &:after {
+                &::after {
                     content: '';
                     width: 50%;
                     height: 50%;

@@ -66,7 +66,7 @@ export default {
             align-items: center;
             font-weight: normal;
             cursor: pointer;
-            &:after {
+            &::after {
                 content: '\FF1F';
                 font-style: normal;
                 font-size: .8em;

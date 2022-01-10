@@ -252,6 +252,11 @@ export default {
                         background-color: var(--button, #4848db);
                         color: var(--button-text, white);
                         text-transform: uppercase;
+
+                        &::after {
+                            content: 'helo';
+                            display: block;
+                        }
                     }
 
                     &:hover {
@@ -463,7 +468,7 @@ export default {
             //max-width: 40%;
 
             & > .slot-wrapper:not(:empty) {
-                &:after {
+                &::after {
                     // icon separator
                     content: "";
                     width: 0;
@@ -478,13 +483,13 @@ export default {
             }
 
             &.slot-left > .slot-wrapper:not(:empty) {
-                &:after {
+                &::after {
                     right: -1px;
                 }
             }
 
             &.slot-right > .slot-wrapper:not(:empty) {
-                &:after {
+                &::after {
                     left: -1px;
                 }
             }
