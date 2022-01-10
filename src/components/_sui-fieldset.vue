@@ -215,6 +215,7 @@ export default {
             position: relative;
             border-color: inherit;
             width: 100%;
+            height: 100%;
             //& > * {
             //    min-height: calc(2.8em - 4px);
             //}
@@ -224,6 +225,41 @@ export default {
                 white-space: nowrap;
                 text-align: inherit;
                 height: 100%;
+
+                &[type=file] {
+                    &::-webkit-file-upload-button {
+                        margin-top: calc(var(--padding) / 4);
+                        height: calc(100% - var(--padding) / 2);
+                        font-size: 1em;
+                        border: none;
+                        border-radius: var(--border-radius, 3px);
+                        min-width: var(--min-input-width);
+                        max-width: 100%;
+                        //min-height: calc(var(--min-input-height) - calc(var(--padding) / 1));
+                        padding: 0 var(--padding);
+                        display: inline-block;
+                        box-sizing: border-box;
+                        font-size: 1em;
+                        text-align: center;
+                        cursor: pointer;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        box-shadow: inset 0 0 0 3px rgb(128 128 128 / 5%);
+                        position: relative;
+                        overflow: hidden;
+                        background-color: var(--button, #4848db);
+                        color: var(--button-text, white);
+                        text-transform: uppercase;
+                    }
+
+                    &:hover {
+                        &::-webkit-file-upload-button {
+                            box-shadow: 0 0 0 1px rgba(128, 128, 128, .25);
+                        }
+                    }
+                }
 
                 &:focus + .sui-dropdown:not(:empty) {
                     top: 100%;
@@ -334,9 +370,22 @@ export default {
             line-height: 1;
         }
 
-
-        input, select {
+        input:not(input[type=date]):not(input[type=month]):not(input[type=week]):not(input[type=datetime-local]):not(input[type=time]),
+        select {
             width: 100%;
+        }
+
+        @media (pointer:coarse) {
+            & input[type=date],
+            & input[type=month],
+            & input[type=week],
+            & input[type=datetime-local],
+            & input[type=time] {
+                margin-right: calc(var(--padding) / 2);
+            }
+        }
+        input,
+        select {
 
             &::placeholder {
                 color: #999999;
