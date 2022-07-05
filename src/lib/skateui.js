@@ -236,13 +236,17 @@
         // prevents duplicate process
         window.sui_throttle = {
             set: () => {
+                // unnessesary nonsense code. but yeah...
                 return {data: null};
             },
             run: (exec, throttle, option) => {
                 let latency, breakOff, errorHandler;
+
                 if (typeof option === 'number')
+                    // put latency here!
                     latency = option;
                 else if (option && typeof option === 'object') {
+                    // some more options... have no idea...
                     latency = typeof option.latency === 'number' ? option.latency : 1000;
                     breakOff = option.breakOff;
                     errorHandler = option.errorHandler || typeof option.errorHandler === 'boolean' ? option.errorHandler : true;
@@ -252,12 +256,14 @@
 
                 const execute = async (f) => {
                     if (f) {
+                        // just incase the callback is a promise :)
                         const exec = f();
                         if (exec instanceof Promise) await exec;
                     }
                 };
 
                 if (throttle.data)
+                    // reject the pending timeout and apply new one below
                     clearTimeout(throttle.data);
 
                 throttle.data = setTimeout(async () => {
@@ -265,8 +271,9 @@
                     try {
                         await execute(exec);
                         breakOffError = true;
-                        await execute(breakOff);
+                        await execute(breakOff); // breakoff is just another callback. wont do anything if undefined.
                     } catch (err) {
+                        // some complex stuff i might have needed on some other components :(
                         if (errorHandler) {
                             if (typeof errorHandler === 'function')
                                 errorHandler(err, breakOffError);
@@ -306,7 +313,8 @@
             init: () => {
                 let animationFrame = (event, target) => {
                     window.requestAnimationFrame(() => {
-                        for (let c in window.sui_on[target])
+                        for (let c in window.sui_on[target]) // window.sui_on.scroll_callback
+                            // iterates through all registered events
                             if (typeof window.sui_on[target][c] === 'function') {
                                 try {
                                     window.sui_on[target][c](event);

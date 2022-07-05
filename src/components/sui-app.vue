@@ -52,6 +52,7 @@ export default {
                     viewport: window.sui_throttle.set()
                 },
                 updateViewport(immediate) {
+                    // this runs on init and resize
                     let calcViewport = () => {
                         if (window.sui_app.navbarStyle) {
                             let navbarHeight = parseInt(window.sui_app.navbarStyle.height);
@@ -81,6 +82,7 @@ export default {
                     return window.sui_app.viewport;
                 },
                 calcNavbarPosition() {
+                    // this runs on init and scroll
                     const scrollOffset = window.pageYOffset < 0 ? 0 : window.pageYOffset;
                     const offsetDifference = (window.sui_app.scrollOffset - scrollOffset) / 3;
                     const navbarOffset = window.sui_app.navbarOffset + offsetDifference;
@@ -103,6 +105,9 @@ export default {
                     window.sui_app.colorScheme = cs;
                 },
                 init: (option) => {
+
+                    // inits
+
                     let {colorScheme, hideNavbar = false, darkMode} = option;
 
                     window.sui_app.generateColorScheme(colorScheme, darkMode);
@@ -110,6 +115,7 @@ export default {
                     let navBar = document.getElementById('sui-app-nav');
 
                     if (navBar) {
+                        // get navbarstyle
                         window.sui_app.navbarStyle = window.getComputedStyle(navBar);
                     } else {
                         hideNavbar = false;
@@ -117,12 +123,22 @@ export default {
 
                     window.sui_app.hideNavbar = hideNavbar;
                     if (hideNavbar) {
+                        // calculate navbar position on init
                         window.sui_app.calcNavbarPosition();
+
+                        // register event for scroll
+                        // it will be on window.sui_on.scroll_callback[some_id] = the function
                         window.sui_on.registerEvent.scroll(window.sui_app.calcNavbarPosition);
                     }
 
+                    // declare css variable
                     document.getElementById('sui-app').style.setProperty('--navbar-top', `${0}px`);
+
+                    // update viewport, check screensize, re check navbar height (because screensize effects font size and that also effects navbar height)
                     window.sui_app.updateViewport(true);
+
+                    // register event for resize
+                    // it will be on window.sui_on.scroll_resize[some_id] = the function
                     window.sui_on.registerEvent.resize(window.sui_app.updateViewport);
 
                     return true;
